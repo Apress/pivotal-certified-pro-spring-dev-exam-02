@@ -1,0 +1,25 @@
+== Contributing to Apress Source Code
+
+Copyright for Apress source code belongs to the author(s). However, under fair use you are encouraged to fork and contribute minor corrections and updates for the benefit of the author(s) and other readers.
+
+=== How to Contribute
+
+* Make sure you have a GitHub account.
+* Fork the repository for the relevant book.
+* Create a new branch on which to make your change, e.g. 
+`git checkout -b my_code_contribution`
+* Commit your change. Include a commit message describing the correction. Please note that if your commit message is not clear, the correction will not be accepted.
+* Submit a pull request.
+
+== Contributing to the book contents
+
+Copyright for Apress book code belongs to the Apress and author(s). However, under fair use you are encouraged to fork and contribute minor corrections and updates for the benefit of the author(s) and other readers.
+
+=== How to Contribute
+
+If you notice any mistakes or confusing phrasing in the book contents, first consult the Errata in this repository and make sure the mistake was not already covered there.
+
+If the mistake you noticed is not in the Errata, write to the author directly mailto:iuliana.cosmina@gmail.com[iuliana.cosmina@gmail.com] and submit your observation. If a correction or clarification is necessary, the change will be added to the Errata together with mention of your contribution.
+If the book gets a new revision, your name will appear in the '*Acknowledgements*' page.
+
+Thank you for your contribution!
