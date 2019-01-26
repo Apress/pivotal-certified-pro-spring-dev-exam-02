@@ -2,15 +2,83 @@ plugins {
     id 'java'
 }
 
-group 'com.ps'
-version '2.0-SNAPSHOT'
-
-sourceCompatibility = 12
-
-repositories {
-    mavenCentral()
+allprojects {
+    group 'com.apress.cems'
+    version '1.0-SNAPSHOT'
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+subprojects {
+    repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "http://repo.spring.io/snapshot/" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+}
+
+sourceCompatibility = 11
+
+ext {
+    springBootVersion = '2.2.0.SNAPSHOT'
+    junit5Version = '5.3.0-M1'
+    junit5LauncherVersion = '1.2.0'
+    mockitoVersion = '2.21.0'
+
+    //persistency library
+    hibernateVersion = '5.3.7.Final'
+
+
+    //we group libraries by their purpose so we can import them easier in the modules
+    boot = [
+            springBootPlugin: "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+    ]
+
+    testing = [
+            jupiter : "org.junit.jupiter:junit-jupiter-engine:$junit5Version",
+            launcher: "org.junit.platform:junit-platform-launcher:$junit5LauncherVersion",
+            mockito : "org.mockito:mockito-junit-jupiter:$mockitoVersion"
+    ]
+
+    misc = [
+            javaxValidation: "javax.validation:validation-api:2.0.1.Final",
+            javaxPersistence: "org.eclipse.persistence:javax.persistence:2.2.1"
+    ]
+
+    hibernate = [
+            validator: "org.hibernate:hibernate-validator:6.0.13.Final",
+            ehcache  : "org.hibernate:hibernate-ehcache:$hibernateVersion",
+            em       : "org.hibernate:hibernate-entitymanager:$hibernateVersion",
+            core     : "org.hibernate:hibernate-core:$hibernateVersion"
+    ]
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "http://repo.spring.io/snapshot/" }
+    maven { url "http://repo.spring.io/milestone" }
+    maven { url "https://plugins.gradle.org/m2/" }
+}
+
+task allDeps {
+    doLast {
+        description 'Task used to display dependencies for all modules in the project'
+        subprojects.each { p ->
+            println()
+            println " $p.name ".center(60, '*')
+            println()
+            p.configurations.all.findAll { !it.allDependencies.empty }.each { c ->
+                println " ${c.name} ".center(60, '-')
+                c.allDependencies.each { dep ->
+                    println "$dep.group:$dep.name:$dep.version"
+                }
+                println "-" * 60
+            }
+        }
+    }
 }

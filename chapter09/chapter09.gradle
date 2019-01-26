@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+}
+
+plugins {
+    id 'java-library'
+}
+group 'com.apress.cems'
+ext.moduleName = 'com.apress.cems.nine'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+jar {
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 9",
+                "Implementation-Version": version,
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}
+
+dependencies {
+    //TODO
+}
+
+afterEvaluate {
+    repositories {
+        jcenter()
+    }
+
+    compileJava {
+        inputs.property("moduleName", moduleName)
+        doFirst {
+            options.compilerArgs = [
+                    '-proc:none',
+                    '--module-path', classpath.asPath,
+            ]
+            classpath = files()
+        }
+    }
+}

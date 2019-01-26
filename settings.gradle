@@ -1,2 +1,26 @@
 rootProject.name = 'pivotal-certified-pro-spring-dev-exam-02'
 
+println(' This project is a Criminal Evidence Management System proof of concept application. It is meant to be used together with the ' +
+        '"Pivotal Certified Professional Spring Developer Exam, 2nd Edition" ' +
+        ' published by Apress in order to learn and practice Spring 5.x. ')
+
+include 'chapter00'
+include 'chapter01'
+include 'chapter02'
+include 'chapter12'
+include 'chapter12'
+include 'chapter12'
+include 'chapter06'
+include 'chapter07'
+include 'chapter12'
+include 'chapter09'
+include 'chapter10'
+include 'chapter11'
+include 'chapter12'
+
+rootProject.children.each { project ->
+    project.buildFileName = "${project.name}.gradle"
+    assert project.projectDir.isDirectory()
+    assert project.buildFile.exists()
+    assert project.buildFile.isFile()
+}
