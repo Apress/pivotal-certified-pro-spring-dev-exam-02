@@ -4,9 +4,12 @@ println(' This project is a Criminal Evidence Management System proof of concept
         '"Pivotal Certified Professional Spring Developer Exam, 2nd Edition" ' +
         ' published by Apress in order to learn and practice Spring 5.x. ')
 
-include 'chapter00'
-include 'chapter01'
+
+include 'chapter00:dao'
 include 'chapter02'
+
+include 'chapter02:pojos'
+
 include 'chapter12'
 include 'chapter12'
 include 'chapter12'
@@ -24,3 +27,4 @@ rootProject.children.each { project ->
     assert project.buildFile.exists()
     assert project.buildFile.isFile()
 }
+

@@ -8,21 +8,22 @@ buildscript {
 plugins {
     id 'java-library'
 }
+
 group 'com.apress.cems'
-ext.moduleName = 'com.apress.cems.zero'
+ext.moduleName = 'com.apress.cems.dao'
 
 apply plugin: 'java'
 apply plugin: 'idea'
 
 dependencies {
-    //
+    //TODO
 }
 
 jar {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - No Chapter",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 0",
                 "Implementation-Version": version,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
