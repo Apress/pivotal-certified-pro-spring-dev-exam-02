@@ -16,20 +16,8 @@ apply plugin: 'java'
 apply plugin: 'idea'
 
 dependencies {
-    //TODO
+    compile spring.contextSupport, hibernate.core
 }
-
-jar {
-    manifest {
-        attributes(
-                "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 0",
-                "Implementation-Version": version,
-                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
-        )
-    }
-}
-
 afterEvaluate {
     repositories {
         jcenter()
@@ -44,5 +32,16 @@ afterEvaluate {
             ]
             classpath = files()
         }
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 0",
+                "Implementation-Version": version,
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
     }
 }

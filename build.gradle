@@ -48,6 +48,11 @@ ext {
             starterWs       : "org.springframework.boot:spring-boot-starter-ws:$springBootVersion",
             devtools        : "org.springframework.boot:spring-boot-devtools:$springBootVersion"
     ]
+    
+    spring = [
+            contextSupport : "org.springframework:spring-context-support:$springVersion",
+            jdbc           : "org.springframework:spring-jdbc:$springVersion"
+    ]
 
     testing = [
             api : "org.junit.jupiter:junit-jupiter-api:$junit5Version",

@@ -25,11 +25,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.dao.base;
+package com.apress.cems.util;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public abstract class AbstractEntity {
+public enum EmploymentStatus {
+    ACTIVE,
+    SUSPENDED,
+    VACATION,
+    UNDER_INVESTIGATION,
+    RETIRED
 }

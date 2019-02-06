@@ -27,19 +27,11 @@ SOFTWARE.
 */
 package com.apress.cems.pojos.repos;
 
-import com.apress.cems.dao.AbstractEntity;
+import com.apress.cems.dao.Detective;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public interface AbstractRepo <T extends AbstractEntity> {
-
-    void save(T entity);
-
-    void delete(T entity);
-
-    void deleteById(Long entityId);
-
-    T findById(Long entityId);
+public interface DetectiveRepo extends AbstractRepo<Detective> {
 }

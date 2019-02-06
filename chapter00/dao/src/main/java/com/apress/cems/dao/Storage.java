@@ -25,21 +25,55 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.pojos.repos;
+package com.apress.cems.dao;
 
-import com.apress.cems.dao.AbstractEntity;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public interface AbstractRepo <T extends AbstractEntity> {
+@Entity
+public class Storage extends AbstractEntity {
+    private String name;
 
-    void save(T entity);
+    private String location;
 
-    void delete(T entity);
+    @OneToMany(mappedBy = "storage")
+    private Set<Evidence> evidenceSet;
 
-    void deleteById(Long entityId);
+    public Storage() {
+        super();
+    }
 
-    T findById(Long entityId);
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Set<Evidence> getEvidenceSet() {
+        return evidenceSet;
+    }
+
+    public void setEvidenceSet(Set<Evidence> evidenceSetArg) {
+        evidenceSetArg.forEach(this::addEvidence);
+    }
+
+    public boolean addEvidence(Evidence evidence) {
+        evidence.setStorage(this);
+        return evidenceSet.add(evidence);
+    }
 }
