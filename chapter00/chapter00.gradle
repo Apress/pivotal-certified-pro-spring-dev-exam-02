@@ -11,23 +11,6 @@ plugins {
 group 'com.apress.cems'
 ext.moduleName = 'com.apress.cems.zero'
 
-apply plugin: 'java'
-apply plugin: 'idea'
-
-dependencies {
-    //
-}
-
-jar {
-    manifest {
-        attributes(
-                "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - No Chapter",
-                "Implementation-Version": version,
-                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
-        )
-    }
-}
 
 afterEvaluate {
     repositories {

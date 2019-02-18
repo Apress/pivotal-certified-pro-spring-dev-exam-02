@@ -5,6 +5,7 @@ package com.apress.cems.util;
  * @since 1.0
  */
 public enum CaseType {
+    UNCATEGORIZED,
     INFRACTION,
     MISDEMEANOR,
     FELONY

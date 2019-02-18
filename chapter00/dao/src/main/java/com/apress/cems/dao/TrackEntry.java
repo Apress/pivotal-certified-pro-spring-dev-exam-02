@@ -31,6 +31,7 @@ import com.apress.cems.util.TrackAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -42,7 +43,7 @@ public class TrackEntry extends AbstractEntity{
 
     @Column(name= "track_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    protected Date date;
+    protected LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "evidence_fk", nullable = false)
@@ -62,11 +63,11 @@ public class TrackEntry extends AbstractEntity{
         super();
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

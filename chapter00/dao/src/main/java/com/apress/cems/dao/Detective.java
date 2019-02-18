@@ -40,7 +40,7 @@ import java.util.Set;
  */
 @Entity
 public class Detective extends AbstractEntity {
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
     private Person person;
 
     @Column(unique = true)

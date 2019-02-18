@@ -31,6 +31,7 @@ import com.apress.cems.util.CaseStatus;
 import com.apress.cems.util.CaseType;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -57,17 +58,19 @@ public class CriminalCase extends  AbstractEntity{
     private String notes;
 
     @OneToMany(mappedBy = "criminalCase")
-    private Set<Evidence> evidenceSet;
+    private Set<Evidence> evidenceSet = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "LEAD_INVESTIGATOR", nullable = false)
     private Detective leadInvestigator;
 
     @ManyToMany(mappedBy = "cases")
-    private Set<Detective> assigned;
+    private Set<Detective> assigned = new HashSet<>();
 
     public CriminalCase() {
         super();
+        this.status = CaseStatus.SUBMITTED;
+        this.type = CaseType.UNCATEGORIZED;
     }
 
     public String getNumber() {

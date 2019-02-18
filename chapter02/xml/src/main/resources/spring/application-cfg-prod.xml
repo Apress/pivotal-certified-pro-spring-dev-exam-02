@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:properties id="dbProp" location="classpath:db/datasource.properties"/>
+
+    <bean id="simpleDetectiveService" class="com.apress.cems.pojos.services.impl.SimpleDetectiveService">
+        <property name="repo" ref="detectiveRepo"/>
+    </bean>
+
+    <!-- Loads users from the data source -->
+    <bean id="detectiveRepo" class="com.apress.cems.xml.repos.impl.JdbcDetectiveRepo">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource">
+        <property name="URL" value="#{dbProp.url}"/>
+        <property name="user" value="#{dbProp.username}"/>
+        <property name="password" value="#{dbProp.password}"/>
+        <property name="loginTimeout" value="300"/>
+    </bean>
+</beans>

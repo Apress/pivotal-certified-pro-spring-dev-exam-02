@@ -1,0 +1,30 @@
+If you want to use an Oracle database, for this exercise the recommendation is to use a local Docker instance.
+
+=== Database
+
+Install Docker (https://www.docker.com/).
+
+Then install this container: https://hub.docker.com/_/oracle-database-enterprise-edition.
+Follow instructions on the container page and test your database using Oracle SQL Developer.
+
+Open a terminal
+View containers:
+----
+docker container ls
+----
+or
+----
+docker ps
+----
+
+You can also install Kitematic to view and manage your containers.
+
+==== Oracle 12c in a docker container. SQL script needed tp create the user and schema:
+
+----
+CREATE USER prod IDENTIFIED BY prod;
+GRANT CONNECT TO prod;
+GRANT CONNECT, RESOURCE, DBA TO prod;
+GRANT CREATE SESSION TO prod;
+GRANT UNLIMITED TABLESPACE TO prod;
+----
