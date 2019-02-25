@@ -1,4 +1,4 @@
-package com.apress.cems.beans.simple;
+package com.apress.cems.beans.ci;
 
 /**
  * @author Iuliana Cosmina

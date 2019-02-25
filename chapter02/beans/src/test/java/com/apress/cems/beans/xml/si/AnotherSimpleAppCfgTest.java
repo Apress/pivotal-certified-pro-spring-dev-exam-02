@@ -25,21 +25,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.simple;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+package com.apress.cems.beans.xml.si;
+
+import com.apress.cems.beans.ci.ComposedBean;
+import org.junit.jupiter.api.Test;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
+class AnotherSimpleAppCfgTest {
+    @Test
+    void testDataSource() {
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-si-cfg.xml");
+        assertNotNull(ctx);
 
-@Configuration
-@ComponentScan(basePackages = {"com.apress.cems.beans.simple"} )
-public class SimpleAppCfg {
+        ComposedBean composedBean = ctx.getBean(ComposedBean.class);
+        assertNotNull(composedBean);
+        assertNotNull(composedBean.getSimpleBean());
+        assertEquals("AB123",composedBean.getCode());
+        assertTrue(composedBean.isComplicated());
 
-    //@Bean
-    public SimpleBean anotherSimpleBean(){
-        return new SimpleBeanImpl();
+        ctx.registerShutdownHook();
     }
 }

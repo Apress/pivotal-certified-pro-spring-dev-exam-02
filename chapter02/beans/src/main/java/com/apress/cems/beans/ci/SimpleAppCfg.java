@@ -25,41 +25,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.simple;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import static org.junit.jupiter.api.Assertions.*;
+package com.apress.cems.beans.ci;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class SimpleAppCfgTest {
 
-    @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SimpleAppCfg.class);
+@Configuration
+@ComponentScan(basePackages = {"com.apress.cems.beans.ci"} )
+public class SimpleAppCfg {
 
-        SimpleBean simpleBean = ctx.getBean(SimpleBean.class);
-        assertNotNull(simpleBean);
-
-        ComposedBean composedBean = ctx.getBean(ComposedBean.class);
-        assertNotNull(composedBean);
-
-        assertNotNull(composedBean.getSimpleBean());
-
-        assertEquals("AB123", composedBean.getCode());
-        assertTrue(composedBean.isComplicated());
-
-        Human humanBean = ctx.getBean(Human.class);
-
-        assertNotNull(humanBean);
-        assertNotNull(humanBean.getItem());
-        assertNotNull(humanBean.getItem().getTitle());
-
-        ctx.close();
-    }
 }

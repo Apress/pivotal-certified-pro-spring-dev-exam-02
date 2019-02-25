@@ -25,38 +25,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.simple;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+package com.apress.cems.beans.si;
+
+import com.apress.cems.beans.ci.SimpleBean;
+import org.junit.jupiter.api.Test;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Component
-public class ComposedBeanImpl implements ComposedBean {
+class AnotherSimpleAppCfgTest {
 
-    private final SimpleBean simpleBean;
-    private String code;
-    private Boolean complicated;
+    @Test
+    void testSimpleBeans() {
+        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AnotherSimpleAppCfg.class);
 
-    @Autowired
-    public ComposedBeanImpl(SimpleBean simpleBean, @Value("AB123") String code, @Value("true") Boolean complicated) {
-        this.simpleBean = simpleBean;
-        this.code = code;
-        this.complicated = complicated;
-    }
+        SimpleBean simpleBean = ctx.getBean(SimpleBean.class);
+        assertNotNull(simpleBean);
 
-    public SimpleBean getSimpleBean() {
-        return simpleBean;
-    }
+        AnotherComposedBean composedBean = ctx.getBean(AnotherComposedBean.class);
+        assertNotNull(composedBean);
 
-    public String getCode() {
-        return code;
-    }
+        assertNotNull(composedBean.getSimpleBean());
+        assertTrue(composedBean.isComplex());
 
-    public Boolean isComplicated() {
-        return complicated;
+        ctx.close();
     }
 }

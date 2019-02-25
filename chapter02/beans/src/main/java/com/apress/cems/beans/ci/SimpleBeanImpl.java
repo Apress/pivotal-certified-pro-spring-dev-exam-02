@@ -25,9 +25,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.simple;
+package com.apress.cems.beans.ci;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,16 +36,17 @@ import org.springframework.stereotype.Component;
  * @since 1.0
  */
 @Component
-public class Book implements Item {
+public class SimpleBeanImpl implements SimpleBean {
 
-    private String title;
+    private Logger logger = LoggerFactory.getLogger(SimpleBean.class);
 
-    public Book(@Value("Nevermore") String title) {
-        this.title = title;
+    public SimpleBeanImpl() {
+        logger.info("[SimpleBeanImpl instantiation]");
     }
 
     @Override
-    public String getTitle() {
-        return title;
+    public String toString() {
+        return "SimpleBeanImpl{ code: " + hashCode() + "}";
     }
+
 }

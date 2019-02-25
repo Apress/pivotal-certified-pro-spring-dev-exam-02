@@ -13,9 +13,9 @@
         <property name="repo" ref="detectiveRepo"/>
     </bean>
 
-    <!-- Loads users from the data source -->
+    <!-- Missing dependency -->
     <bean id="detectiveRepo" class="com.apress.cems.xml.repos.impl.JdbcDetectiveRepo">
-         <property name="dataSource" ref="dataSource"/>
+        <!-- <property name="dataSource" ref="dataSource"/> -->
     </bean>
 
     <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource">

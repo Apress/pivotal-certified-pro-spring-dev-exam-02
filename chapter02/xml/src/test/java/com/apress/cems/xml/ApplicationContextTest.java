@@ -27,12 +27,14 @@ SOFTWARE.
 */
 package com.apress.cems.xml;
 
+import com.apress.cems.pojos.repos.DetectiveRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.sql.DataSource;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * @author Iuliana Cosmina
  * @since 1.0
@@ -45,6 +47,16 @@ class ApplicationContextTest {
         assertNotNull(ctx);
         DataSource dataSource = ctx.getBean("dataSource", DataSource.class);
         assertNotNull(dataSource);
+        ctx.registerShutdownHook();
+    }
+
+    @Test
+    void testJdbcRepo() {
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-opt-prod.xml");
+        assertNotNull(ctx);
+        final DetectiveRepo detectiveRepo = ctx.getBean(DetectiveRepo.class);
+        assertNotNull(detectiveRepo);
+        assertThrows(NullPointerException.class, () -> detectiveRepo.findById(1L));
         ctx.registerShutdownHook();
     }
 }

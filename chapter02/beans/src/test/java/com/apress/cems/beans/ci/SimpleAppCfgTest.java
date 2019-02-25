@@ -25,52 +25,41 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.xml.repos.impl;
+package com.apress.cems.beans.ci;
 
-import com.apress.cems.dao.AbstractEntity;
-import com.apress.cems.pojos.repos.AbstractRepo;
+import org.junit.jupiter.api.Test;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import javax.sql.DataSource;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
- * Currently empty, as we are only interested in configuring this instance.
  */
-public class JdbcAbstractRepo<T extends AbstractEntity> implements AbstractRepo<T> {
-    protected DataSource dataSource;
+class SimpleAppCfgTest {
 
-    public JdbcAbstractRepo() {
-    }
+    @Test
+    void testSimpleBeans() {
+        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SimpleAppCfg.class);
 
-    public JdbcAbstractRepo(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+        SimpleBean simpleBean = ctx.getBean(SimpleBean.class);
+        assertNotNull(simpleBean);
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+        ComposedBean composedBean = ctx.getBean(ComposedBean.class);
+        assertNotNull(composedBean);
 
-    @Override
-    public void save(T entity) {
+        assertNotNull(composedBean.getSimpleBean());
 
-    }
+        assertEquals("AB123", composedBean.getCode());
+        assertTrue(composedBean.isComplicated());
 
-    @Override
-    public void delete(T entity) {
+        Human humanBean = ctx.getBean(Human.class);
 
-    }
+        assertNotNull(humanBean);
+        assertNotNull(humanBean.getItem());
+        assertNotNull(humanBean.getItem().getTitle());
 
-    @Override
-    public void deleteById(Long entityId) {
-
-    }
-
-    @Override
-    public T findById(Long entityId) {
-        if (dataSource == null) {
-            throw new NullPointerException("No datasource present!");
-        }
-        return null;
+        ctx.close();
     }
 }

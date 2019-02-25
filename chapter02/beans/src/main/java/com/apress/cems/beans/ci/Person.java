@@ -25,16 +25,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.simple;
+package com.apress.cems.beans.ci;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public interface ComposedBean {
-    SimpleBean getSimpleBean();
+@Component
+public class Person implements Human {
 
-    String getCode();
+    private Item item;
 
-    Boolean isComplicated();
+    @Autowired
+    public Person(Item item) {
+        this.item = item;
+    }
+
+    @Override
+    public Item getItem() {
+        return item;
+    }
 }

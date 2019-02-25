@@ -25,52 +25,33 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.xml.repos.impl;
+package com.apress.cems.beans.xml.ci;
 
-import com.apress.cems.dao.AbstractEntity;
-import com.apress.cems.pojos.repos.AbstractRepo;
+import com.apress.cems.beans.ci.ComposedBean;
+import org.junit.jupiter.api.Test;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.sql.DataSource;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
- * Currently empty, as we are only interested in configuring this instance.
  */
-public class JdbcAbstractRepo<T extends AbstractEntity> implements AbstractRepo<T> {
-    protected DataSource dataSource;
+class SimpleAppCfgTest {
 
-    public JdbcAbstractRepo() {
-    }
+    @Test
+    void testDataSource() {
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-ci-cfg.xml");
+        assertNotNull(ctx);
 
-    public JdbcAbstractRepo(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+        ComposedBean composedBean = ctx.getBean(ComposedBean.class);
+        assertNotNull(composedBean);
+        assertNotNull(composedBean.getSimpleBean());
+        assertEquals("AB123",composedBean.getCode());
+        assertTrue(composedBean.isComplicated());
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    @Override
-    public void save(T entity) {
-
-    }
-
-    @Override
-    public void delete(T entity) {
-
-    }
-
-    @Override
-    public void deleteById(Long entityId) {
-
-    }
-
-    @Override
-    public T findById(Long entityId) {
-        if (dataSource == null) {
-            throw new NullPointerException("No datasource present!");
-        }
-        return null;
+        ctx.registerShutdownHook();
     }
 }

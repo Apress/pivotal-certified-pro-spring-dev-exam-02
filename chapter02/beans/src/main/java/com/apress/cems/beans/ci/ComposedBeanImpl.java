@@ -25,10 +25,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.simple;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.apress.cems.beans.ci;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,17 +35,28 @@ import org.springframework.stereotype.Component;
  * @since 1.0
  */
 @Component
-public class SimpleBeanImpl implements SimpleBean {
+public class ComposedBeanImpl implements ComposedBean {
 
-    private Logger logger = LoggerFactory.getLogger(SimpleBean.class);
+    private final SimpleBean simpleBean;
+    private String code;
+    private Boolean complicated;
 
-    public SimpleBeanImpl() {
-        logger.info("[SimpleBeanImpl instantiation]");
+    @Autowired
+    public ComposedBeanImpl(SimpleBean simpleBean, @Value("AB123") String code, @Value("true") Boolean complicated) {
+        this.simpleBean = simpleBean;
+        this.code = code;
+        this.complicated = complicated;
     }
 
-    @Override
-    public String toString() {
-        return "SimpleBeanImpl{ code: " + hashCode() + "}";
+    public SimpleBean getSimpleBean() {
+        return simpleBean;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public Boolean isComplicated() {
+        return complicated;
+    }
 }
