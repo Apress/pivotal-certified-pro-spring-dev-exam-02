@@ -25,13 +25,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.xml;
+package com.apress.cems.beans.xml.scalars;
 
-import com.apress.cems.pojos.repos.DetectiveRepo;
+import com.apress.cems.beans.scalars.PersonBean;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import javax.sql.DataSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,24 +37,16 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class ApplicationContextTest {
-
+class AppCfgTest {
     @Test
     void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-cfg-prod.xml");
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-scalars-cfg.xml");
         assertNotNull(ctx);
-        DataSource dataSource = ctx.getBean("dataSource", DataSource.class);
-        assertNotNull(dataSource);
-        ctx.registerShutdownHook();
-    }
 
-    @Test
-    void testJdbcRepo() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:application-opt-prod.xml");
-        assertNotNull(ctx);
-        final DetectiveRepo detectiveRepo = ctx.getBean(DetectiveRepo.class);
-        assertNotNull(detectiveRepo);
-        assertThrows(NullPointerException.class, () -> detectiveRepo.findById(1L));
+        PersonBean pb = ctx.getBean(PersonBean.class);
+        assertNotNull(pb);
+        System.out.println(pb.toString());
+
         ctx.registerShutdownHook();
     }
 }

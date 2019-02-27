@@ -25,38 +25,53 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.xml;
+package com.apress.cems.beans.scalars;
 
-import com.apress.cems.pojos.repos.DetectiveRepo;
-import org.junit.jupiter.api.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDate;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class ApplicationContextTest {
+@Component
+public class PersonBean implements Creature {
 
-    @Test
-    void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-cfg-prod.xml");
-        assertNotNull(ctx);
-        DataSource dataSource = ctx.getBean("dataSource", DataSource.class);
-        assertNotNull(dataSource);
-        ctx.registerShutdownHook();
+    private LocalDate birthDate;
+    private String name;
+
+    @Autowired
+    public PersonBean(@Value("1977-10-16") LocalDate birthDate, @Value("John Mayer") String name) {
+        this.birthDate = birthDate;
+        this.name = name;
     }
 
-    @Test
-    void testJdbcRepo() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:application-opt-prod.xml");
-        assertNotNull(ctx);
-        final DetectiveRepo detectiveRepo = ctx.getBean(DetectiveRepo.class);
-        assertNotNull(detectiveRepo);
-        assertThrows(NullPointerException.class, () -> detectiveRepo.findById(1L));
-        ctx.registerShutdownHook();
+    @Override
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    @Override
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonBean{" +
+                "birthDate=" + birthDate +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

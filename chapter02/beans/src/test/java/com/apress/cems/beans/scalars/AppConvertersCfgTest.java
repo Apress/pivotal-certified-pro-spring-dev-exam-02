@@ -25,38 +25,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.xml;
+package com.apress.cems.beans.scalars;
 
-import com.apress.cems.pojos.repos.DetectiveRepo;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import javax.sql.DataSource;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class ApplicationContextTest {
+class AppConvertersCfgTest {
+
+    private Logger logger = LoggerFactory.getLogger(AppConvertersCfgTest.class);
 
     @Test
-    void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-cfg-prod.xml");
-        assertNotNull(ctx);
-        DataSource dataSource = ctx.getBean("dataSource", DataSource.class);
-        assertNotNull(dataSource);
-        ctx.registerShutdownHook();
-    }
+    void testSimpleBeans() {
+        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AppConvertersCfg.class);
 
-    @Test
-    void testJdbcRepo() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:application-opt-prod.xml");
-        assertNotNull(ctx);
-        final DetectiveRepo detectiveRepo = ctx.getBean(DetectiveRepo.class);
-        assertNotNull(detectiveRepo);
-        assertThrows(NullPointerException.class, () -> detectiveRepo.findById(1L));
-        ctx.registerShutdownHook();
+        PersonBean pb = ctx.getBean(PersonBean.class);
+        assertNotNull(pb);
+        logger.debug(pb.toString());
+
+        MultipleTypesBean mtb = ctx.getBean(MultipleTypesBean.class);
+        logger.debug(mtb.toString());
+
+        ctx.close();
     }
 }

@@ -25,38 +25,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.xml;
+package com.apress.cems.beans.scalars;
 
-import com.apress.cems.pojos.repos.DetectiveRepo;
-import org.junit.jupiter.api.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ConversionServiceFactoryBean;
+import org.springframework.core.convert.ConversionService;
 
-import javax.sql.DataSource;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class ApplicationContextTest {
+@Configuration
+@ComponentScan(basePackages = {"com.apress.cems.beans.scalars"} )
+public class AppConvertersCfg {
 
-    @Test
-    void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-cfg-prod.xml");
-        assertNotNull(ctx);
-        DataSource dataSource = ctx.getBean("dataSource", DataSource.class);
-        assertNotNull(dataSource);
-        ctx.registerShutdownHook();
-    }
+    @Autowired StringToLocalDate stringToLocalDateConverter;
 
-    @Test
-    void testJdbcRepo() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:application-opt-prod.xml");
-        assertNotNull(ctx);
-        final DetectiveRepo detectiveRepo = ctx.getBean(DetectiveRepo.class);
-        assertNotNull(detectiveRepo);
-        assertThrows(NullPointerException.class, () -> detectiveRepo.findById(1L));
-        ctx.registerShutdownHook();
+    @Autowired StringToDate stringToDate;
+
+    @Bean
+    ConversionService conversionService(){
+        ConversionServiceFactoryBean conversionServiceFactoryBean = new ConversionServiceFactoryBean();
+        conversionServiceFactoryBean.setConverters(Set.of(stringToLocalDateConverter, stringToDate));
+        conversionServiceFactoryBean.afterPropertiesSet();
+        return conversionServiceFactoryBean.getObject();
     }
 }

@@ -25,38 +25,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.xml;
-
-import com.apress.cems.pojos.repos.DetectiveRepo;
-import org.junit.jupiter.api.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import javax.sql.DataSource;
-
-import static org.junit.jupiter.api.Assertions.*;
+package com.apress.cems.beans.scalars;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class ApplicationContextTest {
-
-    @Test
-    void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-cfg-prod.xml");
-        assertNotNull(ctx);
-        DataSource dataSource = ctx.getBean("dataSource", DataSource.class);
-        assertNotNull(dataSource);
-        ctx.registerShutdownHook();
+public class ToDateConversionException extends  RuntimeException {
+    public ToDateConversionException(String message) {
+        super(message);
     }
 
-    @Test
-    void testJdbcRepo() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:application-opt-prod.xml");
-        assertNotNull(ctx);
-        final DetectiveRepo detectiveRepo = ctx.getBean(DetectiveRepo.class);
-        assertNotNull(detectiveRepo);
-        assertThrows(NullPointerException.class, () -> detectiveRepo.findById(1L));
-        ctx.registerShutdownHook();
+    public ToDateConversionException(Throwable cause) {
+        super( cause);
     }
 }

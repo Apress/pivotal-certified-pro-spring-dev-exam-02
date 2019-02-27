@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="conversionService"
+          class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.apress.cems.beans.scalars.StringToLocalDate"/>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="personBean" class="com.apress.cems.beans.scalars.PersonBean"
+        c:name="John Mayer" c:birthDate="1977-10-16"
+    />
+
+
+</beans>
