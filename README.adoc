@@ -16,9 +16,14 @@ To build the full project and skipping tests, build from the root (`pet-sitter`)
 gradle build -x test
 ----
 
-To build the project and ignore failed tests so you can get your full build status with Gradle Receipt, build from the root (`pet-sitter`) directory, using the following command:
+To use cached builds execute:
 ----
-gradle build -Dscan --continue
+gradle  --build-cache clean build  assemble
+----
+
+To build the project  and scan your build execute:
+----
+gradle clean build --scan
 ----
 Just keep in mind, the project is quite big and when displaying the results, you browser might be slow.
 

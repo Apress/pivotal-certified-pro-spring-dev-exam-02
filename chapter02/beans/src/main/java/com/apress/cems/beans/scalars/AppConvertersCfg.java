@@ -27,6 +27,7 @@ SOFTWARE.
 */
 package com.apress.cems.beans.scalars;
 
+import com.apress.cems.beans.ci.SimpleBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -34,7 +35,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
 
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Iuliana Cosmina
@@ -54,5 +55,20 @@ public class AppConvertersCfg {
         conversionServiceFactoryBean.setConverters(Set.of(stringToLocalDateConverter, stringToDate));
         conversionServiceFactoryBean.afterPropertiesSet();
         return conversionServiceFactoryBean.getObject();
+    }
+
+    @Bean
+    List<SimpleBean>  simpleBeanList(){
+        return new ArrayList<>();
+    }
+
+    @Bean
+    Set<SimpleBean>  simpleBeanSet(){
+        return new HashSet<>();
+    }
+
+    @Bean
+    Map<String, SimpleBean> simpleBeanMap(){
+        return new HashMap<>();
     }
 }
