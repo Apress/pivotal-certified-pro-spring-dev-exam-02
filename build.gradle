@@ -24,7 +24,7 @@ sourceCompatibility = 11
 ext {
     springVersion = '5.2.0.BUILD-SNAPSHOT'
     springBootVersion = '2.2.0.BUILD-SNAPSHOT'
-    springJpaVersion = '2.2.0.BUILD-SNAPSHOT'
+    springJpaVersion = '2.2.0.M1'
 
     //testing
     junit5Version = '5.4.0'

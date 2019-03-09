@@ -25,40 +25,43 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.scalars;
+package com.apress.cems.beans.xml.misc;
 
+import com.apress.cems.beans.misc.ScotlandRateFormula;
+import com.apress.cems.beans.misc.SimpleSingleton;
+import com.apress.cems.beans.misc.TaxFormula;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class AppConvertersCfgTest {
-
-    private Logger logger = LoggerFactory.getLogger(AppConvertersCfgTest.class);
+public class XMLMiscAppCfgTest {
 
     @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AppConvertersCfg.class);
+    void testDataSource() {
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-misc-cfg.xml");
+        assertNotNull(ctx);
 
-        PersonBean pb = ctx.getBean(PersonBean.class);
-        assertNotNull(pb);
-        logger.debug(pb.toString());
+        SimpleSingleton simpleSingleton = ctx.getBean("simpleSingleton", SimpleSingleton.class);
+        assertNotNull(simpleSingleton);
 
-        MultipleTypesBean mtb = ctx.getBean(MultipleTypesBean.class);
-        logger.debug(mtb.toString());
+        SimpleSingleton simpleSingleton2 = ctx.getBean("simpleSingleton2", SimpleSingleton.class);
+        assertNotNull(simpleSingleton2);
+        assertEquals(simpleSingleton, simpleSingleton2);
 
-        EmptyCollectionHolder emptyCollectionHolder =  ctx.getBean(EmptyCollectionHolder.class);
-        logger.debug(emptyCollectionHolder.toString());
+        TaxFormula taxFormula = ctx.getBean("taxScotlandFormula", TaxFormula.class);
+        assertNotNull(taxFormula);
+        assertTrue(taxFormula instanceof ScotlandRateFormula);
 
-        CollectionHolder collectionHolder =  ctx.getBean(CollectionHolder.class);
-        logger.debug(collectionHolder.toString());
+        TaxFormula taxFormula2 = ctx.getBean("scotlandTaxFactory2", TaxFormula.class);
+        assertNotNull(taxFormula);
+        assertTrue(taxFormula instanceof ScotlandRateFormula);
+
+
         ctx.close();
     }
 }

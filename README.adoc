@@ -18,7 +18,7 @@ gradle build -x test
 
 To use cached builds execute:
 ----
-gradle  --build-cache clean build  assemble
+gradle --build-cache clean build assemble
 ----
 
 To build the project  and scan your build execute:

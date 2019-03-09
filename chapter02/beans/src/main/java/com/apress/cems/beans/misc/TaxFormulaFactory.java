@@ -25,40 +25,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.scalars;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.apress.cems.beans.misc;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class AppConvertersCfgTest {
+public class TaxFormulaFactory {
 
-    private Logger logger = LoggerFactory.getLogger(AppConvertersCfgTest.class);
+    public TaxFormula getTaxFormula(final String taxPlanCode){
+        if(taxPlanCode == null){
+            return null;
+        }
 
-    @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AppConvertersCfg.class);
-
-        PersonBean pb = ctx.getBean(PersonBean.class);
-        assertNotNull(pb);
-        logger.debug(pb.toString());
-
-        MultipleTypesBean mtb = ctx.getBean(MultipleTypesBean.class);
-        logger.debug(mtb.toString());
-
-        EmptyCollectionHolder emptyCollectionHolder =  ctx.getBean(EmptyCollectionHolder.class);
-        logger.debug(emptyCollectionHolder.toString());
-
-        CollectionHolder collectionHolder =  ctx.getBean(CollectionHolder.class);
-        logger.debug(collectionHolder.toString());
-        ctx.close();
+        switch (taxPlanCode) {
+            case "S":
+                return new ScotlandRateFormula();
+            case "NT":
+                return new NoTaxFormula();
+        }
+        return null;
     }
+
 }

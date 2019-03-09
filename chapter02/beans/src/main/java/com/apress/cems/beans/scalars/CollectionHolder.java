@@ -29,6 +29,7 @@ package com.apress.cems.beans.scalars;
 
 import com.apress.cems.beans.ci.SimpleBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -41,26 +42,25 @@ import java.util.Set;
  */
 @Component
 public class CollectionHolder {
+    private List<SimpleBean> simpleBeanList2;
 
-    private List<SimpleBean> simpleBeanList;
+    private Set<SimpleBean> simpleBeanSet2;
 
-    private Set<SimpleBean> simpleBeanSet;
+    private Map<String, SimpleBean> simpleBeanMap2;
 
-    private Map<String, SimpleBean> simpleBeanMap;
-
-    @Autowired
-    public void setSimpleBeanList(List<SimpleBean> simpleBeanList) {
-        this.simpleBeanList = simpleBeanList;
+    @Autowired @Qualifier("simpleBeanList2")
+    public void setSimpleBeanList2(List<SimpleBean> simpleBeanList2) {
+        this.simpleBeanList2 = simpleBeanList2;
     }
 
-    @Autowired
-    public void setSimpleBeanSet(Set<SimpleBean> simpleBeanSet) {
-        this.simpleBeanSet = simpleBeanSet;
+    @Autowired @Qualifier("simpleBeanSet2")
+    public void setSimpleBeanSet2(Set<SimpleBean> simpleBeanSet2) {
+        this.simpleBeanSet2 = simpleBeanSet2;
     }
 
-    @Autowired
-    public void setSimpleBeanMap(Map<String, SimpleBean> simpleBeanMap) {
-        this.simpleBeanMap = simpleBeanMap;
+    @Autowired @Qualifier("simpleBeanMap2")
+    public void setSimpleBeanMap2(Map<String, SimpleBean> simpleBeanMap2) {
+        this.simpleBeanMap2 = simpleBeanMap2;
     }
 
     /**
@@ -70,9 +70,9 @@ public class CollectionHolder {
     @Override
     public String toString() {
         return "CollectionHolder{" +
-                "simpleBeanList=" + simpleBeanList.size() +
-                ", simpleBeanSet=" + simpleBeanSet.size() +
-                ", simpleBeanMap=" + simpleBeanMap.size() +
+                "simpleBeanList=" + simpleBeanList2.size() +
+                ", simpleBeanSet=" + simpleBeanSet2.size() +
+                ", simpleBeanMap=" + simpleBeanMap2.size() +
                 '}';
     }
 }

@@ -25,40 +25,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.scalars;
+package com.apress.cems.beans.xml.misc;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.apress.cems.beans.misc.NoTaxFormula;
+import com.apress.cems.beans.misc.ScotlandRateFormula;
+import com.apress.cems.beans.misc.TaxFormula;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class AppConvertersCfgTest {
+public class XMLTaxFormulaFactory {
 
-    private Logger logger = LoggerFactory.getLogger(AppConvertersCfgTest.class);
+    private String taxFormula;
 
-    @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AppConvertersCfg.class);
-
-        PersonBean pb = ctx.getBean(PersonBean.class);
-        assertNotNull(pb);
-        logger.debug(pb.toString());
-
-        MultipleTypesBean mtb = ctx.getBean(MultipleTypesBean.class);
-        logger.debug(mtb.toString());
-
-        EmptyCollectionHolder emptyCollectionHolder =  ctx.getBean(EmptyCollectionHolder.class);
-        logger.debug(emptyCollectionHolder.toString());
-
-        CollectionHolder collectionHolder =  ctx.getBean(CollectionHolder.class);
-        logger.debug(collectionHolder.toString());
-        ctx.close();
+    public void setTaxFormula(String taxFormula) {
+        this.taxFormula = taxFormula;
     }
+
+    public TaxFormula getTaxFormula(){
+        if(taxFormula == null){
+            return null;
+        }
+
+        switch (taxFormula) {
+            case "S":
+                return new ScotlandRateFormula();
+            case "NT":
+                return new NoTaxFormula();
+        }
+        return null;
+    }
+
 }

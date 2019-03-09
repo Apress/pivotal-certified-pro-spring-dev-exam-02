@@ -27,38 +27,53 @@ SOFTWARE.
 */
 package com.apress.cems.beans.scalars;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import com.apress.cems.beans.ci.SimpleBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class AppConvertersCfgTest {
+@Component
+public class EmptyCollectionHolder {
 
-    private Logger logger = LoggerFactory.getLogger(AppConvertersCfgTest.class);
+    private List<SimpleBean> simpleBeanList;
 
-    @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AppConvertersCfg.class);
+    private Set<SimpleBean> simpleBeanSet;
 
-        PersonBean pb = ctx.getBean(PersonBean.class);
-        assertNotNull(pb);
-        logger.debug(pb.toString());
+    private Map<String, SimpleBean> simpleBeanMap;
 
-        MultipleTypesBean mtb = ctx.getBean(MultipleTypesBean.class);
-        logger.debug(mtb.toString());
+    @Autowired @Qualifier("simpleBeanList")
+    public void setSimpleBeanList(List<SimpleBean> simpleBeanList) {
+        this.simpleBeanList = simpleBeanList;
+    }
 
-        EmptyCollectionHolder emptyCollectionHolder =  ctx.getBean(EmptyCollectionHolder.class);
-        logger.debug(emptyCollectionHolder.toString());
+    @Autowired @Qualifier("simpleBeanSet")
+    public void setSimpleBeanSet(Set<SimpleBean> simpleBeanSet) {
+        this.simpleBeanSet = simpleBeanSet;
+    }
 
-        CollectionHolder collectionHolder =  ctx.getBean(CollectionHolder.class);
-        logger.debug(collectionHolder.toString());
-        ctx.close();
+    @Autowired @Qualifier("simpleBeanMap")
+    public void setSimpleBeanMap(Map<String, SimpleBean> simpleBeanMap) {
+        this.simpleBeanMap = simpleBeanMap;
+    }
+
+    /**
+     * This method was implemented just to verify the collections injected into beans of this type
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "EmptyCollectionHolder{" +
+                "simpleBeanList=" + simpleBeanList.size() +
+                ", simpleBeanSet=" + simpleBeanSet.size() +
+                ", simpleBeanMap=" + simpleBeanMap.size() +
+                '}';
     }
 }

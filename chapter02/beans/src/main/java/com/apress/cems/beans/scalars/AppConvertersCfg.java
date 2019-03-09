@@ -28,6 +28,7 @@ SOFTWARE.
 package com.apress.cems.beans.scalars;
 
 import com.apress.cems.beans.ci.SimpleBean;
+import com.apress.cems.beans.ci.SimpleBeanImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -58,17 +59,37 @@ public class AppConvertersCfg {
     }
 
     @Bean
-    List<SimpleBean>  simpleBeanList(){
+    List<SimpleBean> simpleBeanList(){
         return new ArrayList<>();
     }
 
     @Bean
-    Set<SimpleBean>  simpleBeanSet(){
+    Set<SimpleBean> simpleBeanSet(){
         return new HashSet<>();
     }
 
     @Bean
     Map<String, SimpleBean> simpleBeanMap(){
         return new HashMap<>();
+    }
+
+    @Bean
+    SimpleBean simpleBean(){
+        return new SimpleBeanImpl();
+    }
+
+    @Bean
+    List<SimpleBean> simpleBeanList2(){
+        return List.of(simpleBean());
+    }
+
+    @Bean
+    Set<SimpleBean>  simpleBeanSet2(){
+        return Set.of(simpleBean());
+    }
+
+    @Bean
+    Map<String, SimpleBean> simpleBeanMap2(){
+        return Map.of("simpleBean", simpleBean());
     }
 }

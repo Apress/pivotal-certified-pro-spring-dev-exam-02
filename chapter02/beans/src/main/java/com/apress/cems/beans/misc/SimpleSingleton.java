@@ -25,13 +25,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.scalars;
+package com.apress.cems.beans.misc;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,26 +34,16 @@ import org.slf4j.LoggerFactory;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class AppConvertersCfgTest {
+public class SimpleSingleton {
+    private Logger logger = LoggerFactory.getLogger(SimpleSingleton.class);
 
-    private Logger logger = LoggerFactory.getLogger(AppConvertersCfgTest.class);
+    private static SimpleSingleton instance = new SimpleSingleton();
 
-    @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AppConvertersCfg.class);
+    private SimpleSingleton() {
+        logger.info(">> Creating single instance at: " + System.currentTimeMillis());
+    }
 
-        PersonBean pb = ctx.getBean(PersonBean.class);
-        assertNotNull(pb);
-        logger.debug(pb.toString());
-
-        MultipleTypesBean mtb = ctx.getBean(MultipleTypesBean.class);
-        logger.debug(mtb.toString());
-
-        EmptyCollectionHolder emptyCollectionHolder =  ctx.getBean(EmptyCollectionHolder.class);
-        logger.debug(emptyCollectionHolder.toString());
-
-        CollectionHolder collectionHolder =  ctx.getBean(CollectionHolder.class);
-        logger.debug(collectionHolder.toString());
-        ctx.close();
+    public static synchronized SimpleSingleton getInstance(){
+        return instance;
     }
 }

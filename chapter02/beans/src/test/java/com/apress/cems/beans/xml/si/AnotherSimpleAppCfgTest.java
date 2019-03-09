@@ -27,7 +27,7 @@ SOFTWARE.
 */
 package com.apress.cems.beans.xml.si;
 
-import com.apress.cems.beans.ci.ComposedBean;
+import com.apress.cems.beans.si.AnotherComposedBean;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -43,11 +43,10 @@ class AnotherSimpleAppCfgTest {
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-si-cfg.xml");
         assertNotNull(ctx);
 
-        ComposedBean composedBean = ctx.getBean(ComposedBean.class);
+        AnotherComposedBean composedBean = ctx.getBean(AnotherComposedBean.class);
         assertNotNull(composedBean);
         assertNotNull(composedBean.getSimpleBean());
-        assertEquals("AB123",composedBean.getCode());
-        assertTrue(composedBean.isComplicated());
+        assertTrue(composedBean.isComplex());
 
         ctx.registerShutdownHook();
     }

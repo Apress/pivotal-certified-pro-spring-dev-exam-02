@@ -25,40 +25,44 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.scalars;
+package com.apress.cems.beans.fi;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.apress.cems.beans.ci.ComposedBean;
+import com.apress.cems.beans.ci.SimpleBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-class AppConvertersCfgTest {
+@Component
+public class BadComposedBean implements ComposedBean {
 
-    private Logger logger = LoggerFactory.getLogger(AppConvertersCfgTest.class);
+    @Autowired
+    private SimpleBean simpleBean;
 
-    @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AppConvertersCfg.class);
+    private String code;
+    private Boolean complicated;
 
-        PersonBean pb = ctx.getBean(PersonBean.class);
-        assertNotNull(pb);
-        logger.debug(pb.toString());
+    public BadComposedBean(@Value("AB123") String code, @Value("true") Boolean complicated) {
+        this.code = code;
+        this.complicated = complicated;
+    }
 
-        MultipleTypesBean mtb = ctx.getBean(MultipleTypesBean.class);
-        logger.debug(mtb.toString());
+    @Override
+    public SimpleBean getSimpleBean() {
+        return simpleBean;
+    }
 
-        EmptyCollectionHolder emptyCollectionHolder =  ctx.getBean(EmptyCollectionHolder.class);
-        logger.debug(emptyCollectionHolder.toString());
+    @Override
+    public String getCode() {
+        return code;
+    }
 
-        CollectionHolder collectionHolder =  ctx.getBean(CollectionHolder.class);
-        logger.debug(collectionHolder.toString());
-        ctx.close();
+    @Override
+    public Boolean isComplicated() {
+        return complicated;
     }
 }
