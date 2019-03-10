@@ -25,42 +25,49 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.xml.misc;
+package com.apress.cems.config;
 
-import com.apress.cems.beans.misc.ScotlandRateFormula;
-import com.apress.cems.beans.misc.SimpleSingleton;
-import com.apress.cems.beans.misc.TaxFormula;
-import org.junit.jupiter.api.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import javax.sql.DataSource;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class XMLMiscAppCfgTest {
+@Configuration
+@PropertySource("classpath:db/test-datasource.properties")
+public class TestDataSourceConfig {
 
-    @Test
-    void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-misc-cfg.xml");
-        assertNotNull(ctx);
+    @Value("${db.driverClassName}")
+    private String driverClassName;
+    @Value("${db.url}")
+    private String url;
+    @Value("${db.username}")
+    private String username;
+    @Value("${db.password}")
+    private String password;
 
-        SimpleSingleton simpleSingleton = ctx.getBean("simpleSingleton", SimpleSingleton.class);
-        assertNotNull(simpleSingleton);
-
-        SimpleSingleton simpleSingleton2 = ctx.getBean("simpleSingleton2", SimpleSingleton.class);
-        assertNotNull(simpleSingleton2);
-        assertEquals(simpleSingleton, simpleSingleton2);
-
-        TaxFormula taxFormula = ctx.getBean("taxScotlandFormula", TaxFormula.class);
-        assertNotNull(taxFormula);
-        assertTrue(taxFormula instanceof ScotlandRateFormula);
-
-        TaxFormula taxFormula2 = ctx.getBean("taxScotlandFormula2", TaxFormula.class);
-        assertNotNull(taxFormula2);
-        assertTrue(taxFormula2 instanceof ScotlandRateFormula);
-
-        ctx.close();
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
+
+    @Lazy
+    @Bean(name = {"one", "two", "dataSource"})
+    public DataSource dataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName(driverClassName);
+        ds.setUrl(url);
+        ds.setUsername(username);
+        ds.setPassword(password);
+        return ds;
+    }
+
 }

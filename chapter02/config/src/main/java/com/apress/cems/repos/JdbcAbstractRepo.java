@@ -25,42 +25,52 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.xml.misc;
+package com.apress.cems.repos;
 
-import com.apress.cems.beans.misc.ScotlandRateFormula;
-import com.apress.cems.beans.misc.SimpleSingleton;
-import com.apress.cems.beans.misc.TaxFormula;
-import org.junit.jupiter.api.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.apress.cems.dao.AbstractEntity;
+import com.apress.cems.pojos.repos.AbstractRepo;
 
-import static org.junit.jupiter.api.Assertions.*;
+import javax.sql.DataSource;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
+ * Currently empty, as we are only interested in configuring this instance.
  */
-public class XMLMiscAppCfgTest {
+public class JdbcAbstractRepo<T extends AbstractEntity> implements AbstractRepo<T> {
+    protected DataSource dataSource;
 
-    @Test
-    void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-misc-cfg.xml");
-        assertNotNull(ctx);
+    public JdbcAbstractRepo() {
+    }
 
-        SimpleSingleton simpleSingleton = ctx.getBean("simpleSingleton", SimpleSingleton.class);
-        assertNotNull(simpleSingleton);
+    public JdbcAbstractRepo(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
-        SimpleSingleton simpleSingleton2 = ctx.getBean("simpleSingleton2", SimpleSingleton.class);
-        assertNotNull(simpleSingleton2);
-        assertEquals(simpleSingleton, simpleSingleton2);
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
-        TaxFormula taxFormula = ctx.getBean("taxScotlandFormula", TaxFormula.class);
-        assertNotNull(taxFormula);
-        assertTrue(taxFormula instanceof ScotlandRateFormula);
+    @Override
+    public void save(T entity) {
 
-        TaxFormula taxFormula2 = ctx.getBean("taxScotlandFormula2", TaxFormula.class);
-        assertNotNull(taxFormula2);
-        assertTrue(taxFormula2 instanceof ScotlandRateFormula);
+    }
 
-        ctx.close();
+    @Override
+    public void delete(T entity) {
+
+    }
+
+    @Override
+    public void deleteById(Long entityId) {
+
+    }
+
+    @Override
+    public T findById(Long entityId) {
+        if (dataSource == null) {
+            throw new NullPointerException("No datasource present!");
+        }
+        return null;
     }
 }

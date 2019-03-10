@@ -25,42 +25,40 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.xml.misc;
+package com.apress.cems.repos;
 
-import com.apress.cems.beans.misc.ScotlandRateFormula;
-import com.apress.cems.beans.misc.SimpleSingleton;
-import com.apress.cems.beans.misc.TaxFormula;
-import org.junit.jupiter.api.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.apress.cems.dao.CriminalCase;
+import com.apress.cems.dao.Detective;
+import com.apress.cems.pojos.repos.CriminalCaseRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import javax.sql.DataSource;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class XMLMiscAppCfgTest {
+@Repository
+public class JdbcCriminalCaseRepo extends JdbcAbstractRepo<CriminalCase> implements CriminalCaseRepo {
 
-    @Test
-    void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-misc-cfg.xml");
-        assertNotNull(ctx);
+    public JdbcCriminalCaseRepo(){
+    }
 
-        SimpleSingleton simpleSingleton = ctx.getBean("simpleSingleton", SimpleSingleton.class);
-        assertNotNull(simpleSingleton);
+    @Autowired
+    public JdbcCriminalCaseRepo(DataSource dataSource) {
+        super(dataSource);
+    }
 
-        SimpleSingleton simpleSingleton2 = ctx.getBean("simpleSingleton2", SimpleSingleton.class);
-        assertNotNull(simpleSingleton2);
-        assertEquals(simpleSingleton, simpleSingleton2);
+    @Override
+    public Set<CriminalCase> findByLeadInvestigator(Detective detective) {
+        return null;
+    }
 
-        TaxFormula taxFormula = ctx.getBean("taxScotlandFormula", TaxFormula.class);
-        assertNotNull(taxFormula);
-        assertTrue(taxFormula instanceof ScotlandRateFormula);
-
-        TaxFormula taxFormula2 = ctx.getBean("taxScotlandFormula2", TaxFormula.class);
-        assertNotNull(taxFormula2);
-        assertTrue(taxFormula2 instanceof ScotlandRateFormula);
-
-        ctx.close();
+    @Override
+    public Optional<CriminalCase> findByNumber(String caseNumber) {
+        return Optional.empty();
     }
 }

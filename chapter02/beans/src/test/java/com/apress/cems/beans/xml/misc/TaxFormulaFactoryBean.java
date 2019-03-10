@@ -48,7 +48,7 @@ public class TaxFormulaFactoryBean implements FactoryBean<TaxFormula> {
     }
 
     @Override
-    public TaxFormula getObject() throws Exception {
+    public TaxFormula getObject() {
         return this.taxFormula;
     }
 

@@ -25,42 +25,50 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.xml.misc;
+package com.apress.cems.repos;
 
-import com.apress.cems.beans.misc.ScotlandRateFormula;
-import com.apress.cems.beans.misc.SimpleSingleton;
-import com.apress.cems.beans.misc.TaxFormula;
-import org.junit.jupiter.api.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.apress.cems.dao.TrackEntry;
+import com.apress.cems.pojos.repos.TrackEntryRepo;
+import com.apress.cems.util.TrackAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import javax.sql.DataSource;
+import java.util.Date;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class XMLMiscAppCfgTest {
+@Repository
+public class JdbcTrackEntryRepo extends JdbcAbstractRepo<TrackEntry> implements TrackEntryRepo {
 
-    @Test
-    void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-misc-cfg.xml");
-        assertNotNull(ctx);
+    public JdbcTrackEntryRepo() {
+    }
 
-        SimpleSingleton simpleSingleton = ctx.getBean("simpleSingleton", SimpleSingleton.class);
-        assertNotNull(simpleSingleton);
+    @Autowired
+    public JdbcTrackEntryRepo(DataSource dataSource) {
+        super(dataSource);
+    }
 
-        SimpleSingleton simpleSingleton2 = ctx.getBean("simpleSingleton2", SimpleSingleton.class);
-        assertNotNull(simpleSingleton2);
-        assertEquals(simpleSingleton, simpleSingleton2);
+    @Override
+    public Set<TrackEntry> findByDetectiveId(Long detectiveId) {
+        return null;
+    }
 
-        TaxFormula taxFormula = ctx.getBean("taxScotlandFormula", TaxFormula.class);
-        assertNotNull(taxFormula);
-        assertTrue(taxFormula instanceof ScotlandRateFormula);
+    @Override
+    public Set<TrackEntry> findByEvidenceId(Long evidenceId) {
+        return null;
+    }
 
-        TaxFormula taxFormula2 = ctx.getBean("taxScotlandFormula2", TaxFormula.class);
-        assertNotNull(taxFormula2);
-        assertTrue(taxFormula2 instanceof ScotlandRateFormula);
+    @Override
+    public Set<TrackEntry> findByDate(Date date) {
+        return null;
+    }
 
-        ctx.close();
+    @Override
+    public Set<TrackEntry> findByDateAndAction(Date date, TrackAction action) {
+        return null;
     }
 }

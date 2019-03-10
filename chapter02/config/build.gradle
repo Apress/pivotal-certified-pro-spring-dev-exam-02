@@ -10,16 +10,17 @@ plugins {
 }
 
 group 'com.apress.cems'
-ext.moduleName = 'com.apress.cems.beans'
+ext.moduleName = 'com.apress.cems.config'
 
 apply plugin: 'java'
 apply plugin: 'idea'
 
 dependencies {
     compile project(':chapter00:dao')
-    compile misc.lang3, misc.logback, misc.slf4j, misc.jsr250, misc.inject
+    compile project(':chapter02:pojos')
+    compile misc.lang3, misc.ojdbc, misc.logback, misc.slf4j, misc.h2, spring.jdbc
 
-    testCompile testing.api
+    testCompile testing.api, spring.test, testing.junit
     testRuntimeOnly testing.platformRunner,  testing.engine
 }
 
@@ -37,7 +38,7 @@ jar {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 02 - Beans",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 02 - Configurations",
                 "Implementation-Version": version,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )

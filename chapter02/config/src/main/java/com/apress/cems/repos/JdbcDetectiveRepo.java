@@ -25,42 +25,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.xml.misc;
+package com.apress.cems.repos;
 
-import com.apress.cems.beans.misc.ScotlandRateFormula;
-import com.apress.cems.beans.misc.SimpleSingleton;
-import com.apress.cems.beans.misc.TaxFormula;
-import org.junit.jupiter.api.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.apress.cems.dao.Detective;
+import com.apress.cems.pojos.repos.DetectiveRepo;
 
-import static org.junit.jupiter.api.Assertions.*;
+import javax.sql.DataSource;
+import java.util.Optional;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class XMLMiscAppCfgTest {
+public class JdbcDetectiveRepo extends JdbcAbstractRepo<Detective> implements DetectiveRepo {
 
-    @Test
-    void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-misc-cfg.xml");
-        assertNotNull(ctx);
+    public JdbcDetectiveRepo(){
+    }
 
-        SimpleSingleton simpleSingleton = ctx.getBean("simpleSingleton", SimpleSingleton.class);
-        assertNotNull(simpleSingleton);
+    public JdbcDetectiveRepo(DataSource dataSource) {
+        super(dataSource);
+    }
 
-        SimpleSingleton simpleSingleton2 = ctx.getBean("simpleSingleton2", SimpleSingleton.class);
-        assertNotNull(simpleSingleton2);
-        assertEquals(simpleSingleton, simpleSingleton2);
-
-        TaxFormula taxFormula = ctx.getBean("taxScotlandFormula", TaxFormula.class);
-        assertNotNull(taxFormula);
-        assertTrue(taxFormula instanceof ScotlandRateFormula);
-
-        TaxFormula taxFormula2 = ctx.getBean("taxScotlandFormula2", TaxFormula.class);
-        assertNotNull(taxFormula2);
-        assertTrue(taxFormula2 instanceof ScotlandRateFormula);
-
-        ctx.close();
+    @Override
+    public Optional<Detective> findByBadgeNumber(String badgeNumber) {
+        return Optional.empty();
     }
 }

@@ -13,6 +13,7 @@ include 'chapter02:pojos-practice'
 include 'chapter02:beans'
 include 'chapter02:beans-practice'
 include 'chapter02:xml'
+include 'chapter02:config'
 
 include 'chapter12'
 include 'chapter12'

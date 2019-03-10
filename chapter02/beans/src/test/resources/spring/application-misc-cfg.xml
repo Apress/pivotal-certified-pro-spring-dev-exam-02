@@ -20,11 +20,11 @@
 
     <!-- Spring factory bean -->
 
-    <bean id="taxFormulaFactoryBean" class="com.apress.cems.beans.xml.misc.TaxFormulaFactoryBean" />
-    <bean id="taxScotlandFormula2" factory-bean="taxFormulaFactoryBean" />
-
     <!--
-    <bean id="scotlandTaxFactory2" class="com.apress.cems.beans.xml.misc.TaxFormulaFactoryBean" />
-    -->
+    <bean id="taxFormulaFactoryBean" class="com.apress.cems.beans.xml.misc.TaxFormulaFactoryBean" />
+    <bean id="taxScotlandFormula2" factory-bean="taxFormulaFactoryBean" factory-method="getObject"/> -->
+
+
+    <bean id="taxScotlandFormula2" class="com.apress.cems.beans.xml.misc.TaxFormulaFactoryBean" />
 
    </beans>
