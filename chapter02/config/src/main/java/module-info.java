@@ -13,6 +13,7 @@ module com.apress.cems.config {
     requires spring.jdbc;
     requires ojdbc7;
     requires java.naming;
+    requires jsr250.api;
 
     requires com.apress.cems.pojos;
 }

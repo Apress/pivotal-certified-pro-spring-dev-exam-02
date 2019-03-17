@@ -18,7 +18,7 @@ apply plugin: 'idea'
 dependencies {
     compile project(':chapter00:dao')
     compile project(':chapter02:pojos')
-    compile misc.lang3, misc.ojdbc, misc.logback, misc.slf4j, misc.h2, spring.jdbc
+    compile misc.lang3, misc.ojdbc, misc.logback, misc.slf4j, misc.h2, spring.jdbc,  misc.jsr250, misc.inject
 
     testCompile testing.api, spring.test, testing.junit
     testRuntimeOnly testing.platformRunner,  testing.engine

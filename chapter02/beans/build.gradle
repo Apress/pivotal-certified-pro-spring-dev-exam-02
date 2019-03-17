@@ -17,10 +17,10 @@ apply plugin: 'idea'
 
 dependencies {
     compile project(':chapter00:dao')
-    compile misc.lang3, misc.logback, misc.slf4j, misc.jsr250, misc.inject
+    compile misc.lang3, misc.logback, misc.slf4j
 
     testCompile testing.api
-    testRuntimeOnly testing.platformRunner,  testing.engine
+    testRuntimeOnly testing.platformRunner, testing.engine
 }
 
 //because Gradle is an idiot

@@ -32,6 +32,8 @@ import com.apress.cems.pojos.repos.EvidenceRepo;
 import com.apress.cems.repos.JdbcDetectiveRepo;
 import com.apress.cems.repos.JdbcEvidenceRepo;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -45,27 +47,25 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 class TestDataSourceConfigTest {
 
-    /**
-     * Bootstrap Configuration class using context class
-     */
-    @Test
-    void testDataSource() {
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(TestDataSourceConfig.class);
-
-        DataSource dataSource = ctx.getBean("two", DataSource.class);
-        assertNotNull(dataSource);
-    }
+    private Logger logger = LoggerFactory.getLogger(TestDataSourceConfigTest.class);
 
     @Test
     void testMultipleCfgSource() {
         ApplicationContext ctx =
                 new AnnotationConfigApplicationContext(TestDataSourceConfig.class, RepositoryConfig.class);
 
+        for (String beanName : ctx.getBeanDefinitionNames()) {
+            logger.info("Bean " + beanName + " of type "
+                    + ctx.getBean(beanName).getClass().getSimpleName());
+        }
+
         EvidenceRepo evidenceRepo = ctx.getBean(JdbcEvidenceRepo.class);
         DetectiveRepo detectiveRepo = ctx.getBean(JdbcDetectiveRepo.class);
 
         assertNotNull(evidenceRepo);
         assertNotNull(detectiveRepo);
-    }
 
+        DataSource dataSource = ctx.getBean("two", DataSource.class);
+        assertNotNull(dataSource);
+    }
 }

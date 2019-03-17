@@ -42,8 +42,8 @@ import static org.junit.Assert.assertNotNull;
  * @since 1.0
  */
 @RunWith(SpringRunner.class)
-//@ContextConfiguration(classes = {ProdDataSourceConfig.class, RepositoryConfig.class})
-@ContextConfiguration(classes = {TestDataSourceConfig.class, RepositoryConfig.class})
+@ContextConfiguration(classes = {ProdDataSourceConfig.class, RepositoryConfig.class})
+//@ContextConfiguration(classes = {EnvTestDataSourceConfig.class, RepositoryConfig.class})
 public class MultipleResourcesTest {
 
     @Autowired

@@ -28,10 +28,7 @@ SOFTWARE.
 package com.apress.cems.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -59,8 +56,7 @@ public class TestDataSourceConfig {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    @Lazy
-    @Bean(name = {"one", "two", "dataSource"})
+    @Bean(name = {"one", "two"})
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName(driverClassName);

@@ -68,11 +68,11 @@ public class SimpleOperationsService implements OperationsService {
         // TODO 2. set fields; use ifPresent(..) to set(or not) the leadDetective field
 
         evidenceMap.forEach((ev, storageName) -> {
-            //TODO 3. retrieve storage, throw ServiceException if not found
-            //TODO 4. if storage is found, link it to the evidence and add evidence to the case
+            // TODO 3. retrieve storage, throw ServiceException if not found
+            // TODO 4. if storage is found, link it to the evidence and add evidence to the case
         });
 
-        //TODO 5. save the criminal case instance
+        // TODO 5. save the criminal case instance
         return criminalCase;
     }
 

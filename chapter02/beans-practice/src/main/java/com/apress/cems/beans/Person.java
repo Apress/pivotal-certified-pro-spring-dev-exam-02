@@ -32,12 +32,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-//TODO 8. Add  a bean definition
+// TODO 8. Add  a bean definition
 public class Person implements Human {
 
     private Item item;
 
-    //TODO 9. Add a constructor and inject a bean of type Item
+    // TODO 9. Add a constructor and inject a bean of type Item
 
     @Override
     public Item getItem() {
