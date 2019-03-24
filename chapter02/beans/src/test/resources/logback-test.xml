@@ -13,7 +13,7 @@
 
     <logger name="com.apress.cems.beans" level="debug"/>
 
-    <logger name="org.springframework" level="debug"/>
+    <logger name="org.springframework" level="trace"/>
 
     <root level="info">
         <appender-ref ref="console" />

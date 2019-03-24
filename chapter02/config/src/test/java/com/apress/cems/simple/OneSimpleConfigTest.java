@@ -25,44 +25,41 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.lc;
+package com.apress.cems.simple;
 
+import com.apress.cems.beans.ci.SimpleBean;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import javax.sql.DataSource;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 /**
- * Testing application context lifecycle.BeanFactoryPostProcessor
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class ApplicationContextTest {
-    private Logger logger = LoggerFactory.getLogger(ApplicationContextTest.class);
+public class OneSimpleConfigTest {
+
+    private Logger logger = LoggerFactory.getLogger(OneSimpleConfigTest.class);
 
     @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(DataSourceCfg.class);
-        ctx.registerShutdownHook();
-        logger.info(" >> init done.");
+    void testSimpleConfiguration() {
+        ApplicationContext ctx =
+                new AnnotationConfigApplicationContext(SimpleConfig.class);
 
-        DataSource dataSource = ctx.getBean(DataSource.class);
-        assertNotNull(dataSource);
-
-        logger.info(" >> usage done.");
+        for (String beanName : ctx.getBeanDefinitionNames()) {
+            logger.info("Bean " + beanName);
+        }
     }
 
     @Test
-    void testBeanLifecycle() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SimpleConfig.class);
-        ctx.registerShutdownHook();
+    void testOneBeanConfiguration() {
+        ApplicationContext ctx =
+                new AnnotationConfigApplicationContext(OneBeanConfig.class);
 
-        ComplexBean complexBean = ctx.getBean(ComplexBean.class);
-        assertNotNull(complexBean);
+        SimpleBean simpleBeanOne = ctx.getBean(SimpleBean.class);
+        SimpleBean simpleBeanTwo = ctx.getBean(SimpleBean.class);
+        Assertions.assertEquals(simpleBeanTwo, simpleBeanOne);
     }
 }

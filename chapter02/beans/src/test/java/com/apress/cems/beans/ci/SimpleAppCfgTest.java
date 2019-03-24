@@ -47,9 +47,6 @@ class SimpleAppCfgTest {
     void testSimpleBeans() {
         ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SimpleAppCfg.class);
 
-        SimpleBean simpleBean = ctx.getBean(SimpleBean.class);
-        assertNotNull(simpleBean);
-
         ComposedBean composedBean = ctx.getBean(ComposedBean.class);
         assertNotNull(composedBean);
 

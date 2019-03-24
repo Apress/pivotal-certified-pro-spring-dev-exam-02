@@ -25,44 +25,39 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.lc;
+package com.apress.cems.scopes;
 
-import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Description;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.Random;
 
 /**
- * Testing application context lifecycle.BeanFactoryPostProcessor
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class ApplicationContextTest {
-    private Logger logger = LoggerFactory.getLogger(ApplicationContextTest.class);
+// TODO 14. Redefine this bean to configure JDK interface based proxying. Add classes or interfaces necessary.
+// TODO. 15 Create a specialized version of the @Scope annotation you used on this bean to solve requirement 14.
+@Description("Salary for an employee might change, so this is a suitable example for a prototype scoped bean")
+@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class Salary {
+    private Logger logger = LoggerFactory.getLogger(Salary.class);
 
-    @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(DataSourceCfg.class);
-        ctx.registerShutdownHook();
-        logger.info(" >> init done.");
+    private Integer amount;
 
-        DataSource dataSource = ctx.getBean(DataSource.class);
-        assertNotNull(dataSource);
-
-        logger.info(" >> usage done.");
+    public Salary() {
+        logger.info(" -> Creating new Salary bean");
+        Random rand = new Random();
+        this.amount = rand.nextInt(10_000) +  50_000;
     }
 
-    @Test
-    void testBeanLifecycle() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SimpleConfig.class);
-        ctx.registerShutdownHook();
-
-        ComplexBean complexBean = ctx.getBean(ComplexBean.class);
-        assertNotNull(complexBean);
+    public Integer getAmount() {
+        return amount;
     }
 }

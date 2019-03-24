@@ -27,6 +27,7 @@ SOFTWARE.
 */
 package com.apress.cems.beans.ci;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -37,12 +38,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ComposedBeanImpl implements ComposedBean {
 
-    private final SimpleBean simpleBean;
+    private SimpleBean simpleBean;
     private String code;
     private Boolean complicated;
 
+    // De-comment the @Qualifier annotation  to get rid of the exception
     @Autowired
-    public ComposedBeanImpl(SimpleBean simpleBean, @Value("AB123") String code, @Value("true") Boolean complicated) {
+    public ComposedBeanImpl(/*@Qualifier("anotherSimpleBean")*/ SimpleBean simpleBean, @Value("AB123") String code, @Value("true") Boolean complicated) {
         this.simpleBean = simpleBean;
         this.code = code;
         this.complicated = complicated;

@@ -53,7 +53,6 @@ ext {
             starterSecurity : "org.springframework.boot:spring-boot-starter-security:$springBootVersion",
             starterJpa      : "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion",
             starterTest     : "org.springframework.boot:spring-boot-starter-test:$springBootVersion",
-            starterTomcat   : "org.springframework.boot:spring-boot-starter-tomcat:$springBootVersion",
             actuator        : "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion",
             starterWs       : "org.springframework.boot:spring-boot-starter-ws:$springBootVersion",
             devtools        : "org.springframework.boot:spring-boot-devtools:$springBootVersion"
@@ -63,11 +62,12 @@ ext {
             beans         : "org.springframework:spring-beans:$springVersion",
             contextSupport: "org.springframework:spring-context-support:$springVersion",
             jdbc          : "org.springframework:spring-jdbc:$springVersion",
-            test           : "org.springframework:spring-test:$springVersion"
+            test          : "org.springframework:spring-test:$springVersion",
+            webmvc        : "org.springframework:spring-webmvc:$springVersion"
     ]
 
     testing = [
-            junit       : "junit:junit:$junitVersion",
+            junit         : "junit:junit:$junitVersion",
             api           : "org.junit.jupiter:junit-jupiter-api:$junit5Version",
             engine        : "org.junit.jupiter:junit-jupiter-engine:$junit5Version",
             mockito       : "org.mockito:mockito-junit-jupiter:$mockitoVersion",
@@ -75,7 +75,7 @@ ext {
     ]
 
     misc = [
-            h2                : "com.h2database:h2:$h2Version",
+            h2              : "com.h2database:h2:$h2Version",
             jsr250          : "javax.annotation:jsr250-api:1.0",
             inject          : "javax.inject:javax.inject:1",
             javaxValidation : "javax.validation:validation-api:2.0.1.Final",

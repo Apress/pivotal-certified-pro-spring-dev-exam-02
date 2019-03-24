@@ -1,0 +1,41 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/libs-snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "https://repo.spring.io/libs-milestone" }
+    }
+
+    dependencies {
+        classpath boot.springBootPlugin
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+
+group 'com.apress.cems'
+ext.moduleName = 'com.apress.cems.boot'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+dependencies {
+    compile boot.starterWeb
+    testImplementation boot.starterTest
+}
+
+
+jar {
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 02 - Configurations",
+                "Implementation-Version": version,
+                "Main-Class"         : "com.apress.cems.boot.Application",
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}

@@ -25,44 +25,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.lc;
+package com.apress.cems.simple;
 
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import javax.sql.DataSource;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import com.apress.cems.beans.ci.SimpleBean;
+import com.apress.cems.beans.ci.SimpleBeanImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * Testing application context lifecycle.BeanFactoryPostProcessor
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class ApplicationContextTest {
-    private Logger logger = LoggerFactory.getLogger(ApplicationContextTest.class);
+@Configuration
+public class OneBeanConfig {
 
-    @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(DataSourceCfg.class);
-        ctx.registerShutdownHook();
-        logger.info(" >> init done.");
-
-        DataSource dataSource = ctx.getBean(DataSource.class);
-        assertNotNull(dataSource);
-
-        logger.info(" >> usage done.");
-    }
-
-    @Test
-    void testBeanLifecycle() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SimpleConfig.class);
-        ctx.registerShutdownHook();
-
-        ComplexBean complexBean = ctx.getBean(ComplexBean.class);
-        assertNotNull(complexBean);
+    @Bean
+    SimpleBean simpleBean(){
+        return new SimpleBeanImpl();
     }
 }

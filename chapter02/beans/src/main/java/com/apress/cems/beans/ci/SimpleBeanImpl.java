@@ -40,7 +40,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SimpleBeanImpl implements SimpleBean {
 
-    private Logger logger = LoggerFactory.getLogger(SimpleBean.class);
+    private Logger logger = LoggerFactory.getLogger(SimpleBeanImpl.class);
 
     public SimpleBeanImpl() {
         logger.info("[SimpleBeanImpl instantiation]");

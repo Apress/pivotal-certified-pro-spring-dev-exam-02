@@ -15,6 +15,7 @@ include 'chapter02:beans-practice'
 include 'chapter02:xml'
 include 'chapter02:config'
 include 'chapter02:config-practice'
+include 'chapter02:boot'
 
 include 'chapter12'
 include 'chapter12'
@@ -33,3 +34,4 @@ rootProject.children.each { project ->
     assert project.buildFile.exists()
     assert project.buildFile.isFile()
 }
+

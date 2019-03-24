@@ -26,6 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 package com.apress.cems.beans.ci;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -37,5 +38,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan(basePackages = {"com.apress.cems.beans.ci"} )
 public class SimpleAppCfg {
+
+    // de-comment this to cause NoUniqueBeanDefinitionException
+   /* @Bean
+    SimpleBean anotherSimpleBean(){
+        return new SimpleBeanImpl();
+    }*/
+
 
 }

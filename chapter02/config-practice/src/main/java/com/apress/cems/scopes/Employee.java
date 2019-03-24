@@ -25,44 +25,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.lc;
+package com.apress.cems.scopes;
 
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import javax.sql.DataSource;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
- * Testing application context lifecycle.BeanFactoryPostProcessor
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class ApplicationContextTest {
-    private Logger logger = LoggerFactory.getLogger(ApplicationContextTest.class);
+@Component
+public class Employee {
+    private Salary salary;
 
-    @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(DataSourceCfg.class);
-        ctx.registerShutdownHook();
-        logger.info(" >> init done.");
-
-        DataSource dataSource = ctx.getBean(DataSource.class);
-        assertNotNull(dataSource);
-
-        logger.info(" >> usage done.");
+    public Employee(Salary salary) {
+        this.salary = salary;
     }
 
-    @Test
-    void testBeanLifecycle() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SimpleConfig.class);
-        ctx.registerShutdownHook();
+    @Autowired
+    public void setSalary(Salary salary) {
+        this.salary = salary;
+    }
 
-        ComplexBean complexBean = ctx.getBean(ComplexBean.class);
-        assertNotNull(complexBean);
+    public Salary getSalary() {
+        return salary;
     }
 }
