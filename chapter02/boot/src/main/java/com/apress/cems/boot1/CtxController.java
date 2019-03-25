@@ -25,21 +25,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot;
+package com.apress.cems.boot1;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+
+import static com.apress.cems.BeanManager.asHtml;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@SpringBootApplication
-public class Application {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+//@RestController
+public class CtxController {
+
+    //@Autowired
+    ApplicationContext ctx;
+
+    //@GetMapping("/")
+    public String index() {
+        return asHtml.apply(ctx);
     }
-
 }

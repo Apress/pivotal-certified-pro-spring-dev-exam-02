@@ -19,11 +19,11 @@ subprojects {
     }
 }
 
-sourceCompatibility = 11
+sourceCompatibility = 12
 
 ext {
     springVersion = '5.2.0.BUILD-SNAPSHOT'
-    springBootVersion = '2.2.0.BUILD-SNAPSHOT'
+    springBootVersion = '2.2.0.M1'
     springJpaVersion = '2.2.0.M1'
 
     //testing
