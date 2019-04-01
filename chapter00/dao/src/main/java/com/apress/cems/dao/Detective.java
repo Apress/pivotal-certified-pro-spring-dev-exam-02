@@ -43,7 +43,7 @@ public class Detective extends AbstractEntity {
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
     private Person person;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String badgeNumber;
 
     @Enumerated(EnumType.STRING)
@@ -52,7 +52,7 @@ public class Detective extends AbstractEntity {
     private Boolean armed;
 
     @Enumerated(EnumType.STRING)
-    private EmploymentStatus status;
+    private EmploymentStatus status = EmploymentStatus.ACTIVE;
 
     @ManyToMany
     @JoinTable(

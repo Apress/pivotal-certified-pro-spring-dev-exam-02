@@ -31,7 +31,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -57,7 +57,7 @@ public class Person extends AbstractEntity {
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime hiringDate;
+    private LocalDate hiringDate;
 
     public Person() {
         super();
@@ -95,11 +95,11 @@ public class Person extends AbstractEntity {
         this.password = password;
     }
 
-    public LocalDateTime getHiringDate() {
+    public LocalDate getHiringDate() {
         return hiringDate;
     }
 
-    public void setHiringDate(LocalDateTime hiringDate) {
+    public void setHiringDate(LocalDate hiringDate) {
         this.hiringDate = hiringDate;
     }
 

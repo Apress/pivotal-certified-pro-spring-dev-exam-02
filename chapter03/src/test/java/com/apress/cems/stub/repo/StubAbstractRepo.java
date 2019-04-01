@@ -25,44 +25,49 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.pojos.services.impl;
+package com.apress.cems.stub.repo;
 
-import com.apress.cems.dao.Detective;
-import com.apress.cems.dao.Evidence;
-import com.apress.cems.dao.TrackEntry;
-import com.apress.cems.pojos.repos.AbstractRepo;
-import com.apress.cems.pojos.repos.TrackEntryRepo;
-import com.apress.cems.pojos.services.TrackEntryService;
-import com.apress.cems.util.TrackAction;
+import com.apress.cems.dao.AbstractEntity;
+import com.apress.cems.repos.AbstractRepo;
+import com.apress.cems.repos.NotFoundException;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class SimpleTrackEntryService extends SimpleAbstractService<TrackEntry> implements TrackEntryService {
-    private TrackEntryRepo repo;
+public abstract class StubAbstractRepo <T extends AbstractEntity> implements AbstractRepo<T> {
+
+    protected Map<Long, T> records = new HashMap<>();
 
     @Override
-    public TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDate date, TrackAction action, String reason) {
-        TrackEntry trackEntry = new TrackEntry();
-        trackEntry.setEvidence(evidence);
-        trackEntry.setDetective(detective);
-        trackEntry.setDate(date);
-        trackEntry.setAction(action);
-        trackEntry.setReason(reason);
-        repo.save(trackEntry);
-        return trackEntry;
-    }
-
-    public void setRepo(TrackEntryRepo repo) {
-        this.repo = repo;
+    public void save(T entity) {
+        if (entity.getId() == null) {
+            Long id = (long) records.size() + 1;
+            entity.setId(id);
+        }
+        records.put(entity.getId(), entity);
     }
 
     @Override
-    AbstractRepo<TrackEntry> getRepo() {
-        return null;
+    public void delete(T entity) throws NotFoundException {
+        records.remove(findById(entity.getId()).getId());
+    }
+
+    @Override
+    public void deleteById(Long entityId) throws NotFoundException {
+        records.remove(findById(entityId).getId());
+    }
+
+    @Override
+    public T findById(Long entityId) {
+        if(records.containsKey(entityId)) {
+            return records.get(entityId);
+        } else {
+            throw new NotFoundException("Entity with id "
+                    + entityId + " could not be processed because it does not exist.");
+        }
     }
 }

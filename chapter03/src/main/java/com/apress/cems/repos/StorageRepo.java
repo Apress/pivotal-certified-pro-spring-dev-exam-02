@@ -25,44 +25,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.pojos.services.impl;
+package com.apress.cems.repos;
 
-import com.apress.cems.dao.Detective;
-import com.apress.cems.dao.Evidence;
-import com.apress.cems.dao.TrackEntry;
-import com.apress.cems.pojos.repos.AbstractRepo;
-import com.apress.cems.pojos.repos.TrackEntryRepo;
-import com.apress.cems.pojos.services.TrackEntryService;
-import com.apress.cems.util.TrackAction;
+import com.apress.cems.dao.Storage;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.util.Optional;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class SimpleTrackEntryService extends SimpleAbstractService<TrackEntry> implements TrackEntryService {
-    private TrackEntryRepo repo;
+public interface StorageRepo extends AbstractRepo<Storage> {
 
-    @Override
-    public TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDate date, TrackAction action, String reason) {
-        TrackEntry trackEntry = new TrackEntry();
-        trackEntry.setEvidence(evidence);
-        trackEntry.setDetective(detective);
-        trackEntry.setDate(date);
-        trackEntry.setAction(action);
-        trackEntry.setReason(reason);
-        repo.save(trackEntry);
-        return trackEntry;
-    }
+    Optional<Storage> findByName(String name);
 
-    public void setRepo(TrackEntryRepo repo) {
-        this.repo = repo;
-    }
-
-    @Override
-    AbstractRepo<TrackEntry> getRepo() {
-        return null;
-    }
+    Optional<Storage> findByLocation(String location);
 }

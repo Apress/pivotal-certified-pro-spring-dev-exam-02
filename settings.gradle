@@ -17,6 +17,8 @@ include 'chapter02:config'
 include 'chapter02:config-practice'
 include 'chapter02:boot'
 
+include 'chapter03'
+
 include 'chapter12'
 include 'chapter12'
 include 'chapter12'

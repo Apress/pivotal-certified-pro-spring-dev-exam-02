@@ -14,19 +14,22 @@ ext.moduleName = 'com.apress.cems.three'
 apply plugin: 'java'
 apply plugin: 'idea'
 
-jar {
-    manifest {
-        attributes(
-                "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 3",
-                "Implementation-Version": version,
-                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
-        )
-    }
+dependencies {
+    compile project(':chapter00:dao')
+    compile misc.lang3, misc.ojdbc, misc.logback, misc.slf4j, misc.jsr250
+
+    testCompile testing.api
+    testRuntimeOnly testing.platformRunner, testing.engine
 }
 
-dependencies {
-    //TODO
+//because Gradle is an idiot
+test {
+    exclude 'module-info.class'
+    useJUnitPlatform()
+
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
 }
 
 afterEvaluate {
@@ -43,5 +46,16 @@ afterEvaluate {
             ]
             classpath = files()
         }
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 3",
+                "Implementation-Version": version,
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
     }
 }

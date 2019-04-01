@@ -25,44 +25,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.pojos.services.impl;
-
-import com.apress.cems.dao.Detective;
-import com.apress.cems.dao.Evidence;
-import com.apress.cems.dao.TrackEntry;
-import com.apress.cems.pojos.repos.AbstractRepo;
-import com.apress.cems.pojos.repos.TrackEntryRepo;
-import com.apress.cems.pojos.services.TrackEntryService;
-import com.apress.cems.util.TrackAction;
-
-import java.time.LocalDate;
-import java.util.Date;
+package com.apress.cems.services;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class SimpleTrackEntryService extends SimpleAbstractService<TrackEntry> implements TrackEntryService {
-    private TrackEntryRepo repo;
+public interface AbstractService<T> {
+    void save(T entity);
 
-    @Override
-    public TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDate date, TrackAction action, String reason) {
-        TrackEntry trackEntry = new TrackEntry();
-        trackEntry.setEvidence(evidence);
-        trackEntry.setDetective(detective);
-        trackEntry.setDate(date);
-        trackEntry.setAction(action);
-        trackEntry.setReason(reason);
-        repo.save(trackEntry);
-        return trackEntry;
-    }
+    T findById(Long entityId);
 
-    public void setRepo(TrackEntryRepo repo) {
-        this.repo = repo;
-    }
+    void delete(T entity);
 
-    @Override
-    AbstractRepo<TrackEntry> getRepo() {
-        return null;
-    }
+    void deleteById(Long entityId);
 }

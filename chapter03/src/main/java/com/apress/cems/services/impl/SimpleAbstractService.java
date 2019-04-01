@@ -25,44 +25,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.pojos.services.impl;
+package com.apress.cems.services.impl;
 
-import com.apress.cems.dao.Detective;
-import com.apress.cems.dao.Evidence;
-import com.apress.cems.dao.TrackEntry;
-import com.apress.cems.pojos.repos.AbstractRepo;
-import com.apress.cems.pojos.repos.TrackEntryRepo;
-import com.apress.cems.pojos.services.TrackEntryService;
-import com.apress.cems.util.TrackAction;
-
-import java.time.LocalDate;
-import java.util.Date;
+import com.apress.cems.dao.AbstractEntity;
+import com.apress.cems.repos.AbstractRepo;
+import com.apress.cems.services.AbstractService;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class SimpleTrackEntryService extends SimpleAbstractService<TrackEntry> implements TrackEntryService {
-    private TrackEntryRepo repo;
+public abstract class SimpleAbstractService<T extends AbstractEntity>  implements AbstractService<T> {
 
-    @Override
-    public TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDate date, TrackAction action, String reason) {
-        TrackEntry trackEntry = new TrackEntry();
-        trackEntry.setEvidence(evidence);
-        trackEntry.setDetective(detective);
-        trackEntry.setDate(date);
-        trackEntry.setAction(action);
-        trackEntry.setReason(reason);
-        repo.save(trackEntry);
-        return trackEntry;
+    public void save(T entity) {
+        getRepo().save(entity);
     }
 
-    public void setRepo(TrackEntryRepo repo) {
-        this.repo = repo;
+    public T findById(Long entityId){
+        return getRepo().findById(entityId);
     }
 
     @Override
-    AbstractRepo<TrackEntry> getRepo() {
-        return null;
+    public void delete(T entity) {
+        getRepo().delete(entity);
     }
+
+    @Override
+    public void deleteById(Long entityId) {
+        getRepo().deleteById(entityId);
+    }
+
+    abstract AbstractRepo<T> getRepo();
 }

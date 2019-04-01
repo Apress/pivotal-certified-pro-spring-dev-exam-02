@@ -25,44 +25,40 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.pojos.services.impl;
+package com.apress.cems.services.impl;
 
-import com.apress.cems.dao.Detective;
+import com.apress.cems.dao.CriminalCase;
 import com.apress.cems.dao.Evidence;
-import com.apress.cems.dao.TrackEntry;
-import com.apress.cems.pojos.repos.AbstractRepo;
-import com.apress.cems.pojos.repos.TrackEntryRepo;
-import com.apress.cems.pojos.services.TrackEntryService;
-import com.apress.cems.util.TrackAction;
-
-import java.time.LocalDate;
-import java.util.Date;
+import com.apress.cems.dao.Storage;
+import com.apress.cems.util.NumberGenerator;
+import com.apress.cems.repos.AbstractRepo;
+import com.apress.cems.repos.EvidenceRepo;
+import com.apress.cems.services.EvidenceService;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class SimpleTrackEntryService extends SimpleAbstractService<TrackEntry> implements TrackEntryService {
-    private TrackEntryRepo repo;
+public class SimpleEvidenceService extends SimpleAbstractService<Evidence> implements EvidenceService {
+    private EvidenceRepo repo;
 
     @Override
-    public TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDate date, TrackAction action, String reason) {
-        TrackEntry trackEntry = new TrackEntry();
-        trackEntry.setEvidence(evidence);
-        trackEntry.setDetective(detective);
-        trackEntry.setDate(date);
-        trackEntry.setAction(action);
-        trackEntry.setReason(reason);
-        repo.save(trackEntry);
-        return trackEntry;
+    public Evidence createEvidence(CriminalCase criminalCase, Storage storage, String itemName) {
+        Evidence evidence = new Evidence();
+        evidence.setCriminalCase(criminalCase);
+        evidence.setNumber(NumberGenerator.getEvidenceNumber());
+        evidence.setItemName(itemName);
+        evidence.setStorage(storage);
+        repo.save(evidence);
+        return evidence;
     }
 
-    public void setRepo(TrackEntryRepo repo) {
+    public void setRepo(EvidenceRepo repo) {
         this.repo = repo;
     }
 
     @Override
-    AbstractRepo<TrackEntry> getRepo() {
-        return null;
+    AbstractRepo<Evidence> getRepo() {
+        return repo;
     }
 }

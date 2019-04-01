@@ -2,5 +2,7 @@
  * Created by iuliana.cosmina on 21/01/19.
  */
 module com.apress.cems.three {
-
+    requires com.apress.cems.dao;
+    requires org.apache.commons.lang3;
+    requires java.sql;
 }

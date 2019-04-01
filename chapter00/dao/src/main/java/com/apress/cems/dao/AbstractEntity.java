@@ -29,7 +29,7 @@ package com.apress.cems.dao;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 import javax.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -50,18 +50,18 @@ public abstract class AbstractEntity implements Serializable {
 
     @Column(name = "created_at", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    protected LocalDateTime createdAt;
+    protected LocalDate createdAt;
 
     @Column(name = "modified_at", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    protected LocalDateTime modifiedAt;
+    protected LocalDate modifiedAt;
 
     /**
      * This constructor is required by JPA. All subclasses of this class will inherit this constructor.
      */
     protected AbstractEntity() {
-        createdAt = LocalDateTime.now();
-        modifiedAt = LocalDateTime.now();
+        createdAt = LocalDate.now();
+        modifiedAt = LocalDate.now();
     }
 
     /**
@@ -86,19 +86,19 @@ public abstract class AbstractEntity implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getModifiedAt() {
+    public LocalDate getModifiedAt() {
         return modifiedAt;
     }
 
-    public void setModifiedAt(LocalDateTime modifiedAt) {
+    public void setModifiedAt(LocalDate modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
 

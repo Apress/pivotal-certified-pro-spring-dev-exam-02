@@ -25,44 +25,39 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.pojos.services.impl;
+package com.apress.cems.stub.repo;
 
-import com.apress.cems.dao.Detective;
-import com.apress.cems.dao.Evidence;
 import com.apress.cems.dao.TrackEntry;
-import com.apress.cems.pojos.repos.AbstractRepo;
-import com.apress.cems.pojos.repos.TrackEntryRepo;
-import com.apress.cems.pojos.services.TrackEntryService;
+import com.apress.cems.repos.TrackEntryRepo;
 import com.apress.cems.util.TrackAction;
+import org.apache.commons.lang3.NotImplementedException;
 
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class SimpleTrackEntryService extends SimpleAbstractService<TrackEntry> implements TrackEntryService {
-    private TrackEntryRepo repo;
+public class StubTrackEntryRepo extends StubAbstractRepo<TrackEntry> implements TrackEntryRepo {
 
     @Override
-    public TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDate date, TrackAction action, String reason) {
-        TrackEntry trackEntry = new TrackEntry();
-        trackEntry.setEvidence(evidence);
-        trackEntry.setDetective(detective);
-        trackEntry.setDate(date);
-        trackEntry.setAction(action);
-        trackEntry.setReason(reason);
-        repo.save(trackEntry);
-        return trackEntry;
-    }
-
-    public void setRepo(TrackEntryRepo repo) {
-        this.repo = repo;
+    public Set<TrackEntry> findByDetectiveId(Long detectiveId) {
+        throw new NotImplementedException("Not needed for this stub.");
     }
 
     @Override
-    AbstractRepo<TrackEntry> getRepo() {
-        return null;
+    public Set<TrackEntry> findByEvidenceId(Long evidenceId) {
+        throw new NotImplementedException("Not needed for this stub.");
+    }
+
+    @Override
+    public Set<TrackEntry> findByDate(Date date) {
+        throw new NotImplementedException("Not needed for this stub.");
+    }
+
+    @Override
+    public Set<TrackEntry> findByDateAndAction(Date date, TrackAction action) {
+        throw new NotImplementedException("Not needed for this stub.");
     }
 }

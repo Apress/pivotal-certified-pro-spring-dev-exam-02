@@ -25,15 +25,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.pojos.services.impl;
+package com.apress.cems.services.impl;
 
 import com.apress.cems.dao.*;
-import com.apress.cems.pojos.repos.CriminalCaseRepo;
-import com.apress.cems.pojos.repos.DetectiveRepo;
-import com.apress.cems.pojos.repos.EvidenceRepo;
-import com.apress.cems.pojos.repos.StorageRepo;
-import com.apress.cems.pojos.services.OperationsService;
-import com.apress.cems.pojos.services.ServiceException;
+import com.apress.cems.repos.CriminalCaseRepo;
+import com.apress.cems.repos.DetectiveRepo;
+import com.apress.cems.repos.EvidenceRepo;
+import com.apress.cems.repos.StorageRepo;
+import com.apress.cems.services.OperationsService;
+import com.apress.cems.services.ServiceException;
 import com.apress.cems.util.CaseStatus;
 import com.apress.cems.util.CaseType;
 import com.apress.cems.util.NumberGenerator;

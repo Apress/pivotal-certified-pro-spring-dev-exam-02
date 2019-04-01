@@ -1,17 +1,20 @@
-package com.apress.cems.pojos.services;
+package com.apress.cems.services;
 
 import com.apress.cems.dao.CriminalCase;
 import com.apress.cems.dao.Detective;
 import com.apress.cems.dao.Evidence;
-import com.apress.cems.pojos.repos.CriminalCaseRepo;
-import com.apress.cems.pojos.repos.DetectiveRepo;
-import com.apress.cems.pojos.repos.EvidenceRepo;
-import com.apress.cems.pojos.repos.StorageRepo;
+import com.apress.cems.repos.CriminalCaseRepo;
+import com.apress.cems.repos.DetectiveRepo;
+import com.apress.cems.repos.StorageRepo;
 import com.apress.cems.util.CaseType;
 import com.apress.cems.util.Rank;
+import com.apress.cems.repos.EvidenceRepo;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina

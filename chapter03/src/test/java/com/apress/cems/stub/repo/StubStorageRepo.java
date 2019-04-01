@@ -25,32 +25,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot3;
+package com.apress.cems.stub.repo;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestTemplate;
+import com.apress.cems.dao.Storage;
+import com.apress.cems.repos.StorageRepo;
+import org.apache.commons.lang3.NotImplementedException;
+
+import java.util.Optional;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest//(properties = {"server.port = 9090", "server.servlet.context-path=/boot"})
-@TestPropertySource(locations = "classpath:application-test.yml")
-public class ApplicationThreeTest {
+public class StubStorageRepo extends StubAbstractRepo<Storage> implements StorageRepo {
+    @Override
+    public Optional<Storage> findByName(String name) {
+        switch (name) {
+            case "Here":
+                return Optional.of(records.get(2L));
+            case "There":
+                return Optional.of(records.get(3L));
+        }
+        return Optional.empty();
+    }
 
-    private Logger logger = LoggerFactory.getLogger(ApplicationThreeTest.class);
-
-    @Test
-    public void textIndex() {
-        RestTemplate restTemplate = new RestTemplate();
-        String res = restTemplate.getForObject("http://localhost:9090/boot-test", String.class);
-        logger.info("Result: {}" , res );
+    @Override
+    public Optional<Storage> findByLocation(String location) {
+        throw new NotImplementedException("Not needed for this stub.");
     }
 }

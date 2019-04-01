@@ -25,44 +25,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.pojos.services.impl;
+package com.apress.cems.services.impl;
 
-import com.apress.cems.dao.Detective;
-import com.apress.cems.dao.Evidence;
-import com.apress.cems.dao.TrackEntry;
-import com.apress.cems.pojos.repos.AbstractRepo;
-import com.apress.cems.pojos.repos.TrackEntryRepo;
-import com.apress.cems.pojos.services.TrackEntryService;
-import com.apress.cems.util.TrackAction;
-
-import java.time.LocalDate;
-import java.util.Date;
+import com.apress.cems.dao.Storage;
+import com.apress.cems.repos.AbstractRepo;
+import com.apress.cems.repos.StorageRepo;
+import com.apress.cems.services.StorageService;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class SimpleTrackEntryService extends SimpleAbstractService<TrackEntry> implements TrackEntryService {
-    private TrackEntryRepo repo;
+public class SimpleStorageService extends SimpleAbstractService<Storage> implements StorageService {
+    private StorageRepo repo;
 
     @Override
-    public TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDate date, TrackAction action, String reason) {
-        TrackEntry trackEntry = new TrackEntry();
-        trackEntry.setEvidence(evidence);
-        trackEntry.setDetective(detective);
-        trackEntry.setDate(date);
-        trackEntry.setAction(action);
-        trackEntry.setReason(reason);
-        repo.save(trackEntry);
-        return trackEntry;
+    public Storage createStorage(String name, String location) {
+        Storage storage = new Storage();
+        storage.setName(name);
+        storage.setLocation(location);
+        repo.save(storage);
+        return storage;
     }
 
-    public void setRepo(TrackEntryRepo repo) {
+    public void setRepo(StorageRepo repo) {
         this.repo = repo;
     }
 
     @Override
-    AbstractRepo<TrackEntry> getRepo() {
-        return null;
+    AbstractRepo<Storage> getRepo() {
+        return repo;
     }
 }
