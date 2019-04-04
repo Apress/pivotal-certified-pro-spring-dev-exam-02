@@ -2,60 +2,23 @@ buildscript {
     repositories {
         mavenCentral()
     }
-
 }
 
 plugins {
     id 'java-library'
 }
 
-group 'com.apress.cems'
 ext.moduleName = 'com.apress.cems.xml'
 
-apply plugin: 'java'
-apply plugin: 'idea'
-
 dependencies {
-    compile project(':chapter00:dao')
     compile project(':chapter02:pojos')
-    compile misc.lang3, misc.ojdbc, misc.logback, misc.slf4j
-
-    testCompile testing.api
-    testRuntimeOnly testing.platformRunner, testing.engine
-}
-
-//because Gradle is an idiot
-test {
-    exclude 'module-info.class'
-    useJUnitPlatform()
-
-    testLogging {
-        events 'PASSED', 'FAILED', 'SKIPPED'
-    }
-}
-
-afterEvaluate {
-    repositories {
-        jcenter()
-    }
-
-    compileJava {
-        inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = [
-                    '-proc:none',
-                    '--module-path', classpath.asPath,
-            ]
-            classpath = files()
-        }
-    }
 }
 
 jar {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 02 - Pojos",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 02 - XML",
                 "Implementation-Version": version,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )

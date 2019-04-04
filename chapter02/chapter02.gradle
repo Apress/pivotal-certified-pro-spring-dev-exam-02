@@ -4,25 +4,45 @@ buildscript {
     }
 }
 
-plugins {
-    id 'java-library'
-}
-group 'com.apress.cems'
-ext.moduleName = 'com.apress.cems.two'
+subprojects {
+    group 'com.apress.cems'
+    if (!project.name.contains("boot")) {
+        apply plugin: 'java'
+        apply plugin: 'idea'
 
-afterEvaluate {
-    repositories {
-        jcenter()
-    }
+        dependencies {
+            compile project(':chapter00:dao')
+            compile misc.lang3, misc.ojdbc, misc.logback, misc.slf4j
 
-    compileJava {
-        inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = [
-                    '-proc:none',
-                    '--module-path', classpath.asPath,
-            ]
-            classpath = files()
+            testCompile testing.api
+            testRuntimeOnly testing.platformRunner, testing.engine
+        }
+
+        //because Gradle is an idiot
+        test {
+            exclude 'module-info.class'
+            useJUnitPlatform()
+
+            testLogging {
+                events 'PASSED', 'FAILED', 'SKIPPED'
+            }
+        }
+
+        afterEvaluate {
+            repositories {
+                jcenter()
+            }
+
+            compileJava {
+                inputs.property("moduleName", moduleName)
+                doFirst {
+                    options.compilerArgs = [
+                            '-proc:none',
+                            '--module-path', classpath.asPath,
+                    ]
+                    classpath = files()
+                }
+            }
         }
     }
 }

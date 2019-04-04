@@ -40,7 +40,7 @@ import java.time.LocalDate;
  */
 public class TestObjectsBuilder {
 
-    public static Detective buildDetective(String firstName, String lastName, Rank rank) {
+    public static Detective buildDetective(String firstName, String lastName, Rank rank, String badgeNumber) {
         Detective  detective = new Detective();
         Person person = new Person();
         person.setFirstName(firstName);
@@ -49,7 +49,7 @@ public class TestObjectsBuilder {
         person.setUsername(firstName.concat(lastName));
         person.setPassword("whatever");
         detective.setPerson(person);
-        detective.setBadgeNumber(NumberGenerator.getBadGeNumber());
+        detective.setBadgeNumber(badgeNumber);
         detective.setArmed(true);
         detective.setStatus(EmploymentStatus.ACTIVE);
         detective.setRank(rank);

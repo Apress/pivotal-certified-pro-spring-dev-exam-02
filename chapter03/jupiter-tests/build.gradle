@@ -2,13 +2,18 @@ plugins {
     id 'java-library'
 }
 
-ext.moduleName = 'com.apress.cems.beans'
+ext.moduleName = 'com.apress.cems.jupiter'
+
+dependencies {
+    testCompile testing.api
+    testRuntimeOnly testing.platformRunner, testing.engine
+}
 
 jar {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 02 - Beans",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 03 - Jupiter",
                 "Implementation-Version": version,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )

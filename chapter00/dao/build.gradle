@@ -18,6 +18,8 @@ apply plugin: 'idea'
 dependencies {
     compile spring.contextSupport, hibernate.core
 }
+
+
 afterEvaluate {
     repositories {
         jcenter()

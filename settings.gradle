@@ -6,7 +6,6 @@ println(' This project is a Criminal Evidence Management System proof of concept
 
 
 include 'chapter00:dao'
-include 'chapter02'
 
 include 'chapter02:pojos'
 include 'chapter02:pojos-practice'
@@ -17,7 +16,8 @@ include 'chapter02:config'
 include 'chapter02:config-practice'
 include 'chapter02:boot'
 
-include 'chapter03'
+include 'chapter03:junit-tests'
+include 'chapter03:jupiter-tests'
 
 include 'chapter12'
 include 'chapter12'
@@ -36,4 +36,3 @@ rootProject.children.each { project ->
     assert project.buildFile.exists()
     assert project.buildFile.isFile()
 }
-

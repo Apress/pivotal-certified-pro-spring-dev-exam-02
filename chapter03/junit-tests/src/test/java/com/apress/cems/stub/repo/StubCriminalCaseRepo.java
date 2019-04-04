@@ -47,12 +47,14 @@ import static com.apress.cems.stub.util.TestObjectsBuilder.buildDetective;
  */
 public class StubCriminalCaseRepo extends StubAbstractRepo<CriminalCase> implements CriminalCaseRepo {
 
-    protected Map<Detective, Set<CriminalCase>> records2 = new HashMap<>();
+    Map<Detective, Set<CriminalCase>> records2 = new HashMap<>();
+    Detective detective;
 
     @PostConstruct
     public void init(){
+        detective = buildDetective("Sherlock", "Holmes", Rank.INSPECTOR, "TS1234");
+
         // create a few entries to play with
-        final Detective detective = buildDetective("Sherlock", "Holmes", Rank.INSPECTOR);
         this.save(buildCase(detective, CaseType.FELONY, CaseStatus.UNDER_INVESTIGATION));
         this.save(buildCase(detective, CaseType.MISDEMEANOR, CaseStatus.SUBMITTED));
     }

@@ -1,27 +1,8 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-}
-
 plugins {
     id 'java-library'
 }
 
-group 'com.apress.cems'
 ext.moduleName = 'com.apress.cems.beans.practice'
-
-apply plugin: 'java'
-apply plugin: 'idea'
-
-dependencies {
-    compile project(':chapter00:dao')
-    compile misc.lang3, misc.logback, misc.slf4j
-
-    testCompile testing.api
-    testRuntimeOnly testing.platformRunner,  testing.engine
-}
 
 jar {
     manifest {
@@ -31,22 +12,5 @@ jar {
                 "Implementation-Version": version,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
-    }
-}
-
-afterEvaluate {
-    repositories {
-        jcenter()
-    }
-
-    compileJava {
-        inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = [
-                    '-proc:none',
-                    '--module-path', classpath.asPath,
-            ]
-            classpath = files()
-        }
     }
 }

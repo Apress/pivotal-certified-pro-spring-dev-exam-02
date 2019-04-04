@@ -9,29 +9,7 @@ plugins {
     id 'java-library'
 }
 
-group 'com.apress.cems'
 ext.moduleName = 'com.apress.cems.pojos'
-
-apply plugin: 'java'
-apply plugin: 'idea'
-
-dependencies {
-    compile project(':chapter00:dao')
-    compile misc.lang3
-
-    testCompile testing.api
-    testRuntimeOnly testing.platformRunner, testing.engine
-}
-
-//because Gradle is an idiot
-test {
-    exclude 'module-info.class'
-    useJUnitPlatform()
-
-    testLogging {
-        events 'PASSED', 'FAILED', 'SKIPPED'
-    }
-}
 
 jar {
     manifest {
@@ -41,22 +19,5 @@ jar {
                 "Implementation-Version": version,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
-    }
-}
-
-afterEvaluate {
-    repositories {
-        jcenter()
-    }
-
-    compileJava {
-        inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = [
-                    '-proc:none',
-                    '--module-path', classpath.asPath,
-            ]
-            classpath = files()
-        }
     }
 }
