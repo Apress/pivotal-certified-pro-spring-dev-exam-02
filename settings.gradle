@@ -16,6 +16,7 @@ include 'chapter02:config'
 include 'chapter02:config-practice'
 include 'chapter02:boot'
 
+include 'chapter03:test-base'
 include 'chapter03:junit-tests'
 include 'chapter03:jupiter-tests'
 
@@ -36,3 +37,6 @@ rootProject.children.each { project ->
     assert project.buildFile.exists()
     assert project.buildFile.isFile()
 }
+include 'chapter03:spring-tests'
+findProject(':chapter03:spring-tests')?.name = 'spring-tests'
+

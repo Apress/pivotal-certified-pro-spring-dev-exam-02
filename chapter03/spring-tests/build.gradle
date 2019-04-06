@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
 }
 
-ext.moduleName = 'com.apress.cems.junit'
+ext.moduleName = 'com.apress.cems.spring.tests'
 
 dependencies {
     compile project(':chapter03:test-base')
@@ -10,11 +10,19 @@ dependencies {
     testRuntimeOnly testing.vintageEngine
 }
 
+
+dependencies {
+    compile project(':chapter02:pojos')
+    testCompile testing.api, testing.easymock, testing.jmockju5, testing.platformRunner, testing.mockito
+    testImplementation testing.api
+    testRuntime testing.engine, testing.platformRunner
+}
+
 jar {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 03 - JUnit Tests",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 03 - Spring Tests",
                 "Implementation-Version": version,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )

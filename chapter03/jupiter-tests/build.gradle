@@ -5,15 +5,23 @@ plugins {
 ext.moduleName = 'com.apress.cems.jupiter'
 
 dependencies {
-    testCompile testing.api
-    testRuntimeOnly testing.platformRunner, testing.engine
+    compile project(':chapter03:test-base')
+    
+    testCompile testing.api, testing.easymock, testing.jmockju5, testing.platformRunner, testing.mockito
+    testImplementation testing.api
+    testRuntime testing.engine, testing.platformRunner
 }
+
+test {
+    useJUnitPlatform()
+}
+
 
 jar {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 03 - Jupiter",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 03 - JUnit 5 tests",
                 "Implementation-Version": version,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )

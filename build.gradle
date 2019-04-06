@@ -29,8 +29,11 @@ ext {
     //testing
     junit5Version = '5.5.0-M1'
     junit5PlatformVersion = '1.5.0-M1'
-    mockitoVersion = '2.21.0'
+    mockitoAllVersion = '2.0.2-beta'
+    mockitoVersion = '2.26.0'
+    easymockVersion = '4.0.2'
     junitVersion = '4.13-beta-2'
+    jmockVersion = '2.10.0-RC3'
 
     //logging
     slf4jVersion = '1.8.0-beta4'
@@ -70,7 +73,11 @@ ext {
             junit         : "junit:junit:$junitVersion",
             api           : "org.junit.jupiter:junit-jupiter-api:$junit5Version",
             engine        : "org.junit.jupiter:junit-jupiter-engine:$junit5Version",
-            vintageEngine        : "org.junit.vintage:junit-vintage-engine:$junit5Version",
+            vintageEngine : "org.junit.vintage:junit-vintage-engine:$junit5Version",
+            easymock      : "org.easymock:easymock:$easymockVersion",
+            jmockju4      : "org.jmock:jmock-junit4:$jmockVersion",
+            jmockju5      : "org.jmock:jmock-junit5:$jmockVersion",
+            mockitoAll    : "org.mockito:mockito-all:$mockitoAllVersion",
             mockito       : "org.mockito:mockito-junit-jupiter:$mockitoVersion",
             platformRunner: "org.junit.platform:junit-platform-runner:$junit5PlatformVersion"
     ]
