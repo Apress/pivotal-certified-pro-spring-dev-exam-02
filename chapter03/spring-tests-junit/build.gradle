@@ -18,7 +18,7 @@ jar {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 03 - Spring Tests",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 03 - Spring JUnit 4 Tests",
                 "Implementation-Version": version,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )

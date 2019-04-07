@@ -17,10 +17,11 @@ apply plugin: 'java-library'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-ext.moduleName = 'com.apress.cems.boot'
+ext.moduleName = 'com.apress.cems.boot.test'
 
 dependencies {
-    compile boot.starterWeb
+    compile boot.starterWeb, boot.starterJpa, misc.h2, misc.guava
+    runtimeOnly boot.devtools
     testImplementation boot.starterTest
 }
 
@@ -30,7 +31,7 @@ jar {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 02 - Spring Boot",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 08 - Spring Boot Testing",
                 "Implementation-Version": version,
                 "Main-Class"         : "com.apress.cems.boot3.ApplicationThree",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')

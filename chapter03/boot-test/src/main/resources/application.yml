@@ -1,0 +1,7 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+spring:
+  datasource:
+    url: 'jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE'
