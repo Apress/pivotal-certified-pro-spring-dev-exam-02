@@ -1,26 +1,19 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-}
-
 plugins {
     id 'java-library'
 }
 
-ext.moduleName = 'com.apress.cems.dao'
+ext.moduleName = 'com.apress.cems.repos'
 
 dependencies {
-    compile spring.contextSupport, hibernate.core
+    compile project(':chapter00:dao')
+    compile misc.lang3, misc.ojdbc, misc.logback, misc.slf4j, spring.jdbc, spring.contextSupport
 }
-
 
 jar {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 0",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 00 - Repos",
                 "Implementation-Version": version,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )

@@ -25,33 +25,47 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.cfg.db;
 
-import com.apress.cems.dao.Person;
-import org.apache.commons.lang3.NotImplementedException;
-import com.apress.cems.repos.PersonRepo;
+import com.apress.cems.ex.ConfigurationException;
+import oracle.jdbc.pool.OracleDataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import java.util.Set;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubPersonRepo extends StubAbstractRepo<Person> implements PersonRepo {
-    @Override
-    public Person findByUsername(String username) {
-        throw new NotImplementedException("Not needed for this stub.");
+@Configuration
+@Profile("prod")
+public class ProdDbConfig {
+
+    @Bean("connectionProperties")
+    Properties connectionProperties(){
+        try {
+            return PropertiesLoaderUtils.loadProperties(
+                    new ClassPathResource("db/prod-datasource.properties"));
+        } catch (IOException e) {
+            throw new ConfigurationException("Could not retrieve connection properties!", e);
+        }
     }
 
-    @Override
-    public Set<Person> findByCompleteName(String firstName, String lastName) {
-        throw new NotImplementedException("Not needed for this stub.");
+    @Bean
+    public DataSource dataSource() {
+        try {
+            OracleDataSource ds = new OracleDataSource();
+            ds.setConnectionProperties(connectionProperties());
+            return ds;
+        } catch (SQLException e) {
+            throw new ConfigurationException("Could not configure Oracle database!", e);
+        }
     }
-
-    @Override
-    public Set<Person> findAll() {
-            throw new NotImplementedException("Not needed for this stub.");
-    }
-
-
 }

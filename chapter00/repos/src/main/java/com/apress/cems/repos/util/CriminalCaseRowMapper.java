@@ -25,33 +25,43 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.repos.util;
 
-import com.apress.cems.dao.Person;
-import org.apache.commons.lang3.NotImplementedException;
-import com.apress.cems.repos.PersonRepo;
+import com.apress.cems.dao.CriminalCase;
+import com.apress.cems.dao.Detective;
+import com.apress.cems.util.CaseStatus;
+import com.apress.cems.util.CaseType;
+import org.springframework.jdbc.core.RowMapper;
 
-import java.util.Set;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubPersonRepo extends StubAbstractRepo<Person> implements PersonRepo {
-    @Override
-    public Person findByUsername(String username) {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
+public class CriminalCaseRowMapper implements RowMapper<CriminalCase> {
 
     @Override
-    public Set<Person> findByCompleteName(String firstName, String lastName) {
-        throw new NotImplementedException("Not needed for this stub.");
+    public CriminalCase mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Long id = rs.getLong("ID");
+        String number = rs.getString("CASE_NUMBER");
+        String type = rs.getString("CASE_TYPE");
+        String status = rs.getString("STATUS");
+        String shortDescription = rs.getString("SHORT_DESCRIPTION");
+        Long detectiveId =  rs.getLong("LEAD_INVESTIGATOR_ID");
+
+        CriminalCase cc = new CriminalCase();
+        cc.setId(id);
+        cc.setNumber(number);
+        cc.setType(CaseType.valueOf(type));
+        cc.setStatus(CaseStatus.valueOf(status));
+        cc.setShortDescription(shortDescription);
+
+        Detective detective = new Detective();
+        detective.setId(detectiveId);
+        cc.setLeadInvestigator(detective);
+        return cc;
     }
-
-    @Override
-    public Set<Person> findAll() {
-            throw new NotImplementedException("Not needed for this stub.");
-    }
-
-
 }

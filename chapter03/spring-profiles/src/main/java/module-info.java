@@ -1,9 +1,8 @@
 /**
  * Created by iuliana.cosmina on 21/01/19.
  */
-module com.apress.cems.three.base {
+module com.apress.cems.spring.tests.jupiter {
     requires com.apress.cems.dao;
-    requires com.apress.cems.repos;
     requires org.apache.commons.lang3;
     requires java.sql;
 
@@ -11,4 +10,7 @@ module com.apress.cems.three.base {
     requires spring.beans;
     requires spring.core;
     requires jsr250.api;
+    requires spring.jdbc;
+    requires ojdbc7;
+    requires java.naming;
 }

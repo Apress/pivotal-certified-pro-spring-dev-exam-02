@@ -11,7 +11,7 @@ subprojects {
     
     dependencies {
         compile project(':chapter00:dao')
-        compile misc.lang3, misc.ojdbc, misc.logback, misc.slf4j, misc.jsr250
+        compile misc.lang3, misc.ojdbc, misc.logback, misc.slf4j, misc.jsr250, misc.h2
     }
 
     //because Gradle is an idiot

@@ -47,6 +47,7 @@ public class CriminalCase extends  AbstractEntity{
     @Enumerated(EnumType.STRING)
     private CaseType type;
 
+    @Column(name="short_description")
     private String shortDescription;
 
     private String detailedDescription;

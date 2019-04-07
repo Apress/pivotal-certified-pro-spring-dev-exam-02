@@ -12,7 +12,7 @@ import java.util.Set;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public interface CriminalCaseRepo extends AbstractRepo<CriminalCase> {
+public interface CriminalCaseRepo extends  AbstractRepo<CriminalCase>  {
 
     Set<CriminalCase> findByLeadInvestigator(Detective detective);
 

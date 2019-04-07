@@ -25,33 +25,53 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.repos;
 
+import com.apress.cems.cfg.TestDbConfig;
+import com.apress.cems.cfg.repos.ReposConfig;
 import com.apress.cems.dao.Person;
-import org.apache.commons.lang3.NotImplementedException;
-import com.apress.cems.repos.PersonRepo;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubPersonRepo extends StubAbstractRepo<Person> implements PersonRepo {
-    @Override
-    public Person findByUsername(String username) {
-        throw new NotImplementedException("Not needed for this stub.");
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {TestDbConfig.class, ReposConfig.class})
+public class RepositoryTest {
+
+    public static final Long PERSON_ID = 1L;
+
+    @Autowired
+    PersonRepo personRepo;
+
+    @Before
+    public void setUp(){
+        assertNotNull(personRepo);
     }
 
-    @Override
-    public Set<Person> findByCompleteName(String firstName, String lastName) {
-        throw new NotImplementedException("Not needed for this stub.");
+    @Test
+    public void testFindByIdPositive(){
+        Person person = personRepo.findById(PERSON_ID);
+        assertNotNull(person);
+        assertEquals("Sherlock", person.getFirstName());
     }
 
-    @Override
-    public Set<Person> findAll() {
-            throw new NotImplementedException("Not needed for this stub.");
+    @Test
+    public void testFindByComplete(){
+        Set<Person> personSet = personRepo.findByCompleteName("Sherlock", "Holmes");
+        assertNotNull(personSet);
+        assertEquals(1, personSet.size());
     }
-
 
 }

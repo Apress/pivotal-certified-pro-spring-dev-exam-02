@@ -4,6 +4,10 @@ plugins {
 
 ext.moduleName = 'com.apress.cems.test.base'
 
+dependencies {
+    compile project(':chapter00:repos')
+}
+
 jar {
     manifest {
         attributes(

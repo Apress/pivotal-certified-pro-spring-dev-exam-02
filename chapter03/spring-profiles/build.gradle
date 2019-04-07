@@ -2,18 +2,15 @@ plugins {
     id 'java-library'
 }
 
-ext.moduleName = 'com.apress.cems.spring.tests'
+ext.moduleName = 'com.apress.cems.spring.profiles.tests'
 
 dependencies {
+    compile project(':chapter00:dao')
+    compile project(':chapter00:repos')
     compile project(':chapter03:test-base')
-    testCompile testing.junit, testing.easymock, testing.jmockju4, testing.mockitoAll
-    testRuntimeOnly testing.vintageEngine
-}
+    compile misc.ojdbc
 
-
-dependencies {
-    compile project(':chapter02:pojos')
-    testCompile testing.api, testing.easymock, testing.jmockju5, testing.platformRunner, testing.mockito
+    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
     testImplementation testing.api
     testRuntime testing.engine, testing.platformRunner
 }

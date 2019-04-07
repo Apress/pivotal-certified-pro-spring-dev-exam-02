@@ -12,4 +12,6 @@ public interface PersonRepo extends AbstractRepo<Person> {
     Person findByUsername(String username);
 
     Set<Person> findByCompleteName(String firstName, String lastName);
+
+    Set<Person> findAll();
 }

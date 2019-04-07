@@ -25,33 +25,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.cfg.repos;
 
-import com.apress.cems.dao.Person;
-import org.apache.commons.lang3.NotImplementedException;
-import com.apress.cems.repos.PersonRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.Set;
+import javax.sql.DataSource;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubPersonRepo extends StubAbstractRepo<Person> implements PersonRepo {
-    @Override
-    public Person findByUsername(String username) {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
+@Configuration
+@ComponentScan(basePackages = {"com.apress.cems.repos"})
+public class ReposConfig {
 
-    @Override
-    public Set<Person> findByCompleteName(String firstName, String lastName) {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
+    @Autowired
+    DataSource dataSource;
 
-    @Override
-    public Set<Person> findAll() {
-            throw new NotImplementedException("Not needed for this stub.");
+    @Bean
+    public JdbcTemplate userJdbcTemplate() {
+        return new JdbcTemplate(dataSource);
     }
-
 
 }

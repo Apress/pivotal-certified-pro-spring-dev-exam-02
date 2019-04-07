@@ -25,33 +25,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.util;
 
-import com.apress.cems.dao.Person;
-import org.apache.commons.lang3.NotImplementedException;
-import com.apress.cems.repos.PersonRepo;
-
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubPersonRepo extends StubAbstractRepo<Person> implements PersonRepo {
-    @Override
-    public Person findByUsername(String username) {
-        throw new NotImplementedException("Not needed for this stub.");
+public class DateProcessor {
+    private static final String DATE_FORMAT= "yyyy-MM-dd";
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+
+    public static LocalDate toDate(final String date) {
+        return LocalDate.parse(date, formatter);
     }
 
-    @Override
-    public Set<Person> findByCompleteName(String firstName, String lastName) {
-        throw new NotImplementedException("Not needed for this stub.");
+    public static String toString(final LocalDate date){
+        return date.format(formatter);
     }
-
-    @Override
-    public Set<Person> findAll() {
-            throw new NotImplementedException("Not needed for this stub.");
-    }
-
-
 }

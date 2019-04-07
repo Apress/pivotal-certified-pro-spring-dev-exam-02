@@ -25,33 +25,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.repos.util;
 
 import com.apress.cems.dao.Person;
-import org.apache.commons.lang3.NotImplementedException;
-import com.apress.cems.repos.PersonRepo;
+import org.springframework.jdbc.core.RowMapper;
+import static com.apress.cems.util.DateProcessor.toDate;
 
-import java.util.Set;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubPersonRepo extends StubAbstractRepo<Person> implements PersonRepo {
+public class PersonRowMapper implements RowMapper<Person> {
     @Override
-    public Person findByUsername(String username) {
-        throw new NotImplementedException("Not needed for this stub.");
+    public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Long id = rs.getLong("ID");
+        String username = rs.getString("USERNAME");
+        String firstname = rs.getString("FIRSTNAME");
+        String lastname = rs.getString("LASTNAME");
+        String password = rs.getString("PASSWORD");
+        String hiringDate = rs.getString("HIRINGDATE");
+
+        Person person = new Person();
+        person.setId(id);
+        person.setUsername(username);
+        person.setFirstName(firstname);
+        person.setLastName(lastname);
+        person.setPassword(password);
+        person.setHiringDate(toDate(hiringDate));
+        return person;
     }
-
-    @Override
-    public Set<Person> findByCompleteName(String firstName, String lastName) {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
-
-    @Override
-    public Set<Person> findAll() {
-            throw new NotImplementedException("Not needed for this stub.");
-    }
-
-
 }

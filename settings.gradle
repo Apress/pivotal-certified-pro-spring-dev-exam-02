@@ -6,6 +6,7 @@ println(' This project is a Criminal Evidence Management System proof of concept
 
 
 include 'chapter00:dao'
+include 'chapter00:repos'
 
 include 'chapter02:pojos'
 include 'chapter02:pojos-practice'
@@ -19,6 +20,9 @@ include 'chapter02:boot'
 include 'chapter03:test-base'
 include 'chapter03:junit-tests'
 include 'chapter03:jupiter-tests'
+include 'chapter03:spring-tests-junit'
+include 'chapter03:spring-tests-jupiter'
+include 'chapter03:spring-profiles'
 
 include 'chapter12'
 include 'chapter12'
@@ -37,6 +41,3 @@ rootProject.children.each { project ->
     assert project.buildFile.exists()
     assert project.buildFile.isFile()
 }
-include 'chapter03:spring-tests'
-findProject(':chapter03:spring-tests')?.name = 'spring-tests'
-

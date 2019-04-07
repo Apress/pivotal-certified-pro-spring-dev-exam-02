@@ -25,33 +25,43 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.repos.util;
 
+import com.apress.cems.dao.Detective;
 import com.apress.cems.dao.Person;
-import org.apache.commons.lang3.NotImplementedException;
-import com.apress.cems.repos.PersonRepo;
+import com.apress.cems.util.EmploymentStatus;
+import com.apress.cems.util.Rank;
+import org.springframework.jdbc.core.RowMapper;
 
-import java.util.Set;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import static com.apress.cems.util.DateProcessor.toDate;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubPersonRepo extends StubAbstractRepo<Person> implements PersonRepo {
+public class DetectiveRowMapper implements RowMapper<Detective> {
     @Override
-    public Person findByUsername(String username) {
-        throw new NotImplementedException("Not needed for this stub.");
+    public Detective mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Long id = rs.getLong("ID");
+        String badgeNumber = rs.getString("BADGENUMBER");
+        String rank = rs.getString("RANK");
+        Boolean armed = rs.getBoolean("ARMED");
+        String status = rs.getString("EMPLOYMENTSTATUS");
+        Long personId = rs.getLong("PERSON_ID");
+
+        Detective detective = new Detective();
+        detective.setId(id);
+        detective.setBadgeNumber(badgeNumber);
+        detective.setRank(Rank.valueOf(rank));
+        detective.setArmed(armed);
+        detective.setStatus(EmploymentStatus.valueOf(status));
+
+        Person p = new Person();
+        p.setId(personId);
+        detective.setPerson(p);
+        return detective;
     }
-
-    @Override
-    public Set<Person> findByCompleteName(String firstName, String lastName) {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
-
-    @Override
-    public Set<Person> findAll() {
-            throw new NotImplementedException("Not needed for this stub.");
-    }
-
-
 }
