@@ -27,38 +27,45 @@ SOFTWARE.
 */
 package com.apress.cems.boot;
 
-import com.apress.cems.boot.entities.Person;
-import com.apress.cems.boot.services.PersonService;
-import org.junit.jupiter.api.Assertions;
+import com.apress.cems.boot.ctr.PersonController;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ApplicationTest {
+public class ApplicationWebTest {
 
     @Autowired
-    private PersonService personService;
+    PersonController personController;
+
+    private MockMvc mockMvc;
+
+    @BeforeEach
+    public void setup() {
+        this.mockMvc = MockMvcBuilders.standaloneSetup(this.personController).build();
+    }
 
     @Test
-    public void testSavePerson(){
-        Person person = new Person();
-        person.setFirstName("Irene");
-        person.setLastName("Adler");
-        personService.save(person);
+    public void testfindAll() throws Exception {
 
-        //get all persons, list should only have one
-        Iterable<Person> persons = personService.findAll();
-        int count = 0;
+        mockMvc.perform(get(String.format("/person/all")))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$..firstName", hasItem(is("Sherlock"))));
 
-        for(Person p : persons){
-            count++;
-        }
-        Assertions.assertEquals(count, 2);
     }
+
 }

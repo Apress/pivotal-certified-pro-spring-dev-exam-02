@@ -19,13 +19,47 @@ apply plugin: 'io.spring.dependency-management'
 
 ext.moduleName = 'com.apress.cems.boot.test'
 
+//override any Spring Boot configurations, so Gradle build can pick up the tests
+ext['junit-jupiter.version'] = "5.5.0-M1"
+
 dependencies {
-    compile boot.starterWeb, boot.starterJpa, misc.h2, misc.guava
-    runtimeOnly boot.devtools
-    testImplementation boot.starterTest
+    compile boot.starterWeb, boot.starterJpa, misc.guava, misc.ojdbc
+
+    testCompile testing.api, boot.starterTest, testing.platformRunner, misc.h2
+    testImplementation testing.api
+    testRuntime testing.engine, testing.platformRunner
 }
 
-// decomment this after leaving a single main class to build jar
+test {
+
+    useJUnitPlatform()
+
+    systemProperties['junit.jupiter.execution.parallel.enabled'] = true
+    systemProperties['junit.jupiter.execution.parallel.config.strategy'] = 'dynamic'
+    systemProperties['junit.jupiter.execution.parallel.mode.default'] = 'concurrent'
+    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    forkEvery = 1
+
+    reports {
+        junitXml.enabled = true
+        html.enabled = true
+    }
+
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+    afterSuite { desc, result ->
+        if (!desc.parent) {
+            println "\nTest result: ${result.resultType}"
+            println "Test summary: ${result.testCount} tests, " +
+                    "${result.successfulTestCount} succeeded, " +
+                    "${result.failedTestCount} failed, " +
+                    "${result.skippedTestCount} skipped"
+        }
+    }
+}
+
+// de-comment this after leaving a single main class to build jar
 jar {
     archiveBaseName = "sample-boot"
     manifest {
@@ -33,7 +67,7 @@ jar {
                 "Created-By": System.getProperty('java.version'),
                 "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 08 - Spring Boot Testing",
                 "Implementation-Version": version,
-                "Main-Class"         : "com.apress.cems.boot3.ApplicationThree",
+//                "Main-Class"         : "com.apress.cems.boot.Application",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
     }

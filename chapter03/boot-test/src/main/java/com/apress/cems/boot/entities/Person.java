@@ -53,8 +53,8 @@ public class Person {
     private String lastName;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(updatable = false)
     protected Long id;
 
     public Person() {
