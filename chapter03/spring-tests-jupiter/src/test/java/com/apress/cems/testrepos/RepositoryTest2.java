@@ -45,6 +45,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.sql.DataSource;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -77,9 +78,8 @@ public class RepositoryTest2 {
 
     @Test
     public void testFindByComplete() {
-        Set<Person> personSet = personRepo.findByCompleteName("Sherlock", "Holmes");
-        assertNotNull(personSet);
-        assertEquals(1, personSet.size());
+        Optional<Person> personOpt = personRepo.findByCompleteName("Sherlock", "Holmes");
+        personOpt.ifPresent( p -> assertEquals("Sherlock", p.getFirstName()));
     }
 
     @Configuration

@@ -36,6 +36,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -58,15 +59,15 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
     }
 
     @Override
-    public Person findByUsername(String username) {
+    public Optional<Person> findByUsername(String username) {
         String sql = "select id, username, firstname, lastname, password, hiringdate from person where username= ?";
-        return jdbcTemplate.queryForObject(sql, rowMapper, username);
+        return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, username));
     }
 
     @Override
-    public Set<Person> findByCompleteName(String firstName, String lastName) {
+    public Optional<Person> findByCompleteName(String firstName, String lastName) {
         String sql = "select id, username, firstname, lastname, password, hiringdate from person where firstname= ? and lastname= ?";
-        return new HashSet<>(jdbcTemplate.query(sql, new Object[]{firstName, lastName}, rowMapper));
+        return Optional.of(jdbcTemplate.queryForObject(sql, new Object[]{firstName, lastName}, rowMapper));
     }
 
     @Override

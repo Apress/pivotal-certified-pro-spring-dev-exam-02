@@ -29,10 +29,11 @@ package com.apress.cems.boot;
 
 import com.apress.cems.boot.entities.Person;
 import com.apress.cems.boot.services.PersonService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -52,13 +53,7 @@ public class ApplicationTest {
         person.setLastName("Adler");
         personService.save(person);
 
-        //get all persons, list should only have one
-        Iterable<Person> persons = personService.findAll();
-        int count = 0;
-
-        for(Person p : persons){
-            count++;
-        }
-        Assertions.assertEquals(count, 2);
+        assertEquals(2, personService.count());
     }
+
 }

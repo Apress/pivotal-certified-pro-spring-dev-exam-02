@@ -75,10 +75,10 @@ public class RepositoryTest2 {
     }
 
     @Test
-    public void testFindByComplete() {
-        Set<Person> personSet = personRepo.findByCompleteName("Sherlock", "Holmes");
+    public void testFindAll() {
+        Set<Person> personSet = personRepo.findAll();
         assertNotNull(personSet);
-        assertEquals(1, personSet.size());
+        assertEquals(2, personSet.size());
     }
 
     @Configuration

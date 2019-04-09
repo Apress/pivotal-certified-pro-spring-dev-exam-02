@@ -48,10 +48,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.sql.DataSource;
+import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
@@ -87,9 +87,14 @@ public class RepositoryTest3 {
     //@Sql({"classpath:db/test-data-two.sql"})
     @Sql(statements = {"INSERT INTO PERSON(ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE, VERSION, CREATED_AT, MODIFIED_AT) VALUES (2, 'irene.adler', 'Irene', 'Adler', 'id123ds', '1990-08-18', 1, '1990-07-18', '1998-01-18');"})
     public void testFindByComplete() {
-        Set<Person> personSet = personRepo.findByCompleteName("Irene", "Adler");
-        assertNotNull(personSet);
-        assertEquals(1, personSet.size());
+        Optional<Person> personOpt = personRepo.findByCompleteName("Irene", "Adler");
+        personOpt.ifPresent(p ->
+                assertAll(
+                        () -> assertEquals("Irene", p.getFirstName()),
+                        () -> assertEquals("Adler", p.getLastName())
+                )
+
+        );
     }
 
     @Configuration

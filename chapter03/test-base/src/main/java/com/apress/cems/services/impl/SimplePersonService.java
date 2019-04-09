@@ -25,11 +25,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.services.impl;
 
 import com.apress.cems.dao.Person;
-import org.apache.commons.lang3.NotImplementedException;
+import com.apress.cems.repos.AbstractRepo;
 import com.apress.cems.repos.PersonRepo;
+import com.apress.cems.services.PersonService;
 
 import java.util.Optional;
 import java.util.Set;
@@ -38,21 +39,34 @@ import java.util.Set;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubPersonRepo extends StubAbstractRepo<Person> implements PersonRepo {
+public class SimplePersonService extends SimpleAbstractService<Person> implements PersonService {
+    private PersonRepo repo;
+
+    @Override
+    public Person createPerson(String firstName, String lastName) {
+        Person person = new Person();
+        person.setFirstName(firstName);
+        person.setLastName(lastName);
+        repo.save(person);
+        return person;
+    }
+
     @Override
     public Optional<Person> findByUsername(String username) {
-        throw new NotImplementedException("Not needed for this stub.");
+        return repo.findByUsername(username);
     }
 
     @Override
-    public Optional<Person> findByCompleteName(String firstName, String lastName) {
-        throw new NotImplementedException("Not needed for this stub.");
+    public Optional<Person> findByFirstNameAndLastName(String firstName, String lastName) {
+        return repo.findByCompleteName(firstName, lastName);
+    }
+
+    public void setRepo(PersonRepo repo) {
+        this.repo = repo;
     }
 
     @Override
-    public Set<Person> findAll() {
-            throw new NotImplementedException("Not needed for this stub.");
+    AbstractRepo<Person> getRepo() {
+        return repo;
     }
-
-
 }

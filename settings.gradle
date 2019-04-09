@@ -24,6 +24,7 @@ include 'chapter03:spring-tests-junit'
 include 'chapter03:spring-tests-jupiter'
 include 'chapter03:spring-profiles'
 include 'chapter03:boot-test'
+include 'chapter03:spring-tests-practice'
 
 include 'chapter12'
 include 'chapter12'

@@ -1,0 +1,26 @@
+plugins {
+    id 'java-library'
+}
+
+ext.moduleName = 'com.apress.cems.spring.jupiter.tests'
+
+dependencies {
+    compile project(':chapter00:dao')
+    compile project(':chapter00:repos')
+    compile project(':chapter03:test-base')
+
+    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
+    testImplementation testing.api
+    testRuntime testing.engine, testing.platformRunner
+}
+
+jar {
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 03 - Spring JUnit 5 Test Practice",
+                "Implementation-Version": version,
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}
