@@ -25,29 +25,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.ci;
+package com.apress.cems.aop;
 
+import org.springframework.stereotype.Component;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-//@Component("simple")
+@Aspect
 @Component
-public class SimpleBeanImpl implements SimpleBean {
+public class PersonRepoMonitor {
+    private static final Logger logger = LoggerFactory.getLogger(PersonRepoMonitor.class);
 
-    private Logger logger = LoggerFactory.getLogger(SimpleBeanImpl.class);
-
-    public SimpleBeanImpl() {
-        logger.info("[SimpleBeanImpl instantiation]");
+    @Before("execution(public * com.apress.cems.repos.*.JdbcPersonRepo+.findById(..))")
+    public void beforeFindById(JoinPoint joinPoint) {
+        String methodName = joinPoint.getSignature().getName();
+        logger.info(" ---> Method " + methodName + " is about to be called");
     }
-
-    @Override
-    public String toString() {
-        return "SimpleBeanImpl{ code: " + hashCode() + "}";
-    }
-
 }

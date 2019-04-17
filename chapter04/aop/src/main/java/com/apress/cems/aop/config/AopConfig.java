@@ -25,29 +25,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.ci;
+package com.apress.cems.aop.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-//@Component("simple")
-@Component
-public class SimpleBeanImpl implements SimpleBean {
-
-    private Logger logger = LoggerFactory.getLogger(SimpleBeanImpl.class);
-
-    public SimpleBeanImpl() {
-        logger.info("[SimpleBeanImpl instantiation]");
-    }
-
-    @Override
-    public String toString() {
-        return "SimpleBeanImpl{ code: " + hashCode() + "}";
-    }
-
+@Configuration
+@ComponentScan(basePackages = {"com.apress.cems.aop"})
+//@EnableAspectJAutoProxy
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+public class AopConfig {
 }

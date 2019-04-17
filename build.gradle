@@ -22,7 +22,7 @@ subprojects {
 sourceCompatibility = 12
 
 ext {
-    springVersion = '5.2.0.BUILD-SNAPSHOT'
+    springVersion = '5.2.0.M1'
     springBootVersion = '2.2.0.M1'
     springJpaVersion = '2.2.0.M1'
 
@@ -34,6 +34,9 @@ ext {
     easymockVersion = '4.0.2'
     junitVersion = '4.13-beta-2'
     jmockVersion = '2.10.0-RC3'
+
+    //aop libs
+    aspectjVersion = '1.9.3'
 
     //logging
     slf4jVersion = '1.8.0-beta4'
@@ -93,6 +96,7 @@ ext {
             slf4j           : "org.slf4j:slf4j-api:$slf4jVersion",
             logback         : "ch.qos.logback:logback-classic:$logbackVersion",
             guava          : "com.google.guava:guava:$guavaVersion",
+            aspectjweaver     : "org.aspectj:aspectjweaver:$aspectjVersion"
     ]
 
     hibernate = [

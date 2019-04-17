@@ -25,29 +25,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.ci;
+package com.apress.cems.aop;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import com.apress.cems.aop.config.AopConfig;
+import com.apress.cems.aop.test.TestDbConfig;
+import com.apress.cems.dao.Person;
+import com.apress.cems.repos.PersonRepo;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-//@Component("simple")
-@Component
-public class SimpleBeanImpl implements SimpleBean {
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {AopConfig.class, TestDbConfig.class})
+public class TestPersonRepoMonitor {
 
-    private Logger logger = LoggerFactory.getLogger(SimpleBeanImpl.class);
+    @Autowired
+    PersonRepo personRepo;
 
-    public SimpleBeanImpl() {
-        logger.info("[SimpleBeanImpl instantiation]");
+    @Test
+    public void testFindById() {
+        Person person = personRepo.findById(1L);
+        assertEquals("sherlock.holmes", person.getUsername());
     }
-
-    @Override
-    public String toString() {
-        return "SimpleBeanImpl{ code: " + hashCode() + "}";
-    }
-
 }

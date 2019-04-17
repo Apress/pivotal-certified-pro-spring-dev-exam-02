@@ -25,29 +25,45 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.ci;
+package com.apress.cems.aop.test;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import com.apress.cems.repos.PersonRepo;
+import com.apress.cems.repos.impl.JdbcPersonRepo;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+
+import javax.sql.DataSource;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-//@Component("simple")
-@Component
-public class SimpleBeanImpl implements SimpleBean {
+@Configuration
+public class TestDbConfig {
 
-    private Logger logger = LoggerFactory.getLogger(SimpleBeanImpl.class);
-
-    public SimpleBeanImpl() {
-        logger.info("[SimpleBeanImpl instantiation]");
+    @Bean
+    PersonRepo jdbcPersonRepo() {
+        return new JdbcPersonRepo(jdbcTemplate());
     }
 
-    @Override
-    public String toString() {
-        return "SimpleBeanImpl{ code: " + hashCode() + "}";
+    @Bean
+    JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
     }
 
+    @Bean
+    public DataSource dataSource() {
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabase db = builder
+                .setType(EmbeddedDatabaseType.H2)
+                .generateUniqueName(true)
+                .addScript("db/schema.sql")
+                .addScript("db/test-data.sql")
+                .build();
+        return db;
+    }
 }
