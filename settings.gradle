@@ -30,6 +30,7 @@ include 'chapter04:aop'
 include 'chapter04:aop-xml'
 include 'chapter04:aop-practice'
 include 'chapter04:aop-base'
+include 'chapter04:boot-aop'
 
 include 'chapter12'
 include 'chapter12'

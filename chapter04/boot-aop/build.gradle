@@ -59,15 +59,14 @@ test {
     }
 }
 
-// de-comment this after leaving a single main class to build jar
 jar {
     archiveBaseName = "sample-boot"
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 03 - Spring Boot Testing",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 04 - Spring Boot Aop",
                 "Implementation-Version": version,
-                "Main-Class"         : "com.apress.cems.boot.Application",
+                "Main-Class"         : "com.apress.cems.aop.Application",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
     }
