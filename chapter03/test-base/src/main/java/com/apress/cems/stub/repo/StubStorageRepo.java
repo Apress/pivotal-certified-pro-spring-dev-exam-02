@@ -50,6 +50,11 @@ public class StubStorageRepo extends StubAbstractRepo<Storage> implements Storag
     }
 
     @Override
+    public Storage update(Storage entity) {
+        throw new NotImplementedException("Not needed for this stub.");
+    }
+
+    @Override
     public Optional<Storage> findByLocation(String location) {
         throw new NotImplementedException("Not needed for this stub.");
     }

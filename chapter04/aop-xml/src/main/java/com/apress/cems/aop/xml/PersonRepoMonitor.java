@@ -25,7 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.aop;
+package com.apress.cems.aop.xml;
 
 import org.springframework.stereotype.Component;
 import org.aspectj.lang.JoinPoint;
@@ -37,12 +37,10 @@ import org.slf4j.LoggerFactory;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Aspect
-@Component
 public class PersonRepoMonitor {
     private static final Logger logger = LoggerFactory.getLogger(PersonRepoMonitor.class);
 
-    @Before("execution(public * com.apress.cems.repos.*.JdbcPersonRepo+.findById(..))")
+    //@Before("execution(public * com.apress.cems.repos.*.JdbcPersonRepo+.findById(..))")
     public void beforeFindById(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
         logger.info(" ---> Method " + methodName + " is about to be called");

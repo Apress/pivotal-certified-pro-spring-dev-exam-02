@@ -54,5 +54,13 @@ public class StubPersonRepo extends StubAbstractRepo<Person> implements PersonRe
             throw new NotImplementedException("Not needed for this stub.");
     }
 
+    @Override
+    public Person update(Person entity)  {
+        throw new NotImplementedException("Not needed for this stub.");
+    }
 
+    @Override
+    public long count() {
+        throw new NotImplementedException("Not needed for this stub.");
+    }
 }

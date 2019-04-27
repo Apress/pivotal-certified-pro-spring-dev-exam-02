@@ -25,34 +25,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
-
-import com.apress.cems.dao.Detective;
-import com.apress.cems.repos.DetectiveRepo;
-import com.apress.cems.util.Rank;
-import org.apache.commons.lang3.NotImplementedException;
-
-import java.util.Optional;
-import java.util.Set;
+package com.apress.cems.ex;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubDetectiveRepo extends StubAbstractRepo<Detective> implements DetectiveRepo {
-
-    @Override
-    public Optional<Detective> findByBadgeNumber(String badgeNumber) {
-        return Optional.of(records.get(1L));
+public class UnexpectedException extends RuntimeException {
+    public UnexpectedException(String message) {
+        super(message);
     }
 
-    @Override
-    public Set<Detective> findbyRank(Rank rank) {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
-
-    @Override
-    public Detective update(Detective entity)  {
-        throw new NotImplementedException("Not needed for this stub.");
+    public UnexpectedException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

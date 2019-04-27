@@ -55,4 +55,9 @@ public class StubEvidenceRepo extends StubAbstractRepo<Evidence> implements Evid
     public boolean isInStorage(Storage storage) {
         throw new NotImplementedException("Not needed for this stub.");
     }
+
+    @Override
+    public Evidence update(Evidence entity)  {
+        throw new NotImplementedException("Not needed for this stub.");
+    }
 }

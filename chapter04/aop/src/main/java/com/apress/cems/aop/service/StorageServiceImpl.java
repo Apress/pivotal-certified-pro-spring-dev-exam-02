@@ -25,71 +25,68 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.repos.impl;
+package com.apress.cems.aop.service;
 
 import com.apress.cems.dao.Storage;
 import com.apress.cems.repos.StorageRepo;
-import com.apress.cems.repos.util.StorageRowMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Repository
-public class JdbcStorageRepo extends JdbcAbstractRepo<Storage> implements StorageRepo {
-    private RowMapper<Storage> rowMapper = new StorageRowMapper();
+@Service
+public class StorageServiceImpl implements StorageService {
+    private static final Logger logger = LoggerFactory.getLogger(StorageServiceImpl.class);
+    private StorageRepo storageRepo;
 
     @Autowired
-    public JdbcStorageRepo(JdbcTemplate jdbcTemplate) {
-        super(jdbcTemplate);
+    public StorageServiceImpl(StorageRepo storageRepo) {
+       this.storageRepo = storageRepo;
     }
-
 
     @Override
     public Optional<Storage> findByName(String name) {
-        String sql = "select id, name, location from storage where name= ?";
-        return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, name));
+        return storageRepo.findByName(name);
     }
 
     @Override
     public Optional<Storage> findByLocation(String location) {
-        String sql = "select id, name, location from storage where location= ?";
-        return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, location));
+        return storageRepo.findByLocation(location);
     }
 
     @Override
     public void save(Storage storage) {
-        jdbcTemplate.update(
-                "insert into storage(id, name, location, modified_at, created_at) values(?,?,?,?,?)",
-                storage.getId(), storage.getName(), storage.getLocation(), LocalDate.now(), LocalDate.now()
-        );
+        storageRepo.save(storage);
+        saveEvidenceSet(storage);
+    }
+
+    @Override
+    public void saveEvidenceSet(Storage storage){
+        //mock method to test the proxy nature
+        storage.getEvidenceSet().forEach(ev -> {
+            logger.info(" ---> Pretending to save evidence with number {}" , ev.getNumber());
+        });
     }
 
     @Override
     public void delete(Storage entity) {
-        jdbcTemplate.update("delete from storage where id =? ", entity.getId());
-    }
-
-    @Override
-    public Storage update(Storage entity) {
-        return null;
+        storageRepo.delete(entity);
     }
 
     @Override
     public void deleteById(Long entityId) {
-        jdbcTemplate.update("delete from storage where id =? ", entityId);
+        storageRepo.deleteById(entityId);
     }
 
     @Override
-    public Storage findById(Long entityId) {
-        String sql = "select id, name, location from storage where id= ?";
-        return jdbcTemplate.queryForObject(sql, rowMapper, entityId);
+    public Optional<Storage> findById(Long entityId) {
+        return Optional.ofNullable(storageRepo.findById(entityId));
     }
+
 }

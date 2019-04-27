@@ -48,6 +48,12 @@ public class JdbcAbstractRepo<T extends AbstractEntity> implements AbstractRepo<
     }
 
     @Override
+    public T update(T entity) {
+        return null;
+    }
+
+
+    @Override
     public void delete(T entity) {
 
     }

@@ -25,34 +25,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.repos.util;
 
-import com.apress.cems.dao.Detective;
-import com.apress.cems.repos.DetectiveRepo;
-import com.apress.cems.util.Rank;
-import org.apache.commons.lang3.NotImplementedException;
+import com.apress.cems.dao.Person;
+import com.apress.cems.dao.Storage;
+import org.springframework.jdbc.core.RowMapper;
 
-import java.util.Optional;
-import java.util.Set;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import static com.apress.cems.util.DateProcessor.toDate;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubDetectiveRepo extends StubAbstractRepo<Detective> implements DetectiveRepo {
-
+public class StorageRowMapper implements RowMapper<Storage> {
     @Override
-    public Optional<Detective> findByBadgeNumber(String badgeNumber) {
-        return Optional.of(records.get(1L));
-    }
+    public Storage mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Long id = rs.getLong("ID");
+        String name = rs.getString("NAME");
+        String location = rs.getString("LOCATION");
 
-    @Override
-    public Set<Detective> findbyRank(Rank rank) {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
-
-    @Override
-    public Detective update(Detective entity)  {
-        throw new NotImplementedException("Not needed for this stub.");
+        Storage storage = new Storage();
+        storage.setId(id);
+        storage.setName(name);
+        storage.setLocation(location);
+        return storage;
     }
 }

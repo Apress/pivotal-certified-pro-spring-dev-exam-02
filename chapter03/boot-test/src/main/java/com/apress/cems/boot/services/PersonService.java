@@ -37,7 +37,7 @@ import java.util.Set;
  * @since 1.0
  */
 public interface PersonService {
-    Set<Person> findAll();
+    Set findAll();
 
     long count();
 

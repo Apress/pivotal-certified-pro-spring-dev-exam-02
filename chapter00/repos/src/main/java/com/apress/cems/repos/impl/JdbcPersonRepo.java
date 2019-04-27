@@ -30,11 +30,13 @@ package com.apress.cems.repos.impl;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.PersonRepo;
 import com.apress.cems.repos.util.PersonRowMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -46,6 +48,8 @@ import java.util.Set;
 @Repository
 public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRepo {
     private RowMapper<Person> rowMapper = new PersonRowMapper();
+
+    private static final String[] SPECIAL_CHARS = new String[]{"$", "#", "&", "%"};
 
     @Autowired
     public JdbcPersonRepo(JdbcTemplate jdbcTemplate) {
@@ -71,10 +75,22 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
     }
 
     @Override
+    public Person update(Person person) {
+        if (StringUtils.indexOfAny(person.getFirstName(), SPECIAL_CHARS) != -1 ||
+                StringUtils.indexOfAny(person.getLastName(), SPECIAL_CHARS) != -1) {
+            throw new IllegalArgumentException("Text contains weird characters!");
+        }
+        jdbcTemplate.update("update person set username=?, firstname=?, lastname=?, password=?, modified_at=? where id=?",
+                 person.getUsername(), person.getFirstName(), person.getLastName(), person.getPassword(), LocalDate.now(), person.getId()
+        );
+        return person;
+    }
+
+    @Override
     public void save(Person person) {
         jdbcTemplate.update(
-                "insert into person(id, username, firstname, lastname, password, hiringdate) values(?,?,?,?,?,?)",
-                person.getId(), person.getUsername(), person.getFirstName(), person.getPassword(), person.getHiringDate()
+                "insert into person(id, username, firstname, lastname, password, hiringdate, modified_at, created_at) values(?,?,?,?,?,?,?,?)",
+                person.getId(), person.getUsername(), person.getFirstName(), person.getLastName(), person.getPassword(), person.getHiringDate(), LocalDate.now(), LocalDate.now()
         );
     }
 
@@ -96,5 +112,11 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
         jdbcTemplate.update(
                 "delete from person where id =? ",
                 id);
+    }
+
+    @Override
+    public long count() {
+        String sql = "select count(*) from person";
+        return jdbcTemplate.queryForObject(sql, Long.class);
     }
 }

@@ -25,34 +25,33 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.aop.xml;
 
-import com.apress.cems.dao.Detective;
-import com.apress.cems.repos.DetectiveRepo;
-import com.apress.cems.util.Rank;
-import org.apache.commons.lang3.NotImplementedException;
+import com.apress.cems.aop.test.TestDbConfig;
+import com.apress.cems.dao.Person;
+import com.apress.cems.repos.PersonRepo;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Optional;
-import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubDetectiveRepo extends StubAbstractRepo<Detective> implements DetectiveRepo {
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {TestDbConfig.class})
+public class TestPersonRepoMonitor {
 
-    @Override
-    public Optional<Detective> findByBadgeNumber(String badgeNumber) {
-        return Optional.of(records.get(1L));
-    }
+    @Autowired
+    PersonRepo personRepo;
 
-    @Override
-    public Set<Detective> findbyRank(Rank rank) {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
-
-    @Override
-    public Detective update(Detective entity)  {
-        throw new NotImplementedException("Not needed for this stub.");
+    @Test
+    public void testFindById() {
+        Person person = personRepo.findById(1L);
+        assertEquals("sherlock.holmes", person.getUsername());
     }
 }

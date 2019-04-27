@@ -25,34 +25,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.aop;
 
-import com.apress.cems.dao.Detective;
-import com.apress.cems.repos.DetectiveRepo;
-import com.apress.cems.util.Rank;
-import org.apache.commons.lang3.NotImplementedException;
-
-import java.util.Optional;
-import java.util.Set;
+import com.apress.cems.aop.service.PersonService;
+import com.apress.cems.dao.Person;
+import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubDetectiveRepo extends StubAbstractRepo<Detective> implements DetectiveRepo {
+public class PointcutContainer {
 
-    @Override
-    public Optional<Detective> findByBadgeNumber(String badgeNumber) {
-        return Optional.of(records.get(1L));
-    }
+    @Pointcut("execution(* com.apress.cems.*.*PersonRepo+.findBy*(..))")
+    public void repoFind() {}
 
-    @Override
-    public Set<Detective> findbyRank(Rank rank) {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
+    @Pointcut ("execution (* com.apress.cems.aop.service.*Service+.findBy*(..)))")
+    public void serviceFind() {}
 
-    @Override
-    public Detective update(Detective entity)  {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
+    @Pointcut("execution (* com.apress.cems.aop.service.*Service+.save(..)) && args(person) && target(service)")
+    public void beforeSavePointcut(Person person, PersonService service){}
+
+    @Pointcut("execution(* com.apress.cems.aop.service.*Service+.save*(..))")
+    public void proxyBubu(){}
 }

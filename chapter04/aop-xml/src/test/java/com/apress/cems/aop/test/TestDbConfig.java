@@ -25,34 +25,47 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.aop.test;
 
-import com.apress.cems.dao.Detective;
-import com.apress.cems.repos.DetectiveRepo;
-import com.apress.cems.util.Rank;
-import org.apache.commons.lang3.NotImplementedException;
+import com.apress.cems.repos.PersonRepo;
+import com.apress.cems.repos.impl.JdbcPersonRepo;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import java.util.Optional;
-import java.util.Set;
+import javax.sql.DataSource;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubDetectiveRepo extends StubAbstractRepo<Detective> implements DetectiveRepo {
+@Configuration
+@ImportResource("classpath:spring/aop-config.xml")
+public class TestDbConfig {
 
-    @Override
-    public Optional<Detective> findByBadgeNumber(String badgeNumber) {
-        return Optional.of(records.get(1L));
+    @Bean
+    PersonRepo jdbcPersonRepo() {
+        return new JdbcPersonRepo(jdbcTemplate());
     }
 
-    @Override
-    public Set<Detective> findbyRank(Rank rank) {
-        throw new NotImplementedException("Not needed for this stub.");
+    @Bean
+    JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
     }
 
-    @Override
-    public Detective update(Detective entity)  {
-        throw new NotImplementedException("Not needed for this stub.");
+    @Bean
+    public DataSource dataSource() {
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabase db = builder
+                .setType(EmbeddedDatabaseType.H2)
+                .generateUniqueName(true)
+                .addScript("db/schema.sql")
+                .addScript("db/test-data.sql")
+                .build();
+        return db;
     }
 }

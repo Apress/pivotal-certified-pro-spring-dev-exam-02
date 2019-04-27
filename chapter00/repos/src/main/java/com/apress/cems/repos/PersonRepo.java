@@ -15,4 +15,6 @@ public interface PersonRepo extends AbstractRepo<Person> {
     Optional<Person> findByCompleteName(String firstName, String lastName);
 
     Set<Person> findAll();
+
+    long count();
 }

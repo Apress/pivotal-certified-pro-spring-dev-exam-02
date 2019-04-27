@@ -57,6 +57,11 @@ public class StubTrackEntryRepo extends StubAbstractRepo<TrackEntry> implements 
     }
 
     @Override
+    public TrackEntry update(TrackEntry entity)  {
+        throw new NotImplementedException("Not needed for this stub.");
+    }
+
+    @Override
     public Set<TrackEntry> findByDateAndAction(Date date, TrackAction action) {
         throw new NotImplementedException("Not needed for this stub.");
     }

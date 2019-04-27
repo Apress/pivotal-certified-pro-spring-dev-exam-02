@@ -27,6 +27,7 @@ include 'chapter03:boot-test'
 include 'chapter03:spring-tests-practice'
 
 include 'chapter04:aop'
+include 'chapter04:aop-xml'
 include 'chapter04:aop-practice'
 include 'chapter04:aop-base'
 

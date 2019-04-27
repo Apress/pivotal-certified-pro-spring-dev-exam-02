@@ -25,34 +25,33 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.aop;
+package com.apress.cems.aop.service;
 
-import com.apress.cems.aop.config.AopConfig;
-import com.apress.cems.aop.test.TestDbConfig;
 import com.apress.cems.dao.Person;
-import com.apress.cems.repos.PersonRepo;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {AopConfig.class, TestDbConfig.class})
-public class TestPersonRepoMonitor {
+public interface PersonService {
+    Set<Person> findAll();
 
-    @Autowired
-    PersonRepo personRepo;
+    long count();
 
-    @Test
-    public void testFindById() {
-        Person person = personRepo.findById(1L);
-        assertEquals("sherlock.holmes", person.getUsername());
-    }
+    Optional<Person> findById(Long id);
+
+    Person save(Person person);
+
+    Person updateFirstName(Person person, String newFirstname);
+
+    void delete(Person person);
+
+    Optional<Person> findByUsername(String username);
+
+    Optional<Person> findByCompleteName(String firstName, String lastName);
+
+
 }

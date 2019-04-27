@@ -39,6 +39,8 @@ public interface AbstractRepo <T extends AbstractEntity> {
 
     void delete(T entity);
 
+    T update(T entity);
+
     void deleteById(Long entityId);
 
     T findById(Long entityId);

@@ -29,6 +29,7 @@ package com.apress.cems.dao;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -42,7 +43,7 @@ public class Storage extends AbstractEntity {
     private String location;
 
     @OneToMany(mappedBy = "storage")
-    private Set<Evidence> evidenceSet;
+    private Set<Evidence> evidenceSet = new HashSet<>();
 
     public Storage() {
         super();

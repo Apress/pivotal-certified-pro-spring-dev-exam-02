@@ -48,12 +48,22 @@ public class NativePersonRepo implements PersonRepo {
 
     private DataSource dataSource;
 
+    @Override
+    public long count() {
+        throw new NotImplementedException("Not needed for this scenario.");
+    }
+
     public NativePersonRepo(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
     public Optional<Person> findByUsername(String username) {
+        throw new NotImplementedException("Not needed for this example");
+    }
+
+    @Override
+    public Person update(Person entity) {
         throw new NotImplementedException("Not needed for this example");
     }
 

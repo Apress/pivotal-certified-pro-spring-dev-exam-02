@@ -50,8 +50,6 @@ ext {
     h2Version = '1.4.198'
 
     lang3Version = '3.8.1'
-    guavaVersion = '27.1-jre'
-
 
     //we group libraries by their purpose so we can import them easier in the modules
     boot = [
@@ -95,7 +93,6 @@ ext {
             ojdbc           : "com.oracle:ojdbc7:$ojdbcVersion",
             slf4j           : "org.slf4j:slf4j-api:$slf4jVersion",
             logback         : "ch.qos.logback:logback-classic:$logbackVersion",
-            guava          : "com.google.guava:guava:$guavaVersion",
             aspectjweaver     : "org.aspectj:aspectjweaver:$aspectjVersion"
     ]
 

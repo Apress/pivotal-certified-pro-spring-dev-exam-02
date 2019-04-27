@@ -29,11 +29,11 @@ package com.apress.cems.boot.services;
 
 import com.apress.cems.boot.entities.Person;
 import com.apress.cems.boot.repos.PersonRepo;
-import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -54,7 +54,9 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional(readOnly = true)
     public Set<Person> findAll() {
-        return  Sets.newHashSet (personRepo.findAll());
+        Set<Person> persons = new HashSet<>();
+        personRepo.findAll().forEach(persons::add);
+        return persons;
     }
 
     @Override

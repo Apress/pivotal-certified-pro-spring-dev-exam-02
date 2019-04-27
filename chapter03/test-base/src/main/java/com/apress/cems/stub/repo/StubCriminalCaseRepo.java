@@ -62,6 +62,11 @@ public class StubCriminalCaseRepo extends StubAbstractRepo<CriminalCase> impleme
     }
 
     @Override
+    public CriminalCase update(CriminalCase entity) {
+        throw new NotImplementedException("Not needed for this stub.");
+    }
+
+    @Override
     public void save(CriminalCase criminalCase) {
         super.save(criminalCase);
         addWithLeadInvestigator(criminalCase);

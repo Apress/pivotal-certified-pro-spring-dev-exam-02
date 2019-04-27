@@ -25,12 +25,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.aop.service;
 
-import com.apress.cems.dao.Detective;
-import com.apress.cems.repos.DetectiveRepo;
-import com.apress.cems.util.Rank;
-import org.apache.commons.lang3.NotImplementedException;
+import com.apress.cems.dao.Person;
+import com.apress.cems.repos.PersonRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
@@ -39,20 +39,54 @@ import java.util.Set;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubDetectiveRepo extends StubAbstractRepo<Detective> implements DetectiveRepo {
+@Service
+public class PersonServiceImpl implements PersonService {
+    private PersonRepo personRepo;
 
-    @Override
-    public Optional<Detective> findByBadgeNumber(String badgeNumber) {
-        return Optional.of(records.get(1L));
+    @Autowired
+    public PersonServiceImpl(PersonRepo personRepo) {
+        this.personRepo = personRepo;
     }
 
     @Override
-    public Set<Detective> findbyRank(Rank rank) {
-        throw new NotImplementedException("Not needed for this stub.");
+    public Set<Person> findAll() {
+        return Set.copyOf(personRepo.findAll());
     }
 
     @Override
-    public Detective update(Detective entity)  {
-        throw new NotImplementedException("Not needed for this stub.");
+    public long count() {
+        return personRepo.count();
+    }
+
+    @Override
+    public Optional<Person> findById(Long id) {
+        return Optional.ofNullable(personRepo.findById(id));
+    }
+
+    @Override
+    public Person save(Person person) {
+        personRepo.save(person);
+        return person;
+    }
+
+    @Override
+    public Person updateFirstName(Person person, String newFirstname) {
+        person.setFirstName(newFirstname);
+        return personRepo.update(person);
+    }
+
+    @Override
+    public Optional<Person> findByUsername(String username) {
+        return personRepo.findByUsername(username);
+    }
+
+    @Override
+    public Optional<Person> findByCompleteName(String firstName, String lastName) {
+        return personRepo.findByCompleteName(firstName,lastName);
+    }
+
+    @Override
+    public void delete(Person person) {
+        personRepo.delete(person);
     }
 }

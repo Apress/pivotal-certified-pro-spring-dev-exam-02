@@ -11,4 +11,6 @@ module com.apress.cems.repos {
     requires org.apache.commons.lang3;
 
     exports com.apress.cems.repos;
+    exports com.apress.cems.repos.util;
+    exports com.apress.cems.repos.impl;
 }
