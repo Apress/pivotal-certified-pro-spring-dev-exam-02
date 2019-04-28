@@ -5,9 +5,6 @@ plugins {
 ext.moduleName = 'com.apress.cems.aop.practice'
 
 dependencies {
-    compile project(':chapter00:dao')
-    //compile project(':chapter00:repos')
-
     testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
     testImplementation testing.api
     testRuntime testing.engine, testing.platformRunner

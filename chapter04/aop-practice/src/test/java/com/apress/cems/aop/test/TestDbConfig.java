@@ -25,35 +25,45 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot;
+package com.apress.cems.aop.test;
 
-import com.apress.cems.boot.entities.Person;
-import com.apress.cems.boot.services.PersonService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.apress.cems.repos.PersonRepo;
+import com.apress.cems.repos.impl.JdbcPersonRepo;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import javax.sql.DataSource;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@SpringBootTest
-public class ApplicationTest {
+@Configuration
+public class TestDbConfig {
 
-    @Autowired
-    private PersonService personService;
-
-    @Test
-    public void testSavePerson(){
-        Person person = new Person();
-        person.setFirstName("Irene");
-        person.setLastName("Adler");
-        personService.save(person);
-
-        assertEquals(2, personService.count());
+    @Bean
+    PersonRepo jdbcPersonRepo() {
+        return new JdbcPersonRepo(jdbcTemplate());
     }
 
+    @Bean
+    JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabase db = builder
+                .setType(EmbeddedDatabaseType.H2)
+                .generateUniqueName(true)
+                .addScript("db/schema.sql")
+                .addScript("db/test-data.sql")
+                .build();
+        return db;
+    }
 }

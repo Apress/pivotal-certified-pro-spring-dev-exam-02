@@ -25,35 +25,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot;
+package com.apress.cems.aop;
 
-import com.apress.cems.boot.entities.Person;
-import com.apress.cems.boot.services.PersonService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import com.apress.cems.aop.service.PersonService;
+import com.apress.cems.dao.Person;
+import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@SpringBootTest
-public class ApplicationTest {
+public class PointcutContainer {
 
-    @Autowired
-    private PersonService personService;
+    @Pointcut("execution(* com.apress.cems.*.*PersonRepo+.findBy*(..))")
+    public void repoFind() {}
 
-    @Test
-    public void testSavePerson(){
-        Person person = new Person();
-        person.setFirstName("Irene");
-        person.setLastName("Adler");
-        personService.save(person);
-
-        assertEquals(2, personService.count());
-    }
+    @Pointcut ("execution (* com.apress.cems.aop.service.*Service+.findBy*(..)))")
+    public void serviceFind() {}
 
 }

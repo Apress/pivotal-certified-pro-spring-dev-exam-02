@@ -25,35 +25,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot;
+package com.apress.cems.aop.config;
 
-import com.apress.cems.boot.entities.Person;
-import com.apress.cems.boot.services.PersonService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@SpringBootTest
-public class ApplicationTest {
-
-    @Autowired
-    private PersonService personService;
-
-    @Test
-    public void testSavePerson(){
-        Person person = new Person();
-        person.setFirstName("Irene");
-        person.setLastName("Adler");
-        personService.save(person);
-
-        assertEquals(2, personService.count());
-    }
-
+@Configuration
+@ComponentScan(basePackages = {"com.apress.cems.aop", "com.apress.cems.repos"})
+// TODO 19. Enable aspect support
+public class AopConfig {
 }

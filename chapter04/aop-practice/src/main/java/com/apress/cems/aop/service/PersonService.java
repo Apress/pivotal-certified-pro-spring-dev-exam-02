@@ -25,21 +25,33 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot.ctr;
+package com.apress.cems.aop.service;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.apress.cems.dao.Person;
+
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@RestController
-public class IndexController {
+public interface PersonService {
+    Set<Person> findAll();
 
-    @GetMapping("/")
-    public String index() {
-        return "This works!";
-    }
+    long count();
+
+    Optional<Person> findById(Long id);
+
+    Person save(Person person);
+
+    Person updateFirstName(Person person, String newFirstname);
+
+    void delete(Person person);
+
+    Optional<Person> findByUsername(String username);
+
+    Optional<Person> findByCompleteName(String firstName, String lastName);
+
 
 }

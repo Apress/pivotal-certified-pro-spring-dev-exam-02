@@ -55,6 +55,7 @@ ext {
     boot = [
             springBootPlugin: "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion",
             starterWeb      : "org.springframework.boot:spring-boot-starter-web:$springBootVersion",
+            starterAop      : "org.springframework.boot:spring-boot-starter-aop:$springBootVersion",
             starterSecurity : "org.springframework.boot:spring-boot-starter-security:$springBootVersion",
             starterJpa      : "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion",
             starterTest     : "org.springframework.boot:spring-boot-starter-test:$springBootVersion",
