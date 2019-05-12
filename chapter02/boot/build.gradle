@@ -21,6 +21,7 @@ ext.moduleName = 'com.apress.cems.boot'
 
 dependencies {
     compile boot.starterWeb
+    implementation boot.actuator
     testImplementation boot.starterTest
 }
 

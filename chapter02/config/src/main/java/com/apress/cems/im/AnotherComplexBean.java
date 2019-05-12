@@ -68,6 +68,6 @@ public class AnotherComplexBean {
     }
 
     void beanDestroyMethod(){
-        logger.info("Stage 6: Calling the beanDestroyMethod.");
+        logger.info("Stage 4: Calling the beanDestroyMethod.");
     }
 }

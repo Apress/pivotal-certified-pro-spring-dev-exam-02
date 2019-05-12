@@ -51,6 +51,7 @@ public class AppConfigTest {
         assertNotNull(employee);
 
         Salary salary = employee.getSalary();
+        assertNotNull(salary);
         logger.info("Salary bean actual type: {}", salary.getClass().toString());
 
         logger.info("Salary: {}", salary.getAmount());

@@ -25,37 +25,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.scopes;
+package com.apress.cems.repos2;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Description;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
+import com.apress.cems.dao.CriminalCase;
+import com.apress.cems.dao.Detective;
+import com.apress.cems.pojos.repos.CriminalCaseRepo;
+import com.apress.cems.repos.JdbcAbstractRepo;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Component;
 
-import java.util.Random;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Description("Salary for an employee might change, so this is a suitable example for a prototype scoped bean")
 @Component
-@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class Salary {
-    private Logger logger = LoggerFactory.getLogger(Salary.class);
-
-    private Integer amount;
-
-    public Salary() {
-        logger.info(" -> Creating new Salary bean");
-        Random rand = new Random();
-        this.amount = rand.nextInt(10_000) +  50_000;
+public class JdbcCriminalCaseRepo extends JdbcAbstractRepo<CriminalCase> implements CriminalCaseRepo {
+    @Override
+    public Set<CriminalCase> findByLeadInvestigator(Detective detective) {
+        throw new NotImplementedException("Not needed for this scenario");
     }
 
-    public Integer getAmount() {
-        return amount;
+    @Override
+    public Optional<CriminalCase> findByNumber(String caseNumber) {
+        throw new NotImplementedException("Not needed for this scenario");
     }
 }

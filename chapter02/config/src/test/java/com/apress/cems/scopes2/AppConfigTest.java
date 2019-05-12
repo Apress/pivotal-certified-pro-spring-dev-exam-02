@@ -54,8 +54,11 @@ public class AppConfigTest {
         logger.info("Salary bean actual type: {}", salary.getClass().toString());
 
         logger.info("Salary: {}", salary.getAmount());
+        //logger.info("Sample: {}", salary.defaultMethod());
         logger.info("Salary: {}", salary.getAmount());
+        //logger.info("Sample: {}", salary.defaultMethod());
         logger.info("Salary: {}", salary.getAmount());
+        //logger.info("Sample: {}", salary.defaultMethod());
 
     }
 }

@@ -25,37 +25,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.scopes;
+package com.apress.cems.beans.aw;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Description;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Random;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Description("Salary for an employee might change, so this is a suitable example for a prototype scoped bean")
 @Component
-@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class Salary {
-    private Logger logger = LoggerFactory.getLogger(Salary.class);
+public class BadBeanImpl implements BadBean{
+    private MissingBean missingBean;
+    private BeanTwo beanTwo;
 
-    private Integer amount;
-
-    public Salary() {
-        logger.info(" -> Creating new Salary bean");
-        Random rand = new Random();
-        this.amount = rand.nextInt(10_000) +  50_000;
+    public MissingBean getMissingBean() {
+        return missingBean;
     }
 
-    public Integer getAmount() {
-        return amount;
+    @Autowired(required = false)
+    public void setMissingBean(MissingBean missingBean) {
+        this.missingBean = missingBean;
+    }
+
+    public BeanTwo getBeanTwo() {
+        return beanTwo;
+    }
+
+    @Autowired
+    public void setBeanTwo(BeanTwo beanTwo) {
+        this.beanTwo = beanTwo;
     }
 }

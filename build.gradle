@@ -23,7 +23,7 @@ sourceCompatibility = 12
 
 ext {
     springVersion = '5.2.0.M1'
-    springBootVersion = '2.2.0.M1'
+    springBootVersion = '2.2.0.M2'
     springJpaVersion = '2.2.0.M1'
 
     //testing

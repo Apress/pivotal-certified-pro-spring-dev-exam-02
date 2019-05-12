@@ -28,7 +28,7 @@ SOFTWARE.
 package com.apress.cems.beans.scalars;
 
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -37,7 +37,7 @@ import java.time.format.DateTimeFormatter;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Service
+@Component
 public class StringToLocalDate implements Converter<String, LocalDate> {
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

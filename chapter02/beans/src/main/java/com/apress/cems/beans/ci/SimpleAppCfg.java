@@ -44,6 +44,4 @@ public class SimpleAppCfg {
     SimpleBean anotherSimpleBean(){
         return new SimpleBeanImpl();
     }*/
-
-
 }

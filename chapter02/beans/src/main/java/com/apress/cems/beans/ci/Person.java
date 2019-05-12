@@ -39,7 +39,7 @@ public class Person implements Human {
 
     private Item item;
 
-    @Autowired
+    //@Autowired
     public Person(Item item) {
         this.item = item;
     }

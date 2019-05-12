@@ -14,6 +14,7 @@
           factory-method="getInstance" />
 
     <!-- using a factory bean -->
+
     <bean id="taxFormulaFactory" class="com.apress.cems.beans.xml.misc.XMLTaxFormulaFactory" p:taxFormula="S"/>
 
     <bean id="taxScotlandFormula" factory-bean="taxFormulaFactory" factory-method="getTaxFormula" />
