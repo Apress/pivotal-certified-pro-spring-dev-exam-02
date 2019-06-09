@@ -33,6 +33,8 @@ import com.apress.cems.services.impl.SimpleStorageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -43,25 +45,25 @@ import static org.mockito.Mockito.*;
  * @since 1.0
  * Description: using old-style Mockito mocks with JUnit 5
  */
-public class SimpleStorageServiceTest {
-    public static final Long STORAGE_ID = 1L;
+class SimpleStorageServiceTest {
+    static final Long STORAGE_ID = 1L;
 
     private StorageRepo mockRepo = mock(StorageRepo.class);
 
     private SimpleStorageService storageService;
 
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         storageService = new SimpleStorageService();
         storageService.setRepo(mockRepo);
     }
 
     @Test
-    public void findByIdPositive() {
+    void findByIdPositive() {
         Storage storage = new Storage();
         storage.setId(STORAGE_ID);
 
-        when(mockRepo.findById(any(Long.class))).thenReturn(storage);
+        when(mockRepo.findById(any(Long.class))).thenReturn(Optional.of(storage));
 
         Storage result = storageService.findById(STORAGE_ID);
         assertAll(

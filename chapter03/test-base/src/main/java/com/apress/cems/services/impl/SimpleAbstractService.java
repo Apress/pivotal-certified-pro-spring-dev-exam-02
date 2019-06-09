@@ -31,6 +31,8 @@ import com.apress.cems.dao.AbstractEntity;
 import com.apress.cems.repos.AbstractRepo;
 import com.apress.cems.services.AbstractService;
 
+import java.util.Optional;
+
 /**
  * @author Iuliana Cosmina
  * @since 1.0
@@ -42,7 +44,8 @@ public abstract class SimpleAbstractService<T extends AbstractEntity>  implement
     }
 
     public T findById(Long entityId){
-        return getRepo().findById(entityId);
+        Optional<T> res = getRepo().findById(entityId);
+        return res.orElse(null);
     }
 
     @Override

@@ -55,9 +55,9 @@ public class JdbcDetectiveRepo extends JdbcAbstractRepo<Detective> implements De
     }
 
     @Override
-    public Detective findById(Long id) {
+    public Optional<Detective> findById(Long id) {
         String sql = "select id, badgenumber, rank, armed, employmentstatus, person_id from detective where id= ?";
-        return jdbcTemplate.queryForObject(sql, rowMapper, id);
+        return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, id));
     }
 
     @Override

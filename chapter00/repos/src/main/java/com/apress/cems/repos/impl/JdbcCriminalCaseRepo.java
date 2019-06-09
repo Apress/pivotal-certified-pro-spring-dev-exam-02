@@ -57,9 +57,9 @@ public class JdbcCriminalCaseRepo  extends JdbcAbstractRepo<CriminalCase> implem
     }
 
     @Override
-    public CriminalCase findById(Long id) {
+    public Optional<CriminalCase> findById(Long id) {
         String sql = "select id, case_number, case_type, status, short_description from criminalcase where id= ?";
-        return jdbcTemplate.queryForObject(sql, rowMapper, id);
+        return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, id));
     }
 
     @Override

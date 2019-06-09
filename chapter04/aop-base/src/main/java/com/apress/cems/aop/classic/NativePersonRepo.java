@@ -127,7 +127,7 @@ public class NativePersonRepo implements PersonRepo {
     }
 
     @Override
-    public Person findById(Long id) {
+    public Optional<Person> findById(Long id) {
         String sql = "select p.ID as ID, p.USERNAME as USERNAME," +
                 " p.FIRSTNAME as FIRSTNAME, p.LASTNAME as LASTNAME" +
                 " from PERSON p where p.ID = ?";
@@ -141,7 +141,7 @@ public class NativePersonRepo implements PersonRepo {
             rs = ps.executeQuery();
             Set<Person> persons = mapPersons(rs);
             if (!persons.isEmpty()) {
-                return persons.iterator().next();
+                return Optional.of(persons.iterator().next());
             }
         } catch (SQLException e) {
             throw new RuntimeException("User not found!", e);
@@ -165,7 +165,7 @@ public class NativePersonRepo implements PersonRepo {
                 }
             }
         }
-        return null;
+        return Optional.empty();
     }
 
 

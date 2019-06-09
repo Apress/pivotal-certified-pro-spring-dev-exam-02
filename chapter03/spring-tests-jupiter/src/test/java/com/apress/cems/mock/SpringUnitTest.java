@@ -34,6 +34,7 @@ import com.apress.cems.repos.util.PersonRowMapper;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -47,6 +48,8 @@ import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -77,8 +80,7 @@ public class SpringUnitTest {
     public void testFindByIdPositive() {
         Mockito.when(jdbcTemplate.queryForObject(anyString(), any(PersonRowMapper.class), any(Long.class))).thenReturn(new Person());
 
-        Person person = personRepo.findById(PERSON_ID);
-        assertNotNull(person);
+        assertTrue(personRepo.findById(PERSON_ID).isPresent());
     }
 
     @Configuration

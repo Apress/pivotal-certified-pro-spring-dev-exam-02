@@ -30,13 +30,13 @@ package com.apress.cems.spring;
 import com.apress.cems.cfg.TestDbConfig;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.PersonRepo;
+import org.junit.jupiter.api.Assertions;
 import org.springframework.test.context.ContextConfiguration;
 import repos.ReposConfig;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
@@ -56,9 +56,11 @@ public class PersonRepoTest {
 
 
     public void testFindByIdPositive(){
-        Person person = personRepo.findById(PERSON_ID);
-        assertNotNull(person);
-        assertEquals("Sherlock", person.getFirstName());
+        personRepo.findById(PERSON_ID).ifPresentOrElse(
+                p -> assertEquals("Sherlock", p.getFirstName()),
+                Assertions::fail
+        );
+
     }
 
 

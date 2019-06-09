@@ -25,8 +25,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.repos;
+package com.apress.cems;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,10 @@ import static org.junit.Assert.assertNotNull;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@Ignore // remove this to inspect log
 @RunWith(SpringRunner.class)
 @ContextConfiguration
-public class RepositoryTest3 {
+public class ContextLoadingTest {
 
     @Autowired
     ApplicationContext ctx;

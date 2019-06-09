@@ -51,6 +51,11 @@ public class JdbcStorageRepo extends JdbcAbstractRepo<Storage> implements Storag
         super(jdbcTemplate);
     }
 
+    @Override
+    public Optional<Storage> findById(Long entityId) {
+        String sql = "select id, name, location from storage where id= ?";
+        return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, entityId));
+    }
 
     @Override
     public Optional<Storage> findByName(String name) {
@@ -87,9 +92,4 @@ public class JdbcStorageRepo extends JdbcAbstractRepo<Storage> implements Storag
         jdbcTemplate.update("delete from storage where id =? ", entityId);
     }
 
-    @Override
-    public Storage findById(Long entityId) {
-        String sql = "select id, name, location from storage where id= ?";
-        return jdbcTemplate.queryForObject(sql, rowMapper, entityId);
-    }
 }

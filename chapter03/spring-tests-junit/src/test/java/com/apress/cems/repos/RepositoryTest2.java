@@ -29,6 +29,7 @@ package com.apress.cems.repos;
 
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.impl.JdbcPersonRepo;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +37,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,8 +46,8 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import javax.sql.DataSource;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
+
 
 /**
  * @author Iuliana Cosmina
@@ -57,7 +57,7 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class RepositoryTest2 {
 
-    public static final Long PERSON_ID = 1L;
+    static final Long PERSON_ID = 1L;
 
     @Autowired
     PersonRepo personRepo;
@@ -69,9 +69,10 @@ public class RepositoryTest2 {
 
     @Test
     public void testFindByIdPositive() {
-        Person person = personRepo.findById(PERSON_ID);
-        assertNotNull(person);
-        assertEquals("Sherlock", person.getFirstName());
+        personRepo.findById(PERSON_ID).ifPresentOrElse(
+                p -> assertEquals("Sherlock", p.getFirstName()),
+                Assert::fail
+        );
     }
 
     @Test
@@ -96,13 +97,12 @@ public class RepositoryTest2 {
         @Bean
         public DataSource dataSource() {
             EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-            EmbeddedDatabase db = builder
+            return builder
                     .setType(EmbeddedDatabaseType.H2)
                     .generateUniqueName(true)
                     .addScript("db/schema.sql")
                     .addScript("db/test-data.sql")
                     .build();
-            return db;
         }
     }
 

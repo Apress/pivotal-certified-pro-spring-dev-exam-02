@@ -33,6 +33,8 @@ import com.apress.cems.services.impl.SimpleStorageService;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -43,7 +45,7 @@ import static org.mockito.Mockito.*;
  * Description: first way of using Mockito mocks, no annotations
  */
 public class SimpleStorageServiceTest {
-    public static final Long STORAGE_ID = 1L;
+    static final Long STORAGE_ID = 1L;
 
     private StorageRepo mockRepo = mock(StorageRepo.class);
 
@@ -60,7 +62,7 @@ public class SimpleStorageServiceTest {
         Storage storage = new Storage();
         storage.setId(STORAGE_ID);
 
-        when(mockRepo.findById(any(Long.class))).thenReturn(storage);
+        when(mockRepo.findById(any(Long.class))).thenReturn(Optional.of(storage));
 
         Storage result = storageService.findById(STORAGE_ID);
         assertNotNull(result);

@@ -33,6 +33,7 @@ import com.apress.cems.repos.NotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Iuliana Cosmina
@@ -53,18 +54,18 @@ public abstract class StubAbstractRepo <T extends AbstractEntity> implements Abs
 
     @Override
     public void delete(T entity) throws NotFoundException {
-        records.remove(findById(entity.getId()).getId());
+        findById(entity.getId()).ifPresent(r -> records.remove(r.getId()));
     }
 
     @Override
     public void deleteById(Long entityId) throws NotFoundException {
-        records.remove(findById(entityId).getId());
+        findById(entityId).ifPresent(r -> records.remove(r.getId()));
     }
 
     @Override
-    public T findById(Long entityId) {
+    public Optional<T> findById(Long entityId) {
         if(records.containsKey(entityId)) {
-            return records.get(entityId);
+            return Optional.of(records.get(entityId));
         } else {
             throw new NotFoundException("Entity with id "
                     + entityId + " could not be processed because it does not exist.");

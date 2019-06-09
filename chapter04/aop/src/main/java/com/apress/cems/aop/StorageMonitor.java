@@ -44,9 +44,15 @@ public class StorageMonitor {
     private static final Logger logger = LoggerFactory.getLogger(StorageMonitor.class);
 
     @Before("com.apress.cems.aop.PointcutContainer.proxyBubu()")
-    public void bubuHappens(JoinPoint joinPoint) throws Throwable {
+    public void bubuHappens(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getSignature().getDeclaringTypeName();
         logger.info("[bubuHappens] ---> BUBU when calling: {}.{}", className, methodName);
+    }
+
+    @Before("within(@com.apress.cems.aop.ApressService *)")
+    public void beforeAnyWithClassAnnotation(JoinPoint joinPoint) {
+        String methodName = joinPoint.getSignature().getName();
+        logger.info("[beforeAnyWithClassAnnotation]: ---> Method {} is about to be called", methodName);
     }
 }

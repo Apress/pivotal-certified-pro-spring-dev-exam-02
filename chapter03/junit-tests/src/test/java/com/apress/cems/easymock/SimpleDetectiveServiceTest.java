@@ -38,6 +38,8 @@ import org.easymock.TestSubject;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static com.apress.cems.stub.util.TestObjectsBuilder.buildDetective;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
@@ -65,7 +67,7 @@ public class SimpleDetectiveServiceTest extends EasyMockSupport {
         //record what we want the easymock to do
         Detective simpleDetective = buildDetective("Sherlock", "Holmes", Rank.INSPECTOR, "TS1234");
         simpleDetective.setId(DETECTIVE_ID);
-        expect(mockRepo.findById(DETECTIVE_ID)).andReturn(simpleDetective);
+        expect(mockRepo.findById(DETECTIVE_ID)).andReturn(Optional.of(simpleDetective));
         replay(mockRepo);
 
         Detective detective = service.findById(DETECTIVE_ID);

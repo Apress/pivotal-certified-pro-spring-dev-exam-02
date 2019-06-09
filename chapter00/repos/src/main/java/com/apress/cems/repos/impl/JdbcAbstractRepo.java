@@ -31,6 +31,8 @@ import com.apress.cems.dao.AbstractEntity;
 import com.apress.cems.repos.AbstractRepo;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.Optional;
+
 /**
  * @author Iuliana Cosmina
  * @since 1.0
@@ -64,7 +66,7 @@ public class JdbcAbstractRepo<T extends AbstractEntity> implements AbstractRepo<
     }
 
     @Override
-    public T findById(Long entityId) {
+    public Optional<T> findById(Long entityId) {
         return null;
     }
 

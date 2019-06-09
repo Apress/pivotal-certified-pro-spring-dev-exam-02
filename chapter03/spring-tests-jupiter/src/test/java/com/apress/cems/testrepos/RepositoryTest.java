@@ -31,12 +31,11 @@ import com.apress.cems.cfg.TestDbConfig;
 import com.apress.cems.cfg.repos.ReposConfig;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.PersonRepo;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Set;
 
@@ -47,29 +46,31 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestDbConfig.class, ReposConfig.class})
-public class RepositoryTest {
+/*@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {TestDbConfig.class, ReposConfig.class})*/
+@SpringJUnitConfig(classes = {TestDbConfig.class, ReposConfig.class})
+class RepositoryTest {
 
-    public static final Long PERSON_ID = 1L;
+    static final Long PERSON_ID = 1L;
 
     @Autowired
     PersonRepo personRepo;
 
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         assertNotNull(personRepo);
     }
 
     @Test
-    public void testFindByIdPositive(){
-        Person person = personRepo.findById(PERSON_ID);
-        assertNotNull(person);
-        assertEquals("Sherlock", person.getFirstName());
+    void testFindByIdPositive(){
+        personRepo.findById(PERSON_ID).ifPresentOrElse(
+                p -> assertEquals("Sherlock", p.getFirstName()),
+                Assertions:: fail
+        );
     }
 
     @Test
-    public void testFindAll(){
+    void testFindAll(){
         Set<Person> personSet = personRepo.findAll();
         assertNotNull(personSet);
         assertEquals(2, personSet.size());

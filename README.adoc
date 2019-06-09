@@ -1,4 +1,4 @@
-= Apress Source Code - Pet Sitter Project
+= Apress Source Code
 
 This repository accompanies https://www.apress.com/us/book/9781484208120[Pivotal Certified Professional Spring Developer Exam, 2nd Edition] by Iuliana Cosmina (Apress, 2019).
 
@@ -11,7 +11,7 @@ gradle build
 ----
 will fail.
 
-To build the full project and skipping tests, build from the root (`pet-sitter`) directory:
+To build the full project and skipping tests, build from the root (`pivotalcertified-pro-spring-dev-exam-02`) directory:
 ----
 gradle build -x test
 ----

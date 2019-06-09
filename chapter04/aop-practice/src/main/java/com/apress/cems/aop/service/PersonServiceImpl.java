@@ -60,7 +60,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Optional<Person> findById(Long id) {
-        return Optional.ofNullable(personRepo.findById(id));
+        return personRepo.findById(id);
     }
 
     @Override

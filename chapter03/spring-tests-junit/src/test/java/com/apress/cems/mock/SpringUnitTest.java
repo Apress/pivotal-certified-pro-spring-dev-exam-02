@@ -46,7 +46,7 @@ import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.mock;
 
@@ -76,8 +76,7 @@ public class SpringUnitTest {
     public void testFindByIdPositive() {
         Mockito.when(jdbcTemplate.queryForObject(anyString(), any(PersonRowMapper.class), anyLong())).thenReturn(new Person());
 
-        Person person = personRepo.findById(PERSON_ID);
-        assertNotNull(person);
+        assertTrue(personRepo.findById(PERSON_ID).isPresent());
     }
 
     @Configuration

@@ -32,9 +32,9 @@ import com.apress.cems.aop.service.PersonService;
 import com.apress.cems.aop.test.TestDbConfig;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.PersonRepo;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -47,10 +47,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Disabled  // remove this to test your solution
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AopConfig.class, TestDbConfig.class})
-class TestPersonMonitor {
+class PersonMonitorTest {
 
     @Autowired
     PersonRepo personRepo;
@@ -58,28 +58,26 @@ class TestPersonMonitor {
     @Autowired
     PersonService personService;
 
-    // can be used to test before, around and after advice
     @Test
     void testFindById() {
-        Person person = personRepo.findById(1L);
-        assertEquals("sherlock.holmes", person.getUsername());
+        personRepo.findById(1L).ifPresentOrElse(
+                p -> assertEquals("sherlock.holmes", p.getUsername()),
+                () -> fail("Person not found!")
+        );
     }
 
-    // can be used to test before, around and after advice
     @Test
-    void testFindByCompleteName() {
+    void testfindByCompleteName() {
         personService.findByCompleteName("Sherlock", "Holmes").ifPresent(person ->
                 assertEquals("sherlock.holmes", person.getUsername())
         );
     }
 
-    //this method does not test any advice because no pointcut expression matches it
     @Test
     void testFindAll() {
         assertNotNull(personService.findAll());
     }
 
-    // can be used to test before and after/ after-returning advice
     @Test
     void testSave() {
         Person person = new Person();
@@ -92,11 +90,24 @@ class TestPersonMonitor {
         assertNotNull(personService.save(person));
     }
 
-    // can be used to test after throwing advice
+    @Test
+    void testBadSave() {
+        Person person = new Person();
+        person.setId(3L);
+        person.setUsername("nancy.drew");
+        person.setFirstName("Nanc#");
+        person.setLastName("&rew");
+        person.setPassword("1@#$asta");
+        person.setHiringDate(LocalDate.now());
+        assertThrows(IllegalArgumentException.class, () -> personService.save(person));
+    }
+
     @Test
     void testBadUpdate() {
-        Person person = personRepo.findById(1L);
-        assertThrows(IllegalArgumentException.class, () -> personService.updateFirstName(person, "Sh$r1oc#"));
+        personRepo.findById(1L).ifPresentOrElse(
+                p -> assertThrows(IllegalArgumentException.class, () -> personService.updateFirstName(p, "Sh$r1oc#")),
+                () -> fail("Person not found!")
+        );
     }
 
 }

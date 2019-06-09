@@ -30,9 +30,9 @@ package com.apress.cems.testrepos;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.PersonRepo;
 import com.apress.cems.repos.impl.JdbcPersonRepo;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,16 +40,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -57,36 +53,38 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class)
-public class RepositoryTest3 {
+@SpringJUnitConfig(classes = RepositoryTest3.TestCtxConfig.class)
+//@ExtendWith(SpringExtension.class)
+//@ContextConfiguration(loader = AnnotationConfigContextLoader.class)
+class RepositoryTest3 {
 
-    public static final Long PERSON_ID = 1L;
+    static final Long PERSON_ID = 1L;
 
     @Autowired
     PersonRepo personRepo;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         assertNotNull(personRepo);
     }
 
     @Test
-    @Sql({"classpath:db/test-data-one.sql"})
-    /* @Sql(
+    //@Sql({"classpath:db/test-data-one.sql"})
+     @Sql(
             scripts = "classpath:db/test-data-one.sql",
             config = @SqlConfig(commentPrefix = "`", separator = "@@")
-    )*/
-    public void testFindByIdPositive() {
-        Person person = personRepo.findById(PERSON_ID);
-        assertNotNull(person);
-        assertEquals("Sherlock", person.getFirstName());
+    )
+    void testFindByIdPositive() {
+        personRepo.findById(PERSON_ID).ifPresentOrElse(
+                p -> assertEquals("Sherlock", p.getFirstName()),
+                Assertions:: fail
+        );
     }
 
     @Test
     //@Sql({"classpath:db/test-data-two.sql"})
     @Sql(statements = {"INSERT INTO PERSON(ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE, VERSION, CREATED_AT, MODIFIED_AT) VALUES (2, 'irene.adler', 'Irene', 'Adler', 'id123ds', '1990-08-18', 1, '1990-07-18', '1998-01-18');"})
-    public void testFindByComplete() {
+    void testFindByComplete() {
         Optional<Person> personOpt = personRepo.findByCompleteName("Irene", "Adler");
         personOpt.ifPresent(p ->
                 assertAll(

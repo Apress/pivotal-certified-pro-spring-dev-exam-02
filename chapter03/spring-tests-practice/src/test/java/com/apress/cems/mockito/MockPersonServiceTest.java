@@ -32,6 +32,8 @@ import com.apress.cems.repos.PersonRepo;
 import com.apress.cems.services.impl.SimplePersonService;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -53,7 +55,7 @@ public class MockPersonServiceTest {
     public void findByIdPositive() {
         Person person = new Person();
         person.setId(PERSON_ID);
-        when(mockRepo.findById(any(Long.class))).thenReturn(person);
+        when(mockRepo.findById(any(Long.class))).thenReturn(Optional.of(person));
 
         Person result = personService.findById(PERSON_ID);
 

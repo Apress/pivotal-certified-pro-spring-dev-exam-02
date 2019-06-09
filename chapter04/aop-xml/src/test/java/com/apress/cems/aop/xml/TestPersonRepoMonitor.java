@@ -36,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
@@ -44,14 +44,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestDbConfig.class})
-public class TestPersonRepoMonitor {
+class TestPersonRepoMonitor {
 
     @Autowired
     PersonRepo personRepo;
 
     @Test
-    public void testFindById() {
-        Person person = personRepo.findById(1L);
-        assertEquals("sherlock.holmes", person.getUsername());
+    void testFindById() {
+        personRepo.findById(1L).ifPresentOrElse(
+                p -> assertEquals("sherlock.holmes", p.getUsername()),
+                () -> fail("Person not found!")
+        );
     }
 }

@@ -28,6 +28,7 @@ SOFTWARE.
 package com.apress.cems.repos.impl;
 
 import com.apress.cems.dao.Person;
+import com.apress.cems.repos.ApressRepo;
 import com.apress.cems.repos.PersonRepo;
 import com.apress.cems.repos.util.PersonRowMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -56,10 +57,11 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
         super(jdbcTemplate);
     }
 
+    @ApressRepo
     @Override
-    public Person findById(Long id) {
+    public Optional<Person> findById(Long id) {
         String sql = "select id, username, firstname, lastname, password, hiringdate from person where id= ?";
-        return jdbcTemplate.queryForObject(sql, rowMapper, id);
+        return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, id));
     }
 
     @Override

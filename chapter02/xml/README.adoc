@@ -19,7 +19,7 @@ docker ps
 
 You can also install Kitematic to view and manage your containers.
 
-==== Oracle 12c in a docker container. SQL script needed tp create the user and schema:
+==== Oracle 12c in a docker container. SQL script needed to create the user and schema:
 
 ----
 CREATE USER prod IDENTIFIED BY prod;

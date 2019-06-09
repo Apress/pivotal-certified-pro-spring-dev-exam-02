@@ -30,6 +30,7 @@ package com.apress.cems.testrepos;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.PersonRepo;
 import com.apress.cems.repos.impl.JdbcPersonRepo;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,24 +43,24 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @Sql(
-        scripts = "classpath:db/test-data.sql",
-        config = @SqlConfig(commentPrefix = "`", separator = "@@")
+        scripts = {"classpath:db/person-schema.sql","classpath:db/test-data.sql"},
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
+
 )
-@Sql(statements = "DELETE FROM PERSON", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-@SpringJUnitConfig(classes = RepositoryTest5.TestCtxConfig.class)
-public class RepositoryTest5 {
+@SpringJUnitConfig(classes = RepositoryTest6.TestCtxConfig.class)
+class RepositoryTest6 {
     static final Long PERSON_ID = 1L;
 
     @Autowired
@@ -72,9 +73,10 @@ public class RepositoryTest5 {
 
     @Test
     void testFindByIdPositive() {
-        Person person = personRepo.findById(PERSON_ID);
-        assertNotNull(person);
-        assertEquals("Sherlock", person.getFirstName());
+        personRepo.findById(PERSON_ID).ifPresentOrElse(
+                p -> assertEquals("Sherlock", p.getFirstName()),
+                Assertions:: fail
+        );
     }
 
     @Test
@@ -104,11 +106,9 @@ public class RepositoryTest5 {
             EmbeddedDatabase db = builder
                     .setType(EmbeddedDatabaseType.H2)
                     .generateUniqueName(true)
-                    .addScript("db/schema.sql")
                     .build();
             return db;
         }
     }
-
 }
 

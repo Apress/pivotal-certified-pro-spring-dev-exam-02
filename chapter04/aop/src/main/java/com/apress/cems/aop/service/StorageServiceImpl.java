@@ -27,6 +27,7 @@ SOFTWARE.
 */
 package com.apress.cems.aop.service;
 
+import com.apress.cems.aop.ApressService;
 import com.apress.cems.dao.Storage;
 import com.apress.cems.repos.StorageRepo;
 import org.slf4j.Logger;
@@ -40,6 +41,7 @@ import java.util.Optional;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@ApressService
 @Service
 public class StorageServiceImpl implements StorageService {
     private static final Logger logger = LoggerFactory.getLogger(StorageServiceImpl.class);
@@ -86,7 +88,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public Optional<Storage> findById(Long entityId) {
-        return Optional.ofNullable(storageRepo.findById(entityId));
+        return storageRepo.findById(entityId);
     }
 
 }

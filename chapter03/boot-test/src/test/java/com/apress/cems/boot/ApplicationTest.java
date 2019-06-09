@@ -32,6 +32,7 @@ import com.apress.cems.boot.services.PersonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -40,13 +41,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class ApplicationTest {
 
     @Autowired
     private PersonService personService;
 
-    @Test
+    @Test @Transactional
     public void testSavePerson(){
         Person person = new Person();
         person.setFirstName("Irene");

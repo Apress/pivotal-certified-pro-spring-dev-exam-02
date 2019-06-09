@@ -33,6 +33,9 @@ import com.apress.cems.services.impl.SimpleDetectiveService;
 import com.apress.cems.util.Rank;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+
+import java.util.Optional;
 
 import static com.apress.cems.stub.util.TestObjectsBuilder.buildDetective;
 import static org.easymock.EasyMock.*;
@@ -43,14 +46,14 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 1.0
  */
 
-public class SimpleDetectiveServiceTest {
+class SimpleDetectiveServiceTest {
     static final Long DETECTIVE_ID = 1L;
 
     private DetectiveRepo mockRepo;
     private SimpleDetectiveService service;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         //prepare easymock
         mockRepo = createMock(DetectiveRepo.class);
 
@@ -62,11 +65,11 @@ public class SimpleDetectiveServiceTest {
     }
 
     @Test
-    public void findByIdPositive() {
+    void findByIdPositive() {
         //record what we want the easymock to do
         Detective simpleDetective = buildDetective("Sherlock", "Holmes", Rank.INSPECTOR, "TS1234");
         simpleDetective.setId(DETECTIVE_ID);
-        expect(mockRepo.findById(DETECTIVE_ID)).andReturn(simpleDetective);
+        expect(mockRepo.findById(DETECTIVE_ID)).andReturn(Optional.of(simpleDetective));
         replay(mockRepo);
 
         Detective detective = service.findById(DETECTIVE_ID);
@@ -76,6 +79,27 @@ public class SimpleDetectiveServiceTest {
                 () -> assertEquals(detective.getId(), simpleDetective.getId()),
                 () -> assertEquals(detective.getBadgeNumber(), simpleDetective.getBadgeNumber())
         );
+
+       /* assertAll(
+                new Executable() {
+                    @Override
+                    void execute() throws Throwable {
+                        assertNotNull(detective);
+                    }
+                },
+                new Executable() {
+                    @Override
+                    void execute() throws Throwable {
+                        assertEquals(detective.getId(), simpleDetective.getId());
+                    }
+                },
+                new Executable() {
+                    @Override
+                    void execute() throws Throwable {
+                        assertEquals(detective.getBadgeNumber(), simpleDetective.getBadgeNumber());
+                    }
+                }
+        );*/
     }
 }
 

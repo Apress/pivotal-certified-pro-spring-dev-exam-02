@@ -57,6 +57,15 @@ public class PersonMonitor {
         logger.info("[beforeFindById]: ---> Method {} is about to be called", methodName);
     }
 
+
+    @Before("execution(@com.apress.cems.repos.ApressRepo * com.apress.cems.repos.*.*Repo+.*(..))")
+    //@Before("execution(public * com.apress.cems.repos.*.PersonRepo+.findById(..)) && @annotation(com.apress.cems.repos.ApressRepo))")
+    //@Before("@annotation(com.apress.cems.repos.ApressRepo)")
+    public void beforeFindByIdWithMethodAnnotation(JoinPoint joinPoint) {
+        String methodName = joinPoint.getSignature().getName();
+        logger.info("[beforeFindByIdWithMethodAnnotation]: ---> Method {} is about to be called", methodName);
+    }
+
     //@Before("execution(* com.apress.cems.*.*PersonRepo+.findBy*(..)) || execution (* com.apress.cems.aop.service.*Service+.findBy*(..)))")
     @Before("com.apress.cems.aop.PointcutContainer.repoFind() || com.apress.cems.aop.PointcutContainer.serviceFind()")
     public void beforeFind(JoinPoint joinPoint) {
@@ -77,7 +86,7 @@ public class PersonMonitor {
     @Before("com.apress.cems.aop.PointcutContainer.beforeSavePointcut(person,service)")
     public void beforeSave(Person person, PersonService service) {
         logger.info("[beforeSave]: ---> Target object {}", service.getClass());
-
+        person.setFirstName("Sample");
         if (StringUtils.indexOfAny(person.getFirstName(), SPECIAL_CHARS) != -1 ||
                 StringUtils.indexOfAny(person.getLastName(), SPECIAL_CHARS) != -1) {
             throw new IllegalArgumentException("Text contains weird characters!");
@@ -91,11 +100,11 @@ public class PersonMonitor {
     }
 
     @AfterThrowing(value = "execution(public * com.apress.cems.repos.*.JdbcPersonRepo+.update(..))", throwing="e")
-    public void afterUpdate(JoinPoint joinPoint, Exception e) {
+    public void afterBadUpdate(JoinPoint joinPoint, Exception e) {
         String className = joinPoint.getSignature().getDeclaringTypeName();
         String methodName = joinPoint.getSignature().getName();
         if(e instanceof IllegalArgumentException) {
-            logger.info("[afterUpdate]: ---> Update method {}.{} failed because of bad data.", className, methodName);
+            logger.info("[afterBadUpdate]: ---> Update method {}.{} failed because of bad data.", className, methodName);
         } else {
             throw new UnexpectedException(" Ooops!", e);
         }

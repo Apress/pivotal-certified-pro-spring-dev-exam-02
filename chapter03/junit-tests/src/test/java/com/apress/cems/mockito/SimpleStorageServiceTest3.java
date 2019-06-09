@@ -36,6 +36,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Optional;
+
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -47,7 +49,7 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleStorageServiceTest3 {
-    public static final Long STORAGE_ID = 1L;
+    static final Long STORAGE_ID = 1L;
 
     @Mock //Creates mock instance of the field it annotates
     private StorageRepo mockRepo;
@@ -60,7 +62,7 @@ public class SimpleStorageServiceTest3 {
         Storage storage = new Storage();
         storage.setId(STORAGE_ID);
 
-        when(mockRepo.findById(any(Long.class))).thenReturn(storage);
+        when(mockRepo.findById(any(Long.class))).thenReturn(Optional.of(storage));
 
         Storage result = storageService.findById(STORAGE_ID);
         assertNotNull(result);

@@ -36,6 +36,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -47,8 +49,8 @@ import static org.mockito.Mockito.when;
  * @since 1.0
  * Description: another way of using old-style Mockito mocks with JUnit 5
  */
-public class SimpleStorageServiceTest2 {
-    public static final Long STORAGE_ID = 1L;
+class SimpleStorageServiceTest2 {
+    static final Long STORAGE_ID = 1L;
 
     @Mock //Creates mock instance of the field it annotates
     private StorageRepo mockRepo;
@@ -57,15 +59,15 @@ public class SimpleStorageServiceTest2 {
     private SimpleStorageService storageService;
 
     @BeforeEach
-    public void initMocks() {
+    void initMocks() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void findByIdPositive() {
+    void findByIdPositive() {
         Storage storage = new Storage();
         storage.setId(STORAGE_ID);
-        when(mockRepo.findById(any(Long.class))).thenReturn(storage);
+        when(mockRepo.findById(any(Long.class))).thenReturn(Optional.of(storage));
 
         Storage result = storageService.findById(STORAGE_ID);
         assertAll(

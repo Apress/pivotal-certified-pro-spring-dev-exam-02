@@ -31,7 +31,6 @@ import com.apress.cems.repos.DetectiveRepo;
 import com.apress.cems.repos.PersonRepo;
 import com.apress.cems.repos.impl.JdbcDetectiveRepo;
 import com.apress.cems.repos.impl.JdbcPersonRepo;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +43,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
@@ -53,19 +53,20 @@ import java.util.Arrays;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@SpringJUnitConfig(classes = SampleProfileConfig.TestCtxConfig.class)
-class SampleProfileConfig {
+//@ActiveProfiles("one")
+//@ActiveProfiles("two")
+@SpringJUnitConfig(classes = SampleProfileConfigTest.TestCtxConfig.class)
+class SampleProfileConfigTest {
 
-    private Logger logger = LoggerFactory.getLogger(SimpleBeanImpl.class);
+    private Logger logger = LoggerFactory.getLogger(SampleProfileConfigTest.class);
 
     @Autowired
     ApplicationContext ctx;
 
     @Test
     void testBean(){
-        Arrays.stream(ctx.getBeanDefinitionNames()).forEach();
+        Arrays.stream(ctx.getBeanDefinitionNames()).forEach(beanName -> logger.info(beanName));
     }
-
 
     @Configuration
     static class TestCtxConfig {
@@ -76,7 +77,7 @@ class SampleProfileConfig {
             return new JdbcPersonRepo(jdbcTemplate());
         }
 
-        @Before
+        @Bean
         @Profile("two")
         DetectiveRepo jdbcDetectiveRepo(){
             return new JdbcDetectiveRepo(jdbcTemplate());

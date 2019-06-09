@@ -28,19 +28,19 @@ SOFTWARE.
 package com.apress.cems.aop;
 
 import com.apress.cems.aop.config.AopConfig;
-import com.apress.cems.aop.service.PersonService;
+import com.apress.cems.aop.service.StorageService;
 import com.apress.cems.aop.test.TestDbConfig;
-import com.apress.cems.dao.Person;
-import com.apress.cems.repos.PersonRepo;
+import com.apress.cems.dao.Evidence;
+import com.apress.cems.dao.Storage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDate;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Iuliana Cosmina
@@ -48,61 +48,51 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AopConfig.class, TestDbConfig.class})
-class TestPersonMonitor {
+class StorageMonitorTest {
 
     @Autowired
-    PersonRepo personRepo;
-
-    @Autowired
-    PersonService personService;
-
+    StorageService storageService;
 
     @Test
-    void testFindById() {
-        Person person = personRepo.findById(1L);
-        assertEquals("sherlock.holmes", person.getUsername());
+    void testProxyBubu() {
+        Storage storage = new Storage();
+        storage.setId(1L);
+        storage.setName("Edinburgh PD Storage");
+        storage.setLocation("EH4 3SD");
+
+        Evidence ev1 = new Evidence();
+        ev1.setNumber("BL00254");
+        ev1.setItemName("Glock 19");
+        storage.addEvidence(ev1);
+
+        Evidence ev2 = new Evidence();
+        ev2.setNumber("BL00257");
+        ev1.setItemName("Bloody bullet 9mm");
+        storage.addEvidence(ev2);
+
+        storageService.save(storage);
+
+        Optional<Storage> result = storageService.findById(1L);
+        assertNotNull(result.get());
     }
 
     @Test
-    void testfindByCompleteName() {
-        personService.findByCompleteName("Sherlock", "Holmes").ifPresent(person ->
-                assertEquals("sherlock.holmes", person.getUsername())
-        );
-    }
+    void testSaveEvidenceSet(){
+        Storage storage = new Storage();
+        storage.setId(1L);
+        storage.setName("Edinburgh PD Storage");
+        storage.setLocation("EH4 3SD");
 
-    @Test
-    void testFindAll() {
-        assertNotNull(personService.findAll());
-    }
+        Evidence ev1 = new Evidence();
+        ev1.setNumber("BL00254");
+        ev1.setItemName("Glock 19");
+        storage.addEvidence(ev1);
 
-    @Test
-    void testSave() {
-        Person person = new Person();
-        person.setId(3L);
-        person.setUsername("nancy.drew");
-        person.setFirstName("Nancy");
-        person.setLastName("Drew");
-        person.setPassword("1@#$asta");
-        person.setHiringDate(LocalDate.now());
-        assertNotNull(personService.save(person));
-    }
+        Evidence ev2 = new Evidence();
+        ev2.setNumber("BL00257");
+        ev1.setItemName("Bloody bullet 9mm");
+        storage.addEvidence(ev2);
 
-    @Test
-    void testBadSave() {
-        Person person = new Person();
-        person.setId(3L);
-        person.setUsername("nancy.drew");
-        person.setFirstName("Nanc#");
-        person.setLastName("&rew");
-        person.setPassword("1@#$asta");
-        person.setHiringDate(LocalDate.now());
-        assertThrows(IllegalArgumentException.class, () -> personService.save(person));
+        storageService.saveEvidenceSet(storage);
     }
-
-    @Test
-    void testBadUpdate() {
-        Person person = personRepo.findById(1L);
-        assertThrows(IllegalArgumentException.class, () -> personService.updateFirstName(person, "Sh$r1oc#"));
-    }
-
 }

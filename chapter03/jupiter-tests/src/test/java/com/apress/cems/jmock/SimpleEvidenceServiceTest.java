@@ -42,6 +42,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static com.apress.cems.stub.util.TestObjectsBuilder.buildCase;
 import static com.apress.cems.stub.util.TestObjectsBuilder.buildDetective;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -68,7 +70,7 @@ public class SimpleEvidenceServiceTest {
     }
 
     @Test
-    public void findByIdPositive() {
+    public void testCreateEvidence() {
         Detective detective = buildDetective("Sherlock", "Holmes", Rank.INSPECTOR, "TS1234");
         CriminalCase criminalCase = buildCase(detective, CaseType.FELONY, CaseStatus.UNDER_INVESTIGATION);
         Evidence evidence = new Evidence();
@@ -79,7 +81,7 @@ public class SimpleEvidenceServiceTest {
 
         mockery.checking(new Expectations() {{
             allowing(mockRepo).findById(EVIDENCE_ID);
-            will(returnValue(evidence));
+            will(returnValue(Optional.of(evidence)));
         }});
 
         Evidence result = service.findById(EVIDENCE_ID);

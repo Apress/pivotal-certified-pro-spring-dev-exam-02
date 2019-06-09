@@ -30,6 +30,7 @@ package com.apress.cems.repos;
 import com.apress.cems.cfg.AllConfig;
 import com.apress.cems.cfg.TestDbConfig;
 import com.apress.cems.dao.Person;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,27 +52,28 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 //@ContextConfiguration(classes = {TestDbConfig.class, AppConfig.class})
 @ContextConfiguration(classes = {TestDbConfig.class, AllConfig.class})
 @ActiveProfiles("dev")
-public class RepositoryTest {
+class RepositoryTest {
 
-    public static final Long PERSON_ID = 1L;
+    static final Long PERSON_ID = 1L;
 
     @Autowired
     PersonRepo personRepo;
 
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         assertNotNull(personRepo);
     }
 
     @Test
-    public void testFindByIdPositive(){
-        Person person = personRepo.findById(PERSON_ID);
-        assertNotNull(person);
-        assertEquals("Sherlock", person.getFirstName());
+    void testFindByIdPositive(){
+        personRepo.findById(PERSON_ID).ifPresentOrElse(
+                p -> assertEquals("Sherlock", p.getFirstName()),
+                Assertions:: fail
+        );
     }
 
     @Test
-    public void testFindAll(){
+    void testFindAll(){
         Set<Person> personSet = personRepo.findAll();
         assertNotNull(personSet);
         assertEquals(2, personSet.size());

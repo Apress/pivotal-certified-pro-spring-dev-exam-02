@@ -23,7 +23,7 @@ sourceCompatibility = 12
 
 ext {
     springVersion = '5.2.0.M1'
-    springBootVersion = '2.2.0.M2'
+    springBootVersion = '2.2.0.M3'
     springJpaVersion = '2.2.0.M1'
 
     //testing
@@ -36,7 +36,8 @@ ext {
     jmockVersion = '2.10.0-RC3'
 
     //aop libs
-    aspectjVersion = '1.9.3'
+    aspectjVersion = '1.9.4'
+    objenesisVersion = '3.0.1'
 
     //logging
     slf4jVersion = '1.8.0-beta4'
@@ -94,7 +95,8 @@ ext {
             ojdbc           : "com.oracle:ojdbc7:$ojdbcVersion",
             slf4j           : "org.slf4j:slf4j-api:$slf4jVersion",
             logback         : "ch.qos.logback:logback-classic:$logbackVersion",
-            aspectjweaver     : "org.aspectj:aspectjweaver:$aspectjVersion"
+            aspectjweaver   : "org.aspectj:aspectjweaver:$aspectjVersion",
+            objenesis       : "org.objenesis:objenesis:$objenesisVersion"
     ]
 
     hibernate = [

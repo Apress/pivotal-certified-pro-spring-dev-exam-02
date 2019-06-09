@@ -30,6 +30,7 @@ package com.apress.cems.mockito;
 import com.apress.cems.dao.Storage;
 import com.apress.cems.repos.StorageRepo;
 import com.apress.cems.services.impl.SimpleStorageService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,6 +38,9 @@ import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -46,8 +50,8 @@ import static org.mockito.Mockito.*;
  * Description: new-style using Mockito mocks with JUnit 5
  */
 @ExtendWith(MockitoExtension.class)
-public class SimpleStorageServiceTest3 {
-    public static final Long STORAGE_ID = 1L;
+class SimpleStorageServiceTest3 {
+    static final Long STORAGE_ID = 1L;
 
     @Mock //Creates mock instance of the field it annotates
     private StorageRepo mockRepo;
@@ -56,10 +60,10 @@ public class SimpleStorageServiceTest3 {
     private SimpleStorageService storageService;
 
     @Test
-    public void findByIdPositive() {
+    void findByIdPositive() {
         Storage storage = new Storage();
         storage.setId(STORAGE_ID);
-        when(mockRepo.findById(any(Long.class))).thenReturn(storage);
+        when(mockRepo.findById(any(Long.class))).thenReturn(Optional.of(storage));
 
         Storage result = storageService.findById(STORAGE_ID);
 

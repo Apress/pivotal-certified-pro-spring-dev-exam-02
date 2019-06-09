@@ -25,7 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.jupiter;
+package com.apress.cems.stub.services;
 
 import com.apress.cems.dao.CriminalCase;
 import com.apress.cems.dao.Detective;
@@ -33,14 +33,14 @@ import com.apress.cems.repos.NotFoundException;
 import com.apress.cems.services.impl.SimpleCriminalCaseService;
 import com.apress.cems.stub.repo.StubCriminalCaseRepo;
 import com.apress.cems.util.Rank;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Set;
 
 import static com.apress.cems.stub.util.TestObjectsBuilder.buildDetective;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Iuliana Cosmina
@@ -54,8 +54,8 @@ public class SimpleCriminalCaseServiceTest {
 
     SimpleCriminalCaseService service = new SimpleCriminalCaseService();
 
-    @BeforeEach
-     void setUp(){
+    @Before
+    public void setUp(){
         repo.init();
 
         //create object to be tested
@@ -65,50 +65,60 @@ public class SimpleCriminalCaseServiceTest {
 
     //positive test, we know that a Case with ID=1 exists
     @Test
-     void findByIdPositive() {
+    public void findByIdPositive() {
         CriminalCase criminalCase = service.findById(CASE_ID);
         assertNotNull(criminalCase);
     }
 
     //negative test, we know that a Case with ID=99 does not exist
-    @Test
-     void findByIdNegative() {
-        assertThrows( NotFoundException.class, () ->
-                service.findById(99L), "No such case exists");
+    @Test(expected = NotFoundException.class)
+    public void findByIdNegative() {
+        CriminalCase criminalCase = service.findById(99L);
+        assertNull(criminalCase);
     }
 
+    //negative test, we know that a Case with ID=99 does not exist
     @Test
-     void deleteByIdPositive() {
-        service.deleteById(CASE_ID);
-
-        // we do a find to test the deletion succeeded
-        assertThrows( NotFoundException.class, () ->
-                service.findById(CASE_ID), "No such case exists");
-    }
-
-    @Test
-     void deleteByIdNegative() {
-        assertThrows(NotFoundException.class, () ->
-                service.deleteById(99L), "Case could not be deleted");
+    public void findByIdNegativeWithLambda() {
+        assertThrows(NotFoundException.class, () -> service.findById(99L));
     }
 
     //positive test, we know that cases for this detective exist and how many
     @Test
-     void findByLeadPositive() {
+    public void findByLeadPositive() {
         Set<CriminalCase> result =  service.findByLeadInvestigator(detective);
         assertEquals(result.size(), 2);
     }
 
     //negative test, we know that cases for this detective do not exist
     @Test
-     void findByOwnerNegative() {
+    public void findByLeadNegative() {
         Detective detective = buildDetective("Jake", "Peralta", Rank.JUNIOR, "TS1122");
         Set<CriminalCase> result =  service.findByLeadInvestigator(detective);
         assertNull(result);
     }
 
-    @AfterEach
-     void tearDown(){
+    //positive case, deleting existing case record
+    @Test
+    public void deleteByIdPositive() {
+        service.deleteById(CASE_ID);
+
+        try {
+            CriminalCase criminalCase = service.findById(CASE_ID);
+            assertNull(criminalCase);
+        } catch (NotFoundException nfe){
+          assertTrue(nfe.getMessage().contains("Entity with id 1 could not be processed because it does not exist"));
+        }
+    }
+
+    //negative case, attempt to delete non-existing case
+    @Test(expected = NotFoundException.class)
+    public void deleteByIdNegative() {
+        service.deleteById(99L);
+    }
+
+    @After
+    public void tearDown(){
         repo.clear();
     }
 }
