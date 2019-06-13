@@ -54,8 +54,8 @@ public abstract class SimpleAbstractService<T extends AbstractEntity>  implement
     }
 
     @Override
-    public void deleteById(Long entityId) {
-        getRepo().deleteById(entityId);
+    public int deleteById(Long entityId) {
+        return getRepo().deleteById(entityId);
     }
 
     abstract AbstractRepo<T> getRepo();

@@ -40,7 +40,9 @@ import java.util.Set;
  */
 @Entity
 public class Detective extends AbstractEntity {
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PERSON_ID")
     private Person person;
 
     @Column(unique = true, nullable = false)
@@ -146,5 +148,11 @@ public class Detective extends AbstractEntity {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), person, badgeNumber);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Detective\n\t[person='%s', badgeNumber='%s', rank='%s', armed='%s', status='%s']",
+                person.toString(), badgeNumber,rank, armed, status);
     }
 }

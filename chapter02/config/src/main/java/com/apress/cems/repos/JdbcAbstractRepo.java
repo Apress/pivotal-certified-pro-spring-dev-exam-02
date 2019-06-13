@@ -62,8 +62,8 @@ public class JdbcAbstractRepo<T extends AbstractEntity> implements AbstractRepo<
     }
 
     @Override
-    public void deleteById(Long entityId) {
-
+    public int deleteById(Long entityId) {
+        return 0;
     }
 
     @Override

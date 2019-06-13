@@ -35,8 +35,6 @@ import com.apress.cems.pojos.services.DetectiveService;
 import com.apress.cems.util.NumberGenerator;
 import com.apress.cems.util.Rank;
 
-import java.util.Date;
-
 /**
  * @author Iuliana Cosmina
  * @since 1.0
@@ -50,7 +48,7 @@ public class SimpleDetectiveService extends SimpleAbstractService<Detective> imp
         Detective detective = new Detective();
         detective.setPerson(person);
         detective.setRank(rank);
-        detective.setBadgeNumber(NumberGenerator.getBadGeNumber());
+        detective.setBadgeNumber(NumberGenerator.getBadgeNumber());
         repo.save(detective);
         return detective;
     }

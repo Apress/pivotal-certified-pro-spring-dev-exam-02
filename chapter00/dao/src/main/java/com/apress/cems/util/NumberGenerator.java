@@ -38,7 +38,7 @@ public final class NumberGenerator {
     private static final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String DIGITS = "0123456789";
 
-    public static String getBadGeNumber() {
+    public static String getBadgeNumber() {
         final StringBuilder sb = new StringBuilder();
         sb.append(randomUppercase()).append(randomUppercase());
         for (int i = 0; i < 6; ++i) {

@@ -62,7 +62,7 @@ public class SimpleOperationsService implements OperationsService {
         Detective detective = new Detective();
         detective.setPerson(person);
         detective.setRank(rank);
-        detective.setBadgeNumber(NumberGenerator.getBadGeNumber());
+        detective.setBadgeNumber(NumberGenerator.getBadgeNumber());
         detectiveRepo.save(detective);
         return detective;
     }

@@ -58,8 +58,9 @@ public abstract class StubAbstractRepo <T extends AbstractEntity> implements Abs
     }
 
     @Override
-    public void deleteById(Long entityId) throws NotFoundException {
+    public int  deleteById(Long entityId) throws NotFoundException {
         findById(entityId).ifPresent(r -> records.remove(r.getId()));
+        return 1;
     }
 
     @Override

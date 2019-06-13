@@ -29,8 +29,7 @@ package com.apress.cems.dao;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
@@ -58,6 +57,9 @@ public class Person extends AbstractEntity {
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate hiringDate;
+
+/*    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private Detective detective;*/
 
     public Person() {
         super();
@@ -121,8 +123,8 @@ public class Person extends AbstractEntity {
 
     @Override
     public String toString() {
-        return String.format("Person[username='%s%n', firstName='%s', lastName='%s']",
-                username, firstName, lastName);
+        return String.format("Person[username='%s', firstName='%s', lastName='%s', hiringDate='%s']\n",
+                username, firstName, lastName, hiringDate.toString());
 
     }
 }

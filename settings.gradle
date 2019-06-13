@@ -32,16 +32,17 @@ include 'chapter04:aop-practice'
 include 'chapter04:aop-base'
 include 'chapter04:boot-aop'
 
-include 'chapter12'
-include 'chapter12'
-include 'chapter12'
+include 'chapter05:jdbc'
+include 'chapter05:jdbc-practice'
+
+
 include 'chapter06'
 include 'chapter07'
-include 'chapter12'
 include 'chapter09'
 include 'chapter10'
 include 'chapter11'
 include 'chapter12'
+
 
 rootProject.children.each { project ->
     project.buildFileName = "${project.name}.gradle"

@@ -30,7 +30,6 @@ package com.apress.cems.services.impl;
 import com.apress.cems.dao.Detective;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.AbstractRepo;
-import com.apress.cems.repos.NotFoundException;
 import com.apress.cems.util.NumberGenerator;
 import com.apress.cems.util.Rank;
 import com.apress.cems.repos.DetectiveRepo;
@@ -59,7 +58,7 @@ public class SimpleDetectiveService extends SimpleAbstractService<Detective> imp
         Detective detective = new Detective();
         detective.setPerson(person);
         detective.setRank(rank);
-        detective.setBadgeNumber(NumberGenerator.getBadGeNumber());
+        detective.setBadgeNumber(NumberGenerator.getBadgeNumber());
         repo.save(detective);
         return detective;
     }

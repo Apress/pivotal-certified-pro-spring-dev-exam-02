@@ -42,4 +42,8 @@ public interface DetectiveRepo extends AbstractRepo<Detective> {
     Optional<Detective> findByBadgeNumber(String badgeNumber);
 
     Set<Detective> findbyRank(Rank rank);
+
+    default Optional<Detective> findByIdWithPersonDetails(Long id) {
+        return Optional.empty();
+    }
 }

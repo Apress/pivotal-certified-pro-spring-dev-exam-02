@@ -32,7 +32,6 @@ import com.apress.cems.repos.ApressRepo;
 import com.apress.cems.repos.PersonRepo;
 import com.apress.cems.repos.util.PersonRowMapper;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -48,11 +47,10 @@ import java.util.Set;
  */
 @Repository
 public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRepo {
-    private RowMapper<Person> rowMapper = new PersonRowMapper();
+    protected RowMapper<Person> rowMapper = new PersonRowMapper();
 
     private static final String[] SPECIAL_CHARS = new String[]{"$", "#", "&", "%"};
 
-    @Autowired
     public JdbcPersonRepo(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
     }
@@ -60,20 +58,26 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
     @ApressRepo
     @Override
     public Optional<Person> findById(Long id) {
-        String sql = "select id, username, firstname, lastname, password, hiringdate from person where id= ?";
+        String sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON where ID= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, id));
     }
 
     @Override
     public Optional<Person> findByUsername(String username) {
-        String sql = "select id, username, firstname, lastname, password, hiringdate from person where username= ?";
+        String sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON where USERNAME= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, username));
     }
 
     @Override
     public Optional<Person> findByCompleteName(String firstName, String lastName) {
-        String sql = "select id, username, firstname, lastname, password, hiringdate from person where firstname= ? and lastname= ?";
+        String sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON where FIRSTNAME= ? and LASTNAME= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, new Object[]{firstName, lastName}, rowMapper));
+    }
+
+    @Override
+    public int updatePassword(Long personId, String newPass) {
+        String sql = "update PERSON set password=? where ID = ?";
+        return jdbcTemplate.update(sql, newPass, personId);
     }
 
     @Override
@@ -82,7 +86,7 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
                 StringUtils.indexOfAny(person.getLastName(), SPECIAL_CHARS) != -1) {
             throw new IllegalArgumentException("Text contains weird characters!");
         }
-        jdbcTemplate.update("update person set username=?, firstname=?, lastname=?, password=?, modified_at=? where id=?",
+        jdbcTemplate.update("update PERSON set USERNAME=?, FIRSTNAME=?, LASTNAME=?, PASSWORD=?, MODIFIED_AT=? where ID=?",
                  person.getUsername(), person.getFirstName(), person.getLastName(), person.getPassword(), LocalDate.now(), person.getId()
         );
         return person;
@@ -91,34 +95,31 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
     @Override
     public void save(Person person) {
         jdbcTemplate.update(
-                "insert into person(id, username, firstname, lastname, password, hiringdate, modified_at, created_at) values(?,?,?,?,?,?,?,?)",
-                person.getId(), person.getUsername(), person.getFirstName(), person.getLastName(), person.getPassword(), person.getHiringDate(), LocalDate.now(), LocalDate.now()
+                "insert into PERSON(ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE, MODIFIED_AT, CREATED_AT, VERSION) values(?,?,?,?,?,?,?,?,?)",
+                person.getId(), person.getUsername(), person.getFirstName(), person.getLastName(), person.getPassword(),
+                person.getHiringDate(), LocalDate.now(), LocalDate.now(), 1
         );
     }
 
     @Override
     public Set<Person> findAll() {
-        String sql = "select id, username, firstname, lastname, password, hiringdate from person";
+        String sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON";
         return new HashSet<>(jdbcTemplate.query(sql, rowMapper));
     }
 
     @Override
     public void delete(Person entity) {
-        jdbcTemplate.update(
-                "delete from person where id =? ",
-                entity.getId());
+        jdbcTemplate.update("delete from PERSON where ID =? ", entity.getId());
     }
 
     @Override
-    public void deleteById(Long id) {
-        jdbcTemplate.update(
-                "delete from person where id =? ",
-                id);
+    public int deleteById(Long id) {
+        return jdbcTemplate.update("delete from PERSON where ID =? ", id);
     }
 
     @Override
     public long count() {
-        String sql = "select count(*) from person";
+        String sql = "select count(*) from PERSON";
         return jdbcTemplate.queryForObject(sql, Long.class);
     }
 }

@@ -39,7 +39,7 @@ public interface AbstractRepo <T extends AbstractEntity> {
 
     void delete(T entity);
 
-    void deleteById(Long entityId);
+    int deleteById(Long entityId);
 
     T findById(Long entityId);
 }

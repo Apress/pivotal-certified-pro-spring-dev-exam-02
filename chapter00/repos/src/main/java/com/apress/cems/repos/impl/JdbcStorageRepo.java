@@ -46,40 +46,39 @@ import java.util.Optional;
 public class JdbcStorageRepo extends JdbcAbstractRepo<Storage> implements StorageRepo {
     private RowMapper<Storage> rowMapper = new StorageRowMapper();
 
-    @Autowired
     public JdbcStorageRepo(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
     }
 
     @Override
     public Optional<Storage> findById(Long entityId) {
-        String sql = "select id, name, location from storage where id= ?";
+        String sql = "select ID, NAME, LOCATION from STORAGE where ID= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, entityId));
     }
 
     @Override
     public Optional<Storage> findByName(String name) {
-        String sql = "select id, name, location from storage where name= ?";
+        String sql = "select ID, NAME, LOCATION from STORAGE where NAME= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, name));
     }
 
     @Override
     public Optional<Storage> findByLocation(String location) {
-        String sql = "select id, name, location from storage where location= ?";
+        String sql = "select ID, NAME, LOCATION from STORAGE where LOCATION= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, location));
     }
 
     @Override
     public void save(Storage storage) {
         jdbcTemplate.update(
-                "insert into storage(id, name, location, modified_at, created_at) values(?,?,?,?,?)",
+                "insert into STORAGE(ID, NAME, LOCATION, MODIFIED_AT, CREATED_AT) values(?,?,?,?,?)",
                 storage.getId(), storage.getName(), storage.getLocation(), LocalDate.now(), LocalDate.now()
         );
     }
 
     @Override
     public void delete(Storage entity) {
-        jdbcTemplate.update("delete from storage where id =? ", entity.getId());
+        jdbcTemplate.update("delete from STORAGE where ID =? ", entity.getId());
     }
 
     @Override
@@ -88,8 +87,8 @@ public class JdbcStorageRepo extends JdbcAbstractRepo<Storage> implements Storag
     }
 
     @Override
-    public void deleteById(Long entityId) {
-        jdbcTemplate.update("delete from storage where id =? ", entityId);
+    public int deleteById(Long entityId) {
+        return jdbcTemplate.update("delete from STORAGE where ID =? ", entityId);
     }
 
 }

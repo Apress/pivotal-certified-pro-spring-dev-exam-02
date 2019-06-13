@@ -56,8 +56,8 @@ public abstract class StubAbstractRepo <T extends AbstractEntity> implements Abs
     }
 
     @Override
-    public void deleteById(Long entityId) {
-        records.remove(entityId);
+    public int deleteById(Long entityId) {
+        return records.remove(entityId) == null? 0 : 1;
     }
 
     @Override

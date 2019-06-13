@@ -19,7 +19,7 @@ public interface StorageService {
 
     void delete(Storage entity);
 
-    void deleteById(Long entityId);
+    int deleteById(Long entityId);
 
     Optional<Storage> findById(Long entityId);
 

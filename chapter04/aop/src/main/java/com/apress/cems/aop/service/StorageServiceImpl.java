@@ -82,8 +82,8 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public void deleteById(Long entityId) {
-        storageRepo.deleteById(entityId);
+    public int deleteById(Long entityId) {
+        return storageRepo.deleteById(entityId);
     }
 
     @Override

@@ -63,4 +63,9 @@ public class StubPersonRepo extends StubAbstractRepo<Person> implements PersonRe
     public long count() {
         throw new NotImplementedException("Not needed for this stub.");
     }
+
+    @Override
+    public int updatePassword(Long personId, String newPass) {
+        throw new NotImplementedException("Not needed for this example");
+    }
 }

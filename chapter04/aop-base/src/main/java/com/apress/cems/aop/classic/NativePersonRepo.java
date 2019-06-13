@@ -73,6 +73,11 @@ public class NativePersonRepo implements PersonRepo {
     }
 
     @Override
+    public int updatePassword(Long personId, String newPass) {
+        throw new NotImplementedException("Not needed for this example");
+    }
+
+    @Override
     public Set<Person> findAll() {
         Set<Person> persons;
         String sql = "select p.ID as ID, p.USERNAME as USERNAME," +
@@ -122,7 +127,7 @@ public class NativePersonRepo implements PersonRepo {
     }
 
     @Override
-    public void deleteById(Long entityId) {
+    public int deleteById(Long entityId) {
         throw new NotImplementedException("Not needed for this example");
     }
 

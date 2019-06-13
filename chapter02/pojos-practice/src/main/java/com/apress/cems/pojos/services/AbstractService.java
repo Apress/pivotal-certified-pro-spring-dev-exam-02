@@ -38,5 +38,5 @@ public interface AbstractService<T> {
 
     void delete(T entity);
 
-    void deleteById(Long entityId);
+    int deleteById(Long entityId);
 }
