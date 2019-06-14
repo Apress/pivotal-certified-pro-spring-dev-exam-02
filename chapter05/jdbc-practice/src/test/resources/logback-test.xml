@@ -13,9 +13,7 @@
 
     <logger name="com.apress.jdbc" level="debug"/>
 
-    <logger name="org.springframework" level="info"/>
-
-    <logger name="org.springframework.jdbc" level="debug"/>
+    <logger name="org.springframework" level="debug"/>
 
     <logger name="org.hibernate.SQL" additivity="false" level="off" />
 
