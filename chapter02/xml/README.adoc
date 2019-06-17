@@ -6,6 +6,44 @@ Install Docker (https://www.docker.com/).
 
 Then install this container: https://hub.docker.com/_/oracle-database-enterprise-edition.
 Follow instructions on the container page and test your database using Oracle SQL Developer.
+Usually you might need to go through the following steps:
+
+- create an account
+- log in
+- search for Oracle
+- the first result should be the container linked above
+- click on the "Proceed to Checkout" button
+- check all the boxes required in the Developer Tier view
+
+image::docker_developer_tier.png[Developer Tier]
+
+- then open a terminal and execute:
+```
+$ docker pull store/oracle/database-enterprise:12.2.0.1
+$ docker login
+$ docker run -d -p 1521:1521 -p 5500:5500 -it --name local-oracle store/oracle/database-enterprise:12.2.0.1
+```
+where `local-oracle` is the name of the container. You can now see it with Kitematic, and it will take a little to fully start.
+
+image::kitematic_view.png[Kitematic View]
+
+- You can test the database being up by executing `docker ps -a`. You should see something similar to:
+```
+CONTAINER ID        IMAGE                                       COMMAND                  CREATED             STATUS                        PORTS                                              NAMES
+d9fe67c59e67        store/oracle/database-enterprise:12.2.0.1   "/bin/sh -c '/bin/ba…"   7 minutes ago       Up 7 minutes (healthy)        0.0.0.0:1521->1521/tcp, 0.0.0.0:5500->5500/tcp     local-oracle
+```
+- Once the Oracle Database is up you can set up a connection in SQL developer. Use the following:
+```
+user: sys
+password: Oradoc_db1
+Connection Type: Basic
+Role: SYSDBA
+Hostname: localhost
+Port: 1521
+SID: ORCLDCB
+```
+
+image::sql_developer_connection.png[SQL developer connection]
 
 Open a terminal
 View containers:
@@ -19,12 +57,16 @@ docker ps
 
 You can also install Kitematic to view and manage your containers.
 
-==== Oracle 12c in a docker container. SQL script needed to create the user and schema:
+==== SQL script needed to create the user and schema:
 
+Using the `sys` connection declared previously, execute the following.
 ----
+alter session set "_ORACLE_SCRIPT"=true;
+
 CREATE USER prod IDENTIFIED BY prod;
 GRANT CONNECT TO prod;
 GRANT CONNECT, RESOURCE, DBA TO prod;
 GRANT CREATE SESSION TO prod;
 GRANT UNLIMITED TABLESPACE TO prod;
 ----
+You can create a SQL Developer connection using the `prod` user, just remember to use `Role: default`
