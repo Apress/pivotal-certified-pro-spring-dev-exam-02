@@ -32,7 +32,6 @@ import com.apress.cems.dao.Storage;
 import com.apress.cems.repos.StorageRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -47,7 +46,6 @@ public class StorageServiceImpl implements StorageService {
     private static final Logger logger = LoggerFactory.getLogger(StorageServiceImpl.class);
     private StorageRepo storageRepo;
 
-    @Autowired
     public StorageServiceImpl(StorageRepo storageRepo) {
        this.storageRepo = storageRepo;
     }

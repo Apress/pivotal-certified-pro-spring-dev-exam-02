@@ -25,12 +25,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.aop.service;
+package com.apress.cems.tx.services;
 
+import com.apress.cems.aop.service.PersonService;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.PersonRepo;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Set;
@@ -40,6 +41,7 @@ import java.util.Set;
  * @since 1.0
  */
 @Service
+@Transactional(readOnly = true)
 public class PersonServiceImpl implements PersonService {
     private PersonRepo personRepo;
 
@@ -62,12 +64,14 @@ public class PersonServiceImpl implements PersonService {
         return personRepo.findById(id);
     }
 
+    @Transactional
     @Override
     public Person save(Person person) {
         personRepo.save(person);
         return person;
     }
 
+    @Transactional
     @Override
     public Person updateFirstName(Person person, String newFirstname) {
         person.setFirstName(newFirstname);
@@ -80,17 +84,24 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public String getPersonAsHtml(String username) {
+        final StringBuilder sb = new StringBuilder();
+        personRepo.findByUsername(username).ifPresentOrElse(
+                p -> sb.append("<p>First Name: ").append(p.getFirstName()).append(" </p>")
+                        .append("<p>Last Name: ").append(p.getLastName()).append(" </p>"),
+                () -> sb.append("<p>None found with username ").append(username).append(" </p>")
+        );
+        return null;
+    }
+
+    @Override
     public Optional<Person> findByCompleteName(String firstName, String lastName) {
         return personRepo.findByCompleteName(firstName,lastName);
     }
 
+    @Transactional
     @Override
     public void delete(Person person) {
         personRepo.delete(person);
-    }
-
-    @Override
-    public String getPersonAsHtml(String username) {
-        throw new NotImplementedException("Not needed for this example");
     }
 }

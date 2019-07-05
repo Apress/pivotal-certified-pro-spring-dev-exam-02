@@ -53,5 +53,5 @@ public interface PersonService {
 
     Optional<Person> findByCompleteName(String firstName, String lastName);
 
-
+    String getPersonAsHtml(String username);
 }

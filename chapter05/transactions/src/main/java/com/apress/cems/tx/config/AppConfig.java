@@ -25,42 +25,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.naming;
+package com.apress.cems.tx.config;
 
-import com.apress.cems.beans.ci.SimpleBean;
-import com.apress.cems.beans.ci.SimpleBeanImpl;
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class AliasesCfgTest {
-
-    private Logger logger = LoggerFactory.getLogger(AliasesCfg.class);
-
-    @Test
-    void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AliasesCfg.class);
-
-        SimpleBean simpleBean = ctx.getBean("beanOne", SimpleBean.class);
-        assertNotNull(simpleBean);
-        assertTrue(simpleBean instanceof SimpleBeanImpl);
-
-        SimpleBean simpleBean2 = ctx.getBean("beanTwo", SimpleBean.class);
-        assertEquals(simpleBean2, simpleBean);
-
-        // no bean named 'simpleBean'
-        assertThrows(NoSuchBeanDefinitionException.class, () -> ctx.getBean("simpleBean", SimpleBean.class));
-
-        ctx.close();
-    }
+@Configuration
+@ComponentScan(basePackages = {"com.apress.cems.repos" ,"com.apress.cems.tx.services"})
+@EnableTransactionManagement
+public class AppConfig {
 }

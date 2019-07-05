@@ -25,66 +25,45 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.aop.service;
+package com.apress.cems.tx.config;
 
-import com.apress.cems.dao.Person;
-import com.apress.cems.repos.PersonRepo;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import java.util.Optional;
-import java.util.Set;
+import javax.sql.DataSource;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Service
-public class PersonServiceImpl implements PersonService {
-    private PersonRepo personRepo;
+@Configuration
+public class TestTransactionalDbConfig {
 
-    public PersonServiceImpl(PersonRepo personRepo) {
-        this.personRepo = personRepo;
+    @Bean
+    public JdbcTemplate userJdbcTemplate() {
+        return new JdbcTemplate(dataSource());
     }
 
-    @Override
-    public Set<Person> findAll() {
-        return Set.copyOf(personRepo.findAll());
+    @Bean
+    public DataSource dataSource() {
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabase db = builder
+                .setType(EmbeddedDatabaseType.H2)
+                .generateUniqueName(true)
+                .addScript("db/schema.sql")
+                .addScript("db/test-data.sql")
+                .build();
+        return db;
     }
 
-    @Override
-    public long count() {
-        return personRepo.count();
+    @Bean
+    public DataSourceTransactionManager transactionManager(){
+        return new DataSourceTransactionManager(dataSource());
     }
 
-    @Override
-    public Optional<Person> findById(Long id) {
-        return personRepo.findById(id);
-    }
-
-    @Override
-    public Person save(Person person) {
-        personRepo.save(person);
-        return person;
-    }
-
-    @Override
-    public Person updateFirstName(Person person, String newFirstname) {
-        person.setFirstName(newFirstname);
-        return personRepo.update(person);
-    }
-
-    @Override
-    public Optional<Person> findByUsername(String username) {
-        return personRepo.findByUsername(username);
-    }
-
-    @Override
-    public Optional<Person> findByCompleteName(String firstName, String lastName) {
-        return personRepo.findByCompleteName(firstName,lastName);
-    }
-
-    @Override
-    public void delete(Person person) {
-        personRepo.delete(person);
-    }
 }

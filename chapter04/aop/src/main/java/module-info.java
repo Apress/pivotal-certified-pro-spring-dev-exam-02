@@ -2,6 +2,7 @@
  * Created by iuliana.cosmina on 21/01/19.
  */
 module com.apress.cems.aop {
+    exports com.apress.cems.aop.service;
     requires com.apress.cems.dao;
     requires com.apress.cems.repos;
     requires org.apache.commons.lang3;
