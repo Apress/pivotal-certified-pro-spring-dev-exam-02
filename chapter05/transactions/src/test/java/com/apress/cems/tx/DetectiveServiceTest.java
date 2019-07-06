@@ -25,48 +25,49 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.repos.util;
+package com.apress.cems.tx;
 
-import com.apress.cems.dao.Detective;
+import com.apress.cems.aop.service.DetectiveService;
+import com.apress.cems.aop.service.PersonService;
 import com.apress.cems.dao.Person;
-import com.apress.cems.util.EmploymentStatus;
-import com.apress.cems.util.Rank;
-import org.springframework.jdbc.core.RowMapper;
+import com.apress.cems.tx.config.AppConfig;
+import com.apress.cems.tx.config.TestTransactionalDbConfig;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import static com.apress.cems.util.DateProcessor.toDate;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class DetectiveRowMapper implements RowMapper<Detective> {
-    @Override
-    public Detective mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Long id = rs.getLong("ID");
-        String badgeNumber = rs.getString("BADGE_NUMBER");
-        String rank = rs.getString("RANK");
-        Boolean armed = rs.getBoolean("ARMED");
-        String status = rs.getString("STATUS");
-        Long personId = rs.getLong("PERSON_ID");
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {TestTransactionalDbConfig.class, AppConfig.class})
+class DetectiveServiceTest {
 
-        Person person = new Person();
-        person.setId(personId);
-        person.setUsername(rs.getString("USERNAME"));
-        person.setFirstName(rs.getString("FIRSTNAME"));
-        person.setLastName(rs.getString("LASTNAME"));
-        person.setHiringDate(rs.getDate("HIRINGDATE").toLocalDate());
+    private Logger logger = LoggerFactory.getLogger(DetectiveServiceTest.class);
 
-        Detective detective = new Detective();
-        detective.setId(id);
-        detective.setPerson(person);
-        detective.setBadgeNumber(badgeNumber);
-        detective.setRank(Rank.valueOf(rank));
-        detective.setArmed(armed);
-        detective.setStatus(EmploymentStatus.valueOf(status));
+    @Autowired
+    DetectiveService detectiveService;
 
-        return detective;
+    @Autowired
+    PersonService personService;
+
+    @Test
+    void testDetectiveHtml(){
+        detectiveService.findById(1L).ifPresent(
+                d -> {
+                    Person p = d.getPerson();
+                    assertNotNull(p);
+                    String html = personService.getPersonAsHtml(p.getUsername());
+                    logger.info("Detective personal info: {}", html);
+                }
+        );
     }
+
 }

@@ -25,39 +25,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.stub.repo;
+package com.apress.cems.tx;
 
-import com.apress.cems.dao.Detective;
-import com.apress.cems.repos.DetectiveRepo;
-import com.apress.cems.util.Rank;
-import org.apache.commons.lang3.NotImplementedException;
+import com.apress.cems.aop.exception.MailSendingException;
+import com.apress.cems.aop.service.PersonService;
+import com.apress.cems.tx.config.AppConfig;
+import com.apress.cems.tx.config.TestTransactionalDbConfig;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Optional;
-import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class StubDetectiveRepo extends StubAbstractRepo<Detective> implements DetectiveRepo {
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {TestTransactionalDbConfig.class, AppConfig.class})
+class PersonServiceTest {
 
-    @Override
-    public Optional<Detective> findByBadgeNumber(String badgeNumber) {
-        return Optional.of(records.get(1L));
-    }
+    @Autowired
+    PersonService personService;
 
-    @Override
-    public Set<Detective> findAll() {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
 
-    @Override
-    public Set<Detective> findbyRank(Rank rank) {
-        throw new NotImplementedException("Not needed for this stub.");
-    }
-
-    @Override
-    public Detective update(Detective entity)  {
-        throw new NotImplementedException("Not needed for this stub.");
+    //@Test
+    void testUpdatePassword() {
+        //TODO 34. Complete definition of this test in order for it to pass
     }
 }

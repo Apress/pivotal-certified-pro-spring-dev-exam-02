@@ -41,7 +41,7 @@ import java.util.Set;
 @Entity
 public class Detective extends AbstractEntity {
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PERSON_ID")
     private Person person;
 

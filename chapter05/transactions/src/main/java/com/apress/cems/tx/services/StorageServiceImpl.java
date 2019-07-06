@@ -25,78 +25,71 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.aop.service;
+package com.apress.cems.tx.services;
 
-import com.apress.cems.aop.exception.MailSendingException;
-import com.apress.cems.dao.Person;
-import com.apress.cems.repos.PersonRepo;
+import com.apress.cems.aop.service.StorageService;
+import com.apress.cems.dao.Storage;
+import com.apress.cems.repos.StorageRepo;
 import org.apache.commons.lang3.NotImplementedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @Service
-public class PersonServiceImpl implements PersonService {
-    private PersonRepo personRepo;
+@Transactional(readOnly = true)
+public class StorageServiceImpl implements StorageService {
+    private Logger logger = LoggerFactory.getLogger(StorageServiceImpl.class);
 
-    public PersonServiceImpl(PersonRepo personRepo) {
-        this.personRepo = personRepo;
+    private StorageRepo storageRepo;
+
+    public StorageServiceImpl(StorageRepo storageRepo) {
+        this.storageRepo = storageRepo;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Override
+    public Optional<Storage> findById(Long entityId) {
+        logger.debug(">>> Preparing to execute REPO.findById");
+        Optional<Storage> opt =  storageRepo.findById(entityId);
+        logger.debug(">>> Done executing REPO.findById");
+        return opt;
     }
 
     @Override
-    public Set<Person> findAll() {
-        return Set.copyOf(personRepo.findAll());
+    public Optional<Storage> findByName(String name) {
+        return storageRepo.findByName(name);
     }
 
     @Override
-    public long countPersons() {
-        return personRepo.count();
+    public Optional<Storage> findByLocation(String location) {
+        return storageRepo.findByName(location);
     }
 
     @Override
-    public Optional<Person> findById(Long id) {
-        return personRepo.findById(id);
+    public void save(Storage storage) {
+        storageRepo.save(storage);
     }
 
     @Override
-    public Person save(Person person) {
-        personRepo.save(person);
-        return person;
+    public void saveEvidenceSet(Storage storage) {
+        throw new NotImplementedException("Not needed for this stub.");
     }
 
     @Override
-    public Person updateFirstName(Person person, String newFirstname) {
-        person.setFirstName(newFirstname);
-        return personRepo.update(person);
+    public void delete(Storage entity) {
+        storageRepo.delete(entity);
     }
 
     @Override
-    public Optional<Person> findByUsername(String username) {
-        return personRepo.findByUsername(username);
-    }
-
-    @Override
-    public Optional<Person> findByCompleteName(String firstName, String lastName) {
-        return personRepo.findByCompleteName(firstName,lastName);
-    }
-
-    @Override
-    public void delete(Person person) {
-        personRepo.delete(person);
-    }
-
-    @Override
-    public String getPersonAsHtml(String username) {
-        throw new NotImplementedException("Not needed for this example");
-    }
-
-    @Override
-    public Person updatePassword(Person person, String password) throws MailSendingException {
-        throw new NotImplementedException("Not needed for this example");
+    public int deleteById(Long entityId) {
+        return storageRepo.deleteById(entityId);
     }
 }

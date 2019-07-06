@@ -25,48 +25,58 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.repos.util;
+package com.apress.cems.tx;
 
-import com.apress.cems.dao.Detective;
 import com.apress.cems.dao.Person;
-import com.apress.cems.util.EmploymentStatus;
-import com.apress.cems.util.Rank;
-import org.springframework.jdbc.core.RowMapper;
+import com.apress.cems.repos.PersonRepo;
+import com.apress.cems.tx.config.AppConfig;
+import com.apress.cems.tx.config.TestTransactionalDbConfig;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.time.LocalDate;
 
-import static com.apress.cems.util.DateProcessor.toDate;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class DetectiveRowMapper implements RowMapper<Detective> {
-    @Override
-    public Detective mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Long id = rs.getLong("ID");
-        String badgeNumber = rs.getString("BADGE_NUMBER");
-        String rank = rs.getString("RANK");
-        Boolean armed = rs.getBoolean("ARMED");
-        String status = rs.getString("STATUS");
-        Long personId = rs.getLong("PERSON_ID");
+// De-Comment the @Test annotations and run to see the tests fail
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {TestTransactionalDbConfig.class, AppConfig.class})
+class PersonRepoTest {
 
+    @Autowired
+    PersonRepo repo;
+
+    @Commit
+    //@Test
+    @Transactional
+    void testCreatePerson(){
         Person person = new Person();
-        person.setId(personId);
-        person.setUsername(rs.getString("USERNAME"));
-        person.setFirstName(rs.getString("FIRSTNAME"));
-        person.setLastName(rs.getString("LASTNAME"));
-        person.setHiringDate(rs.getDate("HIRINGDATE").toLocalDate());
-
-        Detective detective = new Detective();
-        detective.setId(id);
-        detective.setPerson(person);
-        detective.setBadgeNumber(badgeNumber);
-        detective.setRank(Rank.valueOf(rank));
-        detective.setArmed(armed);
-        detective.setStatus(EmploymentStatus.valueOf(status));
-
-        return detective;
+        person.setId(99L);
+        person.setUsername("test.user");
+        person.setFirstName("test");
+        person.setLastName("user");
+        person.setPassword("password");
+        person.setHiringDate(LocalDate.now());
+        person.setCreatedAt(LocalDate.now());
+        person.setModifiedAt(LocalDate.now());
+        repo.save(person);
     }
+
+    // this will fail
+    //@Test
+    void testCountPersons(){
+        long result = repo.count();
+        assertEquals(2, result);
+    }
+
 }

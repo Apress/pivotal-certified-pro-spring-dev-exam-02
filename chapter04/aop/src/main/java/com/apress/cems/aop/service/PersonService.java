@@ -27,6 +27,7 @@ SOFTWARE.
 */
 package com.apress.cems.aop.service;
 
+import com.apress.cems.aop.exception.MailSendingException;
 import com.apress.cems.dao.Person;
 
 import java.util.Optional;
@@ -39,7 +40,7 @@ import java.util.Set;
 public interface PersonService {
     Set<Person> findAll();
 
-    long count();
+    long countPersons();
 
     Optional<Person> findById(Long id);
 
@@ -54,4 +55,6 @@ public interface PersonService {
     Optional<Person> findByCompleteName(String firstName, String lastName);
 
     String getPersonAsHtml(String username);
+
+    Person updatePassword(Person person, String password)throws MailSendingException;
 }

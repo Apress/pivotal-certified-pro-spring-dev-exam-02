@@ -25,48 +25,66 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.repos.util;
+package com.apress.cems.tx.services;
 
+import com.apress.cems.aop.service.DetectiveService;
 import com.apress.cems.dao.Detective;
 import com.apress.cems.dao.Person;
+import com.apress.cems.repos.DetectiveRepo;
 import com.apress.cems.util.EmploymentStatus;
+import com.apress.cems.util.NumberGenerator;
 import com.apress.cems.util.Rank;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import static com.apress.cems.util.DateProcessor.toDate;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class DetectiveRowMapper implements RowMapper<Detective> {
+@Transactional
+@Service
+public class DetectiveServiceImpl implements DetectiveService {
+
+    private DetectiveRepo detectiveRepo;
+
+    public DetectiveServiceImpl(DetectiveRepo detectiveRepo) {
+        this.detectiveRepo = detectiveRepo;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     @Override
-    public Detective mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Long id = rs.getLong("ID");
-        String badgeNumber = rs.getString("BADGE_NUMBER");
-        String rank = rs.getString("RANK");
-        Boolean armed = rs.getBoolean("ARMED");
-        String status = rs.getString("STATUS");
-        Long personId = rs.getLong("PERSON_ID");
+    public Optional<Detective> findById(Long id) {
+        return detectiveRepo.findById(id);
+    }
 
-        Person person = new Person();
-        person.setId(personId);
-        person.setUsername(rs.getString("USERNAME"));
-        person.setFirstName(rs.getString("FIRSTNAME"));
-        person.setLastName(rs.getString("LASTNAME"));
-        person.setHiringDate(rs.getDate("HIRINGDATE").toLocalDate());
+    @Override
+    public Set<Detective> findAll() {
+        return detectiveRepo.findAll();
+    }
 
+    @Override
+    public Detective createDetective(Person person, Rank rank) {
         Detective detective = new Detective();
-        detective.setId(id);
         detective.setPerson(person);
-        detective.setBadgeNumber(badgeNumber);
-        detective.setRank(Rank.valueOf(rank));
-        detective.setArmed(armed);
-        detective.setStatus(EmploymentStatus.valueOf(status));
-
+        detective.setRank(rank);
+        detective.setBadgeNumber(NumberGenerator.getBadgeNumber());
+        detective.setArmed(false);
+        detective.setStatus(EmploymentStatus.ACTIVE);
+        detectiveRepo.save(detective);
         return detective;
+    }
+
+    @Override
+    public Optional<Detective> findByBadgeNumber(String badgeNumber) {
+        return detectiveRepo.findByBadgeNumber(badgeNumber);
+    }
+
+    @Override
+    public Set<Detective> findByRank(Rank rank) {
+        return detectiveRepo.findbyRank(rank);
     }
 }
