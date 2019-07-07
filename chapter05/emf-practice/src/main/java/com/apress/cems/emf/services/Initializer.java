@@ -25,44 +25,54 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.mockito;
+package com.apress.cems.emf.services;
 
+import com.apress.cems.aop.service.PersonService;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.PersonRepo;
-import com.apress.cems.services.impl.SimplePersonService;
-import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
- * Description: new-style using Mockito mocks with JUnit 5
  */
-// TODO 17. Add all necessary annotations for the tests to pass
-public class MockPersonServiceTest {
-    public static final Long PERSON_ID = 1L;
+@Service
+@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
+public class Initializer {
 
-    private PersonRepo mockRepo;
+    private Logger logger = LoggerFactory.getLogger(Initializer.class);
+    private PersonService personService;
 
-    private SimplePersonService personService;
+    public Initializer(@Qualifier("personServiceImpl") PersonService personService) {
+        this.personService = personService;
+    }
 
-    //@Test
-    public void findByIdPositive() {
+    @PostConstruct
+    public void init() {
+        logger.info(" -->> Starting database initialization...");
         Person person = new Person();
-        person.setId(PERSON_ID);
-        when(mockRepo.findById(any(Long.class))).thenReturn(Optional.of(person));
+        person.setUsername("sherlock.holmes");
+        person.setFirstName("Sherlock");
+        person.setLastName("Holmes");
+        person.setPassword("dudu");
+        person.setHiringDate(LocalDate.now());
+        personService.save(person);
 
-        Person result = personService.findById(PERSON_ID);
-
-        verify(mockRepo, times(1)).findById(any(Long.class));
-        assertAll(
-                () -> assertNotNull(result),
-                () -> assertEquals(person.getId(), result.getId())
-        );
+        person = new Person();
+        person.setUsername("jackson.brodie");
+        person.setFirstName("Jackson");
+        person.setLastName("Brodie");
+        person.setPassword("bagy");
+        person.setHiringDate(LocalDate.now());
+        personService.save(person);
+        logger.info(" -->> Database initialization finished.");
     }
 }

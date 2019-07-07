@@ -25,13 +25,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.tx.services;
+package com.apress.cems.emf.services;
 
 import com.apress.cems.aop.exception.MailSendingException;
 import com.apress.cems.aop.service.PersonService;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.PersonRepo;
-import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,18 +44,18 @@ import java.util.Set;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Service
-// TODO 32. Make all methods required to be executed in a read only transaction.
+@Service("personServiceImpl")
+@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 public class PersonServiceImpl implements PersonService {
     private PersonRepo personRepo;
 
-    public PersonServiceImpl(PersonRepo personRepo) {
+    public PersonServiceImpl(@Qualifier("jpaPersonRepo") PersonRepo personRepo) {
         this.personRepo = personRepo;
     }
 
     @Override
     public Set<Person> findAll() {
-        return Set.copyOf(personRepo.findAll());
+        return personRepo.findAll();
     }
 
     @Override
@@ -67,21 +68,20 @@ public class PersonServiceImpl implements PersonService {
         return personRepo.findById(id);
     }
 
+    @Transactional
     @Override
     public Person save(Person person) {
         personRepo.save(person);
         return person;
     }
 
+    @Transactional
     @Override
     public Person updateFirstName(Person person, String newFirstname) {
         return personRepo.update(person);
     }
 
-    /*
-     * TODO 33. Make this method execute in a read-write transaction and declare the
-     *  transaction to rollback in case a MailSendingException exception is used
-     */
+    @Transactional
     @Override
     public Person updatePassword(Person person, String password) throws MailSendingException {
         person.setPassword(password);
@@ -104,7 +104,13 @@ public class PersonServiceImpl implements PersonService {
     @Transactional(propagation = Propagation.NESTED, readOnly = true)
     @Override
     public String getPersonAsHtml(String username) {
-        throw new NotImplementedException("Not needed for this stub.");
+        final StringBuilder sb = new StringBuilder();
+        personRepo.findByUsername(username).ifPresentOrElse(
+                p -> sb.append("<p>First Name: ").append(p.getFirstName()).append(" </p>")
+                        .append("<p>Last Name: ").append(p.getLastName()).append(" </p>"),
+                () -> sb.append("<p>None found with username ").append(username).append(" </p>")
+        );
+        return sb.toString();
     }
 
     @Override
@@ -112,6 +118,7 @@ public class PersonServiceImpl implements PersonService {
         return personRepo.findByCompleteName(firstName,lastName);
     }
 
+    @Transactional
     @Override
     public void delete(Person person) {
         personRepo.delete(person);

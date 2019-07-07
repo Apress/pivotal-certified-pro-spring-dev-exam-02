@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-//TODO 18. Complete the test class definition in order for all the test to pass.
+// TODO 18. Complete the test class definition in order for all the test to pass.
 @ContextConfiguration(classes = {TestDbConfig.class, ReposConfig.class})
 public class PersonRepoTest {
     public static final Long PERSON_ID = 1L;

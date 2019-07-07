@@ -25,37 +25,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.fun;
+package com.apress.cems.emf.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
- * Bean that is initialized using all three techniques supported in Spring
  */
-// TODO 12. Add initialization and destroy methods to implement all three techniques specified in the book
-public class FunBean /*implements InitializingBean, DisposableBean*/ {
-    private Logger logger = LoggerFactory.getLogger(FunBean.class);
+@Configuration
+@ComponentScan(basePackages = {"com.apress.cems.emf.services", "com.apress.cems.emf.repos"})
+@EnableTransactionManagement
+public class AppConfig {
 
-    private DepBean depBean;
-
-    public FunBean() {
-        logger.info("Stage 1: Calling the constructor");
-    }
-
-    @Autowired
-    public void setDepBean(DepBean depBean) {
-        logger.info("Stage 2: Calling the setter");
-        this.depBean = depBean;
-    }
-
-    // ..
 }

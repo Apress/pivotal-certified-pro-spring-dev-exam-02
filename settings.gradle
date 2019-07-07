@@ -38,6 +38,8 @@ include 'chapter05:transactions'
 include 'chapter05:transactions-practice'
 include 'chapter05:hibernate'
 include 'chapter05:hibernate-practice'
+include 'chapter05:emf'
+include 'chapter05:emf-practice'
 
 include 'chapter06'
 include 'chapter07'

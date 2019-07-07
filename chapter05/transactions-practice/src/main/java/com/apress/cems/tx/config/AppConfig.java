@@ -36,6 +36,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan(basePackages = {"com.apress.cems.repos" ,"com.apress.cems.tx.services"})
-//TODO 31. Enable declarative transaction
+// TODO 31. Enable declarative transaction
 public class AppConfig {
 }

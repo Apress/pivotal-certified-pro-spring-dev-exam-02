@@ -25,37 +25,53 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.fun;
+package com.apress.cems.emf;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
+import com.apress.cems.aop.service.PersonService;
+import com.apress.cems.dao.Person;
+import com.apress.cems.emf.config.AppConfig;
+import com.apress.cems.emf.config.JpaDbConfig;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
- * Bean that is initialized using all three techniques supported in Spring
  */
-// TODO 12. Add initialization and destroy methods to implement all three techniques specified in the book
-public class FunBean /*implements InitializingBean, DisposableBean*/ {
-    private Logger logger = LoggerFactory.getLogger(FunBean.class);
-
-    private DepBean depBean;
-
-    public FunBean() {
-        logger.info("Stage 1: Calling the constructor");
-    }
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {JpaDbConfig.class, AppConfig.class})
+ class PersonServiceTest {
 
     @Autowired
-    public void setDepBean(DepBean depBean) {
-        logger.info("Stage 2: Calling the setter");
-        this.depBean = depBean;
+    @Qualifier("personServiceImpl")
+    PersonService personService;
+
+    @Test
+    void testFindById() {
+        personService.findById(1L).ifPresentOrElse(
+                p -> assertEquals("sherlock.holmes", p.getUsername()),
+                () -> fail("Person not found!")
+        );
     }
 
-    // ..
+    @Test
+    void testfindByCompleteName() {
+        personService.findByCompleteName("Sherlock", "Holmes").ifPresent(person ->
+                assertEquals("sherlock.holmes", person.getUsername())
+        );
+    }
+
+    @Test
+    void testFindAll() {
+        assertNotNull(personService.findAll());
+    }
+
 }

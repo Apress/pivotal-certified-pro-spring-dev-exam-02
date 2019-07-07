@@ -25,37 +25,55 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.fun;
+package com.apress.cems.emf;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
+import com.apress.cems.dao.Person;
+import com.apress.cems.emf.config.AppConfig;
+import com.apress.cems.emf.config.JpaDbConfig;
+import com.apress.cems.repos.PersonRepo;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
- * Bean that is initialized using all three techniques supported in Spring
  */
-// TODO 12. Add initialization and destroy methods to implement all three techniques specified in the book
-public class FunBean /*implements InitializingBean, DisposableBean*/ {
-    private Logger logger = LoggerFactory.getLogger(FunBean.class);
-
-    private DepBean depBean;
-
-    public FunBean() {
-        logger.info("Stage 1: Calling the constructor");
-    }
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {JpaDbConfig.class, AppConfig.class})
+@Transactional
+class JpaPersonRepoTest {
 
     @Autowired
-    public void setDepBean(DepBean depBean) {
-        logger.info("Stage 2: Calling the setter");
-        this.depBean = depBean;
+    @Qualifier("jpaPersonRepo")
+    PersonRepo personRepo;
+
+    @Test
+    void testFindById() {
+        personRepo.findById(1L).ifPresentOrElse(
+                p -> assertEquals("sherlock.holmes", p.getUsername()),
+                () -> fail("Person not found!")
+        );
     }
 
-    // ..
+    @Test
+    void testFindAllByLastName() {
+        List<Person> persons = personRepo.findAllByLastName("Holmes");
+        assertEquals(1,persons.size());
+    }
+
+    @Test
+    void testNativeQuery(){
+        List<String> usernames = personRepo.findAllUsernames();
+        assertEquals(2,usernames.size());
+    }
 }

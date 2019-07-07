@@ -88,7 +88,7 @@ public class SimpleCriminalCaseServiceTest {
 
     @Test
      void deleteByIdNegative() {
-        //TODO 15. Analyse the stub implementation and add a test for service.deleteById(99L)
+        // TODO 15. Analyse the stub implementation and add a test for service.deleteById(99L)
     }
 
     //positive test, we know that cases for this detective exist and how many
@@ -101,7 +101,7 @@ public class SimpleCriminalCaseServiceTest {
     //negative test, we know that cases for this detective do not exist
     @Test
      void findByOwnerNegative() {
-        //TODO 16. Analyse the stub implementation and add a test for service.findAllByOwner(owner)
+        // TODO 16. Analyse the stub implementation and add a test for service.findAllByOwner(owner)
     }
 
     @AfterEach

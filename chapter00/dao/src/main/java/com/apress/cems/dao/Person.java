@@ -30,7 +30,6 @@ package com.apress.cems.dao;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -41,11 +40,17 @@ import java.util.Objects;
  * @since 1.0
  */
 @Entity
+@SequenceGenerator(name = "seqGen", allocationSize = 1)
+@NamedQueries({
+        @NamedQuery(name = Person.FIND_BY_COMPLETE_NAME, query = "from Person p where p.firstName=:fn and p.lastName=:ln"),
+        @NamedQuery(name = Person.FIND_BY_LAST_NAME, query = "from Person p where p.lastName= ?1")
+})
 public class Person extends AbstractEntity {
+    public static final String FIND_BY_COMPLETE_NAME = "findByCompleteName";
+    public static final String FIND_BY_LAST_NAME = "findAllByLastName";
 
     @NotNull
     @Size(min = 8, max = 30)
-    //TODO consider replacing nullable=false with validators
     @Column(nullable = false, unique = true)
     private String username;
 

@@ -60,5 +60,5 @@ public class TestTransactionalDbConfig {
         return db;
     }
 
-    //TODO 30. Define a transaction manager bean of the appropriate type
+    // TODO 30. Define a transaction manager bean of the appropriate type
 }
