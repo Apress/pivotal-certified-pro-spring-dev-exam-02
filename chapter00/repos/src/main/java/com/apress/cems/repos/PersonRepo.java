@@ -37,4 +37,7 @@ public interface PersonRepo extends AbstractRepo<Person> {
         return 0;
     }
 
+    default List<String> findAllUsernames() { return List.of();}
+
+    default List<Person> findAllByLastName(String firstName){return List.of();};
 }

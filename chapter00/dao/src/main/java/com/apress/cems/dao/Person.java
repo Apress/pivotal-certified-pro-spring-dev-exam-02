@@ -30,8 +30,10 @@ package com.apress.cems.dao;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -41,19 +43,28 @@ import java.util.Objects;
 @Entity
 public class Person extends AbstractEntity {
 
+    @NotNull
+    @Size(min = 8, max = 30)
     //TODO consider replacing nullable=false with validators
     @Column(nullable = false, unique = true)
     private String username;
 
+    @NotNull
+    @Size(min = 8, max = 30)
     @Column(nullable = false)
     private String firstName;
 
+    @NotNull
+    @Size(min = 8, max = 30)
     @Column(nullable = false)
     private String lastName;
 
+    @NotNull
+    @Size(min = 8, max = 50)
     @Column(nullable = false)
     private String password;
 
+    @NotNull
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate hiringDate;

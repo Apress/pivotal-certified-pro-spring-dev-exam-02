@@ -70,9 +70,8 @@ public class HibernateRepo implements PersonRepo {
 
     @Override
     public List<Person> findAllByLastName(String lastName) {
-        return  (List<Person>) session()
-                .createQuery("from Person p where p.lastName= ?1")
-                .setParameter(1, lastName).list();
+        // TODO 35. Add Hibernate query to extract all persons with lastName = :lastName
+        return  List.of();
     }
 
     @Override
@@ -118,7 +117,7 @@ public class HibernateRepo implements PersonRepo {
 
     @Override
     public long count() {
-        return (Long) session().createQuery("select count(p) from Person p").uniqueResult();
+        return 0; // 36. Add query to count all persons
     }
 
     @Override
@@ -139,8 +138,7 @@ public class HibernateRepo implements PersonRepo {
 
     @Override
     public int deleteById(Long entityId) {
-        Person person = session().get(Person.class, entityId);
-        session().delete(person);
+        // TODO 37. Add code to delete a person by its id.
         return 1;
     }
 }

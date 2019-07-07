@@ -25,54 +25,39 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.hib.services;
+package com.apress.cems.hib;
 
-import com.apress.cems.aop.service.PersonService;
-import com.apress.cems.dao.Person;
+import com.apress.cems.hib.config.AppConfig;
+import com.apress.cems.hib.config.HibernateDbConfig;
 import com.apress.cems.repos.PersonRepo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-import java.time.LocalDate;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Service
-@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
-public class Initializer {
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {HibernateDbConfig.class, AppConfig.class})
+class HibernateRepoTest {
 
-    private Logger logger = LoggerFactory.getLogger(Initializer.class);
-    private PersonService personService;
+    @Autowired
+    @Qualifier("hibernatePersonRepo")
+    PersonRepo personRepo;
 
-    public Initializer(@Qualifier("personServiceImpl") PersonService personService) {
-        this.personService = personService;
-    }
-
-    @PostConstruct
-    public void init() {
-        logger.info(" -->> Starting database initialization...");
-        Person person = new Person();
-        person.setUsername("sherlock.holmes");
-        person.setFirstName("Sherlock");
-        person.setLastName("Holmes");
-        person.setPassword("dudu");
-        person.setHiringDate(LocalDate.now());
-        personService.save(person);
-
-        person = new Person();
-        person.setUsername("jackson.brodie");
-        person.setFirstName("Jackson");
-        person.setLastName("Brodie");
-        person.setPassword("bagy");
-        person.setHiringDate(LocalDate.now());
-        personService.save(person);
-        logger.info(" -->> Database initialization finished.");
+    @Transactional
+    @Test
+    void testNativeQuery(){
+        List<String> usernames = personRepo.findAllUsernames();
+        assertEquals(2,usernames.size());
     }
 }

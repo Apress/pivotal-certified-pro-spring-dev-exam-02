@@ -28,6 +28,7 @@ SOFTWARE.
 package com.apress.cems.dao;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 import java.util.Set;
 
@@ -45,15 +46,17 @@ public class Evidence extends AbstractEntity {
     @JoinColumn(name = "storage_fk", nullable = false)
     private Storage storage;
 
+    @NotEmpty
     @Column(name= "evidence_number", unique = true, nullable = false)
     private String number;
 
+    @NotEmpty
     private String itemName;
 
     //very big text
     private String notes;
 
-    private Boolean archived;
+    private Boolean archived = false;
 
     @OneToMany(mappedBy = "evidence")
     private Set<TrackEntry> trackEntries;

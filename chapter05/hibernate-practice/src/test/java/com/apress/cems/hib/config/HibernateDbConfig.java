@@ -102,17 +102,5 @@ public class HibernateDbConfig {
         }
     }
 
-    @Bean
-    public SessionFactory sessionFactory() {
-        return new LocalSessionFactoryBuilder(dataSource())
-                .scanPackages("com.apress.cems.dao")
-                .addProperties(hibernateProperties())
-                .buildSessionFactory();
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        return new HibernateTransactionManager(sessionFactory());
-    }
-
+    // TODO 38. Add a session factory and a transaction manager bean declaration
 }

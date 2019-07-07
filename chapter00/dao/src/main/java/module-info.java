@@ -5,6 +5,7 @@
 module com.apress.cems.dao {
     requires java.persistence;
     requires spring.context;
+    requires java.validation;
 
     exports com.apress.cems.dao;
     exports com.apress.cems.util;

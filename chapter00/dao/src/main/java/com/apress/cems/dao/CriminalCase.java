@@ -31,6 +31,8 @@ import com.apress.cems.util.CaseStatus;
 import com.apress.cems.util.CaseType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,18 +42,23 @@ import java.util.Set;
  */
 @Entity
 public class CriminalCase extends  AbstractEntity{
+
+    @NotEmpty
     @Column(name="case_number", unique = true, nullable = false)
     private String number;
 
+    @NotNull
     @Column(name="case_type")
     @Enumerated(EnumType.STRING)
     private CaseType type;
 
+    @NotEmpty
     @Column(name="short_description")
     private String shortDescription;
 
     private String detailedDescription;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private CaseStatus status;
 

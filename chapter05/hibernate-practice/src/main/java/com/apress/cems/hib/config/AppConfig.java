@@ -25,53 +25,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.hib;
+package com.apress.cems.hib.config;
 
-import com.apress.cems.aop.service.PersonService;
-import com.apress.cems.dao.Person;
-import com.apress.cems.hib.config.AppConfig;
-import com.apress.cems.hib.config.HibernateDbConfig;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {HibernateDbConfig.class, AppConfig.class})
- class PersonServiceTest {
-
-    @Autowired
-    @Qualifier("personServiceImpl")
-    PersonService personService;
-
-    @Test
-    void testFindById() {
-        personService.findById(1L).ifPresentOrElse(
-                p -> assertEquals("sherlock.holmes", p.getUsername()),
-                () -> fail("Person not found!")
-        );
-    }
-
-    @Test
-    void testfindByCompleteName() {
-        personService.findByCompleteName("Sherlock", "Holmes").ifPresent(person ->
-                assertEquals("sherlock.holmes", person.getUsername())
-        );
-    }
-
-    @Test
-    void testFindAll() {
-        assertNotNull(personService.findAll());
-    }
+@Configuration
+@ComponentScan(basePackages = {"com.apress.cems.hib.services", "com.apress.cems.hib.repos"})
+@EnableTransactionManagement
+public class AppConfig {
 
 }

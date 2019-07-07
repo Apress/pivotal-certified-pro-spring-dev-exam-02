@@ -30,7 +30,8 @@ package com.apress.cems.dao;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
+
 import javax.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -40,6 +41,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false)
@@ -48,10 +50,12 @@ public abstract class AbstractEntity implements Serializable {
     @Version
     protected int version;
 
+    @NotNull
     @Column(name = "created_at", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate createdAt;
 
+    @NotNull
     @Column(name = "modified_at", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate modifiedAt;

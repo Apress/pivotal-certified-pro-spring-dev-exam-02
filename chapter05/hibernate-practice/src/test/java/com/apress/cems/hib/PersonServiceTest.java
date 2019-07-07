@@ -25,61 +25,68 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.tx;
+package com.apress.cems.hib;
 
+import com.apress.cems.aop.service.PersonService;
 import com.apress.cems.dao.Person;
-import com.apress.cems.repos.PersonRepo;
-import com.apress.cems.tx.config.AppConfig;
-import com.apress.cems.tx.config.TestTransactionalDbConfig;
+import com.apress.cems.hib.config.AppConfig;
+import com.apress.cems.hib.config.HibernateDbConfig;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestTransactionalDbConfig.class, AppConfig.class})
-@Rollback(false)
-@Disabled // De-Comment this annotation and run to see the tests fail
-class PersonRepoTest {
+@ContextConfiguration(classes = {HibernateDbConfig.class, AppConfig.class})
+@Disabled
+ class PersonServiceTest {
 
     @Autowired
-    PersonRepo repo;
+    @Qualifier("personServiceImpl")
+    PersonService personService;
 
-    //@Commit
     @Test
-    @Transactional
-    void testCreatePerson(){
-        Person person = new Person();
-        person.setId(99L);
-        person.setUsername("test.user");
-        person.setFirstName("test");
-        person.setLastName("user");
-        person.setPassword("password");
-        person.setHiringDate(LocalDate.now());
-        person.setCreatedAt(LocalDate.now());
-        person.setModifiedAt(LocalDate.now());
-        repo.save(person);
+    void testFindById() {
+        personService.findById(1L).ifPresentOrElse(
+                p -> assertEquals("sherlock.holmes", p.getUsername()),
+                () -> fail("Person not found!")
+        );
     }
 
-    // this will fail
+    @Test
+    void testfindByCompleteName() {
+        personService.findByCompleteName("Sherlock", "Holmes").ifPresent(person ->
+                assertEquals("sherlock.holmes", person.getUsername())
+        );
+    }
+
+    @Test
+    void testFindAll() {
+        assertNotNull(personService.findAll());
+    }
+
     @Test
     void testCountPersons(){
-        long result = repo.count();
-        assertEquals(2, result);
+        assertEquals(2, personService.countPersons());
     }
 
+    @Test
+    void testDeleteById(){
+        personService.findById(1L).ifPresentOrElse(
+                p -> personService.delete(p),
+                () -> fail("Person not found!")
+        );
+    }
 }

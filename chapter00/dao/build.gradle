@@ -12,7 +12,7 @@ plugins {
 ext.moduleName = 'com.apress.cems.dao'
 
 dependencies {
-    compile spring.contextSupport, hibernate.core
+    compile spring.contextSupport, hibernate.core, misc.javaxValidation
 }
 
 

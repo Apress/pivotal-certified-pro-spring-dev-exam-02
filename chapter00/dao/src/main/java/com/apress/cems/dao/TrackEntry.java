@@ -31,6 +31,8 @@ import com.apress.cems.util.TrackAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -39,24 +41,30 @@ import java.util.Date;
  * @since 1.0
  */
 @Entity
+@Table(name="TRACK_ENTRY")
 public class TrackEntry extends AbstractEntity{
 
+    @NotNull
     @Column(name= "track_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate date;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "evidence_fk", nullable = false)
     private Evidence evidence;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "detective_fk", nullable = false)
     private Detective detective;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private TrackAction action;
 
-    @Column(nullable = false)
+    @NotEmpty
+    @Column
     private String reason;
 
     public TrackEntry() {

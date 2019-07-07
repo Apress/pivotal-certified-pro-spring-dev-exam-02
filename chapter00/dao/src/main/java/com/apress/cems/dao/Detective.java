@@ -31,6 +31,8 @@ import com.apress.cems.util.EmploymentStatus;
 import com.apress.cems.util.Rank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;
 
@@ -41,18 +43,22 @@ import java.util.Set;
 @Entity
 public class Detective extends AbstractEntity {
 
+    @NotNull
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PERSON_ID")
     private Person person;
 
+    @NotEmpty
     @Column(unique = true, nullable = false)
     private String badgeNumber;
 
+    @NotEmpty
     @Enumerated(EnumType.STRING)
     private Rank rank;
 
-    private Boolean armed;
+    private Boolean armed = false;
 
+    @NotEmpty
     @Enumerated(EnumType.STRING)
     private EmploymentStatus status = EmploymentStatus.ACTIVE;
 

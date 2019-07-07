@@ -29,6 +29,9 @@ package com.apress.cems.dao;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,8 +41,12 @@ import java.util.Set;
  */
 @Entity
 public class Storage extends AbstractEntity {
+    @NotNull
+    @Size(min = 8, max = 30)
     private String name;
 
+    @NotNull
+    @Size(min = 8, max = 150)
     private String location;
 
     @OneToMany(mappedBy = "storage")
