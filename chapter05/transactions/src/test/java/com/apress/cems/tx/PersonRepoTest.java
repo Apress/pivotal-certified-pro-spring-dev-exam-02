@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,13 +52,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 // De-Comment the @Test annotations and run to see the tests fail
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestTransactionalDbConfig.class, AppConfig.class})
+@Rollback(false)
 class PersonRepoTest {
 
     @Autowired
     PersonRepo repo;
 
-    @Commit
-    //@Test
+    //@Commit
+    @Test
     @Transactional
     void testCreatePerson(){
         Person person = new Person();
@@ -73,7 +75,7 @@ class PersonRepoTest {
     }
 
     // this will fail
-    //@Test
+    @Test
     void testCountPersons(){
         long result = repo.count();
         assertEquals(2, result);

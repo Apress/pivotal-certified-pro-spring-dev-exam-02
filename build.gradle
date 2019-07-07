@@ -22,7 +22,7 @@ subprojects {
 sourceCompatibility = 12
 
 ext {
-    springVersion = '5.2.0.M1'
+    springVersion = '5.2.0.M2'
     springBootVersion = '2.2.0.M3'
     springJpaVersion = '2.2.0.M1'
 
@@ -46,6 +46,7 @@ ext {
     // db
     hibernateVersion = '5.4.3.Final'
     ojdbcVersion = '12.1.0.2'
+    hikariVersion = '3.3.1'
 
     //in memory test database
     h2Version = '1.4.198'
@@ -68,6 +69,7 @@ ext {
             beans         : "org.springframework:spring-beans:$springVersion",
             contextSupport: "org.springframework:spring-context-support:$springVersion",
             jdbc          : "org.springframework:spring-jdbc:$springVersion",
+            orm           : "org.springframework:spring-orm:$springVersion",
             test          : "org.springframework:spring-test:$springVersion",
             webmvc        : "org.springframework:spring-webmvc:$springVersion"
     ]
@@ -96,7 +98,7 @@ ext {
             slf4j           : "org.slf4j:slf4j-api:$slf4jVersion",
             logback         : "ch.qos.logback:logback-classic:$logbackVersion",
             aspectjweaver   : "org.aspectj:aspectjweaver:$aspectjVersion",
-            objenesis       : "org.objenesis:objenesis:$objenesisVersion"
+            hikari          : "com.zaxxer:HikariCP:$hikariVersion"
     ]
 
     hibernate = [

@@ -25,39 +25,53 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot;
+package com.apress.cems.hib.services;
 
-import com.apress.cems.boot.entities.Person;
-import com.apress.cems.boot.repos.PersonRepo;
+import com.apress.cems.aop.service.PersonService;
+import com.apress.cems.dao.Person;
+import com.apress.cems.repos.PersonRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @Service
+@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 public class Initializer {
 
     private Logger logger = LoggerFactory.getLogger(Initializer.class);
-    private PersonRepo personRepo;
+    private PersonService personService;
 
-    @Autowired
-    public Initializer(PersonRepo personRepo) {
-        this.personRepo = personRepo;
+    public Initializer(PersonService personService) {
+        this.personService = personService;
     }
 
     @PostConstruct
     public void init() {
         logger.info(" -->> Starting database initialization...");
         Person person = new Person();
+        person.setUsername("sherlock.holmes");
         person.setFirstName("Sherlock");
         person.setLastName("Holmes");
-        personRepo.save(person);
+        person.setPassword("dudu");
+        person.setHiringDate(LocalDate.now());
+        personService.save(person);
+
+        person = new Person();
+        person.setUsername("jackson.brodie");
+        person.setFirstName("Jackson");
+        person.setLastName("Brodie");
+        person.setPassword("bagy");
+        person.setHiringDate(LocalDate.now());
+        personService.save(person);
         logger.info(" -->> Database initialization finished.");
     }
 }

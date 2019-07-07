@@ -25,39 +25,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot;
+package com.apress.cems.hib.config;
 
-import com.apress.cems.boot.entities.Person;
-import com.apress.cems.boot.repos.PersonRepo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Service
-public class Initializer {
+@Configuration
+@ComponentScan(basePackages = {"com.apress.cems.hib.services", "com.apress.cems.hib.repos"})
+@EnableTransactionManagement
+public class AppConfig {
 
-    private Logger logger = LoggerFactory.getLogger(Initializer.class);
-    private PersonRepo personRepo;
-
-    @Autowired
-    public Initializer(PersonRepo personRepo) {
-        this.personRepo = personRepo;
-    }
-
-    @PostConstruct
-    public void init() {
-        logger.info(" -->> Starting database initialization...");
-        Person person = new Person();
-        person.setFirstName("Sherlock");
-        person.setLastName("Holmes");
-        personRepo.save(person);
-        logger.info(" -->> Database initialization finished.");
-    }
 }

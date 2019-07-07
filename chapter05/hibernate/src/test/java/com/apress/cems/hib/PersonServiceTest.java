@@ -25,61 +25,48 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.tx;
+package com.apress.cems.hib;
 
-import com.apress.cems.aop.service.DetectiveService;
 import com.apress.cems.aop.service.PersonService;
-import com.apress.cems.dao.Person;
-import com.apress.cems.tx.config.AppConfig;
-import com.apress.cems.tx.config.TestTransactionalDbConfig;
-import org.junit.jupiter.api.Assertions;
+import com.apress.cems.hib.config.AppConfig;
+import com.apress.cems.hib.config.HibernateDbConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestTransactionalDbConfig.class, AppConfig.class})
-class DetectiveServiceTest {
-
-    private Logger logger = LoggerFactory.getLogger(DetectiveServiceTest.class);
-
-    @Autowired
-    @Qualifier("detectiveServiceImpl")
-    DetectiveService detectiveService;
+@ContextConfiguration(classes = {HibernateDbConfig.class, AppConfig.class})
+ class PersonServiceTest {
 
     @Autowired
     PersonService personService;
 
     @Test
-    void testFindById(){
-        detectiveService.findById(1L).ifPresentOrElse(
-                d -> assertEquals("LD112233", d.getBadgeNumber()),
-                Assertions:: fail
+    void testFindById() {
+        personService.findById(1L).ifPresentOrElse(
+                p -> assertEquals("sherlock.holmes", p.getUsername()),
+                () -> fail("Person not found!")
         );
     }
 
     @Test
-    void testDetectiveHtml(){
-        detectiveService.findById(1L).ifPresent(
-                d -> {
-                    Person p = d.getPerson();
-                    assertNotNull(p);
-                    String html = personService.getPersonAsHtml(p.getUsername());
-                    logger.info("Detective personal info: {}", html);
-                }
+    void testfindByCompleteName() {
+        personService.findByCompleteName("Sherlock", "Holmes").ifPresent(person ->
+                assertEquals("sherlock.holmes", person.getUsername())
         );
+    }
+
+    @Test
+    void testFindAll() {
+        assertNotNull(personService.findAll());
     }
 
 }

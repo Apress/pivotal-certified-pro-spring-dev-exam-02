@@ -6,7 +6,7 @@ ext.moduleName = 'com.apress.cems.hib'
 
 dependencies {
     compile project(':chapter04:aop')
-    compile spring.jdbc
+    compile spring.jdbc, spring.orm, misc.hikari
     compile hibernate.ehcache, hibernate.em, hibernate.core, hibernate.validator
     testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
     testImplementation testing.api

@@ -65,7 +65,11 @@ public class CriminalCase extends  AbstractEntity{
     @JoinColumn(name = "LEAD_INVESTIGATOR", nullable = false)
     private Detective leadInvestigator;
 
-    @ManyToMany(mappedBy = "cases")
+    @ManyToMany
+    @JoinTable(
+            name="working_detective_case",
+            joinColumns=@JoinColumn(name="case_id", referencedColumnName="id"),
+            inverseJoinColumns=@JoinColumn(name="detective_id", referencedColumnName="id"))
     private Set<Detective> assigned = new HashSet<>();
 
     public CriminalCase() {

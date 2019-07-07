@@ -28,15 +28,15 @@ SOFTWARE.
 package com.apress.cems.repos.impl;
 
 import com.apress.cems.dao.Detective;
-import com.apress.cems.dao.Person;
+
 import com.apress.cems.repos.DetectiveRepo;
 import com.apress.cems.repos.util.DetectiveRowMapper;
 import com.apress.cems.util.Rank;
-import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -46,6 +46,7 @@ import java.util.Set;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@Transactional
 @Repository
 public class JdbcDetectiveRepo extends JdbcAbstractRepo<Detective> implements DetectiveRepo {
 

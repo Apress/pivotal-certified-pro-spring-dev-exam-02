@@ -31,7 +31,6 @@ import com.apress.cems.boot.entities.Person;
 import com.apress.cems.boot.repos.PersonRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -46,7 +45,6 @@ public class Initializer {
     private Logger logger = LoggerFactory.getLogger(Initializer.class);
     private PersonRepo personRepo;
 
-    @Autowired
     public Initializer(PersonRepo personRepo) {
         this.personRepo = personRepo;
     }
@@ -54,10 +52,10 @@ public class Initializer {
     @PostConstruct
     public void init() {
         logger.info(" -->> Starting database initialization...");
-        Person singer = new Person();
-        singer.setFirstName("Sherlock");
-        singer.setLastName("Holmes");
-        personRepo.save(singer);
+        Person person = new Person();
+        person.setFirstName("Sherlock");
+        person.setLastName("Holmes");
+        personRepo.save(person);
         logger.info(" -->> Database initialization finished.");
     }
 }
