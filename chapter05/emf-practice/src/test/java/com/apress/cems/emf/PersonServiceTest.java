@@ -31,6 +31,7 @@ import com.apress.cems.aop.service.PersonService;
 import com.apress.cems.dao.Person;
 import com.apress.cems.emf.config.AppConfig;
 import com.apress.cems.emf.config.JpaDbConfig;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {JpaDbConfig.class, AppConfig.class})
+@Disabled
  class PersonServiceTest {
 
     @Autowired

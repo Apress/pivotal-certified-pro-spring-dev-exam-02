@@ -23,17 +23,19 @@ sourceCompatibility = 12
 
 ext {
     springVersion = '5.2.0.M2'
-    springBootVersion = '2.2.0.M3'
-    springJpaVersion = '2.2.0.M1'
+    springBootVersion = '2.2.0.M4'
+    springJpaVersion = '2.2.0.BUILD-SNAPSHOT'
+    springMongoVersion = '2.1.9.RELEASE'
 
     //testing
-    junit5Version = '5.5.0-M1'
-    junit5PlatformVersion = '1.5.0-M1'
+    junit5Version = '5.5.0'
+    junit5PlatformVersion = '1.5.0'
     mockitoAllVersion = '2.0.2-beta'
     mockitoVersion = '2.26.0'
     easymockVersion = '4.0.2'
     junitVersion = '4.13-beta-2'
     jmockVersion = '2.10.0-RC3'
+    mongoVersion = '2.2.0'
 
     //aop libs
     aspectjVersion = '1.9.4'
@@ -56,10 +58,12 @@ ext {
     //we group libraries by their purpose so we can import them easier in the modules
     boot = [
             springBootPlugin: "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion",
+            starter         : "org.springframework.boot:spring-boot-starter:$springBootVersion",
             starterWeb      : "org.springframework.boot:spring-boot-starter-web:$springBootVersion",
             starterAop      : "org.springframework.boot:spring-boot-starter-aop:$springBootVersion",
             starterSecurity : "org.springframework.boot:spring-boot-starter-security:$springBootVersion",
             starterJpa      : "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion",
+            starterMongo    : "org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion",
             starterTest     : "org.springframework.boot:spring-boot-starter-test:$springBootVersion",
             actuator        : "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion",
             devtools        : "org.springframework.boot:spring-boot-devtools:$springBootVersion"
@@ -71,7 +75,9 @@ ext {
             jdbc          : "org.springframework:spring-jdbc:$springVersion",
             orm           : "org.springframework:spring-orm:$springVersion",
             test          : "org.springframework:spring-test:$springVersion",
-            webmvc        : "org.springframework:spring-webmvc:$springVersion"
+            webmvc        : "org.springframework:spring-webmvc:$springVersion", 
+            data          : "org.springframework.data:spring-data-jpa:$springJpaVersion",
+            mongo          : "org.springframework.data:spring-data-mongodb:$springMongoVersion"
     ]
 
     testing = [
@@ -84,7 +90,8 @@ ext {
             jmockju5      : "org.jmock:jmock-junit5:$jmockVersion",
             mockitoAll    : "org.mockito:mockito-all:$mockitoAllVersion",
             mockito       : "org.mockito:mockito-junit-jupiter:$mockitoVersion",
-            platformRunner: "org.junit.platform:junit-platform-runner:$junit5PlatformVersion"
+            platformRunner: "org.junit.platform:junit-platform-runner:$junit5PlatformVersion", 
+            mongo         : "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$mongoVersion"
     ]
 
     misc = [

@@ -31,6 +31,7 @@ import com.apress.cems.dao.Person;
 import com.apress.cems.emf.config.AppConfig;
 import com.apress.cems.emf.config.JpaDbConfig;
 import com.apress.cems.repos.PersonRepo;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {JpaDbConfig.class, AppConfig.class})
 @Transactional
+@Disabled
 class JpaPersonRepoTest {
 
     @Autowired
