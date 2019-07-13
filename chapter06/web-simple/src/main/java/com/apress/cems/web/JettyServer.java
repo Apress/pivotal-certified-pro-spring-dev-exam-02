@@ -27,40 +27,108 @@ SOFTWARE.
 */
 package com.apress.cems.web;
 
+import com.apress.cems.web.config.WebInitializer;
+import org.eclipse.jetty.annotations.ClassInheritanceHandler;
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.webapp.Configuration;
+import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.annotations.AnnotationConfiguration;
+import org.eclipse.jetty.annotations.AnnotationConfiguration.ClassInheritanceMap;
+
+import org.eclipse.jetty.webapp.WebXmlConfiguration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Service;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class JettyServer {
+
+//@Service
+class JettyServer {
     private Server server;
 
-    public void start() throws Exception {
+    private String name;
+
+    JettyServer(String name) {
+        this.name = name;
+    }
+
+    //@PostConstruct
+    void start() throws Exception {
         server = new Server();
+
+        Handler contextHandler = createServletContextHandler(name);
+        server.setHandler(contextHandler);
+
+        server.setAttribute("org.mortbay.jetty.Request.maxFormContentSize", 0);
+        server.setStopAtShutdown(true);
+
         ServerConnector connector = new ServerConnector(server);
-        connector.setHost("localhost");
+        connector.setHost("0.0.0.0");
         connector.setPort(8080);
         connector.setIdleTimeout(30000);
-
-        // Set the connector
-        server.addConnector(connector);
-
-        //adding a servlet handler
-        ServletHandler handler = new ServletHandler();
-        server.setHandler(handler);
-
-        handler.addServletWithMapping(BlockingServlet.class, "/*");
+        server.setConnectors(new Connector[] { connector });
 
         // Start the server
         server.start();
         server.join();
     }
 
+    //@PreDestroy
     void stop() throws Exception {
         server.stop();
+    }
+
+    private ServletContextHandler createServletContextHandler(String name) throws Exception {
+        WebAppContext webAppContext = new WebAppContext();
+        webAppContext.setErrorHandler(null);
+        webAppContext.setContextPath("/" + name);
+
+        webAppContext.setAttribute(AnnotationConfiguration.CLASS_INHERITANCE_MAP, createClassMap());
+
+        //webAppContext.addServlet(new ServletHolder(new DispatcherServlet(getContext())), "/*");
+        //webAppContext.addEventListener(new ContextLoaderListener(getContext()));
+        webAppContext.setBaseResource(Resource.newClassPathResource("webapp"));
+
+        webAppContext.setParentLoaderPriority(false);
+        webAppContext.setConfigurations(new Configuration[]{new AnnotationConfiguration()});
+
+        return webAppContext;
+    }
+
+    private static WebApplicationContext getContext() {
+        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+        context.setConfigLocation("com.apress.cems.web.config");
+        return context;
+    }
+
+
+    private ClassInheritanceMap createClassMap() {
+        ClassInheritanceMap classMap = new ClassInheritanceMap();
+        Set<String> impl = ConcurrentHashMap.newKeySet();
+        impl.add(WebInitializer.class.getName());
+        classMap.put(WebApplicationInitializer.class.getName(), impl);
+        return classMap;
     }
 }

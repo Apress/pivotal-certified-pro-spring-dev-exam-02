@@ -7,8 +7,8 @@ ext.moduleName = 'com.apress.cems.web'
 
 dependencies {
     //compile project(':chapter05:data-jpa')
-    //compile spring.webmvc, misc.jstl
-    compile misc.jettyServer, misc.jettyServlet
+    compile jetty.server, jetty.servlet, jetty.webApp, jetty.annotations, misc.asm, hibernate.validator, hibernate.javaxELApi
+    
     testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
     testImplementation testing.api
     testRuntime testing.engine, testing.platformRunner

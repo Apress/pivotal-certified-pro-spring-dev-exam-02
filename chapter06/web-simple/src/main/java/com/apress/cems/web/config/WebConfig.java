@@ -1,4 +1,4 @@
-package com.apress.cems.web;/*
+/*
 Freeware License, some rights reserved
 
 Copyright (c) 2019 Iuliana Cosmina
@@ -25,26 +25,41 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+package com.apress.cems.web.config;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.*;
+
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import java.util.Locale;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class BlockingServlet extends HttpServlet {
+@Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = {"com.apress.cems.web.controllers"})
+class WebConfig implements WebMvcConfigurer {
 
-    protected void doGet(
-            HttpServletRequest request,
-            HttpServletResponse response)
-            throws ServletException, IOException {
-
-        response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println("{ \"status\": \"ok\"}");
+    @Bean
+    ViewResolver getViewResolver(){
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("WEB-INF/views/");
+        resolver.setSuffix(".jsp" );
+        return resolver;
     }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry aRegistry)
+    {
+        ResourceHandlerRegistration res = aRegistry.addResourceHandler("/WEB-INF/views/*");
+        res.addResourceLocations("classpath:/webapp/WEB-INF/views/");
+    }
+
 }

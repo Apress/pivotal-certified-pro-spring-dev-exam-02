@@ -25,30 +25,41 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.web;
+package com.apress.cems.web.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class Main {
+public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-    private static Logger logger = LoggerFactory.getLogger(Main.class);
+    @Override
+    protected Class<?>[] getRootConfigClasses() {
+        return null;
+    }
 
-    public static void main(String... args) throws  Exception{
-        logger.info("Starting the application now ...");
-        JettyServer embeddedJettyServer = new JettyServer("");
-        try {
-            embeddedJettyServer.start();
-        } catch (InterruptedException e) {
-            embeddedJettyServer.stop();
-        }
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class[]{WebConfig.class};
+    }
 
-        System.in.read();
-        embeddedJettyServer.stop();
-        logger.info("Stopping the application now ...");
+    @Override
+    protected String[] getServletMappings() {
+        return new String[]{"/"};
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter cef = new CharacterEncodingFilter();
+        cef.setEncoding("UTF-8");
+        cef.setForceEncoding(true);
+        return new Filter[]{new HiddenHttpMethodFilter(), cef};
     }
 }
+

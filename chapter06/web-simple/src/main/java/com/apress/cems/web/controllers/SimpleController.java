@@ -25,30 +25,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.web;
+package com.apress.cems.web.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class Main {
+@Controller
+@RequestMapping("/")
+public class SimpleController {
 
-    private static Logger logger = LoggerFactory.getLogger(Main.class);
-
-    public static void main(String... args) throws  Exception{
-        logger.info("Starting the application now ...");
-        JettyServer embeddedJettyServer = new JettyServer("");
-        try {
-            embeddedJettyServer.start();
-        } catch (InterruptedException e) {
-            embeddedJettyServer.stop();
-        }
-
-        System.in.read();
-        embeddedJettyServer.stop();
-        logger.info("Stopping the application now ...");
+    @GetMapping(value = "/hello")
+    public String home(){
+        return "index";
     }
+
 }
