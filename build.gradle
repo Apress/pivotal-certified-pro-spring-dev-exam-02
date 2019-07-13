@@ -105,7 +105,8 @@ ext {
             slf4j           : "org.slf4j:slf4j-api:$slf4jVersion",
             logback         : "ch.qos.logback:logback-classic:$logbackVersion",
             aspectjweaver   : "org.aspectj:aspectjweaver:$aspectjVersion",
-            hikari          : "com.zaxxer:HikariCP:$hikariVersion"
+            hikari          : "com.zaxxer:HikariCP:$hikariVersion",
+            jstl              : "javax.servlet:jstl:1.2"
     ]
 
     hibernate = [

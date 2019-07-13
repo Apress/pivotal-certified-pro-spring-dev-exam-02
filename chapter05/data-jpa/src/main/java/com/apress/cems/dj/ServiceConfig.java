@@ -40,5 +40,5 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = {"com.apress.cems.dj.services"})
 @EnableJpaRepositories(basePackages = {"com.apress.cems.dj.repos"})
 @EnableTransactionManagement
-public class AppConfig {
+public class ServiceConfig {
 }

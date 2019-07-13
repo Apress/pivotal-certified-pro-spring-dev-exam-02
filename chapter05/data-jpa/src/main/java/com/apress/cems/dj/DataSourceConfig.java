@@ -27,48 +27,46 @@ SOFTWARE.
 */
 package com.apress.cems.dj;
 
-import com.apress.cems.dj.config.DataSourceConfig;
-import com.apress.cems.dj.services.PersonService;
+import com.apress.cems.ex.ConfigurationException;
+import oracle.jdbc.pool.OracleDataSource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {DataSourceConfig.class, ServiceConfig.class})
- class PersonServiceTest {
+@Configuration
+@PropertySource({"classpath:prod-database.properties"})
+public class DataSourceConfig {
 
-    @Autowired
-    PersonService personService;
-
-    @Test
-    void testFindById() {
-        personService.findById(1L).ifPresentOrElse(
-                p -> assertEquals("sherlock.holmes", p.getUsername()),
-                () -> fail("Person not found!")
-        );
+    @Bean("connectionProperties")
+    Properties connectionProperties(){
+        try {
+            return PropertiesLoaderUtils.loadProperties(
+                    new ClassPathResource("db/prod-datasource.properties"));
+        } catch (IOException e) {
+            throw new ConfigurationException("Could not retrieve connection properties!", e);
+        }
     }
 
-    @Test
-    void testfindByCompleteName() {
-        personService.findByCompleteName("Sherlock", "Holmes").ifPresent(person ->
-                assertEquals("sherlock.holmes", person.getUsername())
-        );
+    @Bean
+    public DataSource dataSource() {
+        try {
+            OracleDataSource ds = new OracleDataSource();
+            ds.setConnectionProperties(connectionProperties());
+            return ds;
+        } catch (SQLException e) {
+            throw new ConfigurationException("Could not configure Oracle database!", e);
+        }
     }
-
-    @Test
-    void testFindAll() {
-        assertNotNull(personService.findAll());
-    }
-
 }
