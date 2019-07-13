@@ -6,8 +6,9 @@ apply plugin: 'war'
 ext.moduleName = 'com.apress.cems.web'
 
 dependencies {
-    compile project(':chapter05:data-jpa')
-    compile spring.webmvc, misc.jstl
+    //compile project(':chapter05:data-jpa')
+    //compile spring.webmvc, misc.jstl
+    compile misc.jettyServer, misc.jettyServlet
     testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
     testImplementation testing.api
     testRuntime testing.engine, testing.platformRunner
