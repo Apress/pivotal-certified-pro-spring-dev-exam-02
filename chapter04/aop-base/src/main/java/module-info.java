@@ -10,5 +10,5 @@ module com.apress.cems.spring.tests.junit {
     requires spring.context;
     requires spring.beans;
     requires spring.core;
-    requires jsr250.api;*/
+    requires java.annotation;*/
 }

@@ -14,7 +14,7 @@ module com.apress.cems.hib.practice {
     requires org.slf4j;
     requires ojdbc7;
     requires java.naming;
-    requires jsr250.api;
+    requires java.annotation;
 
     requires spring.context;
     requires spring.beans;

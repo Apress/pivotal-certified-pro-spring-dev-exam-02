@@ -28,34 +28,27 @@ SOFTWARE.
 package com.apress.cems.web;
 
 import com.apress.cems.web.config.WebInitializer;
+import org.eclipse.jetty.annotations.AnnotationConfiguration;
+import org.eclipse.jetty.annotations.AnnotationConfiguration.ClassInheritanceMap;
 import org.eclipse.jetty.annotations.ClassInheritanceHandler;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.eclipse.jetty.annotations.AnnotationConfiguration;
-import org.eclipse.jetty.annotations.AnnotationConfiguration.ClassInheritanceMap;
-
 import org.eclipse.jetty.webapp.WebXmlConfiguration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Service;
 import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 import java.io.File;
-import java.util.HashSet;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.FileSystems;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -64,8 +57,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 1.0
  */
 
-//@Service
+
 class JettyServer {
+
     private Server server;
 
     private String name;
@@ -74,7 +68,6 @@ class JettyServer {
         this.name = name;
     }
 
-    //@PostConstruct
     void start() throws Exception {
         server = new Server();
 
@@ -95,7 +88,6 @@ class JettyServer {
         server.join();
     }
 
-    //@PreDestroy
     void stop() throws Exception {
         server.stop();
     }
@@ -104,23 +96,36 @@ class JettyServer {
         WebAppContext webAppContext = new WebAppContext();
         webAppContext.setErrorHandler(null);
         webAppContext.setContextPath("/" + name);
-
-        webAppContext.setAttribute(AnnotationConfiguration.CLASS_INHERITANCE_MAP, createClassMap());
-
-        //webAppContext.addServlet(new ServletHolder(new DispatcherServlet(getContext())), "/*");
-        //webAppContext.addEventListener(new ContextLoaderListener(getContext()));
-        webAppContext.setBaseResource(Resource.newClassPathResource("webapp"));
-
-        webAppContext.setParentLoaderPriority(false);
-        webAppContext.setConfigurations(new Configuration[]{new AnnotationConfiguration()});
+        URI baseUri = getWebRootResourceUri();
+        webAppContext.setResourceBase(baseUri.toASCIIString());
+        webAppContext.setConfigurations(new Configuration[] {
+                new WebXmlConfiguration(),
+                new AnnotationConfiguration() {
+                    @Override
+                    public void preConfigure(WebAppContext context) {
+                        ClassInheritanceMap map = createClassMap();
+                        context.setAttribute(CLASS_INHERITANCE_MAP, map);
+                        _classInheritanceHandler = new ClassInheritanceHandler(map);
+                    }
+                }
+        });
 
         return webAppContext;
     }
 
-    private static WebApplicationContext getContext() {
-        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.setConfigLocation("com.apress.cems.web.config");
-        return context;
+    // finding the webapp directory
+    private URI getWebRootResourceUri() throws Exception {
+        Path rootPath = FileSystems.getDefault().getPath("");
+        Optional<Path>  webAppPathOpt = Files.walk(rootPath, FileVisitOption.FOLLOW_LINKS).filter(t -> {
+            File f = t.toFile();
+            return f.getName().equalsIgnoreCase("webapp");
+
+        }).findFirst();
+
+        if (webAppPathOpt.isPresent()) {
+           return webAppPathOpt.get().toUri();
+        }
+        throw  new IOException("Could not find 'webapp' directory!");
     }
 
 

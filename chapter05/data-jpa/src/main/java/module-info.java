@@ -11,7 +11,7 @@ module com.apress.cems.dj {
     requires org.slf4j;
     requires ojdbc7;
     requires java.naming;
-    requires jsr250.api;
+    requires java.annotation;
 
     requires spring.data.jpa;
     requires spring.context;

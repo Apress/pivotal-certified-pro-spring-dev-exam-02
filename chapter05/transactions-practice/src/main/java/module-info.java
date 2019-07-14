@@ -16,5 +16,5 @@ module com.apress.cems.tx.practice {
     requires spring.tx;
     requires ojdbc7;
     requires java.naming;
-    requires jsr250.api;
+    requires java.annotation;
 }

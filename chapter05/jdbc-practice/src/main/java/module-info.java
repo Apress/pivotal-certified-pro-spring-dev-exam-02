@@ -14,5 +14,5 @@ module com.apress.cems.jdbc.practice {
     requires spring.jdbc;
     requires ojdbc7;
     requires java.naming;
-    requires jsr250.api;
+    requires java.annotation;
 }

@@ -13,8 +13,7 @@ subprojects {
 
         dependencies {
             compile project(':chapter00:dao')
-            compileOnly misc.servletApi
-            compile spring.webmvc, misc.jstl
+            compile spring.webmvc
             compile misc.lang3, misc.ojdbc, misc.slf4j, misc.jsr250, misc.h2
             compile (misc.logback) {
                 exclude group: "javax.activation", module: "activation"

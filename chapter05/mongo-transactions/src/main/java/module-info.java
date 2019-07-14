@@ -9,7 +9,7 @@ module com.apress.cems.mongo.tx {
     requires spring.core;
     requires spring.tx;
     requires java.naming;
-    requires jsr250.api;
+    requires java.annotation;
     requires spring.data.commons;
     requires spring.data.mongodb;
 }

@@ -9,7 +9,7 @@ module com.apress.cems.spring.tests.jupiter {
     requires spring.context;
     requires spring.beans;
     requires spring.core;
-    requires jsr250.api;
+    requires java.annotation;
     requires spring.jdbc;
     requires ojdbc7;
     requires java.naming;

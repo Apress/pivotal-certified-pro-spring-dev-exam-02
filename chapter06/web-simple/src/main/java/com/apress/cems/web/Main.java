@@ -47,8 +47,6 @@ public class Main {
             embeddedJettyServer.stop();
         }
 
-        System.in.read();
-        embeddedJettyServer.stop();
         logger.info("Stopping the application now ...");
     }
 }
