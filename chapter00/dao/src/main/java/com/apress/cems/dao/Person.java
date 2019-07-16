@@ -50,22 +50,22 @@ public class Person extends AbstractEntity {
     public static final String FIND_BY_LAST_NAME = "findAllByLastName";
 
     @NotNull
-    @Size(min = 8, max = 30)
+    @Size(min = 3, max = 30)
     @Column(nullable = false, unique = true)
     private String username;
 
     @NotNull
-    @Size(min = 8, max = 30)
+    @Size(min = 3, max = 30)
     @Column(nullable = false)
     private String firstName;
 
     @NotNull
-    @Size(min = 8, max = 30)
+    @Size(min = 3, max = 30)
     @Column(nullable = false)
     private String lastName;
 
     @NotNull
-    @Size(min = 8, max = 50)
+    @Size(min = 4, max = 50)
     @Column(nullable = false)
     private String password;
 

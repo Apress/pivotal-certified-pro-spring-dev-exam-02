@@ -27,6 +27,8 @@ SOFTWARE.
 */
 package com.apress.cems.web;
 
+import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.log.Slf4jLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +42,11 @@ public class Main {
 
     public static void main(String... args) throws  Exception{
         logger.info("Starting the application now ...");
-        JettyServer embeddedJettyServer = new JettyServer("");
+
+        Log.setLog(new Slf4jLog());
+
+        JettyServer embeddedJettyServer = new JettyServer("web-simple");
+
         try {
             embeddedJettyServer.start();
         } catch (InterruptedException e) {

@@ -28,6 +28,7 @@ SOFTWARE.
 package com.apress.cems.cfg.db;
 
 import com.apress.cems.ex.ConfigurationException;
+import oracle.jdbc.pool.OracleConnectionPoolDataSource;
 import oracle.jdbc.pool.OracleDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,9 +62,16 @@ public class ProdDbConfig {
     @Bean
     public DataSource dataSource() {
         try {
-            OracleDataSource ds = new OracleDataSource();
-            ds.setConnectionProperties(connectionProperties());
-            return ds;
+            final Properties props = connectionProperties();
+            OracleConnectionPoolDataSource ods = new OracleConnectionPoolDataSource();
+            ods.setNetworkProtocol("tcp");
+            ods.setDriverType(props.getProperty("driverType"));
+            ods.setServerName(props.getProperty("serverName"));
+            ods.setDatabaseName(props.getProperty("serviceName"));
+            ods.setPortNumber(Integer.parseInt(props.getProperty("port")));
+            ods.setUser(props.getProperty("user"));
+            ods.setPassword(props.getProperty("password"));
+            return ods;
         } catch (SQLException e) {
             throw new ConfigurationException("Could not configure Oracle database!", e);
         }

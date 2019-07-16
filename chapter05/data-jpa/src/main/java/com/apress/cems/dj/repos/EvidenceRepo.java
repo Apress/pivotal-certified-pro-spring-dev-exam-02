@@ -27,12 +27,21 @@ SOFTWARE.
 */
 package com.apress.cems.dj.repos;
 
+import com.apress.cems.dao.CriminalCase;
 import com.apress.cems.dao.Evidence;
+import com.apress.cems.dao.Storage;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 public interface EvidenceRepo extends JpaRepository<Evidence,Long> {
+    
+    List<Evidence> findAllByStorage(Storage storage);
+
+    List<Evidence> findAllByCriminalCase(CriminalCase criminalCase);
 }

@@ -3,7 +3,7 @@
  * @since 1.0
  */
 
-module com.apress.cems.web {
+module com.apress.cems.web.simple {
     requires java.naming;
 
     requires spring.core;

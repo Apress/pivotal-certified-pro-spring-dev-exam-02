@@ -22,4 +22,9 @@ module com.apress.cems.dj {
     requires spring.orm;
     requires java.persistence;
     requires spring.data.commons;
+
+    exports com.apress.cems.dj;
+    exports com.apress.cems.dj.repos;
+    exports com.apress.cems.dj.services;
+    exports com.apress.cems.dj.services.wrappers;
 }

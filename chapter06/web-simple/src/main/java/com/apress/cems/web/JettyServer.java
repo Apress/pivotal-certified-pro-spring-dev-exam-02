@@ -128,7 +128,6 @@ class JettyServer {
         throw  new IOException("Could not find 'webapp' directory!");
     }
 
-
     private ClassInheritanceMap createClassMap() {
         ClassInheritanceMap classMap = new ClassInheritanceMap();
         Set<String> impl = ConcurrentHashMap.newKeySet();

@@ -25,48 +25,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.dj;
+package com.apress.cems.web.problem;
 
-import com.apress.cems.ex.ConfigurationException;
-import oracle.jdbc.pool.OracleDataSource;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Properties;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Configuration
-@PropertySource({"classpath:prod-database.properties"})
-public class DataSourceConfig {
+@ResponseStatus(value= HttpStatus.NOT_FOUND, reason="Requested item not found")
+public class NotFoundException extends Exception {
 
-    @Bean("connectionProperties")
-    Properties connectionProperties(){
-        try {
-            return PropertiesLoaderUtils.loadProperties(
-                    new ClassPathResource("db/prod-datasource.properties"));
-        } catch (IOException e) {
-            throw new ConfigurationException("Could not retrieve connection properties!", e);
-        }
+    private Long objIdentifier;
+
+    public <T> NotFoundException(Class<T> cls, Long id) {
+        super(cls.getSimpleName() + " with id: " + id + " does not exist!");
     }
 
-    @Bean
-    public DataSource dataSource() {
-        try {
-            OracleDataSource ds = new OracleDataSource();
-            ds.setConnectionProperties(connectionProperties());
-            return ds;
-        } catch (SQLException e) {
-            throw new ConfigurationException("Could not configure Oracle database!", e);
-        }
+    public Long getObjIdentifier() {
+        return objIdentifier;
     }
 }

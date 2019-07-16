@@ -41,6 +41,7 @@ import java.util.Set;
  * @since 1.0
  */
 @Entity
+@Table(name="CRIMINAL_CASE")
 public class CriminalCase extends  AbstractEntity{
 
     @NotEmpty
@@ -65,14 +66,14 @@ public class CriminalCase extends  AbstractEntity{
     //very big text
     private String notes;
 
-    @OneToMany(mappedBy = "criminalCase")
+    @OneToMany(mappedBy = "criminalCase", cascade = CascadeType.PERSIST)
     private Set<Evidence> evidenceSet = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "LEAD_INVESTIGATOR", nullable = false)
     private Detective leadInvestigator;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name="working_detective_case",
             joinColumns=@JoinColumn(name="case_id", referencedColumnName="id"),
@@ -152,6 +153,7 @@ public class CriminalCase extends  AbstractEntity{
 
     public void setLeadInvestigator(Detective leadInvestigator) {
         this.leadInvestigator = leadInvestigator;
+        addDetective(leadInvestigator);
     }
 
     public Set<Detective> getAssigned() {

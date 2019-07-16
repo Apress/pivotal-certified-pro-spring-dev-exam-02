@@ -57,6 +57,7 @@ class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry aRegistry)
     {
         aRegistry.addResourceHandler("/WEB-INF/views/*").addResourceLocations("classpath:/webapp/WEB-INF/views/*");
+        aRegistry.addResourceHandler("/WEB-INF/views/home/*").addResourceLocations("classpath:/webapp/WEB-INF/views/home/*");
     }
 
 }

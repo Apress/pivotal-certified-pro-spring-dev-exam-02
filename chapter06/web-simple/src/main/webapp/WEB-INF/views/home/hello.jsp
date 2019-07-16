@@ -13,6 +13,6 @@
     <title>Hello</title>
 </head>
 <body>
-Hello there! All ok!
+Hello there ${name}!
 </body>
 </html>

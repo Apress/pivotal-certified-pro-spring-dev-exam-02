@@ -12,7 +12,8 @@ subprojects {
 
         dependencies {
             compile project(':chapter00:dao')
-            compile misc.lang3, misc.ojdbc, misc.slf4j, misc.jsr250, misc.h2
+            compile misc.lang3, misc.ojdbc, misc.slf4j, misc.jsr250
+            testCompile misc.h2
             compile (misc.logback) {
                 exclude group: "javax.activation", module: "activation"
             }

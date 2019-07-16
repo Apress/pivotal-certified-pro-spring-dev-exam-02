@@ -28,20 +28,34 @@ SOFTWARE.
 package com.apress.cems.web.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("/home")
 public class SimpleController {
 
-    @GetMapping(value = "/hello")
-    public String home(){
-        return "index";
+    @GetMapping(value = "/today")
+    public String today(Model model){
+        LocalDateTime today = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM uuuu");
+        model.addAttribute("today", today.format(formatter));
+        return "home/today";
     }
 
+    @RequestMapping(value = "/hello")
+    public String hello(@RequestParam("name") String name, Model model){
+        model.addAttribute("name", name);
+        return "home/hello";
+    }
 }

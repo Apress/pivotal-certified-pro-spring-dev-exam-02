@@ -33,6 +33,7 @@ import com.apress.cems.util.Rank;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -44,7 +45,7 @@ import java.util.Set;
 public class Detective extends AbstractEntity {
 
     @NotNull
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "PERSON_ID")
     private Person person;
 
@@ -52,22 +53,22 @@ public class Detective extends AbstractEntity {
     @Column(unique = true, nullable = false)
     private String badgeNumber;
 
-    @NotEmpty
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Rank rank;
 
     private Boolean armed = false;
 
-    @NotEmpty
+    @NotNull
     @Enumerated(EnumType.STRING)
     private EmploymentStatus status = EmploymentStatus.ACTIVE;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name="working_detective_case",
             joinColumns=@JoinColumn(name="detective_id", referencedColumnName="id"),
             inverseJoinColumns=@JoinColumn(name="case_id", referencedColumnName="id"))
-    private Set<CriminalCase> criminalCases;
+    private Set<CriminalCase> criminalCases = new HashSet<>();
 
     @OneToMany(mappedBy = "detective")
     private Set<TrackEntry> trackEntries;

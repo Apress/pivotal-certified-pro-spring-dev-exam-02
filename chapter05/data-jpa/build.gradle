@@ -6,9 +6,9 @@ ext.moduleName = 'com.apress.cems.dj'
 
 dependencies {
     compile project(':chapter00:dao')
-    compile spring.data, misc.hikari
+    compile spring.data
     compile hibernate.ehcache, hibernate.em, hibernate.core, hibernate.validator
-    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
+    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, misc.hikari
     testImplementation testing.api
     testRuntime testing.engine, testing.platformRunner
 }

@@ -29,6 +29,7 @@ package com.apress.cems.dao;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -58,8 +59,8 @@ public class Evidence extends AbstractEntity {
 
     private Boolean archived = false;
 
-    @OneToMany(mappedBy = "evidence")
-    private Set<TrackEntry> trackEntries;
+    @OneToMany(mappedBy = "evidence", cascade = CascadeType.PERSIST)
+    private Set<TrackEntry> trackEntries = new HashSet<>();
 
     public CriminalCase getCriminalCase() {
         return criminalCase;

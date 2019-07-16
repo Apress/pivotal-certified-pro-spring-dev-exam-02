@@ -53,6 +53,7 @@ ext {
     //in memory test database
     h2Version = '1.4.198'
 
+    tomcatVersion = '9.0.22'
     jettyVersion = '9.4.19.v20190610'
     lang3Version = '3.8.1'
 
@@ -119,6 +120,11 @@ ext {
             jstl        : "org.eclipse.jetty:apache-jstl:$jettyVersion",
             webApp     : "org.eclipse.jetty:jetty-webapp:$jettyVersion",
             annotations: "org.eclipse.jetty:jetty-annotations:$jettyVersion"
+    ]
+    
+    tomcat = [
+            core : "org.apache.tomcat.embed:tomcat-embed-core:$tomcatVersion",
+            catalina : "org.apache.tomcat:tomcat-catalina:$tomcatVersion"
     ]
 
     hibernate = [

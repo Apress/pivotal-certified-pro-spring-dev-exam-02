@@ -1,25 +1,24 @@
 plugins {
     id 'java-library'
 }
-apply plugin: 'war'
 
-ext.moduleName = 'com.apress.cems.web'
+ext.moduleName = 'com.apress.cems.web.simple'
 
 dependencies {
-    //compile project(':chapter05:data-jpa')
-    compile misc.servletApi, jetty.annotations,jetty.webApp,jetty.jsp, jetty.jstl, jetty.server, jetty.servlet, misc.asm, hibernate.validator /*hibernate.javaxELApi,jetty.jsp*/
+    compile misc.servletApi, jetty.annotations,jetty.webApp,jetty.jsp, jetty.jstl, jetty.server, jetty.servlet, misc.asm, hibernate.validator
 
             testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
     testImplementation testing.api
     testRuntime testing.engine, testing.platformRunner
 }
 
-war {
+jar {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Web Simple",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Web Simple With Embedded Jetty",
                 "Implementation-Version": version,
+                "Main-Class"         : "com.apress.cems.web.Main",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
     }

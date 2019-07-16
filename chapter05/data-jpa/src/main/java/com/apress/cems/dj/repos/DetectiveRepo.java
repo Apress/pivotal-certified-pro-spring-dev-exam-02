@@ -28,11 +28,20 @@ SOFTWARE.
 package com.apress.cems.dj.repos;
 
 import com.apress.cems.dao.Detective;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 public interface DetectiveRepo extends JpaRepository<Detective, Long> {
+
+    @EntityGraph(attributePaths = {"criminalCases"})
+    @Query("select d from Detective d where d.id=:id" )
+    Optional<Detective> findByIdWithCriminalCases(@Param("id") Long id);
 }

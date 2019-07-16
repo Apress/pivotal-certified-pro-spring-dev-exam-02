@@ -47,6 +47,7 @@ include 'chapter05:mongo-simple'
 include 'chapter05:mongo-transactions'
 include 'chapter05:boot-mongo'
 include 'chapter06:web-simple'
+include 'chapter06:mvc-basic'
 
 
 include 'chapter07'
@@ -62,3 +63,4 @@ rootProject.children.each { project ->
     assert project.buildFile.exists()
     assert project.buildFile.isFile()
 }
+
