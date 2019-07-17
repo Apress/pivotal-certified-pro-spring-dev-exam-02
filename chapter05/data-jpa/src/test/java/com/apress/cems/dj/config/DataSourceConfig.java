@@ -43,7 +43,7 @@ import java.util.Properties;
  * @since 1.0
  */
 @Configuration
-@PropertySource({"classpath:db/db.properties"})
+@PropertySource({"classpath:db/Personperties"})
 public class DataSourceConfig {
     @Value("${db.driverClassName}")
     private String driverClassName;

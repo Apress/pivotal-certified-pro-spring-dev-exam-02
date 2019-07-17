@@ -25,22 +25,43 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.dj.repos;
+package com.apress.cems.web.config;
 
-import com.apress.cems.dao.Person;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
+import com.apress.cems.dj.ServiceConfig;
+import com.apress.cems.dj.OracleDataSourceConfig;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import java.util.Optional;
+import javax.servlet.Filter;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-// TODO 42. Complete the definition of this interface to make the tests in PersonServiceTest.java pass.
-public interface PersonRepo extends JpaRepository<Person, Long> {
+public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-    Optional<Person> findByUsername(String username);
+    @Override
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[]{H2DbConfig.class, ServiceConfig.class};
+    }
 
-    Optional<Person> findByCompleteName(@Param("fn")String fn, @Param("ln")String lastName);
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class[]{WebConfig.class};
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[]{"/"};
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter cef = new CharacterEncodingFilter();
+        cef.setEncoding("UTF-8");
+        cef.setForceEncoding(true);
+        return new Filter[]{new HiddenHttpMethodFilter(), cef};
+    }
 }
+

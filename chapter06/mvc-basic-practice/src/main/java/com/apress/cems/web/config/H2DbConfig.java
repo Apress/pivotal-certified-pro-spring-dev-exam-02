@@ -25,19 +25,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.hib.config;
+package com.apress.cems.web.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -47,10 +43,8 @@ import java.util.Properties;
  * @since 1.0
  */
 @Configuration
-@PropertySource({"classpath:db/db.properties"})
-public class HibernateDbConfig {
-
-    // ---------- configure the db ------------
+@PropertySource("classpath:db/db.properties")
+public class H2DbConfig {
     @Value("${db.driverClassName}")
     private String driverClassName;
     @Value("${db.url}")
@@ -98,19 +92,6 @@ public class HibernateDbConfig {
         } catch (Exception e) {
             return null;
         }
-    }
-
-    @Bean
-    public SessionFactory sessionFactory() {
-        return new LocalSessionFactoryBuilder(dataSource())
-                .scanPackages("com.apress.cems.dao")
-                .addProperties(hibernateProperties())
-                .buildSessionFactory();
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        return new HibernateTransactionManager(sessionFactory());
     }
 
 }

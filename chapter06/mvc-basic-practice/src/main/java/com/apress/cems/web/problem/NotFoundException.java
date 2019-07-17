@@ -25,22 +25,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.dj.repos;
+package com.apress.cems.web.problem;
 
-import com.apress.cems.dao.Person;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
-
-import java.util.Optional;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-// TODO 42. Complete the definition of this interface to make the tests in PersonServiceTest.java pass.
-public interface PersonRepo extends JpaRepository<Person, Long> {
+@ResponseStatus(value= HttpStatus.NOT_FOUND, reason="Requested item not found")
+public class NotFoundException extends Exception {
 
-    Optional<Person> findByUsername(String username);
+    private Long objIdentifier;
 
-    Optional<Person> findByCompleteName(@Param("fn")String fn, @Param("ln")String lastName);
+    public <T> NotFoundException(Class<T> cls, Long id) {
+        super(cls.getSimpleName() + " with id: " + id + " does not exist!");
+    }
+
+    public Long getObjIdentifier() {
+        return objIdentifier;
+    }
 }

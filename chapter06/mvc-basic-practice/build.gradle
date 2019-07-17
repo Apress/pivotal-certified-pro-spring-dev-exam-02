@@ -7,10 +7,10 @@ ext.moduleName = 'com.apress.cems.web.basic'
 
 dependencies {
     compile project(':chapter05:data-jpa')
-    compile misc.jstl, hibernate.validator
+    compile misc.jstl, hibernate.validator, misc.hikari, misc.h2
     compileOnly misc.servletApi
 
-    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, testing.mockito
+    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
     testImplementation testing.api
     testRuntime testing.engine, testing.platformRunner
 }
