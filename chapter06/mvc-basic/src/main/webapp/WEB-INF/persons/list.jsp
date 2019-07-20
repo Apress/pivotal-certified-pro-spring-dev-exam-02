@@ -84,7 +84,7 @@
             <spring:message code="persons.list.title"/>
         </h2>
 
-        <div class="users">
+        <div class="persons">
             <table>
                 <thead>
                 <tr>

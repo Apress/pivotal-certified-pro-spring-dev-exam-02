@@ -27,43 +27,54 @@ SOFTWARE.
 */
 package com.apress.cems.lc;
 
+import com.apress.cems.ex.ConfigurationException;
+import oracle.jdbc.pool.OracleConnectionPoolDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @Configuration
-@PropertySource("classpath:db/prod-datasource.properties")
 public class DataSourceCfg {
-    @Value("${driverClassName}")
-    private String driverClassName;
-    @Value("${url}")
-    private String url;
-    @Value("${username}")
-    private String username;
-    @Value("${password}")
-    private String password;
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
+    @Bean("connectionProperties")
+    Properties connectionProperties(){
+        try {
+            return PropertiesLoaderUtils.loadProperties(
+                    new ClassPathResource("db/prod-datasource.properties"));
+        } catch (IOException e) {
+            throw new ConfigurationException("Could not retrieve connection properties!", e);
+        }
     }
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName(driverClassName);
-        ds.setUrl(url);
-        ds.setUsername(username);
-        ds.setPassword(password);
-        return ds;
+        try {
+            final Properties props = connectionProperties();
+            OracleConnectionPoolDataSource ods = new OracleConnectionPoolDataSource();
+            ods.setNetworkProtocol("tcp");
+            ods.setDriverType(props.getProperty("driverType"));
+            ods.setServerName(props.getProperty("serverName"));
+            ods.setDatabaseName(props.getProperty("serviceName"));
+            ods.setPortNumber(Integer.parseInt(props.getProperty("port")));
+            ods.setUser(props.getProperty("user"));
+            ods.setPassword(props.getProperty("password"));
+            return ods;
+        } catch (SQLException e) {
+            throw new ConfigurationException("Could not configure Oracle database!", e);
+        }
     }
 }

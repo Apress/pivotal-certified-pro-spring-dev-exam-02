@@ -100,7 +100,7 @@ public class JpaDbConfig {
 
             hikariConfig.setMaximumPoolSize(5);
             hikariConfig.setConnectionTestQuery("SELECT 1");
-            hikariConfig.setPoolName("hamsterPool");
+            hikariConfig.setPoolName("cemsPool");
             return new HikariDataSource(hikariConfig);
         } catch (Exception e) {
             return null;

@@ -43,7 +43,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{OracleDataSourceConfig.class, ServiceConfig.class};
+        return new Class[]{H2DbConfig.class, ServiceConfig.class};
     }
 
     @Override

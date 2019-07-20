@@ -95,8 +95,8 @@ public class DataSourceConfig {
             hikariConfig.setPassword(password);
 
             hikariConfig.setMaximumPoolSize(5);
-            hikariConfig.setConnectionTestQuery("SELECT 1");
-            hikariConfig.setPoolName("hamsterPool");
+            //hikariConfig.setConnectionTestQuery("SELECT 1");
+            hikariConfig.setPoolName("cemsPool");
             return new HikariDataSource(hikariConfig);
         } catch (Exception e) {
             return null;

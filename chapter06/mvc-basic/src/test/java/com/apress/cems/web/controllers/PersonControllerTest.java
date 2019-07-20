@@ -29,6 +29,7 @@ package com.apress.cems.web.controllers;
 
 import com.apress.cems.dao.Person;
 import com.apress.cems.dj.services.PersonService;
+import com.apress.cems.web.problem.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -79,14 +80,14 @@ class PersonControllerTest {
     }
 
     @Test
-    void testShowHandler() {
+    void testShowHandler() throws NotFoundException {
         Person p = new Person();
         p.setId(1L);
 
         when(mockService.findById(any(Long.class))).thenReturn(Optional.of(p));
 
         ExtendedModelMap model = new ExtendedModelMap();
-        String viewName = personController.list(model);
+        String viewName = personController.show(1L, model);
         Person person = (Person) model.get("person");
 
         assertAll(

@@ -56,7 +56,7 @@ import java.util.Properties;
  * @since 1.0
  */
 @Configuration
-@PropertySource({"classpath:db/Personperties"})
+@PropertySource({"classpath:db/db.properties"})
 public class JpaDbConfig {
 
     // ---------- configure the db ------------
@@ -102,7 +102,7 @@ public class JpaDbConfig {
 
             hikariConfig.setMaximumPoolSize(5);
             hikariConfig.setConnectionTestQuery("SELECT 1");
-            hikariConfig.setPoolName("hamsterPool");
+            hikariConfig.setPoolName("cemsPool");
             return new HikariDataSource(hikariConfig);
         } catch (Exception e) {
             return null;

@@ -40,6 +40,7 @@ import java.util.Date;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@SequenceGenerator(name = "seqTrackEntryGen", allocationSize = 1)
 @Entity
 @Table(name="TRACK_ENTRY")
 public class TrackEntry extends AbstractEntity{

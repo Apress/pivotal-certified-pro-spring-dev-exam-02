@@ -37,6 +37,7 @@ import java.util.Set;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@SequenceGenerator(name = "seqEvidenceGen", allocationSize = 1)
 @Entity
 public class Evidence extends AbstractEntity {
     @ManyToOne

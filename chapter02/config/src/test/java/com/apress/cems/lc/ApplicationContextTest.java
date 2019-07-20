@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class ApplicationContextTest {
+class ApplicationContextTest {
     private Logger logger = LoggerFactory.getLogger(ApplicationContextTest.class);
 
     @Test

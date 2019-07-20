@@ -41,6 +41,5 @@ import java.util.Optional;
 public interface PersonRepo extends JpaRepository<Person, Long> {
 
     Optional<Person> findByUsername(String username);
-
-    Optional<Person> findByCompleteName(@Param("fn")String fn, @Param("ln")String lastName);
+    Optional<Person> findByCompleteName(String firstName, String lastName);
 }

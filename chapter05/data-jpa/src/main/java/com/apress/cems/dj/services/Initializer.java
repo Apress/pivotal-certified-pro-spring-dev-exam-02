@@ -48,7 +48,6 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 public class Initializer {
-
     private Logger logger = LoggerFactory.getLogger(Initializer.class);
 
     private PersonService personService;

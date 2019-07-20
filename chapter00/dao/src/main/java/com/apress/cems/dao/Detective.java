@@ -41,6 +41,7 @@ import java.util.Set;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@SequenceGenerator(name = "seqDetectiveGen", allocationSize = 1)
 @Entity
 public class Detective extends AbstractEntity {
 

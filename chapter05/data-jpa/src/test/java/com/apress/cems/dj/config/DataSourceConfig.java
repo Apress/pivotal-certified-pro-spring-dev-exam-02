@@ -43,7 +43,7 @@ import java.util.Properties;
  * @since 1.0
  */
 @Configuration
-@PropertySource({"classpath:db/Personperties"})
+@PropertySource({"classpath:db/db.properties"})
 public class DataSourceConfig {
     @Value("${db.driverClassName}")
     private String driverClassName;
@@ -86,8 +86,8 @@ public class DataSourceConfig {
             hikariConfig.setPassword(password);
 
             hikariConfig.setMaximumPoolSize(5);
-            hikariConfig.setConnectionTestQuery("SELECT 1");
-            hikariConfig.setPoolName("hamsterPool");
+            //hikariConfig.setConnectionTestQuery("SELECT 1");
+            hikariConfig.setPoolName("cemsPool");
             return new HikariDataSource(hikariConfig);
         } catch (Exception e) {
             return null;

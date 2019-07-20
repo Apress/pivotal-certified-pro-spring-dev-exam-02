@@ -40,7 +40,7 @@ import java.util.Objects;
  * @since 1.0
  */
 @Entity
-@SequenceGenerator(name = "seqGen", allocationSize = 1)
+@SequenceGenerator(name = "seqPersonGen", allocationSize = 1)
 @NamedQueries({
         @NamedQuery(name = Person.FIND_BY_COMPLETE_NAME, query = "from Person p where p.firstName=:fn and p.lastName=:ln"),
         @NamedQuery(name = Person.FIND_BY_LAST_NAME, query = "from Person p where p.lastName= ?1")

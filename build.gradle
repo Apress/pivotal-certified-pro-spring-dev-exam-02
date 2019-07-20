@@ -24,7 +24,7 @@ sourceCompatibility = 12
 ext {
     springVersion = '5.2.0.M2'
     springBootVersion = '2.2.0.M4'
-    springJpaVersion = '2.2.0.BUILD-SNAPSHOT'
+    springJpaVersion = '2.1.9.RELEASE'
     springMongoVersion = '2.1.9.RELEASE'
 
     //testing
@@ -54,8 +54,8 @@ ext {
     h2Version = '1.4.198'
 
     tomcatVersion = '9.0.22'
-    jettyVersion = '9.4.19.v20190610'
     lang3Version = '3.8.1'
+    thymeleafVersion = '3.0.11.RELEASE'
 
     //we group libraries by their purpose so we can import them easier in the modules
     boot = [
@@ -110,16 +110,8 @@ ext {
             hikari          : "com.zaxxer:HikariCP:$hikariVersion",
             jstl            : "javax.servlet:jstl:1.2",
             servletApi      : "javax.servlet:javax.servlet-api:4.0.1",
-            asm             : "asm:asm:3.3.1"
-    ]
-
-    jetty = [
-            server     : "org.eclipse.jetty:jetty-server:$jettyVersion",
-            servlet    : "org.eclipse.jetty:jetty-servlet:$jettyVersion",
-            jsp        : "org.eclipse.jetty:apache-jsp:$jettyVersion",
-            jstl        : "org.eclipse.jetty:apache-jstl:$jettyVersion",
-            webApp     : "org.eclipse.jetty:jetty-webapp:$jettyVersion",
-            annotations: "org.eclipse.jetty:jetty-annotations:$jettyVersion"
+            asm             : "asm:asm:3.3.1",
+            thymeleaf       : "org.thymeleaf:thymeleaf-spring5:$thymeleafVersion"
     ]
     
     tomcat = [

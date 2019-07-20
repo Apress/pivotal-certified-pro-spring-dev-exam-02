@@ -40,6 +40,7 @@ import java.util.Set;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@SequenceGenerator(name = "seqCriminalCaseGen", allocationSize = 1)
 @Entity
 @Table(name="CRIMINAL_CASE")
 public class CriminalCase extends  AbstractEntity{

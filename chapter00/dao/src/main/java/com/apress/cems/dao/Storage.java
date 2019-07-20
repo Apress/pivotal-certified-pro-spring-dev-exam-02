@@ -29,6 +29,7 @@ package com.apress.cems.dao;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,6 +40,7 @@ import java.util.Set;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@SequenceGenerator(name = "seqStorageGen", allocationSize = 1)
 @Entity
 public class Storage extends AbstractEntity {
     @NotNull

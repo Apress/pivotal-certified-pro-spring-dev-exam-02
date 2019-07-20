@@ -30,8 +30,10 @@ package com.apress.cems.boot;
 import com.apress.cems.boot.services.PersonService;
 import com.apress.cems.boot.dao.Person;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 
@@ -43,13 +45,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 1.0
  */
 @SpringBootTest
-public class ApplicationTest {
+class ApplicationTest {
 
     @Autowired
     private PersonService personService;
 
     @Test
-    public void testSavePerson(){
+    void testSavePerson(){
         Person person = new Person();
         person.setUsername("irene.adler");
         person.setFirstName("Irene");

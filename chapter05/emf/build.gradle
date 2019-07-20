@@ -18,7 +18,7 @@ jar {
         attributes(
                 "Created-By": System.getProperty('java.version'),
                 "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 05 - Spring Transactional Using Hibernate EntityManagerFactory",
-                "Implementation-Version": version,
+                "Implementation-Version": archiveVersion,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
     }

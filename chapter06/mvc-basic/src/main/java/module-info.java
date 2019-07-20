@@ -17,6 +17,9 @@ module com.apress.cems.web {
     requires javax.servlet.api;
     requires org.slf4j;
     requires java.annotation;
+    requires com.zaxxer.hikari;
+    requires spring.beans;
+    requires java.sql;
 
     exports com.apress.cems.web.config;
     exports com.apress.cems.web.controllers;

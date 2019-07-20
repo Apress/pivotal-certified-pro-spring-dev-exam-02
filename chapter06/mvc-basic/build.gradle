@@ -7,7 +7,7 @@ ext.moduleName = 'com.apress.cems.web.basic'
 
 dependencies {
     compile project(':chapter05:data-jpa')
-    compile misc.jstl, hibernate.validator
+    compile spring.webmvc, hibernate.validator, misc.h2, misc.hikari, misc.jstl
     compileOnly misc.servletApi
 
     testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, testing.mockito
@@ -20,7 +20,7 @@ war {
         attributes(
                 "Created-By": System.getProperty('java.version'),
                 "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Web Basic",
-                "Implementation-Version": version,
+                "Implementation-Version": archiveVersion,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
     }

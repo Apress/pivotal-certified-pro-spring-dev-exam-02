@@ -28,13 +28,17 @@ SOFTWARE.
 package com.apress.cems.dj;
 
 import com.apress.cems.dj.config.DataSourceConfig;
+import com.apress.cems.dj.services.DetectiveService;
 import com.apress.cems.dj.services.PersonService;
 
+import com.apress.cems.dj.services.StorageService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import javax.sql.DataSource;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,9 +55,16 @@ import static org.junit.jupiter.api.Assertions.fail;
     @Autowired
     PersonService personService;
 
+    @Autowired
+    StorageService storageService;
+
+    @Autowired
+    DetectiveService detectiveService;
+
     @Test
     void testFindById() {
-        personService.findById(1L).ifPresentOrElse(
+        // because 1L is the Storage
+        personService.findById(2L).ifPresentOrElse(
                 p -> assertEquals("sherlock.holmes", p.getUsername()),
                 () -> fail("Person not found!")
         );

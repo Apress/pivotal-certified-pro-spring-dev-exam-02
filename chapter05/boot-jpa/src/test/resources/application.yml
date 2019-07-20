@@ -1,17 +1,23 @@
 spring:
+  thymeleaf:
+    cache: false
   datasource:
     hikari:
       driver-class-name: org.h2.Driver
-      jdbc-url: jdbc:h2:~/hamsters;DB_CLOSE_DELAY=-1
-      username: hamsters
-      password: hamsters
+      jdbc-url: jdbc:h2:mem:testdb
+      username: sa
+      password:
       maximum-pool-size: 5
       connection-test-query: "SELECT 1"
-      pool-name: hamsterPool
+      pool-name: cemsPool
   jpa:
     generate-ddl: true
     hibernate:
       ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
 management:
   endpoints:
     web:
