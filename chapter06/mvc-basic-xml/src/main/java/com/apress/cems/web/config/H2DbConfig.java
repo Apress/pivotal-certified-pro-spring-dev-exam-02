@@ -25,27 +25,39 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.dj;
+package com.apress.cems.web.config;
 
-import com.apress.cems.ex.ConfigurationException;
-import oracle.jdbc.pool.OracleConnectionPoolDataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Properties;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-//@Configuration
-public class OracleDataSourceConfig {
+@Configuration
+@PropertySource("classpath:db.properties")
+public class H2DbConfig {
+    @Value("${db.driverClassName}")
+    private String driverClassName;
+    @Value("${db.url}")
+    private String url;
+    @Value("${db.username}")
+    private String username;
+    @Value("${db.password}")
+    private String password;
+    @Value("${db.dialect}")
+    private String dialect;
+    @Value("${db.hbm2ddl}")
+    private String hbm2ddl;
+
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -55,8 +67,8 @@ public class OracleDataSourceConfig {
     @Bean
     public Properties hibernateProperties() {
         Properties hibernateProp = new Properties();
-        hibernateProp.put("hibernate.dialect", connectionProperties().getProperty("dialect"));
-        hibernateProp.put("hibernate.hbm2ddl.auto", connectionProperties().getProperty("hbm2ddl"));
+        hibernateProp.put("hibernate.dialect", dialect);
+        hibernateProp.put("hibernate.hbm2ddl.auto", hbm2ddl);
 
         hibernateProp.put("hibernate.format_sql", true);
         hibernateProp.put("hibernate.use_sql_comments", true);
@@ -64,31 +76,22 @@ public class OracleDataSourceConfig {
         return hibernateProp;
     }
 
-    @Bean("connectionProperties")
-    Properties connectionProperties(){
-        try {
-            return PropertiesLoaderUtils.loadProperties(
-                    new ClassPathResource("prod-database.properties"));
-        } catch (IOException e) {
-            throw new ConfigurationException("Could not retrieve connection properties!", e);
-        }
-    }
-
     @Bean
     public DataSource dataSource() {
         try {
-            final Properties props = connectionProperties();
-            OracleConnectionPoolDataSource ods = new OracleConnectionPoolDataSource();
-            ods.setNetworkProtocol("tcp");
-            ods.setDriverType(props.getProperty("driverType"));
-            ods.setServerName(props.getProperty("serverName"));
-            ods.setDatabaseName(props.getProperty("serviceName"));
-            ods.setPortNumber(Integer.parseInt(props.getProperty("port")));
-            ods.setUser(props.getProperty("user"));
-            ods.setPassword(props.getProperty("password"));
-            return ods;
-        } catch (SQLException e) {
-            throw new ConfigurationException("Could not configure Oracle database!", e);
+            HikariConfig hikariConfig = new HikariConfig();
+            hikariConfig.setDriverClassName(driverClassName);
+            hikariConfig.setJdbcUrl(url);
+            hikariConfig.setUsername(username);
+            hikariConfig.setPassword(password);
+
+            hikariConfig.setMaximumPoolSize(5);
+            hikariConfig.setConnectionTestQuery("SELECT 1");
+            hikariConfig.setPoolName("hamsterPool");
+            return new HikariDataSource(hikariConfig);
+        } catch (Exception e) {
+            return null;
         }
     }
+
 }
