@@ -77,6 +77,9 @@ public class Person extends AbstractEntity {
 /*    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private Detective detective;*/
 
+    @Transient
+    private String newPassword;
+
     public Person() {
         super();
     }
@@ -119,6 +122,14 @@ public class Person extends AbstractEntity {
 
     public void setHiringDate(LocalDate hiringDate) {
         this.hiringDate = hiringDate;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
     @Override

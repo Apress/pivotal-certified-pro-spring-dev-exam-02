@@ -28,12 +28,19 @@ SOFTWARE.
 package com.apress.cems.dj.services.impl;
 
 import com.apress.cems.dao.Person;
+import com.apress.cems.dj.problem.InvalidCriteriaException;
 import com.apress.cems.dj.repos.PersonRepo;
 import com.apress.cems.dj.services.PersonService;
+import com.apress.cems.dto.CriteriaDto;
+import com.apress.cems.dto.FieldGroup;
+import com.apress.cems.util.DateProcessor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,6 +110,43 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void delete(Person person) {
         personRepo.delete(person);
+    }
+
+    @Override
+    public List<Person> getByCriteriaDto(CriteriaDto criteria) throws InvalidCriteriaException {
+        List<Person> persons = new ArrayList<>();
+        FieldGroup fg = FieldGroup.getField(criteria.getFieldName());
+
+        switch (fg) {
+            case FIRSTNAME:
+                persons = criteria.getExactMatch() ? personRepo.findByFirstName(criteria.getFieldValue())
+                        : personRepo.findByFirstNameLike(criteria.getFieldValue());
+                break;
+            case LASTNAME:
+                persons = criteria.getExactMatch() ? personRepo.findByLastName(criteria.getFieldValue())
+                        : personRepo.findByLastNameLike(criteria.getFieldValue());
+                break;
+            case USERNAME:
+                if(criteria.getExactMatch()) {
+                    Optional<Person> persOpt = personRepo.findByUsername(criteria.getFieldValue());
+                    if(persOpt.isPresent()) {
+                        persons.add(persOpt.get());
+                    }
+                } else {
+                    persons = personRepo.findByUsernameLike(criteria.getFieldValue());
+                }
+                break;
+            case HIREDIN:
+                LocalDate date;
+                try {
+                    date = DateProcessor.toDate(criteria.getFieldValue());
+                } catch (DateTimeParseException e) {
+                    throw new InvalidCriteriaException("fieldValue", "typeMismatch.hiringDate");
+                }
+                persons = personRepo.findByHiringDate(date);
+                break;
+        }
+        return persons;
     }
 }
 

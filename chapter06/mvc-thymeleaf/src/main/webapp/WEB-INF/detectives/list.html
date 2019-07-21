@@ -18,7 +18,7 @@ Time: 11:43
     <div class="content">
         <h2 th:text="#{detectives.list.title}">DETECTIVES LIST</h2>
         <div class="detectives">
-            <table>
+            <table th:if="${not #lists.isEmpty(detectives)}" >
                 <thead>
                     <tr>
                         <td th:text="#{label.Detective.count}">COUNT</td>

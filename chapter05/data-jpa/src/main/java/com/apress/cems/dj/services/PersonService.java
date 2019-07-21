@@ -28,6 +28,8 @@ SOFTWARE.
 package com.apress.cems.dj.services;
 
 import com.apress.cems.dao.Person;
+import com.apress.cems.dj.problem.InvalidCriteriaException;
+import com.apress.cems.dto.CriteriaDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,6 +56,8 @@ public interface PersonService {
     Optional<Person> findByCompleteName(String firstName, String lastName);
 
     String getPersonAsHtml(String username);
+
+    List<Person> getByCriteriaDto(CriteriaDto criteria) throws InvalidCriteriaException;
 
     //Person updatePassword(Person person, String password)throws MailSendingException;
 }

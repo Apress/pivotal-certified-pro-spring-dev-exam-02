@@ -29,6 +29,7 @@ package com.apress.cems.dj.services;
 
 import com.apress.cems.dao.*;
 import com.apress.cems.util.*;
+import org.apache.commons.lang3.time.DateParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -251,7 +252,7 @@ public class Initializer {
         person.setFirstName("Sherlock");
         person.setLastName("Holmes");
         person.setPassword("dudu");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(DateProcessor.toDate("1983-08-15"));
         personService.save(person);
 
         person = new Person();
@@ -259,7 +260,7 @@ public class Initializer {
         person.setFirstName("Jackson");
         person.setLastName("Brodie");
         person.setPassword("bagy");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(DateProcessor.toDate("1983-06-22"));
         personService.save(person);
 
         person = new Person();
@@ -267,7 +268,7 @@ public class Initializer {
         person.setFirstName("Nancy");
         person.setLastName("Drew");
         person.setPassword("dada45");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(DateProcessor.toDate("1990-05-21"));
         personService.save(person);
 
         person = new Person();
@@ -275,7 +276,7 @@ public class Initializer {
         person.setFirstName("Irene");
         person.setLastName("Adler");
         person.setPassword("xxxyy");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(DateProcessor.toDate("1987-03-11"));
         personService.save(person);
     }
 

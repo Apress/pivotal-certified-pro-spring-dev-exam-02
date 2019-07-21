@@ -50,12 +50,12 @@ public abstract class AbstractEntity implements Serializable {
     @Version
     protected int version;
 
-    @NotNull
+
     @Column(name = "created_at", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate createdAt;
 
-    @NotNull
+
     @Column(name = "modified_at", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate modifiedAt;

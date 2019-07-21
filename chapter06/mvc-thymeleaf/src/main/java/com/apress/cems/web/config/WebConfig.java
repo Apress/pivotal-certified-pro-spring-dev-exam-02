@@ -44,6 +44,7 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 import org.thymeleaf.dialect.IDialect;
@@ -163,6 +164,7 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor()).addPathPatterns("/*");
         registry.addInterceptor(themeChangeInterceptor());
+        registry.addInterceptor(webChangeInterceptor());
     }
 
     @Bean
@@ -206,6 +208,14 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
         cookieThemeResolver.setCookieMaxAge(3600);
         cookieThemeResolver.setCookieName("theme");
         return cookieThemeResolver;
+    }
+
+    @Bean
+    WebContentInterceptor webChangeInterceptor() {
+        WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
+        webContentInterceptor.setCacheSeconds(0);
+        webContentInterceptor.setSupportedMethods("GET", "POST", "PUT", "DELETE");
+        return webContentInterceptor;
     }
 
 }

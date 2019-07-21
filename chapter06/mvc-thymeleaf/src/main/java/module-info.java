@@ -23,6 +23,7 @@ module com.apress.cems.web.thymeleaf {
 
     requires thymeleaf.spring5;
     requires thymeleaf;
+    requires java.validation;
 
     exports com.apress.cems.web.config;
     exports com.apress.cems.web.controllers;

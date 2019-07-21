@@ -27,7 +27,6 @@ SOFTWARE.
 */
 package com.apress.cems.beans.ci;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**

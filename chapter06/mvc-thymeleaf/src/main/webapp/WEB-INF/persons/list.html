@@ -7,7 +7,7 @@ Time: 11:43
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{templates/layout :: cemsHead('CEMS Home Page')}"></head>
+<head th:replace="~{templates/layout :: cemsHead('CEMS List Persons Page')}"></head>
 
 <body>
 <header th:replace="~{templates/layout :: cemsHeader}" ></header>
@@ -18,7 +18,7 @@ Time: 11:43
     <div class="content">
         <h2 th:text="#{persons.list.title}">PERSONS LIST</h2>
         <div class="persons">
-            <table>
+            <table th:if="${not #lists.isEmpty(persons)}" >
                 <thead>
                     <tr>
                         <td th:text="#{label.Person.count}">COUNT</td>
@@ -36,6 +36,9 @@ Time: 11:43
                     </tr>
                 </th:block>
             </table>
+        </div>
+        <div class="search">
+            <a th:href="@{/persons/search}" th:text="#{command.search} + ' '+ #{persons.list.title}">PERSONS SEARCH</a>
         </div>
     </div>
 </section>

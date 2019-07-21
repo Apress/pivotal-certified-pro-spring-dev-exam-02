@@ -7,7 +7,7 @@ Time: 11:43
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{templates/layout :: cemsHead('CEMS Home Page')}"></head>
+<head th:replace="~{templates/layout :: cemsHead('CEMS Show Person Page')}"></head>
 <body>
 <header th:replace="~{templates/layout :: cemsHeader}" ></header>
 
@@ -33,7 +33,13 @@ Time: 11:43
                     <th th:text="#{label.Person.since}">SINCE</th>
                     <td th:text="${person.hiringDate}">SINCE</td>
                 </tr>
+                <tr>
+                    <td colspan="2" align="right">  <a th:href="@{/persons/} + ${person.id} + '/edit'" th:text="#{command.edit}">EDIT</a></td>
+                </tr>
             </table>
+        </div>
+        <div class="search">
+            <a th:href="@{/persons/search}" th:text="#{command.search} + ' '+ #{persons.list.title}">PERSONS SEARCH</a>
         </div>
     </div>
 </section>

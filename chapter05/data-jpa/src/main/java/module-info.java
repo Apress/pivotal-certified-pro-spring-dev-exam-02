@@ -25,6 +25,7 @@ module com.apress.cems.dj {
 
     exports com.apress.cems.dj;
     exports com.apress.cems.dj.repos;
+    exports com.apress.cems.dj.problem;
     exports com.apress.cems.dj.services;
     exports com.apress.cems.dj.services.wrappers;
 }
