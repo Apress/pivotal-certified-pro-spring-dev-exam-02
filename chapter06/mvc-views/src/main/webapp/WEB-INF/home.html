@@ -1,0 +1,23 @@
+<!--
+Created by IntelliJ IDEA.
+User: iulianacosmina
+Date: 2019-07-14
+Time: 11:43
+-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{templates/layout :: cemsHead('CEMS Home Page')}"></head>
+
+    <body>
+        <header th:replace="~{templates/layout :: cemsHeader}" ></header>
+
+        <header th:replace="~{templates/layout :: cemsMenu}" ></header>
+
+        <section th:fragment="~{templates/layout :: cemsContent}">
+            <p th:text="#{home.caption}" ></p>
+        </section>
+
+        <footer th:replace="~{templates/layout :: cemsFooter}" ></footer>
+    </body>
+</html>

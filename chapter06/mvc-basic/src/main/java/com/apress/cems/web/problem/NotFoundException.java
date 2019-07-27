@@ -27,15 +27,15 @@ SOFTWARE.
 */
 package com.apress.cems.web.problem;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+        import org.springframework.http.HttpStatus;
+        import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @ResponseStatus(value= HttpStatus.NOT_FOUND, reason="Requested item not found")
-public class NotFoundException extends Exception {
+public class NotFoundException extends RuntimeException {
 
     private Long objIdentifier;
 

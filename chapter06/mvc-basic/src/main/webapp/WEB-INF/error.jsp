@@ -74,6 +74,7 @@
     </div>
 
     <div class="content">
+        <h3>Unexpected error!</h3>
         <c:if test="${not empty problem}">
             <h3><spring:message code="error.message"/></h3>
             <div class="error">

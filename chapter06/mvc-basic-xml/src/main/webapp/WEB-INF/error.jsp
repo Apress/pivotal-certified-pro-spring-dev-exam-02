@@ -74,12 +74,14 @@
     </div>
 
     <div class="content">
-        <c:if test="${not empty problem}">
-            <h3><spring:message code="error.message"/></h3>
-            <div class="error">
-                    ${problem}
-            </div>
-        </c:if>
+        <div class="error">
+            <c:if test="${not empty problem}">
+                <h3><spring:message code="error.message"/></h3>
+                <div class="error">
+                        ${problem}
+                </div>
+            </c:if>
+        </div>
     </div>
 
     <div class="footer">

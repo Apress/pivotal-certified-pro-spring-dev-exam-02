@@ -42,6 +42,7 @@ import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.util.UrlPathHelper;
 
 import java.util.Locale;
 
@@ -53,6 +54,13 @@ import java.util.Locale;
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.apress.cems.web.controllers"})
 class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        UrlPathHelper matrixPathHelper = new UrlPathHelper();
+        matrixPathHelper.setRemoveSemicolonContent(false);
+        configurer.setUrlPathHelper(matrixPathHelper);
+    }
 
     @Bean
     ViewResolver viewResolver(){

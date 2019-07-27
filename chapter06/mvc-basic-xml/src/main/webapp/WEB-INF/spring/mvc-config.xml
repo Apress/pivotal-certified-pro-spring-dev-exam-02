@@ -13,7 +13,13 @@
     <context:component-scan base-package="com.apress.cems.web.controllers"/>
 
     <!-- Defines basic MVC defaults (handler adapter, mapping, etc) -->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:path-matching path-helper="myPathHelper"/>
+    </mvc:annotation-driven>
+
+    <bean id="myPathHelper" class="org.springframework.web.util.UrlPathHelper">
+        <property name="removeSemicolonContent" value="false"/>
+    </bean>
 
     <!--
       Configures a handler for serving static resources by forwarding to the

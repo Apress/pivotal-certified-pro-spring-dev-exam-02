@@ -22,7 +22,7 @@ subprojects {
 sourceCompatibility = 12
 
 ext {
-    springVersion = '5.2.0.M2'
+    springVersion = '5.2.0.M3'
     springBootVersion = '2.2.0.M4'
     springJpaVersion = '2.1.9.RELEASE'
     springMongoVersion = '2.1.9.RELEASE'
@@ -55,7 +55,12 @@ ext {
 
     tomcatVersion = '9.0.22'
     lang3Version = '3.8.1'
+
+    //view technologies
     thymeleafVersion = '3.0.11.RELEASE'
+    jacksonVersion = '2.9.9.1'
+    poiVersion = '4.1.0'
+    itextVersion = '5.5.13.1'
 
     //we group libraries by their purpose so we can import them easier in the modules
     boot = [
@@ -111,7 +116,10 @@ ext {
             jstl            : "javax.servlet:jstl:1.2",
             servletApi      : "javax.servlet:javax.servlet-api:4.0.1",
             asm             : "asm:asm:3.3.1",
-            thymeleaf       : "org.thymeleaf:thymeleaf-spring5:$thymeleafVersion"
+            thymeleaf       : "org.thymeleaf:thymeleaf-spring5:$thymeleafVersion",
+            jacksonDatabind : "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+            poi : "org.apache.poi:poi:$poiVersion",
+            itext : "com.itextpdf:itextpdf:$itextVersion"
     ]
     
     tomcat = [
