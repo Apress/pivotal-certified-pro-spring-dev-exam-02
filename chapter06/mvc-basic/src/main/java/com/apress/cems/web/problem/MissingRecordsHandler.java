@@ -28,22 +28,26 @@ SOFTWARE.
 package com.apress.cems.web.problem;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@ResponseStatus(value= HttpStatus.NOT_FOUND, reason="Requested item not found")
-public class NotFoundException extends RuntimeException {
+@ControllerAdvice
+public class MissingRecordsHandler {
 
-    private Long objIdentifier;
-
-    public <T> NotFoundException(Class<T> cls, Long id) {
-        super(cls.getSimpleName() + " with id: " + id + " does not exist!");
-    }
-
-    public Long getObjIdentifier() {
-        return objIdentifier;
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ModelAndView notFound(HttpServletRequest req) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("problem", "Not Supported " + req.getRequestURI());
+        mav.setViewName("error");
+        return mav;
     }
 }

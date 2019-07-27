@@ -79,7 +79,7 @@ public class DetectiveController {
      * Handles requests to show detail about one detective.
      */
     @RequestMapping(value = "/{id:[\\d]*}", method = RequestMethod.GET)
-    public String show(@PathVariable Long id, Model model) throws NotFoundException {
+    public String show(@PathVariable Long id, Model model) {
         DetectiveWrapper detective = detectiveService.findById(id);
         if(!detective.isEmpty()) {
             model.addAttribute("detective", detective);

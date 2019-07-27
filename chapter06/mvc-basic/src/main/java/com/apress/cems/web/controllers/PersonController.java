@@ -85,29 +85,12 @@ public class PersonController {
         return "persons/show";
     }
 
-    @ExceptionHandler
+    // This was commented to move the implementation in the MissingRecordsHandler
+   /* @ExceptionHandler
     public ModelAndView notFound(HttpServletRequest req, NotFoundException nfe) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("problem", "Malformed URL: " + req.getRequestURI() + "<br/>" + nfe.getMessage());
         mav.setViewName("error");
         return mav;
-    }
-
-   /* @ExceptionHandler(NotFoundException.class)
-    public ModelAndView notFound(HttpServletRequest req) {
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("problem", "Cannot solve " + req.getRequestURI() );
-        mav.setViewName("error");
-        return mav;
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ModelAndView notFound(HttpServletRequest req) {
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("problem", "The server has a problem resolving your request: " + req.getRequestURI() );
-        mav.setViewName("error");
-        return mav;
-    }
-
-    */
+    }*/
 }

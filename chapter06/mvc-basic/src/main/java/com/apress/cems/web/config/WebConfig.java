@@ -34,15 +34,18 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
+import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -55,23 +58,21 @@ import java.util.Locale;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.apress.cems.web.controllers"})
+@ComponentScan(basePackages = {"com.apress.cems.web.controllers", "com.apress.cems.web.problem"})
 class WebConfig implements WebMvcConfigurer {
 
     @Bean
     SimpleMappingExceptionResolver simpleMappingExceptionResolver(){
-        SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
-        resolver.setDefaultErrorView("error");
+        SimpleMappingExceptionResolver resolver = new MissingExceptionResolver();
+        resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return resolver;
     }
 
-    @Bean
-    HandlerExceptionResolver missingMappingExceptionResolver(){
-        SimpleMappingExceptionResolver resolver = new MissingExceptionResolver();
-        resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        resolver.setDefaultErrorView("error");
-        return resolver;
-    }
+    // Commented this so we can implement exception handling
+   /* @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }*/
 
     @Bean
     ViewResolver viewResolver(){
