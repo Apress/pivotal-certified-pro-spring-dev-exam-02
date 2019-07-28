@@ -25,18 +25,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.ex;
+package com.apress.cems.util;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class ConfigurationException extends RuntimeException {
-    public ConfigurationException(String message) {
-        super(message);
-    }
-
-    public ConfigurationException(String message, Throwable cause) {
-        super(message, cause);
-    }
+public enum EmploymentStatus {
+    ACTIVE,
+    SUSPENDED,
+    VACATION,
+    UNDER_INVESTIGATION,
+    RETIRED
 }

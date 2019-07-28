@@ -1,0 +1,27 @@
+<!--
+Created by IntelliJ IDEA.
+User: iulianacosmina
+Date: 2019-07-20
+-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: cemsHead('CEMS Home Page')}"></head>
+
+<body>
+<header th:replace="~{fragments/layout :: cemsHeader}" ></header>
+
+<header th:replace="~{fragments/layout :: cemsMenu}" ></header>
+
+<section th:fragment="~{fragments/layout :: cemsContent}">
+    <div class="content">
+        <h3>Unexpected error!</h3>
+        <div class="error" th:if="${not #strings.isEmpty(problem)}">
+                <p th:text="${problem}" ></p>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: cemsFooter}" ></footer>
+</body>
+</html>

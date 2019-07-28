@@ -37,6 +37,7 @@ ext {
     jmockVersion = '2.10.0-RC3'
     mongoVersion = '2.2.0'
     hamcrestVersion = '2.1'
+    restAssuredVersion = '4.0.0'
 
     //aop libs
     aspectjVersion = '1.9.4'
@@ -101,7 +102,9 @@ ext {
             mockito       : "org.mockito:mockito-junit-jupiter:$mockitoVersion",
             platformRunner: "org.junit.platform:junit-platform-runner:$junit5PlatformVersion",
             mongo         : "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$mongoVersion",
-            hamcrest : "org.hamcrest:hamcrest:$hamcrestVersion"
+            hamcrest      : "org.hamcrest:hamcrest:$hamcrestVersion",
+            restAssured   : "io.rest-assured:rest-assured:$restAssuredVersion",
+            restAssuredAll   : "io.rest-assured:rest-assured-all:$restAssuredVersion" // needed because it is not a transitive dep
     ]
 
     misc = [

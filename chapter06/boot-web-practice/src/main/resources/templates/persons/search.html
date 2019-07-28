@@ -1,0 +1,79 @@
+<!--
+Created by IntelliJ IDEA.
+User: iulianacosmina
+Date: 2019-07-14
+Time: 11:43
+-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: cemsHead('CEMS Search Person Page')}"></head>
+
+<body>
+<header th:replace="~{fragments/layout :: cemsHeader}" ></header>
+
+<header th:replace="~{fragments/layout :: cemsMenu}" ></header>
+
+<section th:fragment="~{fragments/layout :: cemsContent}">
+
+    <div class="content">
+        <h2 th:text="#{command.search} + ' '+ #{persons.list.title}">SEARCH</h2>
+        <div class="persons">
+            <form action="#" th:action="@{/persons/go}" th:object="${criteriaDto}" method="get">
+
+                <table>
+                    <tr>
+                        <th>
+                            <label for="fieldName" th:text="#{label.Criteria.fieldname} + ':'"></label>
+                        </th>
+
+                        <td>
+                            <select th:field="*{fieldName}">
+                                <option th:value="firstname" th:text="#{label.Person.firstname}">FN</option>
+                                <option th:value="lastname" th:text="#{label.Person.lastname}">LN</option>
+                                <option th:value="username" th:text="#{label.Person.username}">UN</option>
+                                <option th:value="hiredIn" th:text="#{label.Person.hiredIn}">HI</option>
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="fieldValue" th:text="#{label.Criteria.fieldvalue} + ':'"></label><span class="man">*</span>
+                        </th>
+                        <td><input type="text" th:field="*{fieldValue}"/>
+                            <em><br><span th:text="#{label.dateFormat.accepted}">ACC</span></em>
+                            <span th:if="${#fields.hasErrors('fieldValue')}" class="error" th:errors="*{fieldValue}">BAD DATA</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colpan="2">
+                            <label th:for="exactMatch" th:text="#{label.Criteria.exactmatch}">EM</label>
+                            <input type="checkbox" th:field="*{exactMatch}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" th:value="#{command.search}" id="searchButton"/>
+                        </td>
+                        <td>
+                            <a href="#" th:href="@{/}" th:text="#{command.cancel}"> CANCEL</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <span th:if="${#fields.hasErrors('noResults')}" class="error" th:errors="*{noResults}">NO RESULTS</span>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+<footer th:replace="~{fragments/layout :: cemsFooter}" ></footer>
+</body>
+</html>

@@ -25,18 +25,48 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.ex;
+package com.apress.cems.boot;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+
+import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class UnexpectedException extends RuntimeException {
-    public UnexpectedException(String message) {
-        super(message);
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class SpringBootWebApplicationTest3 {
+
+    @LocalServerPort
+    private int port;
+
+    @Test
+    void testList() throws Exception {
+              String responseStr =   given().baseUri("http://localhost")
+                .port(port).when().get("/persons/list")
+                .then()
+                .assertThat().statusCode(HttpStatus.OK.value())
+                .extract().body().asString();
+
+              assertAll(
+                      () -> responseStr.contains("div class=\"persons\""),
+                      () -> responseStr.contains("sherlock.holmes"),
+                      () -> responseStr.contains("nancy.drew")
+              );
     }
 
-    public UnexpectedException(String message, Throwable cause) {
-        super(message, cause);
+    @Test
+    void testShow() throws Exception {
+        // TODO 50. Write a test to check that checks that requesting "/persons/1" generates the appropriate response
+    }
+
+    @Test
+    void testError() throws Exception {
+        // TODO 51. Write a test to check that checks that requesting "/persons/99" generates the appropriate response
     }
 }

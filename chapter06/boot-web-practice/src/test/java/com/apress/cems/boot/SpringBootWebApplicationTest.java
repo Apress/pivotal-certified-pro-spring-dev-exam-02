@@ -65,22 +65,13 @@ class SpringBootWebApplicationTest {
 
     }
 
-   @Test
+    @Test
     void testShow() throws Exception {
-        mockMvc.perform(get("/persons/1"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("persons/show"))
-                .andExpect(model().attribute("person", hasProperty("id", is(1L))))
-                .andExpect(model().attribute("person", hasProperty("firstName", is("Sherlock"))))
-                .andExpect(model().attribute("person", hasProperty("lastName", is("Holmes"))));
-
+        // TODO 48. Write a test to check that checks that requesting "/persons/1" generates the appropriate response
     }
 
-    @Test
+   @Test
     void testError() throws Exception {
-        mockMvc.perform(get("/persons/99"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(view().name("error"))
-                .andExpect(model().attribute("problem", not(emptyString())));
+       // TODO 49. Write a test to check that checks that requesting "/persons/99" generates the appropriate response
     }
 }
