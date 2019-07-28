@@ -10,7 +10,7 @@ dependencies {
     compile spring.webmvc, hibernate.validator, misc.h2, misc.hikari, misc.jstl
     compileOnly misc.servletApi
 
-    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, testing.mockito
+    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, testing.mockito, testing.hamcrest
     testImplementation testing.api
     testRuntime testing.engine, testing.platformRunner
 }

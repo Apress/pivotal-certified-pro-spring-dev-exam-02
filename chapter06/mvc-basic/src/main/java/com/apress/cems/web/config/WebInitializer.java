@@ -28,7 +28,6 @@ SOFTWARE.
 package com.apress.cems.web.config;
 
 import com.apress.cems.dj.ServiceConfig;
-import com.apress.cems.dj.OracleDataSourceConfig;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
@@ -36,13 +35,12 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
-import javax.servlet.ServletRegistration;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
