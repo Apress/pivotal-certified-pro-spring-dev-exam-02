@@ -1,0 +1,48 @@
+<!--
+Created by IntelliJ IDEA.
+User: iulianacosmina
+Date: 2019-07-14
+Time: 11:43
+-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: cemsHead('CEMS List Persons Page')}"></head>
+
+<body>
+<header th:replace="~{fragments/layout :: cemsHeader}" ></header>
+
+<header th:replace="~{fragments/layout :: cemsMenu}" ></header>
+
+<section th:fragment="~{fragments/layout :: cemsContent}">
+    <div class="content">
+        <h2 th:text="#{persons.list.title}">PERSONS LIST</h2>
+        <div class="persons">
+            <table th:if="${not #lists.isEmpty(persons)}" >
+                <thead>
+                    <tr>
+                        <td th:text="#{label.Person.count}">COUNT</td>
+                        <td th:text="#{label.Person.username}">USERNAME</td>
+                        <td th:text="#{label.Person.firstname}">FIRSTNAME</td>
+                        <td th:text="#{label.Person.lastname}">LASTNAME</td>
+                    </tr>
+                </thead>
+                <th:block th:each="person : ${persons}">
+                    <tr>
+                        <td><a th:href="@{/persons/} + ${person.id}" th:text="${person.id}">ID</a></td>
+                        <td th:text="${person.username}">...</td>
+                        <td th:text="${person.firstName}">...</td>
+                        <td th:text="${person.lastName}">...</td>
+                    </tr>
+                </th:block>
+            </table>
+        </div>
+        <div class="search">
+            <a th:href="@{/persons/search}" th:text="#{command.search} + ' '+ #{persons.list.title}">PERSONS SEARCH</a>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: cemsFooter}" ></footer>
+</body>
+</html>

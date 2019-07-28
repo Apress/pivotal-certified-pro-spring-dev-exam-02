@@ -36,8 +36,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.ui.context.ThemeSource;
-import org.springframework.ui.context.support.ResourceBundleThemeSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.context.ServletContextAware;
@@ -47,17 +45,12 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
-import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.dialect.SpringStandardDialect;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletContext;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
@@ -108,7 +101,6 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
         templateEngine.setTemplateEngineMessageSource(messageSource());
-        templateEngine.setDialects(thymeleafDialects());
         return templateEngine;
     }
 
@@ -119,7 +111,6 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setCharacterEncoding("UTF-8");
         viewResolver.setOrder(1);
-        //viewResolver.setRequestContextAttribute("requestContext");
         return viewResolver;
     }
 
@@ -151,13 +142,6 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addRedirectViewController("/", "/home");
-    }
-
-    @Bean
-    public Set<IDialect> thymeleafDialects() {
-        Set<IDialect> dialects = new HashSet<>();
-        dialects.add(new SpringStandardDialect());
-        return dialects;
     }
 
     @Override

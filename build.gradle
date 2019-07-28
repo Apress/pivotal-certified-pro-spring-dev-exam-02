@@ -74,7 +74,8 @@ ext {
             starterMongo    : "org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion",
             starterTest     : "org.springframework.boot:spring-boot-starter-test:$springBootVersion",
             actuator        : "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion",
-            devtools        : "org.springframework.boot:spring-boot-devtools:$springBootVersion"
+            devtools        : "org.springframework.boot:spring-boot-devtools:$springBootVersion",
+            starterThymeleaf : "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion"
     ]
 
     spring = [
@@ -120,10 +121,10 @@ ext {
             asm             : "asm:asm:3.3.1",
             thymeleaf       : "org.thymeleaf:thymeleaf-spring5:$thymeleafVersion",
             jacksonDatabind : "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
-            poi : "org.apache.poi:poi:$poiVersion",
-            itext : "com.itextpdf:itextpdf:$itextVersion"
+            poi             : "org.apache.poi:poi:$poiVersion",
+            itext           : "com.itextpdf:itextpdf:$itextVersion"
     ]
-    
+
     tomcat = [
             core : "org.apache.tomcat.embed:tomcat-embed-core:$tomcatVersion",
             catalina : "org.apache.tomcat:tomcat-catalina:$tomcatVersion"

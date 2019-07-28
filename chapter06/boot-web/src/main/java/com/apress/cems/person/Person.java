@@ -25,22 +25,57 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot.dao;
+package com.apress.cems.person;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@MappedSuperclass
-public abstract class AbstractEntity implements Serializable {
+@Entity
+@SequenceGenerator(name = "seqGen", allocationSize = 1)
+@NamedQueries({
+        @NamedQuery(name = Person.FIND_BY_COMPLETE_NAME, query = "from Person p where p.firstName=:fn and p.lastName=:ln"),
+        @NamedQuery(name = Person.FIND_BY_LAST_NAME, query = "from Person p where p.lastName= ?1")
+})
+public class Person {
+    static final String FIND_BY_COMPLETE_NAME = "findByCompleteName";
+    static final String FIND_BY_LAST_NAME = "findAllByLastName";
+
+    @NotNull
+    @Size(min = 3, max = 30)
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @NotNull
+    @Size(min = 3, max = 30)
+    @Column(nullable = false)
+    private String firstName;
+
+    @NotNull
+    @Size(min = 3, max = 30)
+    @Column(nullable = false)
+    private String lastName;
+
+    @NotNull
+    @Size(min = 4, max = 50)
+    @Column(nullable = false)
+    private String password;
+
+    @NotNull
+    @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate hiringDate;
+
+    @Transient
+    private String newPassword;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -60,12 +95,73 @@ public abstract class AbstractEntity implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate modifiedAt;
 
-    /**
-     * This constructor is required by JPA. All subclasses of this class will inherit this constructor.
-     */
-    protected AbstractEntity() {
+
+    public Person() {
         createdAt = LocalDate.now();
         modifiedAt = LocalDate.now();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public LocalDate getHiringDate() {
+        return hiringDate;
+    }
+
+    public void setHiringDate(LocalDate hiringDate) {
+        this.hiringDate = hiringDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        if (!Objects.equals(id, person.id)) return false;
+        return Objects.equals(firstName, person.firstName) &&
+                Objects.equals(lastName, person.lastName) &&
+                Objects.equals(hiringDate, person.hiringDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), firstName, lastName, hiringDate);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Person[username='%s', firstName='%s', lastName='%s', hiringDate='%s']\n",
+                username, firstName, lastName, hiringDate.toString());
+
     }
 
     /**
@@ -106,25 +202,12 @@ public abstract class AbstractEntity implements Serializable {
         this.modifiedAt = modifiedAt;
     }
 
-    // IDE generated methods
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AbstractEntity that = (AbstractEntity) o;
-        return id != null ? id.equals(that.id) : that.id == null;
+    public String getNewPassword() {
+        return newPassword;
     }
 
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
-    @Override
-    public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return String.format("AbstractEntity[id='%d%n', createdAt='%s', modifiedAt='%s', version='%d%n']",
-                id, sdf.format(createdAt), sdf.format(modifiedAt), version);
-    }
 }

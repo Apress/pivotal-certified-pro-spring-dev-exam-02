@@ -30,6 +30,7 @@ package com.apress.cems.dao;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Objects;
 import javax.validation.constraints.NotNull;
 
 import javax.persistence.*;
@@ -113,7 +114,7 @@ public abstract class AbstractEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         AbstractEntity that = (AbstractEntity) o;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (!Objects.equals(id, that.id)) return false;
         return true;
     }
 
