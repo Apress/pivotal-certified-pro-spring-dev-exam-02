@@ -151,7 +151,7 @@ public class Person extends AbstractEntity {
     @Override
     public String toString() {
         return String.format("Person[username='%s', firstName='%s', lastName='%s', hiringDate='%s']\n",
-                username, firstName, lastName, hiringDate.toString());
+                username, firstName, lastName, hiringDate == null? "" : hiringDate.toString());
 
     }
 }

@@ -140,10 +140,8 @@
                                 <span class="man">*</span> <spring:message code="label.Person.username"/> :
                             </label>
                         </th>
-                        <td>
-                            <td><sf:input path="username"/></td>
-                            <td><sf:errors cssClass="error" path="username"/></td>
-                        </td>
+                        <td><sf:input path="username"/></td>
+                        <td><sf:errors cssClass="error" path="username"/></td>
                     </tr>
                     <tr>
                         <th>

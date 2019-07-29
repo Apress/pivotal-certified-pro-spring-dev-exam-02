@@ -1,7 +1,7 @@
-<%@ page session="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -45,7 +45,13 @@
                 </c:url>
                 <a href="${themeUrl}"><spring:message code="theme.Green"/></a>
             </c:otherwise>
-        </c:choose>
+        </c:choose> <sec:authorize access="isAuthenticated()">
+        <spring:url value="/logout" var="logoutUrl" />
+        <form action="${logoutUrl}" id="logout" method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+        <a href="#" onclick="document.getElementById('logout').submit();"><spring:message code="menu.logout"/></a>
+    </sec:authorize>
     </div>
 
     <div class="menu">
@@ -63,6 +69,24 @@
                 <c:if test="${menuTab != 'persons'}">
                     <a href="<c:url value="/persons/list"/>"><spring:message code="menu.persons"/></a>
                 </c:if>
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <ul>
+                        <li>
+                            <c:if test="${navigationTab eq 'newPerson'}">
+                                <strong>
+                                    <a href="<c:url value="/persons/newPerson"/>">
+                                        <spring:message code="menu.new.person"/>
+                                    </a>
+                                </strong>
+                            </c:if>
+                            <c:if test="${navigationTab != 'newPersons'}">
+                                <a href="<c:url value="/persons/newPerson"/>">
+                                    <spring:message code="menu.new.person"/>
+                                </a>
+                            </c:if>
+                        </li>
+                    </ul>
+                </sec:authorize>
             </li>
             <li><c:if test="${menuTab eq 'detectives'}">
                 <strong><a href="<c:url value="/detectives/list"/>"><spring:message code="menu.detectives"/></a></strong>

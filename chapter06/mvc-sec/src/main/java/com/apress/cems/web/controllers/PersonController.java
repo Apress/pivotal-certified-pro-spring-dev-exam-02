@@ -85,6 +85,12 @@ public class PersonController {
         return "persons/show";
     }
 
+    @GetMapping(value = "/newPerson")
+    public String newPerson(Person person, Model model){
+        model.addAttribute("person", new Person());
+        return "persons/newPerson";
+    }
+
     // This was commented to move the implementation in the MissingRecordsHandler
    /* @ExceptionHandler
     public ModelAndView notFound(HttpServletRequest req, NotFoundException nfe) {

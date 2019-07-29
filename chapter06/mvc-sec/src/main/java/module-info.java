@@ -3,7 +3,7 @@
  * @since 1.0
  */
 
-module com.apress.cems.web {
+module com.apress.cems.sec {
     requires com.apress.cems.dao;
     requires com.apress.cems.dj;
 
@@ -20,6 +20,10 @@ module com.apress.cems.web {
     requires com.zaxxer.hikari;
     requires spring.beans;
     requires java.sql;
+
+    requires spring.security.core;
+    requires spring.security.web;
+    requires spring.security.config;
 
     exports com.apress.cems.web.config;
     exports com.apress.cems.web.controllers;

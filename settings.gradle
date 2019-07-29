@@ -53,7 +53,8 @@ include 'chapter06:mvc-thymeleaf'
 include 'chapter06:mvc-views'
 include 'chapter06:boot-web'
 include 'chapter06:boot-web-practice'
-
+include 'chapter06:mvc-sec'
+include 'chapter06:mvc-sec-xml'
 
 include 'chapter07'
 include 'chapter09'

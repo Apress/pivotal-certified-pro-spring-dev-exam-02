@@ -1,14 +1,21 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: iulianacosmina
+  Date: 2019-07-28
+  Time: 23:12
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>
-        <spring:message code="person.title"/>
+        <spring:message code="home.title" />
     </title>
     <spring:theme var="cssStyle" code="css.style"/>
     <link type="text/css" rel="stylesheet" href="<c:url value="${cssStyle}" />"/>
@@ -64,7 +71,7 @@
                 </c:if>
             </li>
             <li><c:if test="${menuTab eq 'persons'}">
-                <strong><a href="<c:url value="/detectives/list"/>"><spring:message code="menu.persons"/></a></strong>
+                <strong><a href="<c:url value="/persons/list"/>"><spring:message code="menu.persons"/></a></strong>
             </c:if>
                 <c:if test="${menuTab != 'persons'}">
                     <a href="<c:url value="/persons/list"/>"><spring:message code="menu.persons"/></a>
@@ -97,38 +104,62 @@
             </li>
         </ul>
     </div>
-    <div class="content">
-        <table>
-            <tr>
-                <th><spring:message code="label.Detective.name"/></th>
-                <td>${detective.name}</td>
-            </tr>
-            <tr>
-                <th><spring:message code="label.Detective.badgeNumber"/></th>
-                <td>${detective.badgeNumber}</td>
-            </tr>
-            <tr>
-                <th><spring:message code="label.Detective.rank"/></th>
-                <td>${detective.rank}</td>
-            </tr>
-            <tr>
-                <th><spring:message code="label.Detective.armed"/></th>
-                <td>${detective.armed}</td>
-            </tr>
-            <tr>
-                <th><spring:message code="label.Detective.resolved"/></th>
-                <td>${detective.casesResolved}</td>
-            </tr>
 
-            <tr>
-                <th><spring:message code="label.Detective.inProgress"/></th>
-                <td>${detective.casesInProgress}</td>
-            </tr>
-            <tr>
-                <th><spring:message code="label.Detective.status"/></th>
-                <td>${detective.status}</td>
-            </tr>
-        </table>
+    <div class="content">
+        <h2>
+            <spring:message code="persons.new.title"/>
+        </h2>
+
+        <div class="person">
+
+            <sf:form id="newPersonForm" method="POST" modelAttribute="person">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <table>
+                    <tr>
+                        <th>
+                            <label for="firstName">
+                                <span class="man">*</span> <spring:message code="label.Person.firstname"/> :
+                            </label>
+                        </th>
+                        <td><sf:input path="firstName"/></td>
+                        <td><sf:errors cssClass="error" path="firstName"/></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="lastName">
+                                <span class="man">*</span> <spring:message code="label.Person.lastname"/> :
+                            </label>
+                        </th>
+                        <td><sf:input path="lastName"/></td>
+                        <td><sf:errors cssClass="error" path="lastName"/></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="username">
+                                <span class="man">*</span> <spring:message code="label.Person.username"/> :
+                            </label>
+                        </th>
+                        <td><sf:input path="username"/></td>
+                        <td><sf:errors cssClass="error" path="username"/></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="hiringDate">
+                                <span class="man">*</span> <spring:message code="label.Person.since"/> :
+                            </label>
+                        </th>
+                        <td><sf:input path="hiringDate"/></td>
+                        <td><sf:errors cssClass="error" path="hiringDate"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button id="nextStep"  type="submit">
+                                <spring:message code="command.save" />
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </sf:form>
     </div>
 
     <div class="footer">

@@ -3,11 +3,12 @@ plugins {
 }
 apply plugin: 'war'
 
-ext.moduleName = 'com.apress.cems.web.basic'
+ext.moduleName = 'com.apress.cems.sec'
 
 dependencies {
     compile project(':chapter05:data-jpa')
     compile spring.webmvc, hibernate.validator, misc.h2, misc.hikari, misc.jstl
+    compile  spring.securityWeb, spring.securityTaglibs,spring.securityConfig
     compileOnly misc.servletApi
 
     testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, testing.mockito, testing.hamcrest
@@ -16,12 +17,12 @@ dependencies {
 }
 
 war {
-    archiveBaseName = 'mvc-basic'
+    archiveBaseName = 'mvc-sec'
 
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Web Basic",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Web Security using Annotation Configuration",
                 "Implementation-Version": archiveVersion,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
