@@ -10,7 +10,7 @@ Time: 11:43
     <link rel="icon" type="image/png" th:href="@{/images/favicon.ico}">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title th:text="${title}"> Layout Page </title>
-    <link type="text/css" rel="stylesheet" th:with="cssStyle=${#themes.code('css.style')}" th:href="@{(${cssStyle})}" >
+    <link type="text/css" rel="stylesheet" th:href="@{/styles/decorator-green.css}" >
     <link type="text/css" rel="stylesheet" th:href="@{/styles/general.css}" >
 </head>
 <body>
@@ -22,7 +22,7 @@ Time: 11:43
         </span>
         <span th:unless="${#locale.language eq 'en'}">
             <a th:href="@{/?lang=en}" th:text="#{locale.en}">EN</a>
-        </span> | <span sec:authorize="isAuthenticated()">Authenticated: <em sec:authentication="name"></em></span>
+        </span>|<span sec:authorize="isAuthenticated()">Authenticated: <em sec:authentication="name"></em></span>
     </div>
 </header>
 
@@ -41,13 +41,6 @@ Time: 11:43
                 </span>
                 <span th:unless="${menuTab eq 'persons'}">
                     <a th:href="@{/persons/list}" th:text="#{menu.persons}">PERSONS</a>
-                </span>
-            </li>
-            <li><span th:if="${menuTab eq 'detectives'}">
-                    <strong><a th:href="@{/detectives/list}" th:text="#{menu.detectives}">DETECTIVES</a></strong>
-                </span>
-                <span th:unless="${menuTab eq 'detectives'}">
-                    <a th:href="@{/detectives/list}" th:text="#{menu.detectives}">DETECTIVES</a>
                 </span>
             </li>
             <li sec:authorize="isAuthenticated()">

@@ -90,7 +90,8 @@ ext {
             mongo         : "org.springframework.data:spring-data-mongodb:$springMongoVersion",
             securityWeb    : "org.springframework.security:spring-security-web:$springVersion",
             securityTaglibs: "org.springframework.security:spring-security-taglibs:$springVersion",
-            securityConfig : "org.springframework.security:spring-security-config:$springVersion"
+            securityConfig : "org.springframework.security:spring-security-config:$springVersion",
+            securityTest  : "org.springframework.security:spring-security-test:$springVersion",
     ]
 
     testing = [

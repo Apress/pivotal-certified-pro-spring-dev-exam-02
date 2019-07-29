@@ -41,13 +41,13 @@ test {
 
 // decomment this after leaving a single main class to build jar
 jar {
-    archiveBaseName = "sample-boot-jpa"
+    archiveBaseName = "boot-mvc-practice"
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 05 - Spring Boot JPA",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Boot Web Practice",
                 "Implementation-Version": archiveVersion,
-                "Main-Class"         : "com.apress.cems.boot.Application",
+                "Main-Class"         : "com.apress.cems.SpringBootWebApplication",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
     }

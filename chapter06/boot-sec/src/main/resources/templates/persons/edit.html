@@ -1,0 +1,89 @@
+<!--
+Created by IntelliJ IDEA.
+User: iulianacosmina
+Date: 2019-07-14
+Time: 11:43
+-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: cemsHead('CEMS Edit Person Page')}"></head>
+
+<body>
+<header th:replace="~{fragments/layout :: cemsHeader}" ></header>
+
+<header th:replace="~{fragments/layout :: cemsMenu}" ></header>
+
+<section th:fragment="~{fragments/layout :: cemsContent}">
+    <div class="content">
+        <h2 th:text="#{command.edit} + ' ' + #{person.title}">EDIT</h2>
+        <div class="person">
+            <form action="#" th:action="@{/persons/} + ${person.id}" th:object="${person}" method="post">
+                <input type="hidden" th:field="*{id}" />
+                <table>
+                    <tr>
+                        <th>
+                            <label for="firstName" th:text="#{label.Person.firstname} + ':'">FN:</label>
+                        </th>
+
+                        <td>
+                            <input type="text" th:field="*{firstName}" />
+                            <span th:if="${#fields.hasErrors('firstName')}" class="error" th:errors="*{firstName}">MISSING FN</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="lastName" th:text="#{label.Person.lastname} + ':'">FN:</label>
+                        </th>
+
+                        <td>
+                            <input type="text" th:field="*{lastName}"/>
+                            <span th:if="${#fields.hasErrors('lastName')}" class="error" th:errors="*{lastName}">MISSING LN</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="username" th:text="#{label.Person.username} + ':'">FN:</label>
+                        </th>
+
+                        <td>
+                            <input type="text" th:field="*{username}" />
+                            <span th:if="${#fields.hasErrors('username')}" class="error" th:errors="*{username}">MISSING UN</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="password" th:text="#{label.Person.newpassword} + ':'">FN:</label>
+                        </th>
+
+                        <td>
+                            <input type="password" th:field="*{newPassword}"/>
+                            <span th:if="${#fields.hasErrors('newPassword')}" class="error" th:errors="*{newPassword}">MISSING LN</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" th:value="#{command.save}" id="saveButton"/>
+                        </td>
+                        <td>
+                            <a href="#" th:href="@{/persons/list}" th:text="#{command.cancel}"> CANCEL</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                           ...
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: cemsFooter}" ></footer>
+</body>
+</html>

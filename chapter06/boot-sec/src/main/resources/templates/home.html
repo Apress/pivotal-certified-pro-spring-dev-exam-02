@@ -1,0 +1,26 @@
+<!--
+Created by IntelliJ IDEA.
+User: iulianacosmina
+Date: 2019-07-14
+Time: 11:43
+-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{fragments/layout :: cemsHead('CEMS Home Page')}"></head>
+
+    <body>
+        <header th:replace="~{fragments/layout :: cemsHeader}" ></header>
+
+        <header th:replace="~{fragments/layout :: cemsMenu}" ></header>
+
+        <section th:fragment="~{fragments/layout :: cemsContent}">
+            <div class="content">
+                <textarea th:if="${not #strings.isEmpty(logs)}" name="auditContent" rows="20" cols="80" th:text="${logs}"></textarea>
+                <p th:unless="${not #strings.isEmpty(logs)}"  th:text="#{home.caption}" ></p>
+            </div>
+        </section>
+
+        <footer th:replace="~{fragments/layout :: cemsFooter}" ></footer>
+    </body>
+</html>

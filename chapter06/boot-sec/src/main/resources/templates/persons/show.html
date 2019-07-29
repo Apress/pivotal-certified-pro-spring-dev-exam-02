@@ -1,0 +1,49 @@
+<!--
+Created by IntelliJ IDEA.
+User: iulianacosmina
+Date: 2019-07-14
+Time: 11:43
+-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: cemsHead('CEMS Show Person Page')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: cemsHeader}" ></header>
+
+<header th:replace="~{fragments/layout :: cemsMenu}" ></header>
+
+<section th:fragment="~{fragments/layout :: cemsContent}">
+    <div class="content">
+        <div class="persons">
+            <table>
+                <tr>
+                    <th th:text="#{label.Person.firstname}">FN</th>
+                    <td th:text="${person.firstName}">FN</td>
+                </tr>
+                <tr>
+                    <th th:text="#{label.Person.lastname}">LN</th>
+                    <td th:text="${person.lastName}">LN</td>
+                </tr>
+                <tr>
+                    <th th:text="#{label.Person.username}">UN</th>
+                    <td th:text="${person.username}">UN</td>
+                </tr>
+                <tr>
+                    <th th:text="#{label.Person.since}">SINCE</th>
+                    <td th:text="${person.hiringDate}">SINCE</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right">  <a th:href="@{/persons/} + ${person.id} + '/edit'" th:text="#{command.edit}">EDIT</a></td>
+                </tr>
+            </table>
+        </div>
+        <div class="search">
+            <a th:href="@{/persons/search}" th:text="#{command.search} + ' '+ #{persons.list.title}">PERSONS SEARCH</a>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: cemsFooter}" ></footer>
+</body>
+</html>

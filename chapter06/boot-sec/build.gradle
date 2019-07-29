@@ -20,11 +20,11 @@ apply plugin: 'io.spring.dependency-management'
 ext.moduleName = 'com.apress.cems.boot'
 
 dependencies {
-    compile boot.starterJpa, misc.javaxValidation, boot.starterThymeleaf, boot.starterWeb
+    compile boot.starterSecurity, boot.starterJpa, misc.javaxValidation, boot.starterThymeleaf, boot.starterWeb, misc.thymeleafSecurity
     runtimeOnly misc.h2
     implementation boot.actuator
 
-    testImplementation testing.restAssured, testing.restAssuredAll
+    testImplementation testing.restAssured, testing.restAssuredAll, spring.securityTest
     testImplementation (boot.starterTest) {
         exclude group: "org.junit.vintage", module: "junit-vintage-engine"
         exclude group: "junit", module: "junit"
@@ -41,13 +41,13 @@ test {
 
 // decomment this after leaving a single main class to build jar
 jar {
-    archiveBaseName = "boot-web"
+    archiveBaseName = "boot-sec"
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Boot Web",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Boot Security",
                 "Implementation-Version": archiveVersion,
-                "Main-Class"         : "com.apress.cems.SpringBootWebApplication",
+                "Main-Class"         : "com.apress.cems.BootSecureApp",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
     }
