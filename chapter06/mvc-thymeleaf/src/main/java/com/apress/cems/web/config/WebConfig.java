@@ -114,12 +114,6 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
         return viewResolver;
     }
 
-    // <=> <mvc:default-servlet-handler/>
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
-
     @Bean
     public Validator validator() {
         final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();

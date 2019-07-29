@@ -6,7 +6,7 @@ apply plugin: 'war'
 ext.moduleName = 'com.apress.cems.sec'
 
 dependencies {
-    compile project(':chapter05:data-jpa')
+    compile project(':chapter05:sec-data-jpa')
     compile spring.webmvc, hibernate.validator, misc.h2, misc.hikari, misc.jstl
     compile  spring.securityWeb, spring.securityTaglibs,spring.securityConfig
     compileOnly misc.servletApi

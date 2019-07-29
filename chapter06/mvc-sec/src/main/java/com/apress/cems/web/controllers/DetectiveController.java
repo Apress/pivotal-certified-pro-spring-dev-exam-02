@@ -65,6 +65,18 @@ public class DetectiveController {
     /**
      * Handles requests to list all detectives.
      */
+    @GetMapping(value = "/")
+    public String all(Model model) {
+        logger.info("Populating model with list...");
+        List<Detective> detectives =  detectiveService.findAll();
+        detectives.sort(COMPARATOR_BY_ID);
+
+        model.addAttribute("detectives", detectives);
+        return "detectives/list";
+    }
+    /**
+     * Handles requests to list all detectives.
+     */
     @GetMapping(value = "/list")
     public String list(Model model) {
         logger.info("Populating model with list...");
@@ -74,6 +86,7 @@ public class DetectiveController {
         model.addAttribute("detectives", detectives);
         return "detectives/list";
     }
+
 
     /**
      * Handles requests to show detail about one detective.

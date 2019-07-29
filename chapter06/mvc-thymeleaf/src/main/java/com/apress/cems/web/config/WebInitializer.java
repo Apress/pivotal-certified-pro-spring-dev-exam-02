@@ -34,6 +34,7 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletRegistration;
 
 /**
  * @author Iuliana Cosmina
@@ -62,6 +63,11 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         cef.setEncoding("UTF-8");
         cef.setForceEncoding(true);
         return new Filter[]{new HiddenHttpMethodFilter(), cef};
+    }
+
+    @Override
+    public void customizeRegistration(ServletRegistration.Dynamic registration) {
+        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
     }
 }
 

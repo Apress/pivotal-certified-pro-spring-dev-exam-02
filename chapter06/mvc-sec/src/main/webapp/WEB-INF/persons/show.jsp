@@ -45,13 +45,7 @@
                 </c:url>
                 <a href="${themeUrl}"><spring:message code="theme.Green"/></a>
             </c:otherwise>
-        </c:choose> <sec:authorize access="isAuthenticated()">
-        <spring:url value="/logout" var="logoutUrl" />
-        <form action="${logoutUrl}" id="logout" method="post">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
-        <a href="#" onclick="document.getElementById('logout').submit();"><spring:message code="menu.logout"/></a>
-    </sec:authorize>
+        </c:choose>
     </div>
 
     <div class="menu">
@@ -95,6 +89,15 @@
                     <a href="<c:url value="/detectives/list"/>"><spring:message code="menu.detectives"/></a>
                 </c:if>
             </li>
+            <sec:authorize access="isAuthenticated()">
+                <li>
+                    <spring:url value="/logout" var="logoutUrl"/>
+                    <form action="${logoutUrl}" id="logout" method="post">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                    <a href="#" onclick="document.getElementById('logout').submit();"><spring:message code="menu.logout"/></a>
+                </li>
+            </sec:authorize>
         </ul>
     </div>
     <div class="content">
@@ -119,6 +122,11 @@
     </div>
 
     <div class="footer">
+        <sec:authorize access="isAuthenticated()">
+            <p><spring:message code="user.loggedin"/>:
+                <sec:authentication property="principal.username"/>
+            </p>
+        </sec:authorize>
         <p><spring:message code="footer.text"/></p>
     </div>
 </div>

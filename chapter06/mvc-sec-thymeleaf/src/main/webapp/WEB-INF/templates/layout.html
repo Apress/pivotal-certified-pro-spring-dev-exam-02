@@ -1,0 +1,78 @@
+<!--
+Created by IntelliJ IDEA.
+User: iulianacosmina
+Date: 2019-07-14
+Time: 11:43
+-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}, theme=${#themes.code('name')}" th:lang="${lang}" th:theme="${theme}">
+<head th:fragment="cemsHead(title)">
+    <link rel="icon" type="image/png" th:href="@{/images/favicon.ico}">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="${title}"> Layout Page </title>
+    <link type="text/css" rel="stylesheet" th:with="cssStyle=${#themes.code('css.style')}" th:href="@{(${cssStyle})}" >
+    <link type="text/css" rel="stylesheet" th:href="@{/styles/general.css}" >
+</head>
+<body>
+<header th:fragment="cemsHeader">
+    <div class="banner"></div>
+    <div class="themeLocal">
+        <span th:if="${#locale.language eq 'en'}">
+            <a th:href="@{/?lang=de}" th:text="#{locale.de}">DE</a>
+        </span>
+        <span th:unless="${#locale.language eq 'en'}">
+            <a th:href="@{/?lang=en}" th:text="#{locale.en}">EN</a>
+        </span> |
+        <span th:if="${#themes.code('name') eq 'green'}">
+            <a th:href="@{/?theme=blue}" th:text="#{theme.Blue}">BLUE</a>
+        </span>
+        <span th:unless="${#themes.code('name') eq 'green'}">
+            <a th:href="@{/?theme=green}" th:text="#{theme.Green}">GREEN</a>
+        </span> | <span sec:authorize="isAuthenticated()">Authenticated: <em sec:authentication="name"></em></span>
+    </div>
+</header>
+
+<section th:fragment="cemsMenu">
+    <div class="menu">
+        <ul>
+            <li><span th:if="${menuTab eq 'home'}">
+                    <strong><a th:href="@{/}" th:text="#{menu.home}">HOME</a></strong>
+                </span>
+                <span th:unless="${menuTab eq 'home'}">
+                    <a th:href="@{/}" th:text="#{menu.home}">HOME</a>
+                </span>
+            </li>
+            <li><span th:if="${menuTab eq 'persons'}">
+                    <strong><a th:href="@{/persons/list}" th:text="#{menu.persons}">PERSONS</a></strong>
+                </span>
+                <span th:unless="${menuTab eq 'persons'}">
+                    <a th:href="@{/persons/list}" th:text="#{menu.persons}">PERSONS</a>
+                </span>
+            </li>
+            <li><span th:if="${menuTab eq 'detectives'}">
+                    <strong><a th:href="@{/detectives/list}" th:text="#{menu.detectives}">DETECTIVES</a></strong>
+                </span>
+                <span th:unless="${menuTab eq 'detectives'}">
+                    <a th:href="@{/detectives/list}" th:text="#{menu.detectives}">DETECTIVES</a>
+                </span>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a th:href="@{/logout}" th:text="#{menu.logout}">Sign Out</a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section th:fragment="cemsContent">
+    <div class="content">
+        <p>Page Content</p>
+    </div>
+</section>
+
+<footer th:fragment="cemsFooter">
+    <div class="footer">
+        <p th:text="#{footer.text}"></p>
+    </div>
+</footer>
+</body>
+</html>

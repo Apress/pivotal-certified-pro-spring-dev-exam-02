@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+}
+
+ext.moduleName = 'com.apress.cems.sec.dj'
+
+dependencies {
+    compile project(':chapter00:dao')
+    compile spring.data, spring.securityConfig
+    compile hibernate.ehcache, hibernate.em, hibernate.core, hibernate.validator
+    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, misc.hikari
+    testImplementation testing.api
+    testRuntime testing.engine, testing.platformRunner
+}
+
+jar {
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 05 - Spring Data JPA With Security",
+                "Implementation-Version": archiveVersion,
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}

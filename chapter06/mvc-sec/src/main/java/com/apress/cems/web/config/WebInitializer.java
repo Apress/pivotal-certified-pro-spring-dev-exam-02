@@ -44,12 +44,12 @@ class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{H2DbConfig.class, ServiceConfig.class, SecurityConfig.class};
+        return new Class[]{/*, SecurityConfig.class*/};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{WebConfig.class};
+        return new Class[]{H2DbConfig.class, ServiceConfig.class,WebConfig.class, SecurityConfig2.class};
     }
 
     @Override

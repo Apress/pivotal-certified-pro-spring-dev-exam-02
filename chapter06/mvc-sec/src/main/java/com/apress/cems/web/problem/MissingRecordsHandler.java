@@ -28,6 +28,7 @@ SOFTWARE.
 package com.apress.cems.web.problem;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -47,6 +48,15 @@ public class MissingRecordsHandler {
     public ModelAndView notFound(HttpServletRequest req) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("problem", "Not Supported " + req.getRequestURI());
+        mav.setViewName("error");
+        return mav;
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ModelAndView accessDenied(HttpServletRequest req) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("problem", "Forbidden access to: " + req.getRequestURI());
         mav.setViewName("error");
         return mav;
     }

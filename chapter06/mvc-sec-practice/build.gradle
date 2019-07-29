@@ -1,0 +1,30 @@
+plugins {
+    id 'java-library'
+}
+apply plugin: 'war'
+
+ext.moduleName = 'com.apress.cems.web.sec.practice'
+
+dependencies {
+    compile project(':chapter05:data-jpa')
+    compile  spring.securityWeb, spring.securityConfig
+    compile spring.webmvc, hibernate.validator, misc.h2, misc.hikari, misc.thymeleaf, misc.thymeleafSecurity
+    compileOnly misc.servletApi
+
+    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, testing.mockito
+    testImplementation testing.api
+    testRuntime testing.engine, testing.platformRunner
+}
+
+war {
+    archiveBaseName = 'mvc-sec-practice'
+
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Security web application Practice",
+                "Implementation-Version": archiveVersion,
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}

@@ -28,27 +28,22 @@ SOFTWARE.
 package com.apress.cems.web.problem;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.NoHandlerFoundException;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class MissingExceptionResolver extends SimpleMappingExceptionResolver {
+@ResponseStatus(value= HttpStatus.NOT_FOUND, reason="Requested item not found")
+public class NotFoundException extends RuntimeException {
 
-    @Override
-    protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        if (ex instanceof NoHandlerFoundException) {
-            ModelAndView model = new ModelAndView("error");
-            model.addObject("problem","URL not supported : " + request.getRequestURI());
-            response.setStatus(HttpStatus.NOT_FOUND.value());
-            return model;
-        }
-        return null;
+    private Long objIdentifier;
+
+    public <T> NotFoundException(Class<T> cls, Long id) {
+        super(cls.getSimpleName() + " with id: " + id + " does not exist!");
+    }
+
+    public Long getObjIdentifier() {
+        return objIdentifier;
     }
 }

@@ -5,7 +5,7 @@
 
 module com.apress.cems.sec {
     requires com.apress.cems.dao;
-    requires com.apress.cems.dj;
+    requires com.apress.cems.sec.dj;
 
     requires java.naming;
 
