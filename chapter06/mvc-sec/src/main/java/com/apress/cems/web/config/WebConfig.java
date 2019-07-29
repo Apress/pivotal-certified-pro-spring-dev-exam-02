@@ -27,22 +27,24 @@ SOFTWARE.
 */
 package com.apress.cems.web.config;
 
+import com.apress.cems.web.problem.MissingExceptionResolver;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.Ordered;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.util.UrlPathHelper;
 
 import java.util.Locale;
 
@@ -52,15 +54,21 @@ import java.util.Locale;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.apress.cems.web.controllers"})
+@ComponentScan(basePackages = {"com.apress.cems.web.controllers", "com.apress.cems.web.problem"})
 class WebConfig implements WebMvcConfigurer {
 
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-        UrlPathHelper matrixPathHelper = new UrlPathHelper();
-        matrixPathHelper.setRemoveSemicolonContent(false);
-        configurer.setUrlPathHelper(matrixPathHelper);
+    @Bean
+    SimpleMappingExceptionResolver simpleMappingExceptionResolver(){
+        SimpleMappingExceptionResolver resolver = new MissingExceptionResolver();
+        resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return resolver;
     }
+
+    // Commented this so we can implement exception handling
+   /* @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }*/
 
     @Bean
     ViewResolver viewResolver(){
@@ -68,13 +76,8 @@ class WebConfig implements WebMvcConfigurer {
         resolver.setPrefix("/WEB-INF/");
         resolver.setSuffix(".jsp" );
         resolver.setRequestContextAttribute("requestContext");
-        return resolver;
-    }
 
-    // <=> <mvc:default-servlet-handler/>
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
+        return resolver;
     }
 
     @Bean
@@ -98,8 +101,6 @@ class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-/*        registry.addViewController("/").setViewName("home");
-        registry.addViewController("/home").setViewName("home");*/
         registry.addRedirectViewController("/", "/home");
     }
 

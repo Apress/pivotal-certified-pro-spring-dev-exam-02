@@ -1,0 +1,36 @@
+.banner {
+    background: url("../images/banner-green.png") no-repeat 0px center;
+    height: 90px;
+}
+
+a:link {
+    color: #228B22;
+    text-decoration: underline;
+    font-size: 14px;
+    background: transparent;
+}
+
+a:hover {
+    color: #0000FF;
+    text-decoration: underline;
+    font-size: 16px;
+    background: transparent;
+}
+
+.content {
+    background-color: #D8F6CE;
+    float: left;
+    padding: 10px;
+}
+
+.footer p {
+    color: #228B22;
+    font-size: 12px;
+    font-style: italic;
+}
+
+ul {
+    list-style-image: url("../images/arrow-green.png");
+    background: no-repeat 0px center;
+    padding-left: 30px;
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xsi:schemaLocation="http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <http pattern="/images/*" security="none"/>
+    <http pattern="/styles/*" security="none"/>
+    <http pattern="/resources/*" security="none"/>
+
+    <http auto-config="true" use-expressions="true">
+        <csrf token-repository-ref="tokenRepo"/>
+        <intercept-url pattern="/auth*" access="permitAll"/>
+        <intercept-url pattern="/detectives/**" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/**" access="hasAnyRole('USER, ADMIN')"/>
+        <form-login login-page="/auth" authentication-failure-url="/auth?auth_error=1"
+                    default-target-url="/"/>
+        <logout logout-url="/logout"
+                delete-cookies="JSESSIONID"
+                invalidate-session="true"
+                logout-success-url="/"/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="john" password="doe" authorities="ROLE_USER"/>
+                <user name="jane" password="doe" authorities="ROLE_USER,ROLE_ADMIN"/>
+                <user name="admin" password="admin" authorities="ROLE_ADMIN"/>
+            </user-service>
+            <password-encoder ref="encoder"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="encoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
+
+    <beans:bean id="tokenRepo" class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository">
+        <beans:property name="sessionAttributeName" value="_csrf"/>
+        <beans:property name="headerName" value="X-CSRF-TOKEN"/>
+    </beans:bean>
+
+</beans:beans>
