@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.apress.cems.sec.controllers"/>
+
+    <!-- Defines basic MVC defaults (handler adapter, mapping, etc) -->
+    <mvc:annotation-driven>
+        <mvc:path-matching path-helper="myPathHelper"/>
+    </mvc:annotation-driven>
+
+    <bean id="myPathHelper" class="org.springframework.web.util.UrlPathHelper">
+        <property name="removeSemicolonContent" value="false"/>
+    </bean>
+
+    <!--
+      Configures a handler for serving static resources by forwarding to the
+      Servlet container's default Servlet.
+    -->
+    <mvc:default-servlet-handler/>
+
+    <!-- Serves up cached and compressed static content at /resources/* from the webapp root and classpath  -->
+    <mvc:resources mapping="/images/**" location="/images/"/>
+    <mvc:resources mapping="/styles/**" location="/styles/"/>
+
+    <!--
+        Interceptors for locale/theme changing and the setting of caching response headers.
+         Applied automatically against all handler mappings.
+     -->
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+        <bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>
+        <bean class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+            <property name="cacheSeconds" value="0"/>
+            <property name="supportedMethods">
+                <null/>
+            </property>
+        </bean>
+    </mvc:interceptors>
+
+    <mvc:view-controller path="/" view-name="index"/>
+    <mvc:view-controller path="/auth" view-name="auth"/>
+
+    <!-- Resolves messages to support internationalization -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>/WEB-INF/messages/global</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <!-- Resolves view names to protected .jsp resources within the /WEB-INF directory -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="requestContextAttribute" value="requestContext"/>
+    </bean>
+
+    <!-- Enables locale resolution with the help of a browser cookie -->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="en"/>
+        <property name="cookieMaxAge" value="3600"/>
+    </bean>
+
+    <!-- Enables theme resolution with the help of a browser cookie -->
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.CookieThemeResolver">
+        <property name="defaultThemeName" value="green"/>
+        <property name="cookieMaxAge" value="3600"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="error"/>
+    </bean>
+
+</beans>
