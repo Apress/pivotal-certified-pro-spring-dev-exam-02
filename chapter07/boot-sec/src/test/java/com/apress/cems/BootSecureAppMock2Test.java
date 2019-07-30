@@ -25,18 +25,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot;
+package com.apress.cems;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 /**
  * @author Iuliana Cosmina
@@ -44,40 +45,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-class SpringBootWebApplicationTest {
+class BootSecureAppMock2Test {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @WithMockUser(value="john")
     @Test
-    void testListPersons() throws Exception {
-        mockMvc.perform(get("/persons/list"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("persons/list"))
-                .andExpect(model().attribute("persons", hasSize(4)))
-                .andExpect(model().attribute("persons", hasItem(
-                        anyOf(
-                                hasProperty("id", is(1L)),
-                                hasProperty("firstName", is("Sherlock")),
-                                hasProperty("lastName", is("Holmes"))
-                        )
-                )));
-
+    void johnShouldHaveAccessToPersons() throws Exception {
+        mockMvc.perform(get("/persons/list")).andExpect(status().isOk());
     }
 
-   @Test
-    void testShowPerson() throws Exception {
-        mockMvc.perform(get("/persons/1"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("persons/show"))
-                .andExpect(model().attribute("person", hasProperty("id", is(1L))))
-                .andExpect(model().attribute("person", hasProperty("firstName", is("Sherlock"))))
-                .andExpect(model().attribute("person", hasProperty("lastName", is("Holmes"))));
-
+    @WithMockUser(value="john")
+    @Test
+    void johnShouldHaveAccessToThisPerson() throws Exception {
+        mockMvc.perform(get("/persons/1")).andExpect(status().isOk());
     }
 
+    @WithMockUser(value="john")
     @Test
-    void testErrorPerson() throws Exception {
+    void johnShouldBeAllowedToEditThisPerson() throws Exception {
+        mockMvc.perform(get("/persons/1/edit")).andExpect(status().is4xxClientError());
+    }
+
+    @WithMockUser(value="john")
+    @Test
+    void johnShouldGetAnError() throws Exception {
         mockMvc.perform(get("/persons/99"))
                 .andExpect(status().is4xxClientError())
                 .andExpect(view().name("error"))

@@ -35,6 +35,7 @@ import org.springframework.http.HttpStatus;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Iuliana Cosmina
@@ -56,9 +57,9 @@ class SpringBootWebApplication3Test {
                 .extract().body().asString();
 
               assertAll(
-                      () -> responseStr.contains("div class=\"persons\""),
-                      () -> responseStr.contains("sherlock.holmes"),
-                      () -> responseStr.contains("nancy.drew")
+                      () -> assertTrue(responseStr.contains("div class=\"persons\"")),
+                      () -> assertTrue(responseStr.contains("sherlock.holmes")),
+                      () -> assertTrue(responseStr.contains("nancy.drew"))
               );
     }
 

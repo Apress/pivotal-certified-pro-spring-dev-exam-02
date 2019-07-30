@@ -25,14 +25,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot;
+package com.apress.cems;
 
+import io.restassured.RestAssured;
+import io.restassured.authentication.FormAuthConfig;
+import io.restassured.http.ContentType;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.context.WebApplicationContext;
 
-import static io.restassured.RestAssured.given;
+import static  io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -40,52 +47,37 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@Disabled("There is a bug in the current version of RestAssured -> CsrfFilter - Invalid CSRF token found for http://localhost:59459/login")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class SpringBootWebApplication3Test {
+class BootSecureAppTest {
 
     @LocalServerPort
     private int port;
 
-    @Test
-    void testListPersons() throws Exception {
-              String responseStr =   given().baseUri("http://localhost")
-                .port(port).when().get("/persons/list")
-                .then()
-                .assertThat().statusCode(HttpStatus.OK.value())
-                .extract().body().asString();
-
-              assertAll(
-                      () -> assertTrue(responseStr.contains("div class=\"persons\"")),
-                      () -> assertTrue(responseStr.contains("sherlock.holmes")),
-                      () -> assertTrue(responseStr.contains("nancy.drew"))
-              );
+    @BeforeEach
+     void setUp() {
+        RestAssured.port = port;
+        RestAssured.baseURI = "http://localhost";
     }
 
     @Test
-    void testShowPerson() throws Exception {
-        String responseStr = given().baseUri("http://localhost")
-                .port(port).when().get("/persons/1")
+    void johnShouldHaveAccessToPersons() {
+        FormAuthConfig cfg = new FormAuthConfig("/login", "username", "password")
+            .withLoggingEnabled();
+
+        String responseStr =  given()
+                .contentType(ContentType.URLENC)
+                .auth().form("john","doe", cfg.withAutoDetectionOfCsrf())
+
+                .when().get("/persons/list")
                 .then()
                 .assertThat().statusCode(HttpStatus.OK.value())
                 .extract().body().asString();
 
         assertAll(
+                () -> assertTrue(responseStr.contains("div class=\"persons\"")),
                 () -> assertTrue(responseStr.contains("sherlock.holmes")),
-                () -> assertTrue(responseStr.contains("Employed since"))
-        );
-    }
-
-    @Test
-    void testErrorPerson() throws Exception {
-        String responseStr = given().baseUri("http://localhost")
-                .port(port).when().get("/persons/99")
-                .then()
-                .assertThat().statusCode(HttpStatus.NOT_FOUND.value())
-                .extract().body().asString();
-
-        assertAll(
-                () -> assertTrue(responseStr.contains("Unexpected error")),
-                () -> assertTrue(responseStr.contains("Person with id: 99 does not exist!"))
+                () -> assertTrue(responseStr.contains("nancy.drew"))
         );
     }
 }

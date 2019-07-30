@@ -11,7 +11,7 @@ dependencies {
     compile  spring.securityWeb, spring.securityTaglibs,spring.securityConfig
     compileOnly misc.servletApi
 
-    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, testing.mockito, testing.hamcrest
+    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, testing.mockito, testing.hamcrest, spring.securityTest
     testImplementation testing.api
     testRuntime testing.engine, testing.platformRunner
 }
@@ -22,7 +22,7 @@ war {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Web Security using Annotation Configuration",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 07 - Spring Web Security using Java Configuration",
                 "Implementation-Version": archiveVersion,
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )

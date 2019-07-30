@@ -25,75 +25,75 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.sec.controllers;
+package com.apress.cems;
 
-import com.apress.cems.dao.Person;
-import com.apress.cems.dj.services.PersonService;
-import com.apress.cems.sec.problem.NotFoundException;
+import com.apress.cems.person.Person;
+import com.apress.cems.person.services.PersonService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.ui.ExtendedModelMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@ExtendWith(MockitoExtension.class)
-class PersonControllerTest {
+@WebMvcTest
+class BootSecureAppMockTest {
 
-    @Mock //Creates mock instance of the field it annotates
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     private PersonService mockService;
 
-    @InjectMocks
-    private PersonController personController;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
-    @SuppressWarnings("unchecked")
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .apply(springSecurity()).build();
+    }
+
+    @WithMockUser(value="john")
     @Test
-    void testListHandler() {
+     void johnShouldHaveAccessToPersons() throws Exception {
         List<Person> list = new ArrayList<>();
         Person p = new Person();
         p.setId(1L);
+        p.setFirstName("Sherlock");
+        p.setLastName("Holmes");
         list.add(p);
-
         when(mockService.findAll()).thenReturn(list);
 
-        ExtendedModelMap model = new ExtendedModelMap();
-        String viewName = personController.list(model);
-        List<Person> persons = (List<Person>) model.get("persons");
-
-        assertAll(
-                () -> assertNotNull(persons),
-                () -> assertEquals(1, persons.size()),
-                () -> assertEquals("persons/list", viewName)
-        );
+        mockMvc.perform(get("/persons/list")).andExpect(status().isOk());
     }
 
+    @WithMockUser(value="john")
     @Test
-    void testShowHandler() throws NotFoundException {
+    void johnShouldNotBeAllowedToEditPersons() throws Exception {
         Person p = new Person();
         p.setId(1L);
-
-        when(mockService.findById(any(Long.class))).thenReturn(Optional.of(p));
-
-        ExtendedModelMap model = new ExtendedModelMap();
-        String viewName = personController.show(1L, model);
-        Person person = (Person) model.get("person");
-
-        assertAll(
-                () -> assertNotNull(person),
-                () -> assertEquals(1L, person.getId()),
-                () -> assertEquals("persons/show", viewName)
-        );
+        p.setFirstName("Sherlock");
+        p.setLastName("Holmes");
+        when(mockService.findById(anyLong())).thenReturn(Optional.of(p));
+        mockMvc.perform(get("/persons/1/edit")).andExpect(status().isForbidden());
     }
+
 }

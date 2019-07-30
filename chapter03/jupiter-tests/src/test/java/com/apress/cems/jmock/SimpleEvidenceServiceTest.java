@@ -46,7 +46,7 @@ import java.util.Optional;
 
 import static com.apress.cems.stub.util.TestObjectsBuilder.buildCase;
 import static com.apress.cems.stub.util.TestObjectsBuilder.buildDetective;
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Iuliana Cosmina
@@ -88,9 +88,9 @@ public class SimpleEvidenceServiceTest {
         mockery.assertIsSatisfied();
 
         assertAll(
-                () -> Assertions.assertNotNull(result),
-                () -> Assertions.assertEquals(result.getId(), evidence.getId()),
-                () -> Assertions.assertEquals(result.getNumber(), evidence.getNumber())
+                () -> assertNotNull(result),
+                () -> assertEquals(result.getId(), evidence.getId()),
+                () -> assertEquals(result.getNumber(), evidence.getNumber())
         );
     }
 
