@@ -25,8 +25,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot;
+package com.apress.cems.boot.practice;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -42,6 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@Disabled("Because of uncompleted tasks. Comment this line to run.")
 @SpringBootTest
 @AutoConfigureMockMvc
 class SpringBootWebApplicationTest {
@@ -50,7 +52,7 @@ class SpringBootWebApplicationTest {
     private MockMvc mockMvc;
 
     @Test
-    void testListPersons() throws Exception {
+    void testList() throws Exception {
         mockMvc.perform(get("/persons/list"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("persons/list"))
@@ -65,22 +67,13 @@ class SpringBootWebApplicationTest {
 
     }
 
-   @Test
-    void testShowPerson() throws Exception {
-        mockMvc.perform(get("/persons/1"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("persons/show"))
-                .andExpect(model().attribute("person", hasProperty("id", is(1L))))
-                .andExpect(model().attribute("person", hasProperty("firstName", is("Sherlock"))))
-                .andExpect(model().attribute("person", hasProperty("lastName", is("Holmes"))));
-
+    @Test
+    void testShow() throws Exception {
+        // TODO 48. Write a test to check that checks that requesting "/persons/1" generates the appropriate response
     }
 
-    @Test
-    void testErrorPerson() throws Exception {
-        mockMvc.perform(get("/persons/99"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(view().name("error"))
-                .andExpect(model().attribute("problem", not(emptyString())));
+   @Test
+    void testError() throws Exception {
+       // TODO 49. Write a test to check that checks that requesting "/persons/99" generates the appropriate response
     }
 }
