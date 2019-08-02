@@ -70,4 +70,9 @@ public class PersonServicesImpl implements PersonService {
     public Person findByUsername(String username) {
         return personRepo.findByUsername(username);
     }
+
+    @Override
+    public void deleteAll() {
+        personRepo.deleteAll();
+    }
 }

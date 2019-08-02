@@ -57,4 +57,8 @@ public interface PersonService {
     String getPersonAsHtml(String username);
 
     Person updatePassword(Person person, String password)throws MailSendingException;
+
+    default Person updateUsername(Person person, String newUsername){
+        return null;
+    };
 }

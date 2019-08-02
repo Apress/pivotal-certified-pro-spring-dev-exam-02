@@ -58,25 +58,25 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
     @ApressRepo
     @Override
     public Optional<Person> findById(Long id) {
-        String sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON where ID= ?";
+        var sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON where ID= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, id));
     }
 
     @Override
     public Optional<Person> findByUsername(String username) {
-        String sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON where USERNAME= ?";
+        var sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON where USERNAME= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, username));
     }
 
     @Override
     public Optional<Person> findByCompleteName(String firstName, String lastName) {
-        String sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON where FIRSTNAME= ? and LASTNAME= ?";
+        var sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON where FIRSTNAME= ? and LASTNAME= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, new Object[]{firstName, lastName}, rowMapper));
     }
 
     @Override
     public int updatePassword(Long personId, String newPass) {
-        String sql = "update PERSON set password=? where ID = ?";
+        var sql = "update PERSON set password=? where ID = ?";
         return jdbcTemplate.update(sql, newPass, personId);
     }
 
@@ -103,7 +103,7 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
 
     @Override
     public Set<Person> findAll() {
-        String sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON";
+        var sql = "select ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE from PERSON";
         return new HashSet<>(jdbcTemplate.query(sql, rowMapper));
     }
 
@@ -119,7 +119,7 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
 
     @Override
     public long count() {
-        String sql = "select count(*) from PERSON";
+        var sql = "select count(*) from PERSON";
         return jdbcTemplate.queryForObject(sql, Long.class);
     }
 }

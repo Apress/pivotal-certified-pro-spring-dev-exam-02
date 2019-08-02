@@ -30,6 +30,7 @@ package com.apress.cems.hib;
 import com.apress.cems.hib.config.AppConfig;
 import com.apress.cems.hib.config.HibernateDbConfig;
 import com.apress.cems.repos.PersonRepo;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@Transactional
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {HibernateDbConfig.class, AppConfig.class})
 class HibernateRepoTest {
@@ -54,10 +56,19 @@ class HibernateRepoTest {
     @Qualifier("hibernatePersonRepo")
     PersonRepo personRepo;
 
-    @Transactional
     @Test
     void testNativeQuery(){
         List<String> usernames = personRepo.findAllUsernames();
         assertEquals(2,usernames.size());
     }
+
+    @Test
+    void testFindByUsername(){
+        personRepo.findByUsername("sherlock.holmes").ifPresentOrElse(
+                p -> assertEquals("Sherlock", p.getFirstName()),
+                Assertions:: fail
+        );
+
+    }
+
 }

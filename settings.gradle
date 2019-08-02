@@ -47,6 +47,7 @@ include 'chapter05:boot-jpa'
 include 'chapter05:mongo-simple'
 include 'chapter05:mongo-transactions'
 include 'chapter05:boot-mongo'
+include 'chapter05:sandbox'
 
 include 'chapter06:mvc-basic'
 include 'chapter06:mvc-basic-practice'

@@ -90,9 +90,14 @@ public class HibernateRepo implements PersonRepo {
 
     @Override
     public Optional<Person> findByUsername(String username) {
-        Person person = (Person) session()
+       /* Person person = (Person) session()
                 .createQuery("from Person p where p.username= ?1")
                 .setParameter(1, username).uniqueResult();
+        return person == null? Optional.empty() :Optional.of(person);*/
+
+        Person person = (Person) session()
+                .createQuery("from Person p where p.username= :un")
+                .setParameter("un", username).uniqueResult();
         return person == null? Optional.empty() :Optional.of(person);
     }
 

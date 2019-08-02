@@ -25,48 +25,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.mongo.services;
+package com.apress.cems.tx.two;
 
-import com.apress.cems.mongo.dao.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.time.LocalDate;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @Service
-class MongoInitializer {
+@Transactional(readOnly = true)
+public class TwoTransactionalService {
+    private Logger logger = LoggerFactory.getLogger(TwoTransactionalService.class);
 
-    private Logger logger = LoggerFactory.getLogger(MongoInitializer.class);
-
-    @Autowired
-    private PersonService personService;
-
-    @PostConstruct
-    void init() {
-        logger.info(" -->> Starting database initialization...");
-        Person person = new Person();
-        person.setUsername("sherlock.holmes");
-        person.setFirstName("Sherlock");
-        person.setLastName("Holmes");
-        person.setPassword("dudu");
-        person.setHiringDate(LocalDate.now());
-        personService.save(person);
-
-        person = new Person();
-        person.setUsername("jackson.brodie");
-        person.setFirstName("Jackson");
-        person.setLastName("Brodie");
-        person.setPassword("bagy");
-        person.setHiringDate(LocalDate.now());
-        personService.save(person);
-        logger.info(" -->> Database initialization finished.");
-
+    @Transactional
+    public void executeWithinTransaction() {
+        logger.info("Executing TransactionalService.executeWithinTransaction.");
     }
+
 }

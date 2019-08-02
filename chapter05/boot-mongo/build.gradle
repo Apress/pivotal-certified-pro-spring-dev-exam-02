@@ -22,9 +22,9 @@ ext.moduleName = 'com.apress.cems.boot'
 dependencies {
     compile boot.starterMongo, misc.javaxValidation
     implementation boot.actuator, misc.h2
-    testImplementation (boot.starterTest){
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-        exclude group: 'junit', module: 'junit'
+    testImplementation (boot.starterTest) {
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+        exclude group: "junit", module: "junit"
     }
     testImplementation testing.mongo
 }

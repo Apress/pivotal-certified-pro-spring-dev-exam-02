@@ -86,4 +86,10 @@ public class Storage extends AbstractEntity {
         evidence.setStorage(this);
         return evidenceSet.add(evidence);
     }
+
+    @Override
+    public String toString() {
+        return String.format("Storage[id='%d%n', name='%s', location='%s', version='%d%n']",
+                id, name, location, version);
+    }
 }

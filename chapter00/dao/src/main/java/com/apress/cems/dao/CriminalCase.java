@@ -154,7 +154,6 @@ public class CriminalCase extends  AbstractEntity{
 
     public void setLeadInvestigator(Detective leadInvestigator) {
         this.leadInvestigator = leadInvestigator;
-        addDetective(leadInvestigator);
     }
 
     public Set<Detective> getAssigned() {

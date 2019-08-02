@@ -41,14 +41,14 @@ import java.sql.SQLException;
 public class PersonRowMapper implements RowMapper<Person> {
     @Override
     public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Long id = rs.getLong("ID");
-        String username = rs.getString("USERNAME");
-        String firstname = rs.getString("FIRSTNAME");
-        String lastname = rs.getString("LASTNAME");
-        String password = rs.getString("PASSWORD");
-        String hiringDate = rs.getString("HIRINGDATE");
+        var id = rs.getLong("ID");
+        var username = rs.getString("USERNAME");
+        var firstname = rs.getString("FIRSTNAME");
+        var lastname = rs.getString("LASTNAME");
+        var password = rs.getString("PASSWORD");
+        var hiringDate = rs.getString("HIRINGDATE");
 
-        Person person = new Person();
+        var person = new Person();
         person.setId(id);
         person.setUsername(username);
         person.setFirstName(firstname);

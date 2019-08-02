@@ -69,7 +69,7 @@ public class TestDbConfig2 {
     @Bean
     public DataSource dataSource() {
         try {
-            SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+            var dataSource = new SimpleDriverDataSource();
             Class<? extends Driver> driver = (Class<? extends Driver>) Class.forName(driverClassName);
             dataSource.setDriverClass(driver);
             dataSource.setUrl(url);

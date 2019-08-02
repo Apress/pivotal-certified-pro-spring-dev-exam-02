@@ -25,18 +25,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.tx;
+package com.apress.cems.tx.two;
 
-import com.apress.cems.aop.service.PersonService;
-import com.apress.cems.tx.config.AppConfig;
-import com.apress.cems.tx.config.MultipleTransactionManagersConfig;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.PlatformTransactionManager;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 /**
@@ -44,19 +45,27 @@ import static org.junit.Assert.assertEquals;
  * @since 1.0
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {MultipleTransactionManagersConfig.class, AppConfig.class})
-class MultipleTransactionManagerTest {
+@ContextConfiguration(classes = {MultipleTransactionManagersConfig.class})
+class MultipleTMsTest {
 
     @Autowired
-    PersonService personService;
+    TwoTransactionalService service;
 
-    // de-comment the @Test annotation to run the method and see NoUniqueBeanDefinitionException being thrown
-    //@Test
+    @Autowired
+    ApplicationContext context;
+
+    @Test
+    void contextLoads(){
+        assertNotNull(context);
+        PlatformTransactionManager t1 = context.getBean("txManager", PlatformTransactionManager.class);
+        PlatformTransactionManager t2 = context.getBean("simpleManager", PlatformTransactionManager.class);
+        assertNotNull(t1);
+        assertNotNull(t2);
+    }
+
+    @Test
     void testSimpleBeans() {
-        personService.findById(1L).ifPresentOrElse(
-                p -> assertEquals("Sherlock", p.getFirstName()),
-                Assert::fail
-        );
+        assertThrows(NoUniqueBeanDefinitionException.class, () -> service.executeWithinTransaction());
     }
 }
 

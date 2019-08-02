@@ -30,6 +30,7 @@ package com.apress.cems.mongo;
 import com.apress.cems.mongo.config.AppConfig;
 import com.apress.cems.mongo.dao.Person;
 import com.apress.cems.mongo.services.PersonService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,6 +64,12 @@ class PersonServiceTest {
     @BeforeEach
     void setUp(){
         assertNotNull(personService);
+        init();
+    }
+
+    @AfterEach
+    void tearDown(){
+       personService.deleteAll();
     }
 
     @Test
@@ -81,5 +89,26 @@ class PersonServiceTest {
     void testFindAll() {
         List<Person> persons = personService.findAll();
         assertEquals(2, persons.size());
+    }
+
+    void init() {
+        logger.info(" -->> Starting database initialization...");
+        Person person = new Person();
+        person.setUsername("sherlock.holmes");
+        person.setFirstName("Sherlock");
+        person.setLastName("Holmes");
+        person.setPassword("dudu");
+        person.setHiringDate(LocalDate.now());
+        personService.save(person);
+
+        person = new Person();
+        person.setUsername("jackson.brodie");
+        person.setFirstName("Jackson");
+        person.setLastName("Brodie");
+        person.setPassword("bagy");
+        person.setHiringDate(LocalDate.now());
+        personService.save(person);
+        logger.info(" -->> Database initialization finished.");
+
     }
 }

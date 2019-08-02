@@ -31,6 +31,7 @@ import com.apress.cems.aop.exception.MailSendingException;
 import com.apress.cems.aop.service.PersonService;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.PersonRepo;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +44,7 @@ import java.util.Set;
  * @since 1.0
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class PersonServiceImpl implements PersonService {
     private PersonRepo personRepo;
 
@@ -62,24 +63,31 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+
     public Optional<Person> findById(Long id) {
         return personRepo.findById(id);
     }
 
-    @Transactional
     @Override
     public Person save(Person person) {
         personRepo.save(person);
         return person;
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = DataIntegrityViolationException.class)
     @Override
-    public Person updateFirstName(Person person, String newFirstname) {
+    public Person updateUsername(Person person, String newUsername) {
+        person.setUsername(newUsername);
         return personRepo.update(person);
     }
 
-    @Transactional
+    @Override
+    public Person updateFirstName(Person person, String newFirstname) {
+        person.setFirstName(newFirstname);
+        return personRepo.update(person);
+    }
+
+    @Transactional(rollbackFor = MailSendingException.class)
     @Override
     public Person updatePassword(Person person, String password) throws MailSendingException {
         person.setPassword(password);
@@ -116,7 +124,6 @@ public class PersonServiceImpl implements PersonService {
         return personRepo.findByCompleteName(firstName,lastName);
     }
 
-    @Transactional
     @Override
     public void delete(Person person) {
         personRepo.delete(person);

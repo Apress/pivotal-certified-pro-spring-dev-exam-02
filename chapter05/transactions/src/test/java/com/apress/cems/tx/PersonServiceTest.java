@@ -29,12 +29,14 @@ package com.apress.cems.tx;
 
 import com.apress.cems.aop.exception.MailSendingException;
 import com.apress.cems.aop.service.PersonService;
-import com.apress.cems.repos.PersonRepo;
 import com.apress.cems.tx.config.AppConfig;
 import com.apress.cems.tx.config.TestTransactionalDbConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -52,6 +54,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestTransactionalDbConfig.class, AppConfig.class})
  class PersonServiceTest {
+    private Logger logger = LoggerFactory.getLogger(PersonServiceTest.class);
 
     @Autowired
     PersonService personService;
@@ -74,7 +77,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
     }
 
     @Test
-    @Sql(statements = {"drop table NEW_PERSON if exists;"})
+    @Sql(statements = {"drop table NEW_PERSON if exists;"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void testCreateTable(){
         jdbcTemplate.execute("create table NEW_PERSON(" +
                 "  ID BIGINT IDENTITY PRIMARY KEY " +
@@ -98,4 +101,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
         );
     }
 
+    @Test
+    void testUpdateUsername() {
+        personService.findById(1L).ifPresent(
+                p ->
+                        assertThrows(
+                                DataIntegrityViolationException.class,
+                                () -> personService.updateUsername(p, "irene.adler")
+                        )
+        );
+        //making sure rollback did not affect anything
+        personService.findById(1L).ifPresent(p -> logger.info("->> {}" , p.toString()));
+    }
 }

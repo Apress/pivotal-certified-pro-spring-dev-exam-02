@@ -95,6 +95,14 @@ class JdbcPersonRepoTest {
     }
 
     @Test
+    void testFindAllByUsernamePart(){
+        Set<Person> personSet = personRepo.findAllByUsernamePart("sherlock");
+        assertNotNull(personSet);
+        assertEquals(1, personSet.size());
+    }
+
+
+    @Test
     void testFindAsMap(){
         Map<String, Object> result  = personRepo.findByIdAsMap(PERSON_ID);
         assertEquals(9, result.size());

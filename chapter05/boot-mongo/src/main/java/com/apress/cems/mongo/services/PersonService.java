@@ -44,4 +44,6 @@ public interface PersonService {
     List<Person> findByLastName(String lastname);
 
     Person findByUsername(String username);
+
+    void deleteAll();
 }

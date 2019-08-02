@@ -92,7 +92,7 @@ public class NativePersonRepo implements PersonRepo {
             rs = ps.executeQuery();
             persons = mapPersons(rs);
         } catch (SQLException e) {
-            throw new RuntimeException("User not found!", e);
+            throw new RuntimeException("Person not found!", e);
         } finally {
             if (rs != null) {
                 try {
@@ -149,7 +149,7 @@ public class NativePersonRepo implements PersonRepo {
                 return Optional.of(persons.iterator().next());
             }
         } catch (SQLException e) {
-            throw new RuntimeException("User not found!", e);
+            throw new RuntimeException("Person not found!", e);
         } finally {
             if (rs != null) {
                 try {

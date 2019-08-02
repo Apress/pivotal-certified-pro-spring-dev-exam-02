@@ -25,55 +25,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.mongo;
+package com.apress.cems.dj.sandbox;
 
-import com.apress.cems.mongo.config.AppConfig;
-import com.apress.cems.mongo.dao.Person;
-import com.apress.cems.mongo.services.PersonService;
-import org.junit.jupiter.api.Disabled;
+import com.apress.cems.dj.sandbox.config.JpaConfig;
+import com.apress.cems.dj.sandbox.repos.AppConfig;
+import com.apress.cems.dj.sandbox.repos.DetectiveRepo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { AppConfig.class})
-@Disabled
-class MongoInitializer {
-
-    private Logger logger = LoggerFactory.getLogger(MongoInitializer.class);
+@ContextConfiguration(classes = {JpaConfig.class, AppConfig.class})
+@Transactional
+class DetectiveRepoTest {
 
     @Autowired
-    private PersonService personService;
+    DetectiveRepo detectiveRepo;
 
     @Test
-    void init() {
-        logger.info(" -->> Starting database initialization...");
-        Person person = new Person();
-        person.setUsername("sherlock.holmes");
-        person.setFirstName("Sherlock");
-        person.setLastName("Holmes");
-        person.setPassword("dudu");
-        person.setHiringDate(LocalDate.now());
-        personService.save(person);
-
-        person = new Person();
-        person.setUsername("jackson.brodie");
-        person.setFirstName("Jackson");
-        person.setLastName("Brodie");
-        person.setPassword("bagy");
-        person.setHiringDate(LocalDate.now());
-        personService.save(person);
-        logger.info(" -->> Database initialization finished.");
-
+    void testFindById() {
+        assertEquals(2, detectiveRepo.findAll().size());
     }
+
 }

@@ -7,8 +7,10 @@ ext.moduleName = 'com.apress.cems.mongo.tx'
 dependencies {
     compile spring.mongo
     testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
-    testImplementation testing.api
-    testRuntime testing.engine, testing.platformRunner
+    testImplementation (boot.starterTest) {
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+        exclude group: "junit", module: "junit"
+    }
 }
 
 jar {

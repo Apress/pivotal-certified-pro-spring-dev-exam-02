@@ -25,50 +25,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.tx.config;
+package com.apress.cems.dj.sandbox.repos;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.transaction.PlatformTransactionManager;
-
-import javax.sql.DataSource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @Configuration
-public class MultipleTransactionManagersConfig {
-
-    @Bean
-    public JdbcTemplate userJdbcTemplate() {
-        return new JdbcTemplate(dataSource());
-    }
-
-    @Bean
-    public DataSource dataSource() {
-        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        EmbeddedDatabase db = builder
-                .setType(EmbeddedDatabaseType.H2)
-                .generateUniqueName(true)
-                .addScript("db/schema.sql")
-                .addScript("db/test-data.sql")
-                .build();
-        return db;
-    }
-
-    @Bean
-    public DataSourceTransactionManager txManager(){
-        return new DataSourceTransactionManager(dataSource());
-    }
-
-    @Bean
-    public PlatformTransactionManager simpleManager(){
-        return new DataSourceTransactionManager(dataSource());
-    }
+@ComponentScan(basePackages = {"com.apress.cems.dj.sandbox.repos"})
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = {"com.apress.cems.dj.sandbox.repos"})
+public class AppConfig {
 }

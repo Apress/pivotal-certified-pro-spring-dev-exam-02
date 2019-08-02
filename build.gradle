@@ -19,7 +19,7 @@ subprojects {
     }
 }
 
-sourceCompatibility = 12
+sourceCompatibility = 11
 
 ext {
     springVersion = '5.2.0.M3'
