@@ -1,0 +1,55 @@
+buildscript {
+    def springRepo = 'http://repo.spring.io'
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "$springRepo/release" }
+        maven { url "$springRepo/snapshot" }
+        maven { url "$springRepo/milestone" }
+    }
+
+    dependencies {
+        classpath boot.springBootPlugin
+    }
+}
+
+apply plugin: 'java-library'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+ext.moduleName = 'com.apress.cems.boot'
+
+dependencies {
+    compile boot.starterJpa, misc.javaxValidation, boot.starterThymeleaf, boot.starterWeb
+    runtimeOnly misc.h2
+    implementation boot.actuator
+
+    testImplementation testing.restAssured, testing.restAssuredAll
+    testImplementation (boot.starterTest) {
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+        exclude group: "junit", module: "junit"
+    }
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+}
+
+// decomment this after leaving a single main class to build jar
+jar {
+    archiveBaseName = "boot-web"
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Boot Web",
+                "Implementation-Version": archiveVersion,
+                "Main-Class"         : "com.apress.cems.SpringBootWebApplication",
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}
+
