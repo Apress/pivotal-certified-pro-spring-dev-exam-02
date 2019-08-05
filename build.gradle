@@ -60,7 +60,7 @@ ext {
 
     //view technologies
     thymeleafVersion = '3.0.11.RELEASE'
-    jacksonVersion = '2.9.9.1'
+    jacksonVersion = '2.9.9'
     poiVersion = '4.1.0'
     itextVersion = '5.5.13.1'
 
@@ -131,6 +131,7 @@ ext {
             thymeleaf       : "org.thymeleaf:thymeleaf-spring5:$thymeleafVersion",
             thymeleafSecurity : "org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE",
             jacksonDatabind : "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+            jacksonJsr310 : "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion",
             poi             : "org.apache.poi:poi:$poiVersion",
             itext           : "com.itextpdf:itextpdf:$itextVersion"
     ]

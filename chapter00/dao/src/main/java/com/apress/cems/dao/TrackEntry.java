@@ -27,14 +27,15 @@ SOFTWARE.
 */
 package com.apress.cems.dao;
 
+import com.apress.cems.util.DateProcessor;
 import com.apress.cems.util.TrackAction;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * @author Iuliana Cosmina
@@ -45,6 +46,7 @@ import java.util.Date;
 @Table(name="TRACK_ENTRY")
 public class TrackEntry extends AbstractEntity{
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateProcessor.DATE_FORMAT)
     @NotNull
     @Column(name= "track_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

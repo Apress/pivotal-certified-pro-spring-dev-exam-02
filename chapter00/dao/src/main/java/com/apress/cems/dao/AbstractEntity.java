@@ -31,9 +31,11 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Objects;
-import javax.validation.constraints.NotNull;
 
 import javax.persistence.*;
+
+import com.apress.cems.util.DateProcessor;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -52,11 +54,13 @@ public abstract class AbstractEntity implements Serializable {
     protected int version;
 
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateProcessor.DATE_FORMAT)
     @Column(name = "created_at", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate createdAt;
 
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateProcessor.DATE_FORMAT)
     @Column(name = "modified_at", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate modifiedAt;

@@ -27,6 +27,9 @@ SOFTWARE.
 */
 package com.apress.cems.dao;
 
+import com.apress.cems.util.DateProcessor;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -64,11 +67,13 @@ public class Person extends AbstractEntity {
     @Column(nullable = false)
     private String lastName;
 
+    @JsonIgnore
     @NotNull
     @Size(min = 4, max = 50)
     @Column(nullable = false)
     private String password;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateProcessor.DATE_FORMAT)
     @NotNull
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -77,6 +82,7 @@ public class Person extends AbstractEntity {
 /*    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private Detective detective;*/
 
+    @JsonIgnore
     @Transient
     private String newPassword;
 
