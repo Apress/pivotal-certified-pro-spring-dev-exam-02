@@ -31,7 +31,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Iuliana Cosmina
@@ -46,13 +46,13 @@ public class Person {
     private String password;
     private String firstName;
     private String lastName;
-    private LocalDate hiringDate;
-    private LocalDate createdAt;
-    private LocalDate modifiedAt;
+    private LocalDateTime hiringDate;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 
     public Person() {
-        createdAt = LocalDate.now();
-        modifiedAt = LocalDate.now();
+        createdAt = LocalDateTime.now();
+        modifiedAt = LocalDateTime.now();
     }
 
     public BigInteger getId() {
@@ -95,27 +95,27 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public LocalDate getHiringDate() {
+    public LocalDateTime getHiringDate() {
         return hiringDate;
     }
 
-    public void setHiringDate(LocalDate hiringDate) {
+    public void setHiringDate(LocalDateTime hiringDate) {
         this.hiringDate = hiringDate;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getModifiedAt() {
+    public LocalDateTime getModifiedAt() {
         return modifiedAt;
     }
 
-    public void setModifiedAt(LocalDate modifiedAt) {
+    public void setModifiedAt(LocalDateTime modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
 

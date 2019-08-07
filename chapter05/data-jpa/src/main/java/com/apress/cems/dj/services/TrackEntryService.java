@@ -4,7 +4,7 @@ import com.apress.cems.dao.Detective;
 import com.apress.cems.dao.Evidence;
 import com.apress.cems.dao.TrackEntry;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface TrackEntryService {
 
-    List<TrackEntry> findByDate(LocalDate localDate);
+    List<TrackEntry> findByDate(LocalDateTime localDate);
 
     List<TrackEntry> findByEvidence(Evidence evidence);
 

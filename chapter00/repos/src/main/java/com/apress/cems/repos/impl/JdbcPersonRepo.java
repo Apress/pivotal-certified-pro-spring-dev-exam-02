@@ -36,7 +36,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -87,7 +87,7 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
             throw new IllegalArgumentException("Text contains weird characters!");
         }
         jdbcTemplate.update("update PERSON set USERNAME=?, FIRSTNAME=?, LASTNAME=?, PASSWORD=?, MODIFIED_AT=? where ID=?",
-                 person.getUsername(), person.getFirstName(), person.getLastName(), person.getPassword(), LocalDate.now(), person.getId()
+                 person.getUsername(), person.getFirstName(), person.getLastName(), person.getPassword(), LocalDateTime.now(), person.getId()
         );
         return person;
     }
@@ -97,7 +97,7 @@ public class JdbcPersonRepo extends JdbcAbstractRepo<Person> implements PersonRe
         jdbcTemplate.update(
                 "insert into PERSON(ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE, MODIFIED_AT, CREATED_AT, VERSION) values(?,?,?,?,?,?,?,?,?)",
                 person.getId(), person.getUsername(), person.getFirstName(), person.getLastName(), person.getPassword(),
-                person.getHiringDate(), LocalDate.now(), LocalDate.now(), 1
+                person.getHiringDate(), LocalDateTime.now(), LocalDateTime.now(), 1
         );
     }
 

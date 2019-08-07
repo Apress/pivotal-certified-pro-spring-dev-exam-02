@@ -40,7 +40,7 @@ import com.apress.cems.util.NumberGenerator;
 import com.apress.cems.util.Rank;
 import org.apache.commons.lang3.NotImplementedException;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -54,7 +54,7 @@ public class SimpleOperationsService implements OperationsService {
     private StorageRepo storageRepo;
 
     @Override
-    public Detective createDetective(String firstName, String lastName, LocalDate hiringDate, Rank rank) {
+    public Detective createDetective(String firstName, String lastName, LocalDateTime hiringDate, Rank rank) {
         throw new NotImplementedException("Not needed for this section.");
     }
 

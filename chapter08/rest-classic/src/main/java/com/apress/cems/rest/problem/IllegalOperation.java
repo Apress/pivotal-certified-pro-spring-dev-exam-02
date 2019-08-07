@@ -25,49 +25,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.rest.config;
-
-import com.apress.cems.dj.ServiceConfig;
-import com.apress.cems.dj.OracleDataSourceConfig;
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-import javax.servlet.Filter;
-import javax.servlet.ServletRegistration;
+package com.apress.cems.rest.problem;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{H2DbConfig.class, ServiceConfig.class};
+public class IllegalOperation extends RuntimeException {
+    public IllegalOperation(String message) {
+        super(message);
     }
 
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{WebConfig.class};
-    }
-
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
-    }
-
-    @Override
-    protected Filter[] getServletFilters() {
-        CharacterEncodingFilter cef = new CharacterEncodingFilter();
-        cef.setEncoding("UTF-8");
-        cef.setForceEncoding(true);
-        return new Filter[]{new HiddenHttpMethodFilter(), cef};
-    }
-
-    @Override
-    public void customizeRegistration(ServletRegistration.Dynamic registration) {
-        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
+    public IllegalOperation(String message, Throwable cause) {
+        super(message, cause);
     }
 }
-

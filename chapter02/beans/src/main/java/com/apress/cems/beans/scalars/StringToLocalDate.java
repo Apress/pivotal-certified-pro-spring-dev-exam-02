@@ -27,10 +27,11 @@ SOFTWARE.
 */
 package com.apress.cems.beans.scalars;
 
+import com.apress.cems.util.DateProcessor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -38,12 +39,12 @@ import java.time.format.DateTimeFormatter;
  * @since 1.0
  */
 @Component
-public class StringToLocalDate implements Converter<String, LocalDate> {
+public class StringToLocalDate implements Converter<String, LocalDateTime> {
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateProcessor.DATE_FORMAT);
 
     @Override
-    public LocalDate convert(String source) {
-        return LocalDate.parse(source, formatter);
+    public LocalDateTime convert(String source) {
+        return LocalDateTime.parse(source, formatter);
     }
 }

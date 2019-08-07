@@ -46,7 +46,7 @@ public class PersonRowMapper implements RowMapper<Person> {
         var firstname = rs.getString("FIRSTNAME");
         var lastname = rs.getString("LASTNAME");
         var password = rs.getString("PASSWORD");
-        var hiringDate = rs.getString("HIRINGDATE");
+        var hiringDate = rs.getTimestamp("HIRINGDATE").toLocalDateTime();
 
         var person = new Person();
         person.setId(id);
@@ -54,7 +54,7 @@ public class PersonRowMapper implements RowMapper<Person> {
         person.setFirstName(firstname);
         person.setLastName(lastname);
         person.setPassword(password);
-        person.setHiringDate(toDate(hiringDate));
+        person.setHiringDate(hiringDate);
         return person;
     }
 }

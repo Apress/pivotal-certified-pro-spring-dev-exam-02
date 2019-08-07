@@ -36,7 +36,7 @@ import org.springframework.stereotype.Repository;
 import java.io.PrintStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +58,7 @@ public class ExtraJdbcPersonRepo extends JdbcPersonRepo {
         return jdbcTemplate.update(
                 "insert into PERSON(ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE, CREATED_AT, MODIFIED_AT, VERSION) " +
                         "values(?, ?, ?, ?, ?, ?, ?, ?, ? )",
-                entityId, username,firstName,lastName,password, LocalDate.now(),LocalDate.now(),LocalDate.now(), 1L);
+                entityId, username,firstName,lastName,password, LocalDateTime.now(),LocalDateTime.now(),LocalDateTime.now(), 1L);
     }
 
     @Override

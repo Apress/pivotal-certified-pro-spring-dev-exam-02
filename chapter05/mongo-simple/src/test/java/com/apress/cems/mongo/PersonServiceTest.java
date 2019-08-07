@@ -41,7 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -98,7 +98,7 @@ class PersonServiceTest {
         person.setFirstName("Sherlock");
         person.setLastName("Holmes");
         person.setPassword("dudu");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(LocalDateTime.now());
         personService.save(person);
 
         person = new Person();
@@ -106,7 +106,7 @@ class PersonServiceTest {
         person.setFirstName("Jackson");
         person.setLastName("Brodie");
         person.setPassword("bagy");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(LocalDateTime.now());
         personService.save(person);
         logger.info(" -->> Database initialization finished.");
 

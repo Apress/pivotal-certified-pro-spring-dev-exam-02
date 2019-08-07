@@ -32,7 +32,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,5 +64,5 @@ public interface PersonRepo extends JpaRepository<Person, Long> {
     List<Person> findByLastNameLike(String lastName);
 
     @Query("select p from Person p where p.hiringDate=:hd")
-    List<Person> findByHiringDate(@Param("hd")LocalDate date);
+    List<Person> findByHiringDate(@Param("hd")LocalDateTime date);
 }

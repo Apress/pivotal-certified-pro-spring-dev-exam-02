@@ -10,7 +10,7 @@ import com.apress.cems.util.CaseType;
 import com.apress.cems.util.Rank;
 import com.apress.cems.repos.EvidenceRepo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,7 +22,7 @@ import java.util.Set;
  */
 public interface OperationsService {
 
-    Detective createDetective(String firstName, String lastName, LocalDate hiringDate, Rank rank);
+    Detective createDetective(String firstName, String lastName, LocalDateTime hiringDate, Rank rank);
 
     CriminalCase createCriminalCase(CaseType caseType, String shortDescription, String badgeNo, Map<Evidence, String> evidenceAndLocations);
 

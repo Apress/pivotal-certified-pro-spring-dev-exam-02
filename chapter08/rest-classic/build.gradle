@@ -7,7 +7,7 @@ ext.moduleName = 'com.apress.cems.classic.rest'
 
 dependencies {
     compile project(':chapter05:data-jpa')
-    compile spring.webmvc, hibernate.validator, misc.h2, misc.hikari, misc.thymeleaf, misc.jacksonDatabind//, misc.jacksonJsr310
+    compile spring.webmvc, hibernate.validator, misc.h2, misc.hikari, misc.thymeleaf, misc.jacksonDatabind
     compileOnly misc.servletApi
 
     testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, testing.mockito

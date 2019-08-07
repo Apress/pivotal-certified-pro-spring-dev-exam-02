@@ -27,12 +27,13 @@ SOFTWARE.
 */
 package com.apress.cems.person;
 
+import com.apress.cems.util.DateProcessor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -71,8 +72,8 @@ public class Person {
 
     @NotNull
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate hiringDate;
+    @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
+    private LocalDateTime hiringDate;
 
     @Transient
     private String newPassword;
@@ -87,18 +88,18 @@ public class Person {
 
     @NotNull
     @Column(name = "created_at", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    protected LocalDate createdAt;
+    @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
+    protected LocalDateTime createdAt;
 
     @NotNull
     @Column(name = "modified_at", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    protected LocalDate modifiedAt;
+    @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
+    protected LocalDateTime modifiedAt;
 
 
     public Person() {
-        createdAt = LocalDate.now();
-        modifiedAt = LocalDate.now();
+        createdAt = LocalDateTime.now();
+        modifiedAt = LocalDateTime.now();
     }
 
     public String getUsername() {
@@ -133,11 +134,11 @@ public class Person {
         this.password = password;
     }
 
-    public LocalDate getHiringDate() {
+    public LocalDateTime getHiringDate() {
         return hiringDate;
     }
 
-    public void setHiringDate(LocalDate hiringDate) {
+    public void setHiringDate(LocalDateTime hiringDate) {
         this.hiringDate = hiringDate;
     }
 
@@ -186,19 +187,19 @@ public class Person {
         this.id = id;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getModifiedAt() {
+    public LocalDateTime getModifiedAt() {
         return modifiedAt;
     }
 
-    public void setModifiedAt(LocalDate modifiedAt) {
+    public void setModifiedAt(LocalDateTime modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
 

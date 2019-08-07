@@ -27,33 +27,23 @@ SOFTWARE.
 */
 package com.apress.cems.rest.config;
 
+import com.apress.cems.dj.ServiceConfig;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.context.ServletContextAware;
-import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.mvc.WebContentInterceptor;
-import org.springframework.web.servlet.theme.CookieThemeResolver;
-import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.ServletContext;
-import java.util.Locale;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 /**
  * @author Iuliana Cosmina
@@ -62,7 +52,7 @@ import java.util.Locale;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.apress.cems.rest.controllers"})
-class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletContextAware {
+class WebConfig implements WebMvcConfigurer, WebApplicationInitializer {
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -73,138 +63,15 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
         return objMapper;
     }
 
- /*   @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper());
-        return mappingJackson2HttpMessageConverter;
-    }
-*/
-
-    private ApplicationContext applicationContext;
-    private ServletContext servletContext;
-
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+        rootContext.register(H2DbConfig.class, ServiceConfig.class, WebConfig.class);
+        servletContext.addListener(new ContextLoaderListener(rootContext));
+
+        ServletRegistration.Dynamic dispatcher =
+                servletContext.addServlet("cems-dispatcher", new DispatcherServlet(rootContext));
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
     }
-
-    @Override
-    public void setServletContext(ServletContext servletContext) {
-        this.servletContext = servletContext;
-    }
-
-    @Bean
-    public ServletContextTemplateResolver templateResolver() {
-        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver(servletContext);
-        resolver.setPrefix("/WEB-INF/");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode("HTML5");
-        resolver.setCharacterEncoding("UTF-8");
-        resolver.setCacheable(false);
-        return resolver;
-
-    }
-
-    @Bean
-    @Description("Thymeleaf Template Engine")
-    public SpringTemplateEngine templateEngine() {
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver());
-        templateEngine.setTemplateEngineMessageSource(messageSource());
-        return templateEngine;
-    }
-
-    @Bean
-    @Description("Thymeleaf View Resolver")
-    public ThymeleafViewResolver viewResolver() {
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(templateEngine());
-        viewResolver.setCharacterEncoding("UTF-8");
-        viewResolver.setOrder(1);
-        return viewResolver;
-    }
-
-    @Bean
-    public Validator validator() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-        validator.setValidationMessageSource(messageSource());
-        return validator;
-    }
-
-    @Override
-    public Validator getValidator() {
-        return validator();
-    }
-
-    //Declare our static resources. I added cache to the java config but it?s not required.
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**", "/styles/**")
-                .addResourceLocations("/WEB-INF/images/", "/WEB-INF/styles/").setCachePeriod(31556926);
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addRedirectViewController("/", "/home");
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor()).addPathPatterns("/*");
-        registry.addInterceptor(themeChangeInterceptor());
-        registry.addInterceptor(webChangeInterceptor());
-    }
-
-    @Bean
-    MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
-        messageResource.setBasename("classpath:i18n/global");
-        messageResource.setDefaultEncoding("UTF-8");
-        messageResource.setUseCodeAsDefaultMessage(true);
-        // # -1 : never reload, 0 always reload
-        //messageResource.setCacheSeconds(0);
-        return messageResource;
-    }
-
-    @Bean
-    LocaleChangeInterceptor localeChangeInterceptor() {
-        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName("lang");
-        return localeChangeInterceptor;
-    }
-
-    @Bean
-    ThemeChangeInterceptor themeChangeInterceptor() {
-        ThemeChangeInterceptor themeChangeInterceptor = new ThemeChangeInterceptor();
-        themeChangeInterceptor.setParamName("theme");
-        return themeChangeInterceptor;
-    }
-
-    @Bean
-    CookieLocaleResolver localeResolver() {
-        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
-        cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
-        cookieLocaleResolver.setCookieMaxAge(3600);
-        cookieLocaleResolver.setCookieName("locale");
-        return cookieLocaleResolver;
-    }
-
-    @Bean
-    CookieThemeResolver themeResolver() {
-        CookieThemeResolver cookieThemeResolver = new CookieThemeResolver();
-        cookieThemeResolver.setDefaultThemeName("green");
-        cookieThemeResolver.setCookieMaxAge(3600);
-        cookieThemeResolver.setCookieName("theme");
-        return cookieThemeResolver;
-    }
-
-    @Bean
-    WebContentInterceptor webChangeInterceptor() {
-        WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
-        webContentInterceptor.setCacheSeconds(0);
-        webContentInterceptor.setSupportedMethods("GET", "POST", "PUT", "DELETE");
-        return webContentInterceptor;
-    }
-
 }

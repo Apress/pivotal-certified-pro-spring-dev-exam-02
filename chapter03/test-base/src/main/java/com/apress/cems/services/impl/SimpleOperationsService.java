@@ -39,7 +39,7 @@ import com.apress.cems.util.CaseType;
 import com.apress.cems.util.NumberGenerator;
 import com.apress.cems.util.Rank;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -53,7 +53,7 @@ public class SimpleOperationsService implements OperationsService {
     private StorageRepo storageRepo;
 
     @Override
-    public Detective createDetective(String firstName, String lastName, LocalDate hiringDate, Rank rank) {
+    public Detective createDetective(String firstName, String lastName, LocalDateTime hiringDate, Rank rank) {
         Person person = new Person();
         person.setFirstName(firstName);
         person.setLastName(lastName);

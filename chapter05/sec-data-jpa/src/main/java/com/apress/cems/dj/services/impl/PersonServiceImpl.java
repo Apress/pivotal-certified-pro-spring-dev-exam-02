@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +137,7 @@ public class PersonServiceImpl implements PersonService {
                 }
                 break;
             case HIREDIN:
-                LocalDate date;
+                LocalDateTime date;
                 try {
                     date = DateProcessor.toDate(criteria.getFieldValue());
                 } catch (DateTimeParseException e) {

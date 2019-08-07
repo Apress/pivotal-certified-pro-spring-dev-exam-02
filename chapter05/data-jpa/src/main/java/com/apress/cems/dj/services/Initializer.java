@@ -37,7 +37,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -85,14 +85,14 @@ public class Initializer {
     }
 
     private void createStorages() {
-        Storage storage = new Storage();
+        var storage = new Storage();
         storage.setName("Central Storage");
         storage.setLocation("London, NW1 6XE");
         storageService.save(storage);
     }
 
     private void createDetectives() {
-        Storage storage = storageService.findAll().get(0);
+        var storage = storageService.findAll().get(0);
 
         Optional<Person> personOpt = personService.findByCompleteName("Sherlock", "Holmes");
         personOpt.ifPresent( person -> {
@@ -107,7 +107,7 @@ public class Initializer {
             criminalCase.setNotes("It was obvious the husband did it.");
             criminalCase.setLeadInvestigator(detective);
 
-            Evidence evidence = new Evidence();
+            var evidence = new Evidence();
             evidence.setStorage(storage);
             evidence.setCriminalCase(criminalCase);
             evidence.setNumber(NumberGenerator.getEvidenceNumber());
@@ -159,7 +159,7 @@ public class Initializer {
             criminalCase.setLeadInvestigator(detective);
 
 
-            Evidence evidence = new Evidence();
+            var evidence = new Evidence();
             evidence.setStorage(storage);
             evidence.setCriminalCase(criminalCase);
             evidence.setNumber(NumberGenerator.getEvidenceNumber());
@@ -198,7 +198,7 @@ public class Initializer {
             Detective detective = createDetective(person, Rank.TRAINEE, false, EmploymentStatus.VACATION);
             detectiveService.save(detective);
 
-            CriminalCase criminalCase = new CriminalCase();
+            var criminalCase = new CriminalCase();
             criminalCase.setNumber(NumberGenerator.getCaseNumber());
             criminalCase.setType(CaseType.INFRACTION);
             criminalCase.setShortDescription("Parking Violation by John Doe.");
@@ -247,12 +247,12 @@ public class Initializer {
     }
 
     private void createPersons() {
-        Person person = new Person();
+        var person = new Person();
         person.setUsername("sherlock.holmes");
         person.setFirstName("Sherlock");
         person.setLastName("Holmes");
         person.setPassword("dudu");
-        person.setHiringDate(DateProcessor.toDate("1983-08-15"));
+        person.setHiringDate(DateProcessor.toDate("1983-08-15 00:20"));
         personService.save(person);
 
         person = new Person();
@@ -260,7 +260,7 @@ public class Initializer {
         person.setFirstName("Jackson");
         person.setLastName("Brodie");
         person.setPassword("bagy");
-        person.setHiringDate(DateProcessor.toDate("1983-06-22"));
+        person.setHiringDate(DateProcessor.toDate("1983-06-22 00:21"));
         personService.save(person);
 
         person = new Person();
@@ -268,7 +268,7 @@ public class Initializer {
         person.setFirstName("Nancy");
         person.setLastName("Drew");
         person.setPassword("dada45");
-        person.setHiringDate(DateProcessor.toDate("1990-05-21"));
+        person.setHiringDate(DateProcessor.toDate("1990-05-21 00:25"));
         personService.save(person);
 
         person = new Person();
@@ -276,12 +276,12 @@ public class Initializer {
         person.setFirstName("Irene");
         person.setLastName("Adler");
         person.setPassword("xxxyy");
-        person.setHiringDate(DateProcessor.toDate("1987-03-11"));
+        person.setHiringDate(DateProcessor.toDate("1987-03-11 00:27"));
         personService.save(person);
     }
 
     private Detective createDetective(Person person, Rank rank, Boolean armed, EmploymentStatus status){
-        Detective detective = new Detective();
+        var detective = new Detective();
         detective.setPerson(person);
         detective.setBadgeNumber(NumberGenerator.getBadgeNumber());
         detective.setRank(rank);
@@ -291,8 +291,8 @@ public class Initializer {
     }
 
     private TrackEntry createTrackEntry(Detective detective, TrackAction action, String reason) {
-        TrackEntry trackEntry = new TrackEntry();
-        trackEntry.setDate(LocalDate.now());
+        var trackEntry = new TrackEntry();
+        trackEntry.setDate(LocalDateTime.now());
         trackEntry.setDetective(detective);
         trackEntry.setAction(action);
         trackEntry.setReason(reason);

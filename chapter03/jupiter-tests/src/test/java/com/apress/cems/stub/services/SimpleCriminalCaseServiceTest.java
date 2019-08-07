@@ -46,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class SimpleCriminalCaseServiceTest {
+class SimpleCriminalCaseServiceTest {
     static final Long CASE_ID = 1L;
     final Detective detective = buildDetective("Sherlock", "Holmes", Rank.INSPECTOR, "TS1234");
 

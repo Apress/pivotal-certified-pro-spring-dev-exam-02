@@ -35,8 +35,8 @@ import com.apress.cems.pojos.repos.TrackEntryRepo;
 import com.apress.cems.pojos.services.TrackEntryService;
 import com.apress.cems.util.TrackAction;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 /**
  * @author Iuliana Cosmina
@@ -46,7 +46,7 @@ public class SimpleTrackEntryService extends SimpleAbstractService<TrackEntry> i
     private TrackEntryRepo repo;
 
     @Override
-    public TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDate date, TrackAction action, String reason) {
+    public TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDateTime date, TrackAction action, String reason) {
         TrackEntry trackEntry = new TrackEntry();
         trackEntry.setEvidence(evidence);
         trackEntry.setDetective(detective);

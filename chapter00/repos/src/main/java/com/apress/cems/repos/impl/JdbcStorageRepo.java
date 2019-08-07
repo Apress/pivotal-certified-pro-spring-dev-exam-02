@@ -30,12 +30,11 @@ package com.apress.cems.repos.impl;
 import com.apress.cems.dao.Storage;
 import com.apress.cems.repos.StorageRepo;
 import com.apress.cems.repos.util.StorageRowMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -72,7 +71,7 @@ public class JdbcStorageRepo extends JdbcAbstractRepo<Storage> implements Storag
     public void save(Storage storage) {
         jdbcTemplate.update(
                 "insert into STORAGE(ID, NAME, LOCATION, MODIFIED_AT, CREATED_AT) values(?,?,?,?,?)",
-                storage.getId(), storage.getName(), storage.getLocation(), LocalDate.now(), LocalDate.now()
+                storage.getId(), storage.getName(), storage.getLocation(), LocalDateTime.now(), LocalDateTime.now()
         );
     }
 

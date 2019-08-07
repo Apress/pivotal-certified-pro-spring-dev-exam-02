@@ -107,7 +107,7 @@ public class MultipleTypesBean {
         this.charTwo = charTwo;
     }
 
-    @Autowired void setDate(@Value("1977-10-16") Date date) {
+    @Autowired void setDate(@Value("1977-10-16 00:23") Date date) {
         this.date = date;
     }
 

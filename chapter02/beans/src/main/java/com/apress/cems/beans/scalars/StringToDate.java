@@ -27,6 +27,7 @@ SOFTWARE.
 */
 package com.apress.cems.beans.scalars;
 
+import com.apress.cems.util.DateProcessor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,7 @@ import java.util.Date;
 @Service
 public class StringToDate implements Converter<String, Date> {
 
-    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat formatter = new SimpleDateFormat(DateProcessor.DATE_FORMAT);
 
     @Override
     public Date convert(String source) {

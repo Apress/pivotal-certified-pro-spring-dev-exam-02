@@ -81,7 +81,7 @@ public class NativePersonRepo implements PersonRepo {
     public Set<Person> findAll() {
         Set<Person> persons;
         String sql = "select p.ID as ID, p.USERNAME as USERNAME," +
-                " p.FIRSTNAME as FIRSTNAME, p.LASTNAME as LASTNAME" +
+                " p.FIRSTNAME as FIRSTNAME, p.LASTNAME as LASTNAME, p.HIRINGDATE as HIRINGDATE" +
                 " from PERSON p ";
         Connection conn = null;
         PreparedStatement ps = null;
@@ -134,7 +134,7 @@ public class NativePersonRepo implements PersonRepo {
     @Override
     public Optional<Person> findById(Long id) {
         String sql = "select p.ID as ID, p.USERNAME as USERNAME," +
-                " p.FIRSTNAME as FIRSTNAME, p.LASTNAME as LASTNAME" +
+                " p.FIRSTNAME as FIRSTNAME, p.LASTNAME as LASTNAME, p.HIRINGDATE as HIRINGDATE" +
                 " from PERSON p where p.ID = ?";
         Connection conn = null;
         PreparedStatement ps = null;
@@ -184,6 +184,7 @@ public class NativePersonRepo implements PersonRepo {
             person.setUsername(rs.getString("USERNAME"));
             person.setFirstName(rs.getString("FIRSTNAME"));
             person.setLastName(rs.getString("LASTNAME"));
+            person.setHiringDate(rs.getTimestamp("HIRINGDATE").toLocalDateTime());
             persons.add(person);
         }
         return persons;

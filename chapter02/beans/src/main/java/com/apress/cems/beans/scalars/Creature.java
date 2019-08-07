@@ -1,6 +1,6 @@
 package com.apress.cems.beans.scalars;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Iuliana Cosmina
@@ -8,9 +8,9 @@ import java.time.LocalDate;
  */
 public interface Creature {
 
-    LocalDate getBirthDate();
+    LocalDateTime getBirthDate();
 
-    void setBirthDate(LocalDate birthDate);
+    void setBirthDate(LocalDateTime birthDate);
 
     String getName();
 

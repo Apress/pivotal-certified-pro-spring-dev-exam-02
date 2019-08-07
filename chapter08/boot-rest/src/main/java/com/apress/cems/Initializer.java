@@ -69,7 +69,7 @@ public class Initializer {
         person.setFirstName("Sherlock");
         person.setLastName("Holmes");
         person.setPassword("dudu");
-        person.setHiringDate(DateProcessor.toDate("1983-08-15"));
+        person.setHiringDate(DateProcessor.toDate("1983-08-15 00:25"));
         personService.save(person);
 
         person = new Person();
@@ -77,7 +77,7 @@ public class Initializer {
         person.setFirstName("Jackson");
         person.setLastName("Brodie");
         person.setPassword("bagy");
-        person.setHiringDate(DateProcessor.toDate("1983-06-22"));
+        person.setHiringDate(DateProcessor.toDate("1983-06-22 00:25"));
         personService.save(person);
 
         person = new Person();
@@ -85,7 +85,7 @@ public class Initializer {
         person.setFirstName("Nancy");
         person.setLastName("Drew");
         person.setPassword("dada45");
-        person.setHiringDate(DateProcessor.toDate("1990-05-21"));
+        person.setHiringDate(DateProcessor.toDate("1990-05-21 00:25"));
         personService.save(person);
 
         person = new Person();
@@ -93,7 +93,7 @@ public class Initializer {
         person.setFirstName("Irene");
         person.setLastName("Adler");
         person.setPassword("xxxyy");
-        person.setHiringDate(DateProcessor.toDate("1987-03-11"));
+        person.setHiringDate(DateProcessor.toDate("1987-03-11 00:25"));
         personService.save(person);
     }
 }

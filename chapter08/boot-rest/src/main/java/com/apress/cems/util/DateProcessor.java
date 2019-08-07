@@ -27,7 +27,7 @@ SOFTWARE.
 */
 package com.apress.cems.util;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -35,14 +35,14 @@ import java.time.format.DateTimeFormatter;
  * @since 1.0
  */
 public class DateProcessor {
-    private static final String DATE_FORMAT= "yyyy-MM-dd";
+    public static final String DATE_FORMAT= "yyyy-MM-dd HH:mm";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
-    public static LocalDate toDate(final String date) {
-        return LocalDate.parse(date, formatter);
+    public static LocalDateTime toDate(final String date) {
+        return LocalDateTime.parse(date, formatter);
     }
 
-    public static String toString(final LocalDate date){
+    public static String toString(final LocalDateTime date){
         return date.format(formatter);
     }
 }

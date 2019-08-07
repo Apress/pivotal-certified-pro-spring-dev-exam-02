@@ -86,6 +86,7 @@ ext {
             jdbc          : "org.springframework:spring-jdbc:$springVersion",
             orm           : "org.springframework:spring-orm:$springVersion",
             test          : "org.springframework:spring-test:$springVersion",
+            web           : "org.springframework:spring-web:$springVersion",
             webmvc        : "org.springframework:spring-webmvc:$springVersion",
             data          : "org.springframework.data:spring-data-jpa:$springJpaVersion",
             mongo         : "org.springframework.data:spring-data-mongodb:$springMongoVersion",

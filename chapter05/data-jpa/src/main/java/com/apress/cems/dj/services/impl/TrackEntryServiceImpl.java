@@ -35,7 +35,7 @@ import com.apress.cems.dj.services.TrackEntryService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -53,7 +53,7 @@ public class TrackEntryServiceImpl implements TrackEntryService {
     }
 
     @Override
-    public List<TrackEntry> findByDate(LocalDate localDate) {
+    public List<TrackEntry> findByDate(LocalDateTime localDate) {
         return trackEntryRepo.findByDate(localDate);
     }
 

@@ -86,7 +86,7 @@ public class ExtraJdbcDetectiveRepo extends JdbcDetectiveRepo {
                 p.setUsername(rs.getString("un"));
                 p.setFirstName(rs.getString("fn"));
                 p.setLastName(rs.getString("ln"));
-                p.setHiringDate(rs.getDate("hd").toLocalDate());
+                p.setHiringDate(rs.getTimestamp("hd").toLocalDateTime());
                 detective.setPerson(p);
             }
             return detective;

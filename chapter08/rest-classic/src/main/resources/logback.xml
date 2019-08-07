@@ -13,7 +13,7 @@
 
     <logger name="com.apress.cems" level="debug"/>
 
-    <logger name="org.springframework" level="debug"/>
+    <logger name="org.springframework" level="info"/>
 
     <logger name="org.hibernate.SQL" additivity="false" level="off" />
 

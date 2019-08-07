@@ -28,22 +28,18 @@ SOFTWARE.
 package com.apress.cems.rest.controllers;
 
 import com.apress.cems.dao.Person;
-import com.apress.cems.dj.problem.InvalidCriteriaException;
 import com.apress.cems.dj.services.PersonService;
 import com.apress.cems.dto.CriteriaDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
+import com.apress.cems.rest.problem.IllegalOperation;
+import com.apress.cems.rest.problem.NotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Locale;
+import java.util.Optional;
 
 import static com.apress.cems.util.Functions.COMPARATOR_BY_ID;
 
@@ -51,59 +47,76 @@ import static com.apress.cems.util.Functions.COMPARATOR_BY_ID;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Controller
-@RequestMapping("/persons")
-public class MultiplePersonController {
 
-    private Logger logger = LoggerFactory.getLogger(MultiplePersonController.class);
+@RestController
+@RequestMapping("/persons")
+public class PersonsController {
 
     private PersonService personService;
-    private MessageSource messageSource;
 
-    public MultiplePersonController(PersonService personService, MessageSource messageSource) {
+    public PersonsController(PersonService personService) {
         this.personService = personService;
-        this.messageSource = messageSource;
     }
 
     /**
      * Handles requests to list all persons.
      */
-    @ResponseBody
-    @GetMapping(value = "/list"/*, produces = MediaType.APPLICATION_JSON_VALUE*/)
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Person> list(Model model) {
-        logger.info("Populating model with list...");
         List<Person> persons =  personService.findAll();
         persons.sort(COMPARATOR_BY_ID);
         model.addAttribute("persons", persons);
         return persons;
     }
 
-    // --------------- search  -------------------
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/search")
-    public String search(CriteriaDto criteria) {
-        return "persons/search";
+    public List<Person> processSubmit(@Validated @RequestBody CriteriaDto criteria) {
+        return personService.getByCriteriaDto(criteria);
     }
 
-    @GetMapping(value = "/go")
-    public String processSubmit(@Validated @ModelAttribute("criteriaDto") CriteriaDto criteria, BindingResult result, Model model, Locale locale) {
-        if (result.hasErrors()) {
-            return "persons/search";
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public Person create(@RequestBody Person person) {
+
+       return personService.save(person);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{id}")
+    public Person show(@PathVariable Long id) {
+        Optional<Person> personOpt = personService.findById(id);
+        if(personOpt.isPresent()) {
+            return personOpt.get();
+        } else {
+            throw new NotFoundException(Person.class, id);
         }
-        try {
-            List<Person> persons = personService.getByCriteriaDto(criteria);
-            if (persons.size() == 0) {
-                result.addError(new FieldError("criteriaDto", "noResults", messageSource.getMessage("NotEmpty.criteriaDto.noResults", null, locale)));
-                return "persons/search";
-            } else if (persons.size() == 1) {
-                return "redirect:/persons/" + persons.get(0).getId();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    public Person update(@RequestBody Person updatedPerson, @PathVariable Long id) {
+        Optional<Person> personOpt = personService.findById(id);
+        if(personOpt.isPresent()) {
+            Person person = personOpt.get();
+            if(person.getId().equals(updatedPerson.getId())) {
+                person.setUsername(updatedPerson.getUsername());
+                person.setFirstName(updatedPerson.getFirstName());
+                person.setLastName(updatedPerson.getLastName());
+                return personService.save(person);
             } else {
-                model.addAttribute("persons", persons);
-                return "persons/list";
+                throw new IllegalOperation("Operation not permitted");
             }
-        } catch (InvalidCriteriaException ice) {
-            result.addError(new FieldError("criteriaDto", ice.getFieldName(),
-                    messageSource.getMessage(ice.getMessageKey(), null, locale)));
-            return "persons/search";
+        } else {
+            throw new NotFoundException(Person.class, id);
         }
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        Optional<Person> personOpt = personService.findById(id);
+        personOpt.ifPresent(value -> personService.delete(value));
     }
 }

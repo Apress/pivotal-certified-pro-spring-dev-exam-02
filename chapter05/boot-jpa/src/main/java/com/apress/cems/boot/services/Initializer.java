@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Iuliana Cosmina
@@ -60,7 +60,7 @@ public class Initializer {
         person.setFirstName("Sherlock");
         person.setLastName("Holmes");
         person.setPassword("dudu");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(LocalDateTime.now());
         personService.save(person);
 
         person = new Person();
@@ -68,7 +68,7 @@ public class Initializer {
         person.setFirstName("Jackson");
         person.setLastName("Brodie");
         person.setPassword("bagy");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(LocalDateTime.now());
         personService.save(person);
         logger.info(" -->> Database initialization finished.");
 

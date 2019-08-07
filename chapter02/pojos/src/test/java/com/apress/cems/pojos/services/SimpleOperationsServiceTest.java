@@ -34,7 +34,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,7 +56,7 @@ public class SimpleOperationsServiceTest extends SimpleServiceTestBase {
         person.setId(DETECTIVE_ID);
         person.setFirstName("Sherlock");
         person.setLastName("Holmes");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(LocalDateTime.now());
         person.setPassword("123");
         Detective detective = detectiveService.createDetective(person, Rank.INSPECTOR);
         detective.setBadgeNumber(BADGE_NO);

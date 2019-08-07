@@ -37,7 +37,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -252,7 +252,7 @@ public class Initializer {
         person.setFirstName("Sherlock");
         person.setLastName("Holmes");
         person.setPassword("dudu");
-        person.setHiringDate(DateProcessor.toDate("1983-08-15"));
+        person.setHiringDate(DateProcessor.toDate("1983-08-15 00:22"));
         personService.save(person);
 
         person = new Person();
@@ -260,7 +260,7 @@ public class Initializer {
         person.setFirstName("Jackson");
         person.setLastName("Brodie");
         person.setPassword("bagy");
-        person.setHiringDate(DateProcessor.toDate("1983-06-22"));
+        person.setHiringDate(DateProcessor.toDate("1983-06-22 00:22"));
         personService.save(person);
 
         person = new Person();
@@ -268,7 +268,7 @@ public class Initializer {
         person.setFirstName("Nancy");
         person.setLastName("Drew");
         person.setPassword("dada45");
-        person.setHiringDate(DateProcessor.toDate("1990-05-21"));
+        person.setHiringDate(DateProcessor.toDate("1990-05-21 00:22"));
         personService.save(person);
 
         person = new Person();
@@ -276,7 +276,7 @@ public class Initializer {
         person.setFirstName("Irene");
         person.setLastName("Adler");
         person.setPassword("xxxyy");
-        person.setHiringDate(DateProcessor.toDate("1987-03-11"));
+        person.setHiringDate(DateProcessor.toDate("1987-03-11 00:22"));
         personService.save(person);
     }
 
@@ -292,7 +292,7 @@ public class Initializer {
 
     private TrackEntry createTrackEntry(Detective detective, TrackAction action, String reason) {
         TrackEntry trackEntry = new TrackEntry();
-        trackEntry.setDate(LocalDate.now());
+        trackEntry.setDate(LocalDateTime.now());
         trackEntry.setDetective(detective);
         trackEntry.setAction(action);
         trackEntry.setReason(reason);

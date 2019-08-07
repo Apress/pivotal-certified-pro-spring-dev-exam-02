@@ -32,7 +32,7 @@ import com.apress.cems.dao.Evidence;
 import com.apress.cems.dao.TrackEntry;
 import com.apress.cems.util.TrackAction;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -40,5 +40,5 @@ import java.util.Date;
  * @since 1.0
  */
 public interface TrackEntryService extends AbstractService<TrackEntry> {
-    TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDate date, TrackAction action, String reason);
+    TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDateTime date, TrackAction action, String reason);
 }

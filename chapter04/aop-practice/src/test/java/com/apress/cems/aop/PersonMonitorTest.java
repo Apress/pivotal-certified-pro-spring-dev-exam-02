@@ -39,7 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -90,7 +90,7 @@ class PersonMonitorTest {
         person.setFirstName("Nancy");
         person.setLastName("Drew");
         person.setPassword("1@#$asta");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(LocalDateTime.now());
         assertNotNull(personService.save(person));
     }
 

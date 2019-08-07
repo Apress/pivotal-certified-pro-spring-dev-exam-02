@@ -27,13 +27,14 @@ SOFTWARE.
 */
 package com.apress.cems.boot.dao;
 
+import com.apress.cems.util.DateProcessor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Iuliana Cosmina
@@ -52,20 +53,20 @@ public abstract class AbstractEntity implements Serializable {
 
     @NotNull
     @Column(name = "created_at", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    protected LocalDate createdAt;
+    @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
+    protected LocalDateTime createdAt;
 
     @NotNull
     @Column(name = "modified_at", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    protected LocalDate modifiedAt;
+    @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
+    protected LocalDateTime modifiedAt;
 
     /**
      * This constructor is required by JPA. All subclasses of this class will inherit this constructor.
      */
     protected AbstractEntity() {
-        createdAt = LocalDate.now();
-        modifiedAt = LocalDate.now();
+        createdAt = LocalDateTime.now();
+        modifiedAt = LocalDateTime.now();
     }
 
     /**
@@ -90,19 +91,19 @@ public abstract class AbstractEntity implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getModifiedAt() {
+    public LocalDateTime getModifiedAt() {
         return modifiedAt;
     }
 
-    public void setModifiedAt(LocalDate modifiedAt) {
+    public void setModifiedAt(LocalDateTime modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
 
@@ -123,7 +124,7 @@ public abstract class AbstractEntity implements Serializable {
 
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(DateProcessor.DATE_FORMAT);
         return String.format("AbstractEntity[id='%d%n', createdAt='%s', modifiedAt='%s', version='%d%n']",
                 id, sdf.format(createdAt), sdf.format(modifiedAt), version);
     }

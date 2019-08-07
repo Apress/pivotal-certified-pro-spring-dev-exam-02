@@ -57,7 +57,7 @@ public class DetectiveRowMapper implements RowMapper<Detective> {
         person.setUsername(rs.getString("USERNAME"));
         person.setFirstName(rs.getString("FIRSTNAME"));
         person.setLastName(rs.getString("LASTNAME"));
-        person.setHiringDate(rs.getDate("HIRINGDATE").toLocalDate());
+        person.setHiringDate(rs.getTimestamp("HIRINGDATE").toLocalDateTime());
 
         Detective detective = new Detective();
         detective.setId(id);

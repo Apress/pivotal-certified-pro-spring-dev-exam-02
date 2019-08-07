@@ -27,12 +27,13 @@ SOFTWARE.
 */
 package com.apress.cems.boot.dao;
 
+import com.apress.cems.util.DateProcessor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -71,8 +72,8 @@ public class Person extends AbstractEntity {
 
     @NotNull
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate hiringDate;
+    @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
+    private LocalDateTime hiringDate;
 
 /*    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private Detective detective;*/
@@ -113,11 +114,11 @@ public class Person extends AbstractEntity {
         this.password = password;
     }
 
-    public LocalDate getHiringDate() {
+    public LocalDateTime getHiringDate() {
         return hiringDate;
     }
 
-    public void setHiringDate(LocalDate hiringDate) {
+    public void setHiringDate(LocalDateTime hiringDate) {
         this.hiringDate = hiringDate;
     }
 

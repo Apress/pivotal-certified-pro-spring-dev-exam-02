@@ -36,7 +36,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Iuliana Cosmina
@@ -66,7 +66,7 @@ public class Initializer {
         person.setFirstName("Sherlock");
         person.setLastName("Holmes");
         person.setPassword("dududu");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(LocalDateTime.now());
         personRepo.save(person);
         var detective = createDetective(person, Rank.SENIOR, false, EmploymentStatus.ACTIVE);
         detectiveRepo.save(detective);
@@ -76,7 +76,7 @@ public class Initializer {
         person.setFirstName("Jackson");
         person.setLastName("Brodie");
         person.setPassword("bagyrf");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(LocalDateTime.now());
         personRepo.save(person);
         var detective2 = createDetective(person, Rank.INSPECTOR, true, EmploymentStatus.ACTIVE);
         detectiveRepo.save(detective2);
@@ -151,7 +151,7 @@ public class Initializer {
 
     private TrackEntry createTrackEntry(Detective detective, TrackAction action, String reason) {
         TrackEntry trackEntry = new TrackEntry();
-        trackEntry.setDate(LocalDate.now());
+        trackEntry.setDate(LocalDateTime.now());
         trackEntry.setDetective(detective);
         trackEntry.setAction(action);
         trackEntry.setReason(reason);

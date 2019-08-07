@@ -70,8 +70,8 @@ public class H2DbConfig {
         hibernateProp.put("hibernate.dialect", dialect);
         hibernateProp.put("hibernate.hbm2ddl.auto", hbm2ddl);
 
-        hibernateProp.put("hibernate.format_sql", true);
-        hibernateProp.put("hibernate.use_sql_comments", true);
+        hibernateProp.put("hibernate.format_sql", false);
+        hibernateProp.put("hibernate.use_sql_comments", false);
         hibernateProp.put("hibernate.show_sql", true);
         return hibernateProp;
     }
@@ -87,7 +87,7 @@ public class H2DbConfig {
 
             hikariConfig.setMaximumPoolSize(5);
             hikariConfig.setConnectionTestQuery("SELECT 1");
-            hikariConfig.setPoolName("hamsterPool");
+            hikariConfig.setPoolName("cemsPool");
             return new HikariDataSource(hikariConfig);
         } catch (Exception e) {
             return null;

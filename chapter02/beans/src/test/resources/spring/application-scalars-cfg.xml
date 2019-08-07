@@ -15,7 +15,7 @@
     </bean>
 
     <bean id="personBean" class="com.apress.cems.beans.scalars.PersonBean"
-        c:name="John Mayer" c:birthDate="1977-10-16"
+        c:name="John Mayer" c:birthDate="1977-10-16 00:23"
     />
 
 

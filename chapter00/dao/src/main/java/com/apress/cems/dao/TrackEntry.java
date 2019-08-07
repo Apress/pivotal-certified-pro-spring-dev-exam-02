@@ -35,7 +35,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Iuliana Cosmina
@@ -49,8 +49,8 @@ public class TrackEntry extends AbstractEntity{
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateProcessor.DATE_FORMAT)
     @NotNull
     @Column(name= "track_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    protected LocalDate date;
+    @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
+    protected LocalDateTime date;
 
     @NotNull
     @ManyToOne
@@ -74,11 +74,11 @@ public class TrackEntry extends AbstractEntity{
         super();
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

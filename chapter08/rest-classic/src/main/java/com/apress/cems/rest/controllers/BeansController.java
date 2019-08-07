@@ -27,21 +27,35 @@ SOFTWARE.
 */
 package com.apress.cems.rest.controllers;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Controller
-public class HomeController {
+@RestController
+class BeansController implements ApplicationContextAware {
+    private ApplicationContext ctx;
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String home(Model model) {
-        model.addAttribute("message", "Spring MVC ThymeleafExample!!");
-        return "home";
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.ctx = applicationContext;
+    }
+
+    @GetMapping("/")
+    Map<String,String> allBeans() {
+        Map<String,String> map = new HashMap<>();
+        Arrays.stream(ctx.getBeanDefinitionNames()).forEach(beanName -> {
+            map.put(beanName, ctx.getBean(beanName).getClass().toString());
+        });
+        return map;
     }
 }

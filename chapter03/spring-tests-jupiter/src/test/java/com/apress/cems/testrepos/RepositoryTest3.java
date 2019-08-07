@@ -83,7 +83,7 @@ class RepositoryTest3 {
 
     @Test
     //@Sql({"classpath:db/test-data-two.sql"})
-    @Sql(statements = {"INSERT INTO PERSON(ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE, VERSION, CREATED_AT, MODIFIED_AT) VALUES (2, 'irene.adler', 'Irene', 'Adler', 'id123ds', '1990-08-18', 1, '1990-07-18', '1998-01-18');"})
+    @Sql(statements = {"INSERT INTO PERSON(ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE, VERSION, CREATED_AT, MODIFIED_AT) VALUES (2, 'irene.adler', 'Irene', 'Adler', 'id123ds', '1990-08-18 00:03', 1, '1990-07-18 00:04', '1990-07-18 00:05');"})
     void testFindByComplete() {
         Optional<Person> personOpt = personRepo.findByCompleteName("Irene", "Adler");
         personOpt.ifPresent(p ->

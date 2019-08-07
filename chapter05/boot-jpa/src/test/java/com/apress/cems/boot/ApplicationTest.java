@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,7 +56,7 @@ class ApplicationTest {
         person.setUsername("irene.adler");
         person.setFirstName("Irene");
         person.setLastName("Adler");
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(LocalDateTime.now());
         person.setPassword("a12sd");
         personService.save(person);
 

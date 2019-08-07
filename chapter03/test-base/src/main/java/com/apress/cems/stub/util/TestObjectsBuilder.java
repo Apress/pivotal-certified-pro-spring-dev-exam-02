@@ -32,7 +32,7 @@ import com.apress.cems.dao.Detective;
 import com.apress.cems.dao.Person;
 import com.apress.cems.util.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Iuliana Cosmina
@@ -45,7 +45,7 @@ public class TestObjectsBuilder {
         Person person = new Person();
         person.setFirstName(firstName);
         person.setLastName(lastName);
-        person.setHiringDate(LocalDate.now());
+        person.setHiringDate(LocalDateTime.now());
         person.setUsername(firstName.concat(lastName));
         person.setPassword("whatever");
         detective.setPerson(person);

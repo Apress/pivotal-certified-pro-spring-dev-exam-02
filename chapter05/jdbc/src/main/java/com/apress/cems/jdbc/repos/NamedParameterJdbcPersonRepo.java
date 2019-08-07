@@ -34,7 +34,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -66,9 +66,9 @@ public class NamedParameterJdbcPersonRepo implements PersonRepo {
                 "fn", firstName,
                 "ln", lastName,
                 "password", password,
-                "hd", LocalDate.now(),
-                "createdAt", LocalDate.now(),
-                "modifiedAt", LocalDate.now(),
+                "hd", LocalDateTime.now(),
+                "createdAt", LocalDateTime.now(),
+                "modifiedAt", LocalDateTime.now(),
                 "version", 1
         );
         return jdbcNamedTemplate.update(
@@ -115,9 +115,9 @@ public class NamedParameterJdbcPersonRepo implements PersonRepo {
                 "fn", person.getFirstName(),
                 "ln", person.getLastName(),
                 "password", person.getPassword(),
-                "hd", LocalDate.now(),
-                "createdAt", LocalDate.now(),
-                "modifiedAt", LocalDate.now(),
+                "hd", LocalDateTime.now(),
+                "createdAt", LocalDateTime.now(),
+                "modifiedAt", LocalDateTime.now(),
                 "version", 1
         );
         jdbcNamedTemplate.update(

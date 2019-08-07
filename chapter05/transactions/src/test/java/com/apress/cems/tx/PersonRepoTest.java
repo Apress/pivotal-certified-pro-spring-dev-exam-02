@@ -41,7 +41,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -69,9 +69,9 @@ class PersonRepoTest {
         person.setFirstName("test");
         person.setLastName("user");
         person.setPassword("password");
-        person.setHiringDate(LocalDate.now());
-        person.setCreatedAt(LocalDate.now());
-        person.setModifiedAt(LocalDate.now());
+        person.setHiringDate(LocalDateTime.now());
+        person.setCreatedAt(LocalDateTime.now());
+        person.setModifiedAt(LocalDateTime.now());
         repo.save(person);
     }
 

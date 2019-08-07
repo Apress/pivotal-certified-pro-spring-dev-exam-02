@@ -5,7 +5,7 @@ import com.apress.cems.dao.Evidence;
 import com.apress.cems.dao.TrackEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -13,7 +13,7 @@ import java.util.List;
  * @since 1.0
  */
 public interface TrackEntryRepo extends JpaRepository<TrackEntry, Long> {
-    List<TrackEntry> findByDate(LocalDate localDate);
+    List<TrackEntry> findByDate(LocalDateTime localDate);
 
     List<TrackEntry> findByEvidence(Evidence evidence);
 
