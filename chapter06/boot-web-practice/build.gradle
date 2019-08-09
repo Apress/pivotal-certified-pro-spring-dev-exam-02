@@ -20,7 +20,7 @@ apply plugin: 'io.spring.dependency-management'
 ext.moduleName = 'com.apress.cems.boot'
 
 dependencies {
-    compile boot.starterJpa, misc.javaxValidation, boot.starterThymeleaf, boot.starterWeb
+    compile boot.starterJpa, boot.starterThymeleaf, boot.starterWeb
     runtimeOnly misc.h2
     implementation boot.actuator
 

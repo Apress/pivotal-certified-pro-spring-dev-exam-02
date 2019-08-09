@@ -25,39 +25,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.rest.controllers;
+package com.apress.cems.person;
 
-import com.apress.cems.dao.Person;
-import com.apress.cems.dj.services.PersonService;
-import com.apress.cems.dto.CriteriaDto;
-import com.apress.cems.rest.problem.IllegalOperation;
-import com.apress.cems.rest.problem.NotFoundException;
+import com.apress.cems.ex.InvalidCriteriaException;
+import com.apress.cems.person.services.PersonService;
+import com.apress.cems.util.CriteriaDto;
 import com.apress.cems.util.NumberGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-import static com.apress.cems.util.Functions.COMPARATOR_BY_ID;
+import static com.apress.cems.person.PersonsController.COMPARATOR_BY_ID;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-
 @RestController
-@RequestMapping("/persons")
-public class PersonsController {
-
+@RequestMapping("/persons2")
+public class BetterPersonsController {
     private PersonService personService;
 
-    public PersonsController(PersonService personService) {
+    public BetterPersonsController(PersonService personService) {
         this.personService = personService;
     }
 
@@ -65,7 +62,7 @@ public class PersonsController {
      * Handles requests to list all persons.
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public List<Person> list(Model model) {
         List<Person> persons =  personService.findAll();
         persons.sort(COMPARATOR_BY_ID);
@@ -73,24 +70,53 @@ public class PersonsController {
         return persons;
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/search")
-    public List<Person> processSubmit(@Validated @RequestBody CriteriaDto criteria) {
-        return personService.getByCriteriaDto(criteria);
-    }
-
+    /**
+     * Handles requests to create a person.
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Person create(@Validated(Person.BasicValidation.class) @RequestBody Person person, BindingResult result) {
         if (result.hasErrors()) {
-            throw new IllegalOperation("Cannot save entry!");
+            String errString = createErrorString(result);
+            throw new PersonsException(HttpStatus.BAD_REQUEST, "Cannot save entry because: "+ errString);
         }
         if(StringUtils.isEmpty(person.getPassword())){
             person.setPassword(NumberGenerator.getPassword());
         }
-       return personService.save(person);
+        try {
+            return personService.save(person);
+        } catch (Exception e) {
+            throw  new PersonsException(HttpStatus.UNPROCESSABLE_ENTITY, e);
+        }
     }
 
+    private String createErrorString(BindingResult result) {
+        StringBuilder sb =  new StringBuilder();
+        result.getAllErrors().forEach(error -> {
+            if(error instanceof FieldError) {
+                FieldError err= (FieldError) error;
+                sb.append("Field '").append(err.getField()).append("' value error: ").append(err.getDefaultMessage()).append("\n");
+            }
+        });
+        return sb.toString();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Person> processSubmit(@Validated @RequestBody CriteriaDto criteria) {
+        try {
+            return personService.getByCriteriaDto(criteria);
+        } catch (InvalidCriteriaException ice) {
+            throw  new PersonsException(HttpStatus.BAD_REQUEST, ice);
+        }
+    }
+
+    /**
+     * Returns the {@code Person} instance with id {@code id}
+     * @param id
+     * @return
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Person show(@PathVariable Long id) {
@@ -98,10 +124,16 @@ public class PersonsController {
         if(personOpt.isPresent()) {
             return personOpt.get();
         } else {
-            throw new NotFoundException(Person.class, id);
+            throw new PersonsException(HttpStatus.NOT_FOUND, "Unable to find entry with id " + id );
         }
     }
 
+    /**
+     * Updates the {@code Person} instance with id {@code id}
+     * @param updatedPerson
+     * @param id
+     * @return
+     */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public Person update(@RequestBody Person updatedPerson, @PathVariable Long id) {
@@ -113,10 +145,14 @@ public class PersonsController {
             person.setLastName(updatedPerson.getLastName());
             return personService.save(person);
         } else {
-            throw new NotFoundException(Person.class, id);
+            throw new PersonsException(HttpStatus.NOT_FOUND, "Unable to find entry with id " + id );
         }
     }
 
+    /**
+     * Delete the {@code Person} instance with id {@code id}
+     * @param id
+     */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

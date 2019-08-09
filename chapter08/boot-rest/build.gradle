@@ -20,7 +20,10 @@ apply plugin: 'io.spring.dependency-management'
 ext.moduleName = 'com.apress.cems.rest'
 
 dependencies {
-    compile boot.starterJpa, misc.javaxValidation, boot.starterWeb
+    compile boot.starterJpa, boot.starterJetty
+    compile (boot.starterWeb){
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+    }
     runtimeOnly misc.h2
     implementation boot.actuator
 

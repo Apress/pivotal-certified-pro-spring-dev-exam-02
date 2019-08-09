@@ -27,7 +27,11 @@ SOFTWARE.
 */
 package com.apress.cems.person;
 
+import com.apress.cems.base.AbstractEntity;
 import com.apress.cems.util.DateProcessor;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -41,65 +45,42 @@ import java.util.Objects;
  * @since 1.0
  */
 @Entity
-@SequenceGenerator(name = "seqGen", allocationSize = 1)
-@NamedQueries({
-        @NamedQuery(name = Person.FIND_BY_COMPLETE_NAME, query = "from Person p where p.firstName=:fn and p.lastName=:ln"),
-        @NamedQuery(name = Person.FIND_BY_LAST_NAME, query = "from Person p where p.lastName= ?1")
-})
-public class Person {
-    static final String FIND_BY_COMPLETE_NAME = "findByCompleteName";
-    static final String FIND_BY_LAST_NAME = "findAllByLastName";
+public class Person  extends AbstractEntity {
+    interface BasicValidation{}
 
-    @NotNull
-    @Size(min = 3, max = 30)
+    @NotNull(groups = BasicValidation.class)
+    @Size(min = 3, max = 30, groups = BasicValidation.class)
     @Column(nullable = false, unique = true)
     private String username;
 
-    @NotNull
-    @Size(min = 3, max = 30)
+    @NotNull(groups = BasicValidation.class)
+    @Size(min = 3, max = 30, groups = BasicValidation.class)
     @Column(nullable = false)
     private String firstName;
 
-    @NotNull
-    @Size(min = 3, max = 30)
+    @NotNull(groups = BasicValidation.class)
+    @Size(min = 3, max = 30, groups = BasicValidation.class)
     @Column(nullable = false)
     private String lastName;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @Size(min = 4, max = 50)
     @Column(nullable = false)
     private String password;
 
-    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateProcessor.DATE_FORMAT)
+    @NotNull(groups = BasicValidation.class)
     @Column(nullable = false)
     @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
     private LocalDateTime hiringDate;
 
+    @JsonIgnore
     @Transient
     private String newPassword;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(updatable = false)
-    protected Long id;
-
-    @Version
-    protected int version;
-
-    @NotNull
-    @Column(name = "created_at", nullable = false)
-    @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
-    protected LocalDateTime createdAt;
-
-    @NotNull
-    @Column(name = "modified_at", nullable = false)
-    @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
-    protected LocalDateTime modifiedAt;
-
-
     public Person() {
-        createdAt = LocalDateTime.now();
-        modifiedAt = LocalDateTime.now();
+       super();
     }
 
     public String getUsername() {
@@ -150,12 +131,12 @@ public class Person {
         if (!Objects.equals(id, person.id)) return false;
         return Objects.equals(firstName, person.firstName) &&
                 Objects.equals(lastName, person.lastName) &&
-                Objects.equals(hiringDate, person.hiringDate);
+                Objects.equals(hiringDate.toLocalDate(), person.hiringDate.toLocalDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), firstName, lastName, hiringDate);
+        return Objects.hash(super.hashCode(), firstName, lastName, hiringDate.toLocalDate());
     }
 
     @Override
@@ -163,44 +144,6 @@ public class Person {
         return String.format("Person[username='%s', firstName='%s', lastName='%s', hiringDate='%s']\n",
                 username, firstName, lastName, hiringDate.toString());
 
-    }
-
-    /**
-     * Returns the entity identifier. This identifier is unique per entity. It is used by persistence frameworks used in a project,
-     * and although is public, it should not be used by application code.
-     * This identifier is mapped by ORM (Object Relational Mapper) to the database primary key of the Person record to which
-     * the entity instance is mapped.
-     *
-     * @return the unique entity identifier
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Sets the entity identifier. This identifier is unique per entity.  Is is used by persistence frameworks
-     * and although is public, it should never be set by application code.
-     *
-     * @param id the unique entity identifier
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getModifiedAt() {
-        return modifiedAt;
-    }
-
-    public void setModifiedAt(LocalDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
     }
 
     public String getNewPassword() {

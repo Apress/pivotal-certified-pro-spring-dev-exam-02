@@ -30,6 +30,8 @@ package com.apress.cems.dao;
 import com.apress.cems.util.DateProcessor;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -48,35 +50,38 @@ import java.util.Objects;
         @NamedQuery(name = Person.FIND_BY_COMPLETE_NAME, query = "from Person p where p.firstName=:fn and p.lastName=:ln"),
         @NamedQuery(name = Person.FIND_BY_LAST_NAME, query = "from Person p where p.lastName= ?1")
 })
+@JsonIgnoreProperties(value="password", allowSetters = true)
 public class Person extends AbstractEntity {
     public static final String FIND_BY_COMPLETE_NAME = "findByCompleteName";
     public static final String FIND_BY_LAST_NAME = "findAllByLastName";
 
-    @NotNull
-    @Size(min = 3, max = 30)
+    public interface BasicValidation{}
+
+    @NotNull(groups = BasicValidation.class)
+    @Size(min = 3, max = 30, groups = BasicValidation.class)
     @Column(nullable = false, unique = true)
     private String username;
 
-    @NotNull
-    @Size(min = 3, max = 30)
+    @NotNull(groups = BasicValidation.class)
+    @Size(min = 3, max = 30, groups = BasicValidation.class)
     @Column(nullable = false)
     private String firstName;
 
-    @NotNull
-    @Size(min = 3, max = 30)
+    @NotNull(groups = BasicValidation.class)
+    @Size(min = 3, max = 30, groups = BasicValidation.class)
     @Column(nullable = false)
     private String lastName;
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @Size(min = 4, max = 50)
     @Column(nullable = false)
     private String password;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateProcessor.DATE_FORMAT)
-    @NotNull
-    @Column(nullable = false)
+    @NotNull(groups = BasicValidation.class)
     @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
+    @Column(nullable = false)
     private LocalDateTime hiringDate;
 
 /*    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)

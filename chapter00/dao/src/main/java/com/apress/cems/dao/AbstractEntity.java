@@ -28,7 +28,6 @@ SOFTWARE.
 package com.apress.cems.dao;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -52,7 +51,6 @@ public abstract class AbstractEntity implements Serializable {
 
     @Version
     protected int version;
-
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateProcessor.DATE_FORMAT)
     @Column(name = "created_at", nullable = false)
@@ -129,8 +127,7 @@ public abstract class AbstractEntity implements Serializable {
 
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat(DateProcessor.DATE_FORMAT);
         return String.format("AbstractEntity[id='%d%n', createdAt='%s', modifiedAt='%s', version='%d%n']",
-                id, sdf.format(createdAt), sdf.format(modifiedAt), version);
+                id, DateProcessor.toString(createdAt), DateProcessor.toString(modifiedAt), version);
     }
 }

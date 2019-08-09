@@ -25,37 +25,37 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.rest.controllers;
+package com.apress.cems.person;
 
-import com.apress.cems.dao.Person;
-import com.apress.cems.dj.services.PersonService;
-import com.apress.cems.dto.CriteriaDto;
-import com.apress.cems.rest.problem.IllegalOperation;
-import com.apress.cems.rest.problem.NotFoundException;
+import com.apress.cems.ex.IllegalOperation;
+import com.apress.cems.ex.InvalidCriteriaException;
+import com.apress.cems.ex.NotFoundException;
+import com.apress.cems.person.services.PersonService;
+import com.apress.cems.util.CriteriaDto;
 import com.apress.cems.util.NumberGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-
-import static com.apress.cems.util.Functions.COMPARATOR_BY_ID;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-
 @RestController
 @RequestMapping("/persons")
 public class PersonsController {
 
     private PersonService personService;
+    static Comparator<Person> COMPARATOR_BY_ID = Comparator.comparing(Person::getId);
 
     public PersonsController(PersonService personService) {
         this.personService = personService;
@@ -65,7 +65,7 @@ public class PersonsController {
      * Handles requests to list all persons.
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public List<Person> list(Model model) {
         List<Person> persons =  personService.findAll();
         persons.sort(COMPARATOR_BY_ID);
@@ -73,24 +73,45 @@ public class PersonsController {
         return persons;
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/search")
-    public List<Person> processSubmit(@Validated @RequestBody CriteriaDto criteria) {
-        return personService.getByCriteriaDto(criteria);
-    }
-
+    /**
+     * Handles requests to create a person.
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Person create(@Validated(Person.BasicValidation.class) @RequestBody Person person, BindingResult result) {
         if (result.hasErrors()) {
-            throw new IllegalOperation("Cannot save entry!");
+            String errString = createErrorString(result);
+            throw new IllegalOperation("Cannot save entry because: "+ errString);
         }
         if(StringUtils.isEmpty(person.getPassword())){
             person.setPassword(NumberGenerator.getPassword());
         }
-       return personService.save(person);
+        return personService.save(person);
     }
 
+    private String createErrorString(BindingResult result) {
+        StringBuilder sb =  new StringBuilder();
+        result.getAllErrors().forEach(error -> {
+            if(error instanceof FieldError) {
+                FieldError err= (FieldError) error;
+                sb.append("Field '").append(err.getField()).append("' value error: ").append(err.getDefaultMessage());
+            }
+        });
+        return sb.toString();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Person> processSubmit(@Validated @RequestBody CriteriaDto criteria) {
+        return personService.getByCriteriaDto(criteria);
+    }
+
+    /**
+     * Returns the {@code Person} instance with id {@code id}
+     * @param id
+     * @return
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Person show(@PathVariable Long id) {
@@ -102,6 +123,12 @@ public class PersonsController {
         }
     }
 
+    /**
+     * Updates the {@code Person} instance with id {@code id}
+     * @param updatedPerson
+     * @param id
+     * @return
+     */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public Person update(@RequestBody Person updatedPerson, @PathVariable Long id) {
@@ -117,10 +144,32 @@ public class PersonsController {
         }
     }
 
+    /**
+     * Delete the {@code Person} instance with id {@code id}
+     * @param id
+     */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         Optional<Person> personOpt = personService.findById(id);
         personOpt.ifPresent(value -> personService.delete(value));
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({NotFoundException.class})
+    public void handleNotFound() {
+        // just return empty 404
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({InvalidCriteriaException.class})
+    public void handleInvalidCriteria() {
+        // just return empty 400
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({IllegalOperation.class})
+    public void handleIllegalOperation() {
+        // just return empty 400
     }
 }

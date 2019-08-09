@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
  */
 public class CriteriaDto {
 
+    @NotEmpty
     private String fieldName;
 
     @NotEmpty

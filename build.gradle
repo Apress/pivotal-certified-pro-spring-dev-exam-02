@@ -23,7 +23,7 @@ sourceCompatibility = 11
 
 ext {
     springVersion = '5.2.0.M3'
-    springBootVersion = '2.2.0.M4'
+    springBootVersion = '2.2.0.M5'
     springJpaVersion = '2.1.9.RELEASE'
     springMongoVersion = '2.1.9.RELEASE'
 
@@ -69,6 +69,7 @@ ext {
             springBootPlugin: "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion",
             starter         : "org.springframework.boot:spring-boot-starter:$springBootVersion",
             starterWeb      : "org.springframework.boot:spring-boot-starter-web:$springBootVersion",
+            starterJetty    : "org.springframework.boot:spring-boot-starter-jetty:$springBootVersion",
             starterAop      : "org.springframework.boot:spring-boot-starter-aop:$springBootVersion",
             starterSecurity : "org.springframework.boot:spring-boot-starter-security:$springBootVersion",
             starterJpa      : "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion",

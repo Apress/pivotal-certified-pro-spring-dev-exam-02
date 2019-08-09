@@ -4,7 +4,7 @@ package com.apress.cems.ex;
  * Created by iuliana.cosmina on 5/11/15.
  * Description: This class is a special exception class used for exceptions thrown the service layer
  */
-public class InvalidCriteriaException extends Exception {
+public class InvalidCriteriaException extends RuntimeException {
 
     private String fieldName;
 

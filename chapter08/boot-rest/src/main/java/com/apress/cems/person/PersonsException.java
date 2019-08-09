@@ -25,30 +25,40 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems;
+package com.apress.cems.person;
 
-import com.apress.cems.ex.NotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@ControllerAdvice
-public class MissingRecordsHandler {
+public class PersonsException extends RuntimeException{
+    private HttpStatus status;
 
-    @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(value= HttpStatus.NOT_FOUND)
-    public ModelAndView notFound(HttpServletRequest req, NotFoundException nfe) {
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("problem", nfe.getMessage());
-        mav.setViewName("error");
-        return mav;
+    public PersonsException(String message) {
+        super(message);
+    }
+
+    public PersonsException(HttpStatus status, String message) {
+        super(message);
+        this.status = status;
+    }
+
+    public PersonsException(HttpStatus status,Throwable cause) {
+        super(cause);
+        this.status = status;
+    }
+
+    public PersonsException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public String errorMessage(){
+        return status.value() + ":".concat(getMessage());
+    }
+
+    public HttpStatus getStatus() {
+        return status;
     }
 }

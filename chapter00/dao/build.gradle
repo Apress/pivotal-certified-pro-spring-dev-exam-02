@@ -15,7 +15,6 @@ dependencies {
     compile spring.contextSupport, hibernate.core, misc.javaxValidation, misc.jacksonDatabind, misc.jacksonJsr310
 }
 
-
 jar {
     manifest {
         attributes(

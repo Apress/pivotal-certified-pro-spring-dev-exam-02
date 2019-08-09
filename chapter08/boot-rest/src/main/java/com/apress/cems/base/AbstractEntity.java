@@ -25,15 +25,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.boot.dao;
+package com.apress.cems.base;
 
-import com.apress.cems.util.DateProcessor;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
+import javax.persistence.*;
+
+import com.apress.cems.util.DateProcessor;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author Iuliana Cosmina
@@ -50,12 +52,13 @@ public abstract class AbstractEntity implements Serializable {
     @Version
     protected int version;
 
-    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateProcessor.DATE_FORMAT)
     @Column(name = "created_at", nullable = false)
     @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
     protected LocalDateTime createdAt;
 
-    @NotNull
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateProcessor.DATE_FORMAT)
     @Column(name = "modified_at", nullable = false)
     @DateTimeFormat(pattern = DateProcessor.DATE_FORMAT)
     protected LocalDateTime modifiedAt;
@@ -113,7 +116,8 @@ public abstract class AbstractEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         AbstractEntity that = (AbstractEntity) o;
-        return id != null ? id.equals(that.id) : that.id == null;
+        if (!Objects.equals(id, that.id)) return false;
+        return true;
     }
 
     @Override
