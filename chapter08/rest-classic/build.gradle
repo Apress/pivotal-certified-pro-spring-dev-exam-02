@@ -16,7 +16,7 @@ dependencies {
 }
 
 war {
-    archiveBaseName = 'boot-rest'
+    archiveBaseName = 'rest-classic'
 
     manifest {
         attributes(

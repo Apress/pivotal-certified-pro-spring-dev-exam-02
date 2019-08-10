@@ -51,7 +51,8 @@ import java.util.Optional;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-// TODO 56. Place proper annotation here, to make this class handle REST requests with the root URI of '/persons'
+@RestController
+@RequestMapping("/persons")
 public class PersonsController {
     private PersonService personService;
     static Comparator<Person> COMPARATOR_BY_ID = Comparator.comparing(Person::getId);
@@ -74,7 +75,8 @@ public class PersonsController {
     /**
      * Handles requests to create a person.
      */
-    //TODO 57. Place proper annotations to handle a REST POST request
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
     public void create(@Validated(Person.BasicValidation.class) @RequestBody Person person, BindingResult result, @Value("#{request.requestURL}")
             StringBuffer originalUrl, HttpServletResponse response) {
         if (result.hasErrors()) {
@@ -145,7 +147,8 @@ public class PersonsController {
      * @param id
      * @return
      */
-    // TODO 59. Place proper annotations to handle a REST POST request
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
     public void update(@RequestBody Person updatedPerson, @PathVariable Long id) {
         Optional<Person> personOpt = personService.findById(id);
         if(personOpt.isPresent()) {

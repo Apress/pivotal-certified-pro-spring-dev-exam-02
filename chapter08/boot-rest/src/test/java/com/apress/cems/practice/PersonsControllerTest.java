@@ -46,9 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Iuliana Cosmina
  * @since 1.0
- * Observation: tests are ordered because they are run on the same database and create and delete operations might affect the result of other tests
  */
-@Disabled
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PersonsControllerTest {
@@ -88,8 +86,7 @@ class PersonsControllerTest {
     @Order(2)
     @Test
     void shouldReturnAPerson(){
-        //TODO. 61 Use the proper RestTemplate method to retrieve the person with id = 1
-        Person person = null;
+        Person person = restTemplate.getForObject(baseUrl + "/1", Person.class);
         assertAll(
                 () -> assertNotNull(person),
                 () -> assertEquals("sherlock.holmes", person.getUsername())
@@ -133,8 +130,11 @@ class PersonsControllerTest {
     void shouldUpdateAPerson() {
         Person person = buildPerson("sherlock.holmes", "Sherlock Cornelius", "Holmes", "complicated");
 
-        //TODO. 60 Use the proper RestTemplate method to update the person provided as request body
-        ResponseEntity<Person> responseEntity = null;
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        final HttpEntity<Person> postRequest = new HttpEntity<>(person, headers);
+        ResponseEntity<Person> responseEntity = restTemplate.exchange(baseUrl.concat("/1"), HttpMethod.PUT, postRequest, Person.class);
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
     }
@@ -144,8 +144,11 @@ class PersonsControllerTest {
     void shouldCreateAPerson() {
         Person person = buildPerson("gigi.pedala", "Gigi", "Pedala", "1dooh2" );
 
-        //TODO 58. Use the proper RestTemplate method to save the person resource created previously
-        URI uri = null;
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        final HttpEntity<Person> postRequest = new HttpEntity<>(person, headers);
+        URI uri = restTemplate.postForLocation(baseUrl, postRequest, Person.class);
 
         assertNotNull(uri);
         Person newPerson = restTemplate.getForObject(uri, Person.class);
@@ -178,13 +181,13 @@ class PersonsControllerTest {
     @Order(9)
     @Test
     void shouldDeleteAPerson(){
-        //TODO. 62 Use the proper RestTemplate method to delete the person with id = 1
+        restTemplate.delete(baseUrl.concat("/2"));
 
-        ResponseEntity<String> err = restTemplate.getForEntity(baseUrl + "/1", String.class);
+        ResponseEntity<String> err = restTemplate.getForEntity(baseUrl + "/2", String.class);
         assertAll(
                 () -> assertNotNull(err),
                 () -> assertEquals(HttpStatus.NOT_FOUND, err.getStatusCode()),
-                () -> assertTrue(err.getBody().contains("Unable to find entry with id 1"))
+                () -> assertTrue(err.getBody().contains("Unable to find entry with id 2"))
         );
     }
 
