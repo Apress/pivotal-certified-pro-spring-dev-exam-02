@@ -11,7 +11,7 @@ gradle build
 ----
 will fail.
 
-To build the full project and skipping tests, build from the root (`pivotalcertified-pro-spring-dev-exam-02`) directory:
+To build the full project and skipping tests, build from the root (`pivotal-certified-pro-spring-dev-exam-02`) directory:
 ----
 gradle build -x test
 ----

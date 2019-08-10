@@ -25,12 +25,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.person;
+package com.apress.cems.practice.person;
 
-import com.apress.cems.ex.InvalidCriteriaException;
-import com.apress.cems.person.services.PersonService;
-import com.apress.cems.util.CriteriaDto;
-import com.apress.cems.util.NumberGenerator;
+import com.apress.cems.practice.ex.InvalidCriteriaException;
+import com.apress.cems.practice.person.services.PersonService;
+import com.apress.cems.practice.util.CriteriaDto;
+import com.apress.cems.practice.util.NumberGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,21 +43,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriTemplate;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-
-import static com.apress.cems.person.PersonsController.COMPARATOR_BY_ID;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @RestController
-@RequestMapping("/persons2")
-public class BetterPersonsController {
+@RequestMapping("/persons")
+public class PersonsController {
     private PersonService personService;
-
-    public BetterPersonsController(PersonService personService) {
+    static Comparator<Person> COMPARATOR_BY_ID = Comparator.comparing(Person::getId);
+    public PersonsController(PersonService personService) {
         this.personService = personService;
     }
 
@@ -150,14 +149,14 @@ public class BetterPersonsController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public Person update(@RequestBody Person updatedPerson, @PathVariable Long id) {
+    public void update(@RequestBody Person updatedPerson, @PathVariable Long id) {
         Optional<Person> personOpt = personService.findById(id);
         if(personOpt.isPresent()) {
             Person person = personOpt.get();
             person.setUsername(updatedPerson.getUsername());
             person.setFirstName(updatedPerson.getFirstName());
             person.setLastName(updatedPerson.getLastName());
-            return personService.save(person);
+            personService.save(person);
         } else {
             throw new PersonsException(HttpStatus.NOT_FOUND, "Unable to find entry with id " + id );
         }

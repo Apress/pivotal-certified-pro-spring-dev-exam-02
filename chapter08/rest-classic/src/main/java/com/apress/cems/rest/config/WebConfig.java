@@ -52,7 +52,7 @@ import javax.servlet.ServletRegistration;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.apress.cems.rest.controllers"})
-class WebConfig implements WebMvcConfigurer, WebApplicationInitializer {
+public class WebConfig implements WebMvcConfigurer, WebApplicationInitializer {
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -64,7 +64,7 @@ class WebConfig implements WebMvcConfigurer, WebApplicationInitializer {
     }
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(ServletContext servletContext) {
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(H2DbConfig.class, ServiceConfig.class, WebConfig.class);
         servletContext.addListener(new ContextLoaderListener(rootContext));

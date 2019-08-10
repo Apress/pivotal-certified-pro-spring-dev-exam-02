@@ -65,6 +65,7 @@ include 'chapter07:mvc-sec-thymeleaf'
 
 include 'chapter08:rest-classic'
 include 'chapter08:boot-rest'
+include 'chapter08:boot-rest-practice'
 
 include 'chapter08'
 include 'chapter09'
