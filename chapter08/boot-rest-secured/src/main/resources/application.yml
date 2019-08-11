@@ -5,6 +5,11 @@ server:
   compression:
     enabled: true
   address: 0.0.0.0
+#  ssl:
+#    enabled: true
+#    key-store-type: PKCS12
+#    key-store: classpath:keystore.jks
+#    key-store-password: springboot
 spring:
   thymeleaf:
     cache: false

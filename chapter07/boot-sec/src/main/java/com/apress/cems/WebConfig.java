@@ -46,7 +46,6 @@ import java.util.Locale;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-//No, there is no theme change support because Boot is an idiot and makes it so painful to configure it. I gave up, you try it.:D
 @Configuration
 @ComponentScan(basePackages = {"com.apress.cems"})
 class WebConfig implements WebMvcConfigurer {
@@ -85,15 +84,6 @@ class WebConfig implements WebMvcConfigurer {
         localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
     }
-
-   /*@Bean
-    CookieLocaleResolver localeResolver() {
-        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
-        cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
-        cookieLocaleResolver.setCookieMaxAge(3600);
-        cookieLocaleResolver.setCookieName("locale");
-        return cookieLocaleResolver;
-    }*/
 
    @Bean
     SessionLocaleResolver localeResolver(){
