@@ -52,7 +52,7 @@ import static org.hamcrest.Matchers.*;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = RestApplication.class)
 class RestAssuredTest {
 
     @LocalServerPort

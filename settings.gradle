@@ -67,6 +67,7 @@ include 'chapter08:rest-classic'
 include 'chapter08:boot-rest-jetty'
 include 'chapter08:boot-rest'
 include 'chapter08:boot-rest-practice'
+include 'chapter08:boot-rest-secured'
 
 include 'chapter08'
 include 'chapter09'

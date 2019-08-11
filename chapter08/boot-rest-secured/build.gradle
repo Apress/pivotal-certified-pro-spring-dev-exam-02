@@ -20,7 +20,7 @@ apply plugin: 'io.spring.dependency-management'
 ext.moduleName = 'com.apress.cems.rest.practice'
 
 dependencies {
-    compile boot.starterJpa, boot.starterWeb
+    compile boot.starterJpa, boot.starterWeb, boot.starterSecurity
     runtimeOnly misc.h2
     implementation boot.actuator
 
@@ -41,13 +41,13 @@ test {
 
 // decomment this after leaving a single main class to build jar
 jar {
-    archiveBaseName = "boot-rest"
+    archiveBaseName = "boot-rest-secured"
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Boot Web",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Boot REST Secured",
                 "Implementation-Version": archiveVersion,
-                "Main-Class"         : "com.apress.cems.RestApplication",
+                "Main-Class"         : "com.apress.cems.SecuredRestApplication",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
     }
