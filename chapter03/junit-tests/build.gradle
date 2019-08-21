@@ -5,7 +5,7 @@ plugins {
 ext.moduleName = 'com.apress.cems.junit'
 
 dependencies {
-    compile project(':chapter03:test-base')
+    api project(':chapter03:test-base')
     testCompile testing.junit, testing.easymock, testing.jmockju4, testing.mockitoAll
     testRuntimeOnly testing.vintageEngine
 }

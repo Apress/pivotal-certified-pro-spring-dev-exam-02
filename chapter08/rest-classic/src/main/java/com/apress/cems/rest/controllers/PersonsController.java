@@ -66,10 +66,9 @@ public class PersonsController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Person> list(Model model) {
+    public List<Person> list() {
         List<Person> persons =  personService.findAll();
         persons.sort(COMPARATOR_BY_ID);
-        model.addAttribute("persons", persons);
         return persons;
     }
 

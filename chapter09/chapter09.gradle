@@ -1,47 +1,56 @@
 buildscript {
     repositories {
         mavenCentral()
-    }
-
-}
-
-plugins {
-    id 'java-library'
-}
-group 'com.apress.cems'
-ext.moduleName = 'com.apress.cems.nine'
-
-apply plugin: 'java'
-apply plugin: 'idea'
-
-jar {
-    manifest {
-        attributes(
-                "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 9",
-                "Implementation-Version": archiveVersion,
-                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
-        )
+        maven { url "https://plugins.gradle.org/m2/" }
     }
 }
 
-dependencies {
-    //TODO
-}
+subprojects {
+    group 'com.apress.cems'
+    if (!project.name.contains("boot")) {
+        apply plugin: 'java'
+        apply plugin: 'idea'
 
-afterEvaluate {
-    repositories {
-        jcenter()
-    }
+        dependencies {
+            compile misc.lang3, misc.slf4j, misc.jsr250
+            compile (misc.logback) {
+                exclude group: "javax.activation", module: "activation"
+            }
+        }
 
-    compileJava {
-        inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = [
-                    '-proc:none',
-                    '--module-path', classpath.asPath,
-            ]
-            classpath = files()
+        //because Gradle is an idiot
+        test {
+            exclude 'module-info.class'
+            useJUnitPlatform()
+
+            testLogging {
+                events 'PASSED', 'FAILED', 'SKIPPED'
+            }
+        }
+
+        afterEvaluate {
+            repositories {
+                jcenter()
+            }
+
+            compileJava {
+                inputs.property("moduleName", moduleName)
+                doFirst {
+                    options.compilerArgs = [
+                            '-proc:none',
+                            '--module-path', classpath.asPath,
+                    ]
+                    classpath = files()
+                }
+            }
         }
     }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
 }

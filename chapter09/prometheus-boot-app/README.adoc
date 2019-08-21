@@ -1,0 +1,25 @@
+To compose metrics into useful reports and graphs we need an external tool called Prometheus. You can get that as a Docker plugin.
+
+=== Installing a container with Prometheus
+
+Install Docker (https://www.docker.com/).
+
+Open a terminal and run:
+```
+$ docker pull prom/prometheus
+```
+
+Once the image is downloaded, you can type `docker image ls` command to view the list of images present locally:
+```
+$ docker image ls
+REPOSITORY                         TAG                 IMAGE ID            CREATED             SIZE
+prom/prometheus                    latest              d5b9d7ed160a        2 days ago          138MB
+```
+
+=== Run Prometheus
+
+Start the prometheus-boot-app. Then start the container.
+
+```
+docker run -d --name=prometheus -p 9090:9090 -v /Users/iulianacosmina/apress/workspace/pivotal-certified-pro-spring-dev-exam-02/chapter09/prometheus-boot-app/src/main/resources/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
+```

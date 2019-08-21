@@ -69,8 +69,11 @@ include 'chapter08:boot-rest'
 include 'chapter08:boot-rest-practice'
 include 'chapter08:boot-rest-secured'
 
-include 'chapter08'
-include 'chapter09'
+include 'chapter09:classic-app'
+include 'chapter09:boot-app'
+include 'chapter09:secured-boot-app'
+include 'chapter09:prometheus-boot-app'
+
 include 'chapter10'
 include 'chapter11'
 include 'chapter12'

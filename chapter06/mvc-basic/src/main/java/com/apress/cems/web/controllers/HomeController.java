@@ -30,6 +30,7 @@ package com.apress.cems.web.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Iuliana Cosmina
@@ -53,5 +56,15 @@ public class HomeController {
     public String home(Model model) {
         model.addAttribute("message", "Spring MVC JSP Example!!");
         return "home";
+    }
+
+    @GetMapping("/building/{buildingId}")
+    public String matrix(@PathVariable String buildingId, @MatrixVariable int g, @MatrixVariable int u, Model model){
+        List<String> dataList = new ArrayList<>();
+        dataList.add("building number: ".concat(buildingId));
+        dataList.add("ground floor flat number: "+ g);
+        dataList.add("uppler floor flat number: " + u);
+        model.addAttribute("dataList", dataList);
+        return "sandbox";
     }
 }

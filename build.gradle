@@ -28,12 +28,12 @@ ext {
     springMongoVersion = '2.1.9.RELEASE'
 
     //testing
-    junit5Version = '5.5.0'
-    junit5PlatformVersion = '1.5.0'
+    junit5Version = '5.5.1'
+    junit5PlatformVersion = '1.5.1'
     mockitoAllVersion = '2.0.2-beta'
     mockitoVersion = '2.26.0'
     easymockVersion = '4.0.2'
-    junitVersion = '4.13-beta-2'
+    junitVersion = '4.13-beta-3'
     jmockVersion = '2.10.0-RC3'
     mongoVersion = '2.2.0'
     hamcrestVersion = '2.1'
@@ -53,10 +53,11 @@ ext {
     hikariVersion = '3.3.1'
 
     //in memory test database
-    h2Version = '1.4.198'
+    h2Version = '1.4.199'
 
     tomcatVersion = '9.0.22'
     lang3Version = '3.8.1'
+    prometheusVersion = '1.2.0'
 
     //view technologies
     thymeleafVersion = '3.0.11.RELEASE'
@@ -78,7 +79,8 @@ ext {
             actuator        : "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion",
             devtools        : "org.springframework.boot:spring-boot-devtools:$springBootVersion",
             starterThymeleaf : "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion",
-            starterMustache        : "org.springframework.boot:spring-boot-starter-mustache:$springBootVersion"
+            starterMustache        : "org.springframework.boot:spring-boot-starter-mustache:$springBootVersion",
+            prometheus      : "io.micrometer:micrometer-registry-prometheus:$prometheusVersion"
     ]
 
     spring = [

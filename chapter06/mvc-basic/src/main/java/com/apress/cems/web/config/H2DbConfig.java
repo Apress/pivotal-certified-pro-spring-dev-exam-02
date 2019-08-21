@@ -44,7 +44,7 @@ import java.util.Properties;
  */
 @Configuration
 @PropertySource("classpath:db.properties")
-class H2DbConfig {
+public class H2DbConfig {
     @Value("${db.driverClassName}")
     private String driverClassName;
     @Value("${db.url}")

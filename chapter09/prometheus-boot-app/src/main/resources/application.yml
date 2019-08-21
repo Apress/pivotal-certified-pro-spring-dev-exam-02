@@ -1,0 +1,43 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+  address: 0.0.0.0
+spring:
+  profiles:
+    active: prometheus
+  thymeleaf:
+    cache: false
+  datasource:
+    hikari:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
+      username: sa
+      password:
+      maximum-pool-size: 5
+      connection-test-query: "SELECT 1"
+      pool-name: cemsPool
+      connection-timeout: 60000
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: INFO
+    org.springframework: DEBUG
+    com.apress.cems.boot: DEBUG
+

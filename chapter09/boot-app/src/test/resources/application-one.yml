@@ -1,0 +1,15 @@
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /monitoring
+  server:
+    port: 9091
+    address: 127.0.0.1
+info:
+  app:
+    name: Spring Actuator Application
+    description: This is a very simple Spring Boot Application
+    version: 1.0-SNAPSHOT

@@ -14,10 +14,10 @@
 
     <!-- Defines basic MVC defaults (handler adapter, mapping, etc) -->
     <mvc:annotation-driven>
-        <mvc:path-matching path-helper="myPathHelper"/>
+        <mvc:path-matching path-helper="customPathHelper"/>
     </mvc:annotation-driven>
 
-    <bean id="myPathHelper" class="org.springframework.web.util.UrlPathHelper">
+    <bean id="customPathHelper" class="org.springframework.web.util.UrlPathHelper">
         <property name="removeSemicolonContent" value="false"/>
     </bean>
 

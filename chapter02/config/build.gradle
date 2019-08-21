@@ -5,9 +5,9 @@ plugins {
 ext.moduleName = 'com.apress.cems.config'
 
 dependencies {
-    compile project(':chapter02:pojos')
-    compile project(':chapter02:beans')
-    compile misc.h2, spring.jdbc, spring.webmvc, misc.jsr250, misc.inject
+    api project(':chapter02:pojos')
+    api project(':chapter02:beans')
+    api misc.h2, spring.jdbc, spring.webmvc, misc.jsr250, misc.inject
 
     testCompile testing.api, spring.test, testing.junit
 }

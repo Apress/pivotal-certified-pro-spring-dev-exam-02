@@ -66,10 +66,9 @@ public class BetterPersonsController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<Person> list(Model model) {
+    public List<Person> list() {
         List<Person> persons =  personService.findAll();
         persons.sort(COMPARATOR_BY_ID);
-        model.addAttribute("persons", persons);
         return persons;
     }
 

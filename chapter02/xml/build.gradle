@@ -11,7 +11,7 @@ plugins {
 ext.moduleName = 'com.apress.cems.xml'
 
 dependencies {
-    compile project(':chapter02:pojos')
+    api project(':chapter02:pojos')
 }
 
 jar {

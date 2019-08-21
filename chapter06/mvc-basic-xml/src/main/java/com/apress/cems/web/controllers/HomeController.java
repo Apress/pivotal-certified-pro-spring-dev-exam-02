@@ -42,6 +42,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -68,7 +72,7 @@ public class HomeController {
         return "home/root";
     }
 
-    // matches http://localhost:8080/web-simple/home/today
+    // matches http://localhost:8080/mvc-basic-xml/home/today
     @RequestMapping(value = "/today")
     public String today(Model model){
         LocalDateTime today = LocalDateTime.now();
@@ -77,14 +81,14 @@ public class HomeController {
         return "home/today";
     }
 
-    // matches http://localhost:8080/web-simple/home/hello?name=Bub
+    // matches http://localhost:8080/mvc-basic-xml/home/hello?name=Bub
     @RequestMapping(value = "/hello")
     public String hello(@RequestParam("name") String name, Model model){
         model.addAttribute("name", name);
         return "home/hello";
     }
 
-    @GetMapping("/redirect")
+    @GetMapping("/verifyRedirection")
     public String redirectData(final RedirectAttributes redirectAttributes) {
         List<String> dataList = new ArrayList<>();
         dataList.add("Data from HomeController.redirectData");
@@ -161,14 +165,38 @@ public class HomeController {
     }*/
 
     @ResponseBody
-    @GetMapping("/building")
+    @GetMapping("/building/{buildingId}")
     public ResponseEntity<List<String>> matrix(@PathVariable String buildingId,
-                                                            @MatrixVariable Map<String, Integer> matrixVars, Model model){
+                                                            @MatrixVariable Map<String, String> matrixVars, Model model){
         List<String> dataList = new ArrayList<>();
         dataList.add("building number: ".concat(buildingId));
         matrixVars.forEach((k,v) ->  dataList.add(k + ": " + v));
         model.addAttribute("dataList", dataList);
         return new ResponseEntity<>(dataList, HttpStatus.OK);
+    }
+
+    @GetMapping("/reader")
+    public String readBody(Reader requestReader, Model model) throws IOException {
+        List<String> dataList = new ArrayList<>();
+        try(BufferedReader br = new BufferedReader(requestReader)){
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                dataList.add(line);
+            }
+        }
+        model.addAttribute("dataList", dataList);
+        return "home/sandbox";
+    }
+
+    @ResponseBody
+    @GetMapping("/writer")
+    public void writeBody(Reader requestReader, Writer reponseWriter) throws IOException {
+        try(BufferedReader br = new BufferedReader(requestReader)){
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                reponseWriter.append(line).append("\n");
+            }
+        }
     }
 
     /**

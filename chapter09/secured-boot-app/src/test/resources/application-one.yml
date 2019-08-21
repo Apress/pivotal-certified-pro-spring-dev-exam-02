@@ -1,0 +1,5 @@
+info:
+  app:
+    name: Spring Actuator Secured Application
+    description: This is a very simple Spring Boot Secured Application
+    version: 1.0-SNAPSHOT

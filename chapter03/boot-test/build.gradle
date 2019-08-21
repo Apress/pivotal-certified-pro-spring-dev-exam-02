@@ -23,10 +23,9 @@ ext.moduleName = 'com.apress.cems.boot.test'
 ext['junit-jupiter.version'] = "5.5.0"
 
 dependencies {
-    compile boot.starterWeb, boot.starterJpa, misc.ojdbc
+    api boot.starterWeb, boot.starterJpa, misc.ojdbc
 
-    testCompile testing.api, boot.starterTest, testing.platformRunner, misc.h2
-    testImplementation testing.api
+    testImplementation testing.api, boot.starterTest, testing.platformRunner, misc.h2
     testRuntime testing.engine, testing.platformRunner
 }
 

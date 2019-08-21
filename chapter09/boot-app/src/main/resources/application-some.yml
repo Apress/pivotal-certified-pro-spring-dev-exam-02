@@ -1,0 +1,6 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        exclude: env,beans,mapping,configprops

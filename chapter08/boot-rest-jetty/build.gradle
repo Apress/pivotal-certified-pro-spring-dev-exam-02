@@ -47,7 +47,7 @@ jar {
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 08 - Spring Boot REST",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 08 - Spring Boot REST on Jetty",
                 "Implementation-Version": archiveVersion,
                 "Main-Class"         : "com.apress.cems.RestApplication",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')

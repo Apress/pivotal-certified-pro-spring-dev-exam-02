@@ -5,10 +5,9 @@ plugins {
 ext.moduleName = 'com.apress.cems.jupiter'
 
 dependencies {
-    compile project(':chapter03:test-base')
-    
-    testCompile testing.api, testing.easymock, testing.jmockju5, testing.platformRunner, testing.mockito
-    testImplementation testing.api
+    api project(':chapter03:test-base')
+
+    testImplementation testing.api, testing.easymock, testing.jmockju5, testing.platformRunner, testing.mockito
     testRuntime testing.engine, testing.platformRunner
 }
 
