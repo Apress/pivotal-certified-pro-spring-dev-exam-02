@@ -55,7 +55,7 @@ public class Initializer {
     @PostConstruct
     public void init() {
         logger.info(" -->> Starting database initialization...");
-        Person person = new Person();
+        var person = new Person();
         person.setUsername("sherlock.holmes");
         person.setFirstName("Sherlock");
         person.setLastName("Holmes");

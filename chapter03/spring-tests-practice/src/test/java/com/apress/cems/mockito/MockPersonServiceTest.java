@@ -53,11 +53,11 @@ public class MockPersonServiceTest {
 
     //@Test
     public void findByIdPositive() {
-        Person person = new Person();
+        var person = new Person();
         person.setId(PERSON_ID);
         when(mockRepo.findById(any(Long.class))).thenReturn(Optional.of(person));
 
-        Person result = personService.findById(PERSON_ID);
+        var result = personService.findById(PERSON_ID);
 
         verify(mockRepo, times(1)).findById(any(Long.class));
         assertAll(

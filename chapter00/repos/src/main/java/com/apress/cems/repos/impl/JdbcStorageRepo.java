@@ -51,19 +51,19 @@ public class JdbcStorageRepo extends JdbcAbstractRepo<Storage> implements Storag
 
     @Override
     public Optional<Storage> findById(Long entityId) {
-        String sql = "select ID, NAME, LOCATION from STORAGE where ID= ?";
+        var sql = "select ID, NAME, LOCATION from STORAGE where ID= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, entityId));
     }
 
     @Override
     public Optional<Storage> findByName(String name) {
-        String sql = "select ID, NAME, LOCATION from STORAGE where NAME= ?";
+        var sql = "select ID, NAME, LOCATION from STORAGE where NAME= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, name));
     }
 
     @Override
     public Optional<Storage> findByLocation(String location) {
-        String sql = "select ID, NAME, LOCATION from STORAGE where LOCATION= ?";
+        var sql = "select ID, NAME, LOCATION from STORAGE where LOCATION= ?";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, location));
     }
 

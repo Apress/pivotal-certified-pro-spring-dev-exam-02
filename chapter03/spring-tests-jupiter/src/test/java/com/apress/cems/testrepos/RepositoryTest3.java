@@ -85,7 +85,7 @@ class RepositoryTest3 {
     //@Sql({"classpath:db/test-data-two.sql"})
     @Sql(statements = {"INSERT INTO PERSON(ID, USERNAME, FIRSTNAME, LASTNAME, PASSWORD, HIRINGDATE, VERSION, CREATED_AT, MODIFIED_AT) VALUES (2, 'irene.adler', 'Irene', 'Adler', 'id123ds', '1990-08-18 00:03', 1, '1990-07-18 00:04', '1990-07-18 00:05');"})
     void testFindByComplete() {
-        Optional<Person> personOpt = personRepo.findByCompleteName("Irene", "Adler");
+        var personOpt = personRepo.findByCompleteName("Irene", "Adler");
         personOpt.ifPresent(p ->
                 assertAll(
                         () -> assertEquals("Irene", p.getFirstName()),
@@ -109,8 +109,8 @@ class RepositoryTest3 {
 
         @Bean
         public DataSource dataSource() {
-            EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-            EmbeddedDatabase db = builder
+            var builder = new EmbeddedDatabaseBuilder();
+            var db = builder
                     .setType(EmbeddedDatabaseType.H2)
                     .generateUniqueName(true)
                     .addScript("db/schema.sql")

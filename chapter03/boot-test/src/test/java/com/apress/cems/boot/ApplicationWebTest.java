@@ -45,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 1.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class ApplicationWebTest {
+class ApplicationWebTest {
 
     @Autowired
     PersonController personController;
@@ -53,7 +53,7 @@ public class ApplicationWebTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.personController).build();
     }
 

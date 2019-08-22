@@ -58,7 +58,7 @@ public class TestDataSourceConfig {
 
     @Bean(name = {"one", "two"})
     public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
+        var ds = new DriverManagerDataSource();
         ds.setDriverClassName(driverClassName);
         ds.setUrl(url);
         ds.setUsername(username);

@@ -57,7 +57,7 @@ public class AppConvertersCfg {
 
     @Bean
     ConversionServiceFactoryBean conversionServiceFactoryBean() {
-        ConversionServiceFactoryBean conversionServiceFactoryBean = new ConversionServiceFactoryBean();
+        var conversionServiceFactoryBean = new ConversionServiceFactoryBean();
         conversionServiceFactoryBean.setConverters(Set.of(stringToLocalDateConverter, stringToDate));
         return conversionServiceFactoryBean;
     }

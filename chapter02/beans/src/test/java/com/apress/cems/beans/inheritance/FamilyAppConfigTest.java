@@ -30,7 +30,6 @@ package com.apress.cems.beans.inheritance;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,12 +44,12 @@ public class FamilyAppConfigTest {
 
     @Test
     void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(FamilyAppConfig.class);
+        var ctx = new AnnotationConfigApplicationContext(FamilyAppConfig.class);
 
-        ParentBean parentBean = ctx.getBean("parentBean",ParentBean.class);
+        var parentBean = ctx.getBean("parentBean",ParentBean.class);
         assertNotNull(parentBean);
 
-        ChildBean childBean = ctx.getBean("childBean", ChildBean.class);
+        var childBean = ctx.getBean("childBean", ChildBean.class);
         assertNotNull(childBean);
 
         assertEquals(parentBean.getFamilyName(), childBean.getFamilyName());

@@ -70,7 +70,7 @@ public class ComplexBean implements InitializingBean, DisposableBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         logger.info("Stage 3: Calling the afterPropertiesSet.");
-        long ct = System.currentTimeMillis();
+        var ct = System.currentTimeMillis();
         if (ct % 2 == 0) {
             anotherSimpleBean = new AnotherSimpleBean();
         }

@@ -66,7 +66,7 @@ public class SimpleCriminalCaseServiceTest {
     //positive test, we know that a Case with ID=1 exists
     @Test
      void findByIdPositive() {
-        CriminalCase criminalCase = service.findById(CASE_ID);
+        var criminalCase = service.findById(CASE_ID);
         assertNotNull(criminalCase);
     }
 
@@ -94,7 +94,7 @@ public class SimpleCriminalCaseServiceTest {
     //positive test, we know that cases for this detective exist and how many
     @Test
      void findByLeadPositive() {
-        Set<CriminalCase> result =  service.findByLeadInvestigator(detective);
+        var result =  service.findByLeadInvestigator(detective);
         assertEquals(result.size(), 2);
     }
 

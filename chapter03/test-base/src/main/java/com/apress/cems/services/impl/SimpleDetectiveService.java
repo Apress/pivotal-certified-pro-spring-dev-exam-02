@@ -55,7 +55,7 @@ public class SimpleDetectiveService extends SimpleAbstractService<Detective> imp
 
     @Override
     public Detective createDetective(Person person, Rank rank) {
-        Detective detective = new Detective();
+        var detective = new Detective();
         detective.setPerson(person);
         detective.setRank(rank);
         detective.setBadgeNumber(NumberGenerator.getBadgeNumber());

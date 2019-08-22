@@ -52,7 +52,7 @@ class ApplicationTest {
 
     @Test
     void testSavePerson(){
-        Person person = new Person();
+        var person = new Person();
         person.setUsername("irene.adler");
         person.setFirstName("Irene");
         person.setLastName("Adler");

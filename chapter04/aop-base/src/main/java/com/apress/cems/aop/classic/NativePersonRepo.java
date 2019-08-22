@@ -80,7 +80,7 @@ public class NativePersonRepo implements PersonRepo {
     @Override
     public Set<Person> findAll() {
         Set<Person> persons;
-        String sql = "select p.ID as ID, p.USERNAME as USERNAME," +
+        var sql = "select p.ID as ID, p.USERNAME as USERNAME," +
                 " p.FIRSTNAME as FIRSTNAME, p.LASTNAME as LASTNAME, p.HIRINGDATE as HIRINGDATE" +
                 " from PERSON p ";
         Connection conn = null;
@@ -133,7 +133,7 @@ public class NativePersonRepo implements PersonRepo {
 
     @Override
     public Optional<Person> findById(Long id) {
-        String sql = "select p.ID as ID, p.USERNAME as USERNAME," +
+        var sql = "select p.ID as ID, p.USERNAME as USERNAME," +
                 " p.FIRSTNAME as FIRSTNAME, p.LASTNAME as LASTNAME, p.HIRINGDATE as HIRINGDATE" +
                 " from PERSON p where p.ID = ?";
         Connection conn = null;

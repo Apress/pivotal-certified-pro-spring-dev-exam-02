@@ -33,7 +33,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.sql.DataSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Iuliana Cosmina
@@ -43,16 +44,16 @@ class ApplicationContextTest {
 
     @Test
     void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-cfg-prod.xml");
+        var ctx = new ClassPathXmlApplicationContext("classpath:spring/application-cfg-prod.xml");
         assertNotNull(ctx);
-        DataSource dataSource = ctx.getBean("dataSource", DataSource.class);
+        var dataSource = ctx.getBean("dataSource", DataSource.class);
         assertNotNull(dataSource);
         ctx.registerShutdownHook();
     }
 
     @Test
     void testJdbcRepo() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:application-opt-prod.xml");
+        var ctx = new ClassPathXmlApplicationContext("classpath:application-opt-prod.xml");
         assertNotNull(ctx);
         final DetectiveRepo detectiveRepo = ctx.getBean(DetectiveRepo.class);
         assertNotNull(detectiveRepo);

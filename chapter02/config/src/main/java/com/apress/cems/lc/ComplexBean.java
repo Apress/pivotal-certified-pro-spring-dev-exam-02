@@ -64,7 +64,7 @@ public class ComplexBean {
     @PostConstruct
     private void initMethod() {
         logger.info("Stage 3: Calling the initMethod.");
-        long ct = System.currentTimeMillis();
+        var ct = System.currentTimeMillis();
         if (ct % 2 == 0) {
             anotherSimpleBean = new AnotherSimpleBean();
         }

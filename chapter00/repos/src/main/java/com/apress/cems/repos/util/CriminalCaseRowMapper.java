@@ -45,21 +45,21 @@ public class CriminalCaseRowMapper implements RowMapper<CriminalCase> {
 
     @Override
     public CriminalCase mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Long id = rs.getLong("ID");
-        String number = rs.getString("CASE_NUMBER");
-        String type = rs.getString("CASE_TYPE");
-        String status = rs.getString("STATUS");
-        String shortDescription = rs.getString("SHORT_DESCRIPTION");
-        Long detectiveId =  rs.getLong("LEAD_INVESTIGATOR_ID");
+        var id = rs.getLong("ID");
+        var number = rs.getString("CASE_NUMBER");
+        var type = rs.getString("CASE_TYPE");
+        var status = rs.getString("STATUS");
+        var shortDescription = rs.getString("SHORT_DESCRIPTION");
+        var detectiveId =  rs.getLong("LEAD_INVESTIGATOR_ID");
 
-        CriminalCase cc = new CriminalCase();
+        var cc = new CriminalCase();
         cc.setId(id);
         cc.setNumber(number);
         cc.setType(CaseType.valueOf(type));
         cc.setStatus(CaseStatus.valueOf(status));
         cc.setShortDescription(shortDescription);
 
-        Detective detective = new Detective();
+        var detective = new Detective();
         detective.setId(detectiveId);
         cc.setLeadInvestigator(detective);
         return cc;

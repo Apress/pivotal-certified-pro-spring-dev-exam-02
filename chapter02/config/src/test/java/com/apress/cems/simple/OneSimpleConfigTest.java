@@ -32,20 +32,19 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class OneSimpleConfigTest {
+class OneSimpleConfigTest {
 
     private Logger logger = LoggerFactory.getLogger(OneSimpleConfigTest.class);
 
     @Test
     void testSimpleConfiguration() {
-        ApplicationContext ctx =
+        var ctx =
                 new AnnotationConfigApplicationContext(SimpleConfig.class);
 
         for (String beanName : ctx.getBeanDefinitionNames()) {
@@ -55,11 +54,11 @@ public class OneSimpleConfigTest {
 
     @Test
     void testOneBeanConfiguration() {
-        ApplicationContext ctx =
+        var ctx =
                 new AnnotationConfigApplicationContext(OneBeanConfig.class);
 
-        SimpleBean simpleBeanOne = ctx.getBean(SimpleBean.class);
-        SimpleBean simpleBeanTwo = ctx.getBean(SimpleBean.class);
+        var simpleBeanOne = ctx.getBean(SimpleBean.class);
+        var simpleBeanTwo = ctx.getBean(SimpleBean.class);
         Assertions.assertEquals(simpleBeanTwo, simpleBeanOne);
     }
 }

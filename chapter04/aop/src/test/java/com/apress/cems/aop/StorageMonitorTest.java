@@ -55,40 +55,40 @@ class StorageMonitorTest {
 
     @Test
     void testProxyBubu() {
-        Storage storage = new Storage();
+        var storage = new Storage();
         storage.setId(1L);
         storage.setName("Edinburgh PD Storage");
         storage.setLocation("EH4 3SD");
 
-        Evidence ev1 = new Evidence();
+        var ev1 = new Evidence();
         ev1.setNumber("BL00254");
         ev1.setItemName("Glock 19");
         storage.addEvidence(ev1);
 
-        Evidence ev2 = new Evidence();
+        var ev2 = new Evidence();
         ev2.setNumber("BL00257");
         ev1.setItemName("Bloody bullet 9mm");
         storage.addEvidence(ev2);
 
         storageService.save(storage);
 
-        Optional<Storage> result = storageService.findById(1L);
+        var result = storageService.findById(1L);
         assertNotNull(result.get());
     }
 
     @Test
     void testSaveEvidenceSet(){
-        Storage storage = new Storage();
+        var storage = new Storage();
         storage.setId(1L);
         storage.setName("Edinburgh PD Storage");
         storage.setLocation("EH4 3SD");
 
-        Evidence ev1 = new Evidence();
+        var ev1 = new Evidence();
         ev1.setNumber("BL00254");
         ev1.setItemName("Glock 19");
         storage.addEvidence(ev1);
 
-        Evidence ev2 = new Evidence();
+        var ev2 = new Evidence();
         ev2.setNumber("BL00257");
         ev1.setItemName("Bloody bullet 9mm");
         storage.addEvidence(ev2);

@@ -27,25 +27,24 @@ SOFTWARE.
 */
 package com.apress.cems.beans.weird;
 
-import com.apress.cems.beans.aw.NotRequiredBeanCfg;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class WeirdCfgTest {
+class WeirdCfgTest {
 
     @Test
     void testAutowire() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(WeirdCfg.class);
+        var ctx = new AnnotationConfigApplicationContext(WeirdCfg.class);
         assertNotNull(ctx);
 
-        WeirdBean weirdBean = ctx.getBean(WeirdBean.class);
+        var weirdBean = ctx.getBean(WeirdBean.class);
         assertNotNull(weirdBean);
         assertEquals("this is it", weirdBean.getName());
     }

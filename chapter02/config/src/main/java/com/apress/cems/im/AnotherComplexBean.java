@@ -61,7 +61,7 @@ public class AnotherComplexBean {
      */
     void beanInitMethod() {
         logger.info("Stage 3: Calling the beanInitMethod.");
-        long ct = System.currentTimeMillis();
+        var ct = System.currentTimeMillis();
         if (ct % 2 == 0) {
             anotherSimpleBean = new AnotherSimpleBean();
         }

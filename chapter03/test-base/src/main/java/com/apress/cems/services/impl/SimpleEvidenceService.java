@@ -54,7 +54,7 @@ public class SimpleEvidenceService extends SimpleAbstractService<Evidence> imple
 
     @Override
     public Evidence createEvidence(CriminalCase criminalCase, Storage storage, String itemName) {
-        Evidence evidence = new Evidence();
+        var evidence = new Evidence();
         evidence.setCriminalCase(criminalCase);
         evidence.setNumber(NumberGenerator.getEvidenceNumber());
         evidence.setItemName(itemName);

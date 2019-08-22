@@ -1,47 +1,55 @@
 buildscript {
+    def springRepo = 'http://repo.spring.io'
     repositories {
+        mavenLocal()
         mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "$springRepo/release" }
+        maven { url "$springRepo/snapshot" }
+        maven { url "$springRepo/milestone" }
     }
 
+    dependencies {
+        classpath boot.springBootPlugin
+    }
 }
-
-plugins {
-    id 'java-library'
-}
-group 'com.apress.cems'
-ext.moduleName = 'com.apress.cems.eleven'
 
 apply plugin: 'java'
-apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.apress.cems'
+
+dependencies {
+    implementation boot.starterWeb, boot.starterThymeleaf, boot.starterJpa
+    implementation spring.dataCommons, spring.cloudStarter, spring.eurekaStarter
+    runtimeOnly misc.h2
+
+    testImplementation testing.restAssured, testing.restAssuredAll
+    testImplementation (boot.starterTest) {
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+        exclude group: "junit", module: "junit"
+    }
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+}
+
 
 jar {
+    archiveBaseName = "boot-micro"
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 11",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 11 - Microservices",
                 "Implementation-Version": archiveVersion,
+  //              "Main-Class"         : "com.apress.cems.MicroservicesApplication",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
-    }
-}
-
-dependencies {
-    //TODO
-}
-
-afterEvaluate {
-    repositories {
-        jcenter()
-    }
-
-    compileJava {
-        inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = [
-                    '-proc:none',
-                    '--module-path', classpath.asPath,
-            ]
-            classpath = files()
-        }
     }
 }

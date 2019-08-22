@@ -28,7 +28,6 @@ SOFTWARE.
 package com.apress.cems.ib;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -42,10 +41,10 @@ public class InitializationBeanConfigTest {
 
     @Test
     void testInitializationBean() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(InitializationBeanConfig.class);
+        var ctx = new AnnotationConfigApplicationContext(InitializationBeanConfig.class);
         ctx.registerShutdownHook();
 
-        ComplexBean complexBean = ctx.getBean(ComplexBean.class);
+        var complexBean = ctx.getBean(ComplexBean.class);
         assertNotNull(complexBean);
     }
 }

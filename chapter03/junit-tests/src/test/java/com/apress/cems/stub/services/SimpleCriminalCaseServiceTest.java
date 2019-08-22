@@ -66,14 +66,14 @@ public class SimpleCriminalCaseServiceTest {
     //positive test, we know that a Case with ID=1 exists
     @Test
     public void findByIdPositive() {
-        CriminalCase criminalCase = service.findById(CASE_ID);
+        var criminalCase = service.findById(CASE_ID);
         assertNotNull(criminalCase);
     }
 
     //negative test, we know that a Case with ID=99 does not exist
     @Test(expected = NotFoundException.class)
     public void findByIdNegative() {
-        CriminalCase criminalCase = service.findById(99L);
+        var criminalCase = service.findById(99L);
         assertNull(criminalCase);
     }
 
@@ -86,15 +86,15 @@ public class SimpleCriminalCaseServiceTest {
     //positive test, we know that cases for this detective exist and how many
     @Test
     public void findByLeadPositive() {
-        Set<CriminalCase> result =  service.findByLeadInvestigator(detective);
+        var result =  service.findByLeadInvestigator(detective);
         assertEquals(result.size(), 2);
     }
 
     //negative test, we know that cases for this detective do not exist
     @Test
     public void findByLeadNegative() {
-        Detective detective = buildDetective("Jake", "Peralta", Rank.JUNIOR, "TS1122");
-        Set<CriminalCase> result =  service.findByLeadInvestigator(detective);
+        var detective = buildDetective("Jake", "Peralta", Rank.JUNIOR, "TS1122");
+        var result =  service.findByLeadInvestigator(detective);
         assertNull(result);
     }
 
@@ -104,7 +104,7 @@ public class SimpleCriminalCaseServiceTest {
         service.deleteById(CASE_ID);
 
         try {
-            CriminalCase criminalCase = service.findById(CASE_ID);
+            var criminalCase = service.findById(CASE_ID);
             assertNull(criminalCase);
         } catch (NotFoundException nfe){
           assertTrue(nfe.getMessage().contains("Entity with id 1 could not be processed because it does not exist"));

@@ -53,7 +53,7 @@ public class PersonMonitor {
     //@Before("execution(public * com.apress.cems.repos.*.JdbcPersonRepo+.findById(..))")
     @Before("execution(public * com.apress.cems.repos.*.JdbcPersonRepo+.findById(..)) && within(com.apress.*) ")
     public void beforeFindById(JoinPoint joinPoint) {
-        String methodName = joinPoint.getSignature().getName();
+        var methodName = joinPoint.getSignature().getName();
         logger.info("[beforeFindById]: ---> Method {} is about to be called", methodName);
     }
 
@@ -62,22 +62,22 @@ public class PersonMonitor {
     //@Before("execution(public * com.apress.cems.repos.*.PersonRepo+.findById(..)) && @annotation(com.apress.cems.repos.ApressRepo))")
     //@Before("@annotation(com.apress.cems.repos.ApressRepo)")
     public void beforeFindByIdWithMethodAnnotation(JoinPoint joinPoint) {
-        String methodName = joinPoint.getSignature().getName();
+        var methodName = joinPoint.getSignature().getName();
         logger.info("[beforeFindByIdWithMethodAnnotation]: ---> Method {} is about to be called", methodName);
     }
 
     //@Before("execution(* com.apress.cems.*.*PersonRepo+.findBy*(..)) || execution (* com.apress.cems.aop.service.*Service+.findBy*(..)))")
     @Before("com.apress.cems.aop.PointcutContainer.repoFind() || com.apress.cems.aop.PointcutContainer.serviceFind()")
     public void beforeFind(JoinPoint joinPoint) {
-        String className = joinPoint.getSignature().getDeclaringTypeName();
-        String methodName = joinPoint.getSignature().getName();
+        var className = joinPoint.getSignature().getDeclaringTypeName();
+        var methodName = joinPoint.getSignature().getName();
         logger.info("[beforeFind]: ---> Method {}.{}  is about to be called", className, methodName);
     }
 
     @After("com.apress.cems.aop.PointcutContainer.repoFind() || com.apress.cems.aop.PointcutContainer.serviceFind()")
     public void afterFind(JoinPoint joinPoint) {
         ++findByIdCount;
-        String methodName = joinPoint.getSignature().getName();
+        var methodName = joinPoint.getSignature().getName();
         logger.info("[afterFind]: ---> Method {}  was called {}  times", methodName, findByIdCount);
     }
 
@@ -101,8 +101,8 @@ public class PersonMonitor {
 
     @AfterThrowing(value = "execution(public * com.apress.cems.repos.*.JdbcPersonRepo+.update(..))", throwing="e")
     public void afterBadUpdate(JoinPoint joinPoint, Exception e) {
-        String className = joinPoint.getSignature().getDeclaringTypeName();
-        String methodName = joinPoint.getSignature().getName();
+        var className = joinPoint.getSignature().getDeclaringTypeName();
+        var methodName = joinPoint.getSignature().getName();
         if(e instanceof IllegalArgumentException) {
             logger.info("[afterBadUpdate]: ---> Update method {}.{} failed because of bad data.", className, methodName);
         } else {
@@ -112,13 +112,13 @@ public class PersonMonitor {
 
     @Around("com.apress.cems.aop.PointcutContainer.repoFind() || com.apress.cems.aop.PointcutContainer.serviceFind()")
     public Object aroundFind(ProceedingJoinPoint joinPoint) throws Throwable {
-        String methodName = joinPoint.getSignature().getName();
+        var methodName = joinPoint.getSignature().getName();
         logger.info("[aroundFind]: ---> Intercepting call of {}", methodName);
         long t1 = System.currentTimeMillis();
         try {
             //put a pause here so we can register an execution time
             Thread.sleep(1000L);
-            Object obj = joinPoint.proceed();
+            var obj = joinPoint.proceed();
             return obj != null ? obj : Optional.empty();
         } finally {
             long t2 = System.currentTimeMillis();

@@ -39,7 +39,7 @@ import java.util.function.Function;
 public class BeanManager {
 
     public static Function<ApplicationContext, String> asHtml = ctx -> {
-        StringBuilder sb = new StringBuilder("<html><body>");
+        var sb = new StringBuilder("<html><body>");
 
         sb.append("Hello there dear developer, here are the beans you were looking for: </br>");
 

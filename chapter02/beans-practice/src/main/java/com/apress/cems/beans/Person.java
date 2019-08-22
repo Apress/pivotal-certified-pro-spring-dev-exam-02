@@ -26,7 +26,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 package com.apress.cems.beans;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Iuliana Cosmina

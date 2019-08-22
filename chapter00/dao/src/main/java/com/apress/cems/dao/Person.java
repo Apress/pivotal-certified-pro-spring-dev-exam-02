@@ -148,7 +148,7 @@ public class Person extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        Person person = (Person) o;
+        var person = (Person) o;
         return Objects.equals(firstName, person.firstName) &&
                 Objects.equals(lastName, person.lastName) &&
                 Objects.equals(hiringDate.toLocalDate(), person.hiringDate.toLocalDate());

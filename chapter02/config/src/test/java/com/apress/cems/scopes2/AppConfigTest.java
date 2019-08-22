@@ -30,7 +30,6 @@ package com.apress.cems.scopes2;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -44,13 +43,13 @@ public class AppConfigTest {
 
     @Test
     void testBeanLifecycle() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+        var ctx = new AnnotationConfigApplicationContext(AppConfig.class);
         ctx.registerShutdownHook();
 
-        Employee employee = ctx.getBean(Employee.class);
+        var employee = ctx.getBean(Employee.class);
         assertNotNull(employee);
 
-        SalaryIdea salary = employee.getSalary();
+        var salary = employee.getSalary();
         logger.info("Salary bean actual type: {}", salary.getClass().toString());
 
         logger.info("Salary: {}", salary.getAmount());

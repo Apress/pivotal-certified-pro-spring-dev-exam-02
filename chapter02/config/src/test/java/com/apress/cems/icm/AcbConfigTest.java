@@ -30,7 +30,6 @@ package com.apress.cems.icm;
 import com.apress.cems.im.AcbConfig;
 import com.apress.cems.im.AnotherComplexBean;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -43,10 +42,10 @@ public class AcbConfigTest {
 
     @Test
     void testInitializationBean() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AcbConfig.class);
+        var ctx = new AnnotationConfigApplicationContext(AcbConfig.class);
         ctx.registerShutdownHook();
 
-        AnotherComplexBean complexBean = ctx.getBean(AnotherComplexBean.class);
+        var complexBean = ctx.getBean(AnotherComplexBean.class);
         assertNotNull(complexBean);
     }
 }

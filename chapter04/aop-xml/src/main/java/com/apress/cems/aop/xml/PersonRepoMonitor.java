@@ -42,7 +42,7 @@ public class PersonRepoMonitor {
 
     //@Before("execution(public * com.apress.cems.repos.*.JdbcPersonRepo+.findById(..))")
     public void beforeFindById(JoinPoint joinPoint) {
-        String methodName = joinPoint.getSignature().getName();
+        var methodName = joinPoint.getSignature().getName();
         logger.info(" ---> Method " + methodName + " is about to be called");
     }
 }

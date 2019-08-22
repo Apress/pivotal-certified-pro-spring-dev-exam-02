@@ -27,9 +27,7 @@ SOFTWARE.
 */
 package com.apress.cems.beans.db;
 
-import com.apress.cems.beans.ci.SimpleBean;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -42,13 +40,13 @@ public class SimpleDependantCfgTest {
 
     @Test
     void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SimpleDependantCfg.class);
+        var ctx = new AnnotationConfigApplicationContext(SimpleDependantCfg.class);
         ctx.registerShutdownHook();
 
-        SimpleDependantCfg simpleDependantCfg = ctx.getBean(SimpleDependantCfg.class);
+        var simpleDependantCfg = ctx.getBean(SimpleDependantCfg.class);
         assertNotNull(simpleDependantCfg);
 
-        SimpleBean simpleBean = simpleDependantCfg.simpleBean();
+        var simpleBean = simpleDependantCfg.simpleBean();
         assertNotNull(simpleBean);
     }
 }

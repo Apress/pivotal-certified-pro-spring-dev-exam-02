@@ -71,10 +71,10 @@ public class SimpleEvidenceServiceTest {
 
     @Test
     public void testCreateEvidence() {
-        Detective detective = buildDetective("Sherlock", "Holmes", Rank.INSPECTOR, "TS1234");
-        CriminalCase criminalCase = buildCase(detective, CaseType.FELONY, CaseStatus.UNDER_INVESTIGATION);
+        var detective = buildDetective("Sherlock", "Holmes", Rank.INSPECTOR, "TS1234");
+        var criminalCase = buildCase(detective, CaseType.FELONY, CaseStatus.UNDER_INVESTIGATION);
 
-        Evidence evidence = new Evidence();
+        var evidence = new Evidence();
         evidence.setNumber("123445464");
         evidence.setItemName("Red Bloody Knife");
         evidence.setId(EVIDENCE_ID);
@@ -85,7 +85,7 @@ public class SimpleEvidenceServiceTest {
             will(returnValue(Optional.of(evidence)));
         }});
 
-        Evidence result = service.findById(EVIDENCE_ID);
+        var result = service.findById(EVIDENCE_ID);
         mockery.assertIsSatisfied();
 
         assertNotNull(result);

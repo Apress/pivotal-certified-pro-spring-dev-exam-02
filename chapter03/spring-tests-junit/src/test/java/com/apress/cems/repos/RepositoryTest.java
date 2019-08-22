@@ -70,7 +70,7 @@ public class RepositoryTest {
 
     @Test
     public void testFindAll(){
-        Set<Person> personSet = personRepo.findAll();
+        var personSet = personRepo.findAll();
         assertNotNull(personSet);
         assertEquals(2, personSet.size());
     }

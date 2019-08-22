@@ -46,7 +46,7 @@ public abstract class StubAbstractRepo <T extends AbstractEntity> implements Abs
     @Override
     public void save(T entity) {
         if (entity.getId() == null) {
-            Long id = (long) records.size() + 1;
+            var id = (long) records.size() + 1;
             entity.setId(id);
         }
         records.put(entity.getId(), entity);

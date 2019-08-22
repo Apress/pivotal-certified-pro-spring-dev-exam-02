@@ -42,7 +42,7 @@ public class SimpleStorageService extends SimpleAbstractService<Storage> impleme
 
     @Override
     public Storage createStorage(String name, String location) {
-        Storage storage = new Storage();
+        var storage = new Storage();
         storage.setName(name);
         storage.setLocation(location);
         repo.save(storage);

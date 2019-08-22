@@ -52,7 +52,7 @@ public class Initializer {
     @PostConstruct
     public void init() {
         logger.info(" -->> Starting database initialization...");
-        Person person = new Person();
+        var person = new Person();
         person.setFirstName("Sherlock");
         person.setLastName("Holmes");
         personRepo.save(person);

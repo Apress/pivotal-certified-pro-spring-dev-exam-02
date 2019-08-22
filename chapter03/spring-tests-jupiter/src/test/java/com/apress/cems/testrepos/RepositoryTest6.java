@@ -81,7 +81,7 @@ class RepositoryTest6 {
 
     @Test
     void testFindAll(){
-        Set<Person> all = personRepo.findAll();
+        var all = personRepo.findAll();
         assertAll(
                 () -> assertNotNull(all),
                 () -> assertEquals(2, all.size())
@@ -102,8 +102,8 @@ class RepositoryTest6 {
 
         @Bean
         public DataSource dataSource() {
-            EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-            EmbeddedDatabase db = builder
+            var builder = new EmbeddedDatabaseBuilder();
+            var db = builder
                     .setType(EmbeddedDatabaseType.H2)
                     .generateUniqueName(true)
                     .build();

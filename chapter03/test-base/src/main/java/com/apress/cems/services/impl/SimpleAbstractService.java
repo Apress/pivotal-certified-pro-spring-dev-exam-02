@@ -44,7 +44,7 @@ public abstract class SimpleAbstractService<T extends AbstractEntity>  implement
     }
 
     public T findById(Long entityId){
-        Optional<T> res = getRepo().findById(entityId);
+        var res = getRepo().findById(entityId);
         return res.orElse(null);
     }
 

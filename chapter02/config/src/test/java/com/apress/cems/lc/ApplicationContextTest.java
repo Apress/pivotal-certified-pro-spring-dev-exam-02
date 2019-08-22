@@ -30,7 +30,6 @@ package com.apress.cems.lc;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.sql.DataSource;
@@ -47,11 +46,11 @@ class ApplicationContextTest {
 
     @Test
     void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(DataSourceCfg.class);
+        var ctx = new AnnotationConfigApplicationContext(DataSourceCfg.class);
         ctx.registerShutdownHook();
         logger.info(" >> init done.");
 
-        DataSource dataSource = ctx.getBean(DataSource.class);
+        var dataSource = ctx.getBean(DataSource.class);
         assertNotNull(dataSource);
 
         logger.info(" >> usage done.");
@@ -59,10 +58,10 @@ class ApplicationContextTest {
 
     @Test
     void testBeanLifecycle() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SimpleConfig.class);
+        var ctx = new AnnotationConfigApplicationContext(SimpleConfig.class);
         ctx.registerShutdownHook();
 
-        ComplexBean complexBean = ctx.getBean(ComplexBean.class);
+        var complexBean = ctx.getBean(ComplexBean.class);
         assertNotNull(complexBean);
     }
 }

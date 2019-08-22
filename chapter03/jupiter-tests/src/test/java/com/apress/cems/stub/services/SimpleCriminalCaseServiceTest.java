@@ -66,7 +66,7 @@ class SimpleCriminalCaseServiceTest {
     //positive test, we know that a Case with ID=1 exists
     @Test
      void findByIdPositive() {
-        CriminalCase criminalCase = service.findById(CASE_ID);
+        var criminalCase = service.findById(CASE_ID);
         assertNotNull(criminalCase);
     }
 
@@ -102,8 +102,8 @@ class SimpleCriminalCaseServiceTest {
     //negative test, we know that cases for this detective do not exist
     @Test
      void findByOwnerNegative() {
-        Detective detective = buildDetective("Jake", "Peralta", Rank.JUNIOR, "TS1122");
-        Set<CriminalCase> result =  service.findByLeadInvestigator(detective);
+        var detective = buildDetective("Jake", "Peralta", Rank.JUNIOR, "TS1122");
+        var result =  service.findByLeadInvestigator(detective);
         assertNull(result);
     }
 

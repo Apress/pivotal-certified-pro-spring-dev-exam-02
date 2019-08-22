@@ -49,8 +49,8 @@ public class PersonMonitor {
     /* TODO 21. Declare this method as an Before advice and use as pointcut expression the expression
      associated with the "repoFind" from the "PointcutContainer" class */
     public void beforeFind(JoinPoint joinPoint) {
-        String className = joinPoint.getSignature().getDeclaringTypeName();
-        String methodName = joinPoint.getSignature().getName();
+        var className = joinPoint.getSignature().getDeclaringTypeName();
+        var methodName = joinPoint.getSignature().getName();
         logger.info("[beforeFind]: ---> Method {}.{}  is about to be called", className, methodName);
     }
 
@@ -58,7 +58,7 @@ public class PersonMonitor {
      made from the "serviceFind" and "repoFind" from the "PointcutContainer" class */
     public void afterFind(JoinPoint joinPoint) {
         ++findByIdCount;
-        String methodName = joinPoint.getSignature().getName();
+        var methodName = joinPoint.getSignature().getName();
         logger.info("[afterFind]: ---> Method {}  was called {}  times", methodName, findByIdCount);
     }
 
@@ -72,8 +72,8 @@ public class PersonMonitor {
     /* TODO 24. Declare this method as an AfterThrowing advice and create a pointcut expression that matches any method
      with the name starting with "update" that is defined in a class with the name containing "Repo" */
     public void afterUpdate(JoinPoint joinPoint, Exception e) {
-        String className = joinPoint.getSignature().getDeclaringTypeName();
-        String methodName = joinPoint.getSignature().getName();
+        var className = joinPoint.getSignature().getDeclaringTypeName();
+        var methodName = joinPoint.getSignature().getName();
         if(e instanceof IllegalArgumentException) {
             logger.info("[afterUpdate]: ---> Update method {}.{} failed because of bad data.", className, methodName);
         } else {
@@ -85,13 +85,13 @@ public class PersonMonitor {
     /* TODO 25. Declare this method as an AfterThrowing advice and use as pointcut expression a composed expression
      made from the "serviceFind" and "repoFind" from the "PointcutContainer" class */
     public Object aroundFind(ProceedingJoinPoint joinPoint) throws Throwable {
-        String methodName = joinPoint.getSignature().getName();
+        var methodName = joinPoint.getSignature().getName();
         logger.info("[aroundFind]: ---> Intercepting call of {}", methodName);
         long t1 = System.currentTimeMillis();
         try {
             //put a pause here so we can register an execution time
             Thread.sleep(1000L);
-            Object obj = joinPoint.proceed();
+            var obj = joinPoint.proceed();
             return obj != null ? obj : Optional.empty();
         } finally {
             long t2 = System.currentTimeMillis();

@@ -112,7 +112,7 @@ public abstract class AbstractEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AbstractEntity that = (AbstractEntity) o;
+        var that = (AbstractEntity) o;
         return id != null ? id.equals(that.id) : that.id == null;
     }
 

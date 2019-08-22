@@ -67,12 +67,12 @@ class SimpleDetectiveServiceTest {
     @Test
     void findByIdPositive() {
         //record what we want the easymock to do
-        Detective simpleDetective = buildDetective("Sherlock", "Holmes", Rank.INSPECTOR, "TS1234");
+        var simpleDetective = buildDetective("Sherlock", "Holmes", Rank.INSPECTOR, "TS1234");
         simpleDetective.setId(DETECTIVE_ID);
         expect(mockRepo.findById(DETECTIVE_ID)).andReturn(Optional.of(simpleDetective));
         replay(mockRepo);
 
-        Detective detective = service.findById(DETECTIVE_ID);
+        var detective = service.findById(DETECTIVE_ID);
         verify(mockRepo);
         assertAll(
                 () -> assertNotNull(detective),

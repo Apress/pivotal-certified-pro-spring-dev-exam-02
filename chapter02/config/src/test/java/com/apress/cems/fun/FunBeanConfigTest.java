@@ -28,7 +28,6 @@ SOFTWARE.
 package com.apress.cems.fun;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -38,11 +37,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class FunBeanConfigTest {
+class FunBeanConfigTest {
 
     @Test
     void testBeanLifecycle() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(FunBeanConfig.class);
+        var ctx = new AnnotationConfigApplicationContext(FunBeanConfig.class);
         ctx.registerShutdownHook();
 
         FunBean funBean = ctx.getBean(FunBean.class);

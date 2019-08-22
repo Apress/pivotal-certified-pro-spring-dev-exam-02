@@ -31,8 +31,6 @@ import com.apress.cems.beans.ci.ComposedBean;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import javax.sql.DataSource;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -43,10 +41,10 @@ class SimpleAppCfgTest {
 
     @Test
     void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-ci-cfg.xml");
+        var ctx = new ClassPathXmlApplicationContext("classpath:spring/application-ci-cfg.xml");
         assertNotNull(ctx);
 
-        ComposedBean composedBean = ctx.getBean(ComposedBean.class);
+        var composedBean = ctx.getBean(ComposedBean.class);
         assertNotNull(composedBean);
         assertNotNull(composedBean.getSimpleBean());
         assertEquals("AB123",composedBean.getCode());

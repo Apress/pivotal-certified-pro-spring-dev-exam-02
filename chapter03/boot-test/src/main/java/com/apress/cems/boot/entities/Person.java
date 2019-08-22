@@ -90,7 +90,7 @@ public class Person {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        Person person = (Person) o;
+        var person = (Person) o;
         return Objects.equals(firstName, person.getFirstName()) &&
                 Objects.equals(lastName, person.getLastName());
     }

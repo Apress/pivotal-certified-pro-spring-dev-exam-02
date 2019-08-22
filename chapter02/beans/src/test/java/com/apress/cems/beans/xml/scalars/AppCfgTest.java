@@ -40,10 +40,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class AppCfgTest {
     @Test
     void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-scalars-cfg.xml");
+        var ctx = new ClassPathXmlApplicationContext("classpath:spring/application-scalars-cfg.xml");
         assertNotNull(ctx);
 
-        PersonBean pb = ctx.getBean(PersonBean.class);
+        var pb = ctx.getBean(PersonBean.class);
         assertNotNull(pb);
         System.out.println(pb.toString());
 

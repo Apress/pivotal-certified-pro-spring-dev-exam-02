@@ -29,10 +29,10 @@ package com.apress.cems.beans.si;
 
 import com.apress.cems.beans.ci.SimpleBean;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Iuliana Cosmina
@@ -42,12 +42,12 @@ class AnotherSimpleAppCfgTest {
 
     @Test
     void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AnotherSimpleAppCfg.class);
+        var ctx = new AnnotationConfigApplicationContext(AnotherSimpleAppCfg.class);
 
-        SimpleBean simpleBean = ctx.getBean(SimpleBean.class);
+        var simpleBean = ctx.getBean(SimpleBean.class);
         assertNotNull(simpleBean);
 
-        AnotherComposedBean composedBean = ctx.getBean(AnotherComposedBean.class);
+        var composedBean = ctx.getBean(AnotherComposedBean.class);
         assertNotNull(composedBean);
 
         assertNotNull(composedBean.getSimpleBean());

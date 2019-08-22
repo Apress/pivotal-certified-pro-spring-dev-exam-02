@@ -90,8 +90,8 @@ class SampleProfileConfigTest {
 
         @Bean
         public DataSource dataSource() {
-            EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-            EmbeddedDatabase db = builder
+            var builder = new EmbeddedDatabaseBuilder();
+            var db = builder
                     .setType(EmbeddedDatabaseType.H2)
                     .generateUniqueName(true)
                     .build();

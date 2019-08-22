@@ -65,11 +65,11 @@ class SimpleStorageServiceTest2 {
 
     @Test
     void findByIdPositive() {
-        Storage storage = new Storage();
+        var storage = new Storage();
         storage.setId(STORAGE_ID);
         when(mockRepo.findById(any(Long.class))).thenReturn(Optional.of(storage));
 
-        Storage result = storageService.findById(STORAGE_ID);
+        var result = storageService.findById(STORAGE_ID);
         assertAll(
                 () -> assertNotNull(result),
                 () -> assertEquals(storage.getId(), result.getId())

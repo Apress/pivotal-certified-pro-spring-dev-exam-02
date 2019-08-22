@@ -43,11 +43,11 @@ import static com.apress.cems.util.DateProcessor.toDate;
 public class StorageRowMapper implements RowMapper<Storage> {
     @Override
     public Storage mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Long id = rs.getLong("ID");
-        String name = rs.getString("NAME");
-        String location = rs.getString("LOCATION");
+        var id = rs.getLong("ID");
+        var name = rs.getString("NAME");
+        var location = rs.getString("LOCATION");
 
-        Storage storage = new Storage();
+        var storage = new Storage();
         storage.setId(id);
         storage.setName(name);
         storage.setLocation(location);

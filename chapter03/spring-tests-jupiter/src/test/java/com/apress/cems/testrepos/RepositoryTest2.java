@@ -80,7 +80,7 @@ class RepositoryTest2 {
 
     @Test
     void testFindByComplete() {
-        Optional<Person> personOpt = personRepo.findByCompleteName("Sherlock", "Holmes");
+        var personOpt = personRepo.findByCompleteName("Sherlock", "Holmes");
         personOpt.ifPresent( p -> assertEquals("Sherlock", p.getFirstName()));
     }
 
@@ -98,8 +98,8 @@ class RepositoryTest2 {
 
         @Bean
         public DataSource dataSource() {
-            EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-            EmbeddedDatabase db = builder
+            var builder = new EmbeddedDatabaseBuilder();
+            var db = builder
                     .setType(EmbeddedDatabaseType.H2)
                     .generateUniqueName(true)
                     .addScript("db/schema.sql")

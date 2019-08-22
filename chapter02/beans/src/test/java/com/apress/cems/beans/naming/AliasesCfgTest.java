@@ -33,11 +33,9 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Iuliana Cosmina
@@ -49,13 +47,13 @@ public class AliasesCfgTest {
 
     @Test
     void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AliasesCfg.class);
+        var ctx = new AnnotationConfigApplicationContext(AliasesCfg.class);
 
-        SimpleBean simpleBean = ctx.getBean("beanOne", SimpleBean.class);
+        var simpleBean = ctx.getBean("beanOne", SimpleBean.class);
         assertNotNull(simpleBean);
         assertTrue(simpleBean instanceof SimpleBeanImpl);
 
-        SimpleBean simpleBean2 = ctx.getBean("beanTwo", SimpleBean.class);
+        var simpleBean2 = ctx.getBean("beanTwo", SimpleBean.class);
         assertEquals(simpleBean2, simpleBean);
 
         // no bean named 'simpleBean'

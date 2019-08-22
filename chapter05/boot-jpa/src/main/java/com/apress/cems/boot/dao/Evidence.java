@@ -123,7 +123,7 @@ public class Evidence extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        Evidence evidence = (Evidence) o;
+        var evidence = (Evidence) o;
         return Objects.equals(criminalCase, evidence.criminalCase) &&
                 Objects.equals(number, evidence.number) &&
                 Objects.equals(itemName, evidence.itemName);

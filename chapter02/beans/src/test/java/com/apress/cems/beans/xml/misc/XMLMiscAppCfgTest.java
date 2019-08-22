@@ -43,21 +43,21 @@ public class XMLMiscAppCfgTest {
 
     @Test
     void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-misc-cfg.xml");
+        var ctx = new ClassPathXmlApplicationContext("classpath:spring/application-misc-cfg.xml");
         assertNotNull(ctx);
 
-        SimpleSingleton simpleSingleton = ctx.getBean("simpleSingleton", SimpleSingleton.class);
+        var simpleSingleton = ctx.getBean("simpleSingleton", SimpleSingleton.class);
         assertNotNull(simpleSingleton);
 
-        SimpleSingleton simpleSingleton2 = ctx.getBean("simpleSingleton2", SimpleSingleton.class);
+        var simpleSingleton2 = ctx.getBean("simpleSingleton2", SimpleSingleton.class);
         assertNotNull(simpleSingleton2);
         assertEquals(simpleSingleton, simpleSingleton2);
 
-        TaxFormula taxFormula = ctx.getBean("taxScotlandFormula", TaxFormula.class);
+        var taxFormula = ctx.getBean("taxScotlandFormula", TaxFormula.class);
         assertNotNull(taxFormula);
         assertTrue(taxFormula instanceof ScotlandRateFormula);
 
-        TaxFormula taxFormula2 = ctx.getBean("taxScotlandFormula2", TaxFormula.class);
+        var taxFormula2 = ctx.getBean("taxScotlandFormula2", TaxFormula.class);
         assertNotNull(taxFormula2);
         assertTrue(taxFormula2 instanceof ScotlandRateFormula);
 

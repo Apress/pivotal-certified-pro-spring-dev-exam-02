@@ -40,10 +40,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class AnotherSimpleAppCfgTest {
     @Test
     void testDataSource() {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring/application-si-cfg.xml");
+        var ctx = new ClassPathXmlApplicationContext("classpath:spring/application-si-cfg.xml");
         assertNotNull(ctx);
 
-        AnotherComposedBean composedBean = ctx.getBean(AnotherComposedBean.class);
+        var composedBean = ctx.getBean(AnotherComposedBean.class);
         assertNotNull(composedBean);
         assertNotNull(composedBean.getSimpleBean());
         assertTrue(composedBean.isComplex());

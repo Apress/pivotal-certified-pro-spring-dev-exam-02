@@ -60,7 +60,7 @@ class SimpleStorageServiceTest {
 
     @Test
     void findByIdPositive() {
-        Storage storage = new Storage();
+        var storage = new Storage();
         storage.setId(STORAGE_ID);
 
         when(mockRepo.findById(any(Long.class))).thenReturn(Optional.of(storage));

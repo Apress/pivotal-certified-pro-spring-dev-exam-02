@@ -71,7 +71,7 @@ public class AllConfig {
     public DataSource dataSource() {
         try {
             final Properties props = connectionProperties();
-            OracleConnectionPoolDataSource ods = new OracleConnectionPoolDataSource();
+            var ods = new OracleConnectionPoolDataSource();
             ods.setNetworkProtocol("tcp");
             ods.setDriverType(props.getProperty("driverType"));
             ods.setServerName(props.getProperty("serverName"));

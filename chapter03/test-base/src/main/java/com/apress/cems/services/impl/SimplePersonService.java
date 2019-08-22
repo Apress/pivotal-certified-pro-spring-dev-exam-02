@@ -44,7 +44,7 @@ public class SimplePersonService extends SimpleAbstractService<Person> implement
 
     @Override
     public Person createPerson(String firstName, String lastName) {
-        Person person = new Person();
+        var person = new Person();
         person.setFirstName(firstName);
         person.setLastName(lastName);
         repo.save(person);

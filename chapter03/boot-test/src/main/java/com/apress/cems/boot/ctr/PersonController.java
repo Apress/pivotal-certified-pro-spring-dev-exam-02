@@ -64,7 +64,7 @@ public class PersonController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
     public Person findPersonById(@PathVariable Long id) {
-        Optional<Person> personOpt = personService.findById(id);
+        var personOpt = personService.findById(id);
         return personOpt.isPresent()? personOpt.get(): null;
     }
 

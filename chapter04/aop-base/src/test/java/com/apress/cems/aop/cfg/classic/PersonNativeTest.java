@@ -61,7 +61,7 @@ public class PersonNativeTest {
 
     @Test
     void testFindAll(){
-        Set<Person> persons = personRepo.findAll();
+        var persons = personRepo.findAll();
 
         assertAll(
                 () -> assertNotNull(persons),
@@ -78,8 +78,8 @@ public class PersonNativeTest {
 
         @Bean
         public DataSource dataSource() {
-            EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-            EmbeddedDatabase db = builder
+            var builder = new EmbeddedDatabaseBuilder();
+            var db = builder
                     .setType(EmbeddedDatabaseType.H2)
                     .generateUniqueName(true)
                     .addScript("db/schema.sql")

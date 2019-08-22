@@ -28,12 +28,11 @@ SOFTWARE.
 package com.apress.cems.beans.scalars;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Iuliana Cosmina
@@ -45,19 +44,19 @@ class AppConvertersCfgTest {
 
     @Test
     void testSimpleBeans() {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AppConvertersCfg.class);
+        var ctx = new AnnotationConfigApplicationContext(AppConvertersCfg.class);
 
-        PersonBean pb = ctx.getBean(PersonBean.class);
+        var pb = ctx.getBean(PersonBean.class);
         assertNotNull(pb);
         logger.debug(pb.toString());
 
-        MultipleTypesBean mtb = ctx.getBean(MultipleTypesBean.class);
+        var mtb = ctx.getBean(MultipleTypesBean.class);
         logger.debug(mtb.toString());
 
-        EmptyCollectionHolder emptyCollectionHolder =  ctx.getBean(EmptyCollectionHolder.class);
+        var emptyCollectionHolder =  ctx.getBean(EmptyCollectionHolder.class);
         logger.debug(emptyCollectionHolder.toString());
 
-        CollectionHolder collectionHolder =  ctx.getBean(CollectionHolder.class);
+        var collectionHolder =  ctx.getBean(CollectionHolder.class);
         logger.debug(collectionHolder.toString());
         ctx.close();
     }

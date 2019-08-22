@@ -54,12 +54,12 @@ public class SimpleOperationsService implements OperationsService {
 
     @Override
     public Detective createDetective(String firstName, String lastName, LocalDateTime hiringDate, Rank rank) {
-        Person person = new Person();
+        var person = new Person();
         person.setFirstName(firstName);
         person.setLastName(lastName);
         person.setHiringDate(hiringDate);
         person.setPassword(NumberGenerator.getPassword());
-        Detective detective = new Detective();
+        var detective = new Detective();
         detective.setPerson(person);
         detective.setRank(rank);
         detective.setBadgeNumber(NumberGenerator.getBadgeNumber());
@@ -69,15 +69,15 @@ public class SimpleOperationsService implements OperationsService {
 
     @Override
     public CriminalCase createCriminalCase(CaseType caseType, String shortDescription, String badgeNo, Map<Evidence, String> evidenceMap) {
-        Optional<Detective> detectiveOpt = detectiveRepo.findByBadgeNumber(badgeNo);
-        CriminalCase criminalCase = new CriminalCase();
+        var detectiveOpt = detectiveRepo.findByBadgeNumber(badgeNo);
+        var criminalCase = new CriminalCase();
         criminalCase.setType(caseType);
         criminalCase.setShortDescription(shortDescription);
         detectiveOpt.ifPresent(criminalCase::setLeadInvestigator);
         criminalCaseRepo.save(criminalCase);
 
         evidenceMap.forEach((ev, storageName) -> {
-            Optional<Storage> storageOpt = storageRepo.findByName(storageName);
+            var storageOpt = storageRepo.findByName(storageName);
             if (storageOpt.isPresent()) {
                 ev.setStorage(storageOpt.get());
                 criminalCase.addEvidence(ev);
@@ -91,8 +91,8 @@ public class SimpleOperationsService implements OperationsService {
 
     @Override
     public Optional<CriminalCase> assignLeadInvestigator(String caseNumber, String leadDetectiveBadgeNo) {
-        Optional<CriminalCase> opt = criminalCaseRepo.findByNumber(caseNumber);
-        Optional<Detective> detectiveOpt = detectiveRepo.findByBadgeNumber(leadDetectiveBadgeNo);
+        var opt = criminalCaseRepo.findByNumber(caseNumber);
+        var detectiveOpt = detectiveRepo.findByBadgeNumber(leadDetectiveBadgeNo);
         if (opt.isPresent()) {
             CriminalCase criminalCase = opt.get();
             if (detectiveOpt.isPresent()) {
@@ -105,7 +105,7 @@ public class SimpleOperationsService implements OperationsService {
 
     @Override
     public Optional<CriminalCase> linkEvidence(String caseNumber, List<Evidence> evidenceList) {
-        Optional<CriminalCase> opt = criminalCaseRepo.findByNumber(caseNumber);
+        var opt = criminalCaseRepo.findByNumber(caseNumber);
         if (opt.isPresent()) {
             CriminalCase criminalCase = opt.get();
             criminalCase.getEvidenceSet().forEach(evidence -> {
@@ -131,7 +131,7 @@ public class SimpleOperationsService implements OperationsService {
 
     @Override
     public Set<Detective> getAssignedTeam(String caseNumber) {
-        Optional<CriminalCase> opt = criminalCaseRepo.findByNumber(caseNumber);
+        var opt = criminalCaseRepo.findByNumber(caseNumber);
         if (opt.isPresent()) {
             return opt.get().getAssigned();
         }

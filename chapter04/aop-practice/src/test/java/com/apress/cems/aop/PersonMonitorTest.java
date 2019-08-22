@@ -84,7 +84,7 @@ class PersonMonitorTest {
     // can be used to test before and after/ after-returning advice
     @Test
     void testSave() {
-        Person person = new Person();
+        var person = new Person();
         person.setId(3L);
         person.setUsername("nancy.drew");
         person.setFirstName("Nancy");

@@ -55,7 +55,7 @@ public class EnvTestDataSourceConfig {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
+        var ds = new DriverManagerDataSource();
         ds.setDriverClassName(environment.getProperty("db.driverClassName"));
         ds.setUrl(environment.getProperty("db.url"));
         ds.setUsername(environment.getProperty("db.username"));

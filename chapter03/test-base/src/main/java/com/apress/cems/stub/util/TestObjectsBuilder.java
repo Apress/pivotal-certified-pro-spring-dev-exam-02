@@ -41,8 +41,8 @@ import java.time.LocalDateTime;
 public class TestObjectsBuilder {
 
     public static Detective buildDetective(String firstName, String lastName, Rank rank, String badgeNumber) {
-        Detective  detective = new Detective();
-        Person person = new Person();
+        var  detective = new Detective();
+        var person = new Person();
         person.setFirstName(firstName);
         person.setLastName(lastName);
         person.setHiringDate(LocalDateTime.now());
@@ -58,7 +58,7 @@ public class TestObjectsBuilder {
 
 
     public static CriminalCase buildCase(Detective leadInvestigator, CaseType caseType, CaseStatus status){
-        CriminalCase criminalCase = new CriminalCase();
+        var criminalCase = new CriminalCase();
         criminalCase.setLeadInvestigator(leadInvestigator);
         criminalCase.setNumber(NumberGenerator.getEvidenceNumber());
         criminalCase.setType(caseType);

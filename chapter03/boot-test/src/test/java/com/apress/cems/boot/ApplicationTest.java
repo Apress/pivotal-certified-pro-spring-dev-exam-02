@@ -35,20 +35,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class ApplicationTest {
+class ApplicationTest {
 
     @Autowired
     private PersonService personService;
 
     @Test
-    public void testSavePerson(){
-        Person person = new Person();
+    void testSavePerson(){
+        var person = new Person();
         person.setFirstName("Irene");
         person.setLastName("Adler");
         personService.save(person);

@@ -55,7 +55,7 @@ public class PersonServiceImpl implements PersonService {
     @Transactional(readOnly = true)
     public Set<Person> findAll() {
         Set<Person> persons = new HashSet<>();
-        personRepo.findAll().forEach(persons::add);
+        persons.addAll(personRepo.findAll());
         return persons;
     }
 

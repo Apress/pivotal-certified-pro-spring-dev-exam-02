@@ -58,7 +58,7 @@ public class JdbcDetectiveRepo extends JdbcAbstractRepo<Detective> implements De
 
     @Override
     public Optional<Detective> findById(Long id) {
-        String sql = "select d.ID, d.BADGE_NUMBER, d.RANK, d.ARMED, d.STATUS,d.PERSON_ID, " +
+        var sql = "select d.ID, d.BADGE_NUMBER, d.RANK, d.ARMED, d.STATUS,d.PERSON_ID, " +
                 "p.USERNAME, p.FIRSTNAME, p.LASTNAME, p.HIRINGDATE "+
                 "from DETECTIVE d, PERSON p where d.ID= ? and d.PERSON_ID=p.ID";
         return Optional.of(jdbcTemplate.queryForObject(sql, rowMapper, id));
@@ -66,8 +66,8 @@ public class JdbcDetectiveRepo extends JdbcAbstractRepo<Detective> implements De
 
     @Override
     public Optional<Detective> findByBadgeNumber(String badgeNumber) {
-        String sql = "select ID, BADGE_NUMBER, RANK, ARMED, STATUS,PERSON_ID from DETECTIVE where BADGE_NUMBER= ?";
-        Detective detective = jdbcTemplate.queryForObject(sql, rowMapper, badgeNumber);
+        var sql = "select ID, BADGE_NUMBER, RANK, ARMED, STATUS,PERSON_ID from DETECTIVE where BADGE_NUMBER= ?";
+        var detective = jdbcTemplate.queryForObject(sql, rowMapper, badgeNumber);
         return detective == null ? Optional.empty() : Optional.of(detective);
     }
 
@@ -81,13 +81,13 @@ public class JdbcDetectiveRepo extends JdbcAbstractRepo<Detective> implements De
 
     @Override
     public Set<Detective> findAll() {
-        String sql = "select ID, BADGE_NUMBER, RANK, ARMED, STATUS,PERSON_ID from DETECTIVE";
+        var sql = "select ID, BADGE_NUMBER, RANK, ARMED, STATUS,PERSON_ID from DETECTIVE";
         return new HashSet<>(jdbcTemplate.query(sql, rowMapper));
     }
 
     @Override
     public Set<Detective> findbyRank(Rank rank) {
-        String sql = "select ID, BADGE_NUMBER, RANK, ARMED, STATUS,PERSON_ID from DETECTIVE where RANK= ?";
+        var sql = "select ID, BADGE_NUMBER, RANK, ARMED, STATUS,PERSON_ID from DETECTIVE where RANK= ?";
         return new HashSet<>(jdbcTemplate.query(sql, rowMapper, rank));
     }
 

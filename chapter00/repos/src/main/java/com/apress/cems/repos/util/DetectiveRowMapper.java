@@ -45,21 +45,21 @@ import static com.apress.cems.util.DateProcessor.toDate;
 public class DetectiveRowMapper implements RowMapper<Detective> {
     @Override
     public Detective mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Long id = rs.getLong("ID");
-        String badgeNumber = rs.getString("BADGE_NUMBER");
-        String rank = rs.getString("RANK");
-        Boolean armed = rs.getBoolean("ARMED");
-        String status = rs.getString("STATUS");
-        Long personId = rs.getLong("PERSON_ID");
+        var id = rs.getLong("ID");
+        var badgeNumber = rs.getString("BADGE_NUMBER");
+        var rank = rs.getString("RANK");
+        var armed = rs.getBoolean("ARMED");
+        var status = rs.getString("STATUS");
+        var personId = rs.getLong("PERSON_ID");
 
-        Person person = new Person();
+        var person = new Person();
         person.setId(personId);
         person.setUsername(rs.getString("USERNAME"));
         person.setFirstName(rs.getString("FIRSTNAME"));
         person.setLastName(rs.getString("LASTNAME"));
         person.setHiringDate(rs.getTimestamp("HIRINGDATE").toLocalDateTime());
 
-        Detective detective = new Detective();
+        var detective = new Detective();
         detective.setId(id);
         detective.setPerson(person);
         detective.setBadgeNumber(badgeNumber);

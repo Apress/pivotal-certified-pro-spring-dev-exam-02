@@ -58,7 +58,7 @@ public class TestDbConfig {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
+        var ds = new DriverManagerDataSource();
         ds.setDriverClassName(environment.getProperty("db.driverClassName"));
         ds.setUrl(environment.getProperty("db.url"));
         ds.setUsername(environment.getProperty("db.username"));
@@ -74,7 +74,7 @@ public class TestDbConfig {
     private Resource dataScript;
 
     private DatabasePopulator databasePopulator() {
-        final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        final var populator = new ResourceDatabasePopulator();
         populator.addScript(schemaScript);
         populator.addScript(dataScript);
         return populator;

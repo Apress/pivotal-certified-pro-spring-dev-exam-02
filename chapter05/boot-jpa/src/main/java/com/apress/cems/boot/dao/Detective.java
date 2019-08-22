@@ -146,7 +146,7 @@ public class Detective extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        Detective detective = (Detective) o;
+        var detective = (Detective) o;
         return Objects.equals(person, detective.person) &&
                 Objects.equals(badgeNumber, detective.badgeNumber);
     }

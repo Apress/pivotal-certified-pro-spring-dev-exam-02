@@ -46,7 +46,7 @@ public class SimpleTrackEntryService extends SimpleAbstractService<TrackEntry> i
 
     @Override
     public TrackEntry createTrackEntry(Evidence evidence, Detective detective, LocalDateTime date, TrackAction action, String reason) {
-        TrackEntry trackEntry = new TrackEntry();
+        var trackEntry = new TrackEntry();
         trackEntry.setEvidence(evidence);
         trackEntry.setDetective(detective);
         trackEntry.setDate(date);

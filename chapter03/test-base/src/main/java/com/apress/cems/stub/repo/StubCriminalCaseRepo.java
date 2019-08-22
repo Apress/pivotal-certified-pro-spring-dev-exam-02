@@ -74,7 +74,7 @@ public class StubCriminalCaseRepo extends StubAbstractRepo<CriminalCase> impleme
 
     private void addWithLeadInvestigator(CriminalCase criminalCase){
         if (criminalCase.getLeadInvestigator()!= null) {
-            Detective lead = criminalCase.getLeadInvestigator();
+            var lead = criminalCase.getLeadInvestigator();
             if (records2.containsKey(lead)) {
                 records2.get(lead).add(criminalCase);
             } else {
@@ -91,7 +91,7 @@ public class StubCriminalCaseRepo extends StubAbstractRepo<CriminalCase> impleme
 
     @Override
     public Optional<CriminalCase> findByNumber(String caseNumber) {
-        final CriminalCase[] result = new CriminalCase[1];
+        final var result = new CriminalCase[1];
        records2.values().forEach(set -> set.stream()
                .filter(c -> c.getNumber().equalsIgnoreCase(caseNumber))
                    .findFirst().ifPresent(c -> result[0] = c)

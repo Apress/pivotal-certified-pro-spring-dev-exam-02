@@ -80,7 +80,7 @@ class PersonMonitorTest {
 
     @Test
     void testSave() {
-        Person person = new Person();
+        var person = new Person();
         person.setId(3L);
         person.setUsername("nancy.drew");
         person.setFirstName("Nancy");
@@ -92,7 +92,7 @@ class PersonMonitorTest {
 
     @Test
     void testBadSave() {
-        Person person = new Person();
+        var person = new Person();
         person.setId(3L);
         person.setUsername("nancy.drew");
         person.setFirstName("Nanc#");

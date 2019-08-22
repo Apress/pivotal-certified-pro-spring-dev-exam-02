@@ -47,7 +47,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PersonRepoTest {
     public static final Long PERSON_ID = 1L;
 
-
     PersonRepo personRepo;
 
     public void setUp(){
@@ -63,9 +62,8 @@ public class PersonRepoTest {
 
     }
 
-
     public void testFindAll(){
-        Set<Person> personSet = personRepo.findAll();
+        var personSet = personRepo.findAll();
         assertNotNull(personSet);
         assertEquals(2, personSet.size());
     }

@@ -51,7 +51,7 @@ class TestDataSourceConfigTest {
 
     @Test
     void testMultipleCfgSource() {
-        ApplicationContext ctx =
+        var ctx =
                 new AnnotationConfigApplicationContext(TestDataSourceConfig.class, RepositoryConfig.class);
 
         for (String beanName : ctx.getBeanDefinitionNames()) {
@@ -59,13 +59,13 @@ class TestDataSourceConfigTest {
                     + ctx.getBean(beanName).getClass().getSimpleName());
         }
 
-        EvidenceRepo evidenceRepo = ctx.getBean(JdbcEvidenceRepo.class);
-        DetectiveRepo detectiveRepo = ctx.getBean(JdbcDetectiveRepo.class);
+        var evidenceRepo = ctx.getBean(JdbcEvidenceRepo.class);
+        var detectiveRepo = ctx.getBean(JdbcDetectiveRepo.class);
 
         assertNotNull(evidenceRepo);
         assertNotNull(detectiveRepo);
 
-        DataSource dataSource = ctx.getBean("two", DataSource.class);
+        var dataSource = ctx.getBean("two", DataSource.class);
         assertNotNull(dataSource);
     }
 }

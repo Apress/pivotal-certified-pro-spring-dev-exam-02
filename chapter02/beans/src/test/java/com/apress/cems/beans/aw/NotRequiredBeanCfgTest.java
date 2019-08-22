@@ -28,7 +28,6 @@ SOFTWARE.
 package com.apress.cems.beans.aw;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -42,7 +41,7 @@ public class NotRequiredBeanCfgTest {
 
     @Test
     void testAutowire(){
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(NotRequiredBeanCfg.class);
+        var ctx = new AnnotationConfigApplicationContext(NotRequiredBeanCfg.class);
         assertNotNull(ctx);
 
         BadBean badBean = ctx.getBean(BadBean.class);
