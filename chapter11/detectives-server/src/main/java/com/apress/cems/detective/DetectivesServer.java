@@ -25,25 +25,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.ex;
+package com.apress.cems.detective;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
+import java.io.IOException;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@ResponseStatus(value= HttpStatus.NOT_FOUND, reason="Requested item not found")
-public class NotFoundException extends RuntimeException {
+@EntityScan(basePackages = {"com.apress.cems.person", "com.apress.cems.detective"})
+@SpringBootApplication
+@EnableEurekaClient
+public class DetectivesServer {
 
-    private Long objIdentifier;
+    private static Logger logger = LoggerFactory.getLogger(DetectivesServer.class);
 
-    public <T> NotFoundException(Class<T> cls, Long id) {
-        super(cls.getSimpleName() + " with id: " + id + " does not exist!");
-    }
+    public static void main(String... args) throws IOException {
+        // Tell server to look for detectives-server.properties or detectives-server.yml
+        System.setProperty("spring.config.name", "detectives-server");
 
-    public Long getObjIdentifier() {
-        return objIdentifier;
+        var ctx = SpringApplication.run(DetectivesServer.class, args);
+        assert (ctx != null);
+        logger.info("Started ...");
+        System.in.read();
+        ctx.close();
     }
 }

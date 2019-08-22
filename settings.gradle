@@ -75,7 +75,12 @@ include 'chapter09:secured-boot-app'
 include 'chapter09:prometheus-boot-app'
 
 include 'chapter10'
-include 'chapter11'
+
+include 'chapter11:entities'
+include 'chapter11:discovery-server'
+include 'chapter11:persons-server'
+include 'chapter11:detectives-server'
+
 include 'chapter12'
 
 

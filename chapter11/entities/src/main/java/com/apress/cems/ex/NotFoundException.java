@@ -25,35 +25,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.discovery;
+package com.apress.cems.ex;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+public class NotFoundException extends RuntimeException {
 
-import java.io.IOException;
+    private Long objIdentifier;
 
-/**
- * @author Iuliana Cosmina
- * @since 1.0
- */
-@SpringBootApplication
-@EnableEurekaServer
-public class DiscoveryService {
+    public <T> NotFoundException(Class<T> cls, Long id) {
+        super(cls.getSimpleName() + " with id: " + id + " does not exist!");
+    }
 
-    private static Logger logger = LoggerFactory.getLogger(DiscoveryService.class);
-
-    public static void main(String... args) throws IOException {
-        // Tell server to look for discovery.properties or discovery.yml
-        System.setProperty("spring.config.name", "discovery");
-
-        var ctx = SpringApplication.run(DiscoveryService.class, args);
-        assert (ctx != null);
-        logger.info("Started ...");
-        System.in.read();
-        ctx.close();
+    public Long getObjIdentifier() {
+        return objIdentifier;
     }
 }

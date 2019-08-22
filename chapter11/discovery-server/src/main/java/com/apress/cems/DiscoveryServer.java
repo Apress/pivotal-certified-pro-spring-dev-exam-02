@@ -27,7 +27,11 @@ SOFTWARE.
 */
 package com.apress.cems;
 
-import com.apress.cems.discovery.DiscoveryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 import java.io.IOException;
 
@@ -35,32 +39,20 @@ import java.io.IOException;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class MicroservicesApplication {
+@SpringBootApplication
+@EnableEurekaServer
+public class DiscoveryServer {
+
+    private static Logger logger = LoggerFactory.getLogger(DiscoveryServer.class);
 
     public static void main(String... args) throws IOException {
-        if (args.length == 0) {
-            System.out.println("Specify application to start! (Options: reg, person, detective, case)");
-        } else {
-            switch (args[0]) {
-                case "reg":
-                    DiscoveryService.main(args);
-                    break;
-                /*case "user":
-                    UserServer.main(args);
-                    break;
-                case "pet":
-                    if (args.length == 2) {
-                        System.setProperty("server.port", args[1]);
-                    }
-                    PetServer.main(args);
-                    break;
-                case "web":
-                    WebServer.main(args);
-                    break;*/
-                default:
-                    System.out.println("Specify application to start! (Options:" +
-                            "reg, user, pet, web)");
-            }
-        }
+        // Tell server to look for discovery.properties or discovery.yml
+        System.setProperty("spring.config.name", "discovery");
+
+        var ctx = SpringApplication.run(DiscoveryServer.class, args);
+        assert (ctx != null);
+        logger.info("Started ...");
+        System.in.read();
+        ctx.close();
     }
 }

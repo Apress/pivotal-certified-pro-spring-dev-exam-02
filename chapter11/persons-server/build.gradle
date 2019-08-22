@@ -1,0 +1,52 @@
+buildscript {
+    def springRepo = 'http://repo.spring.io'
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "$springRepo/release" }
+        maven { url "$springRepo/snapshot" }
+        maven { url "$springRepo/milestone" }
+    }
+
+    dependencies {
+        classpath boot.springBootPlugin
+    }
+}
+
+apply plugin: 'java-library'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+    compile project(':chapter11:entities')
+    implementation boot.starterWeb, boot.actuator,boot.starterJpa
+    implementation cloud.cloudStarter, cloud.eurekaClient, spring.jdbc, misc.jaxbApi
+    runtimeOnly misc.h2
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Hoxton.M2"
+    }
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+}
+
+jar {
+    archiveBaseName = "persons-server"
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 09 - Spring Boot REST",
+                "Implementation-Version": archiveVersion,
+                "Main-Class"         : "com.apress.cems.DiscoveryServer",
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}

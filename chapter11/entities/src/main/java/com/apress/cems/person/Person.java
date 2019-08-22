@@ -47,7 +47,7 @@ import java.util.Objects;
  * @since 1.0
  */
 @Entity
-public class Person  extends AbstractEntity {
+public class Person extends AbstractEntity {
     interface BasicValidation{}
 
     @NotNull(groups = BasicValidation.class)

@@ -67,8 +67,7 @@ ext {
 
     //microservices
     springDataCommonsVersion = '2.1.10.RELEASE'
-    springCloudStarterVersion = '2.1.2.RELEASE'
-    springCloudStarterEurekaServerVersion = '1.4.7.RELEASE'
+    springCloudVersion = '2.1.2.RELEASE'
 
 
     //we group libraries by their purpose so we can import them easier in the modules
@@ -102,10 +101,14 @@ ext {
             securityWeb    : "org.springframework.security:spring-security-web:$springVersion",
             securityTaglibs: "org.springframework.security:spring-security-taglibs:$springVersion",
             securityConfig : "org.springframework.security:spring-security-config:$springVersion",
-            securityTest   : "org.springframework.security:spring-security-test:$springVersion",
+            securityTest   : "org.springframework.security:spring-security-test:$springVersion"
+    ]
+
+    cloud = [
             dataCommons    : "org.springframework.data:spring-data-commons:$springDataCommonsVersion",
-            cloudStarter   : "org.springframework.cloud:spring-cloud-starter:$springCloudStarterVersion",
-            eurekaStarter  : "org.springframework.cloud:spring-cloud-starter-eureka-server:$springCloudStarterEurekaServerVersion"
+            cloudStarter   : "org.springframework.cloud:spring-cloud-starter-config:$springCloudVersion",
+            eurekaServer  : "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:$springCloudVersion",
+            eurekaClient  : "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:$springCloudVersion"
     ]
 
     testing = [
@@ -146,7 +149,8 @@ ext {
             jacksonDatabind  : "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
             jacksonJsr310    : "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion",
             poi              : "org.apache.poi:poi:$poiVersion",
-            itext            : "com.itextpdf:itextpdf:$itextVersion"
+            itext            : "com.itextpdf:itextpdf:$itextVersion",
+            jaxbApi          : "javax.xml.bind:jaxb-api:2.3.1"
     ]
 
     tomcat = [

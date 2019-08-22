@@ -1,3 +1,6 @@
+spring:
+  application:
+    name: discovery-server
 # Configure this Discovery Server
 eureka:
   instance:
