@@ -46,7 +46,7 @@ public class DiscoveryServer {
     private static Logger logger = LoggerFactory.getLogger(DiscoveryServer.class);
 
     public static void main(String... args) throws IOException {
-        // Tell server to look for discovery.properties or discovery.yml
+        // Look for configuration in discovery.properties or discovery.yml
         System.setProperty("spring.config.name", "discovery");
 
         var ctx = SpringApplication.run(DiscoveryServer.class, args);

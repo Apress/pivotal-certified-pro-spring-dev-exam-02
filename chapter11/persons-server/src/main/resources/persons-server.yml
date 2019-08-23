@@ -1,6 +1,6 @@
 spring:
   application:
-    name: persons-server
+    name: persons-service # Service registers under this name
   datasource:
     hikari:
       driver-class-name: org.h2.Driver
@@ -35,6 +35,12 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 5
     preferIpAddress: false
+
+info:
+  app:
+    name: persons-server
+    description: Spring Cloud Application Managing Person Instances
+    version: 1.0-SNAPSHOT
 
 logging:
   pattern:

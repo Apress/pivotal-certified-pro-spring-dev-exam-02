@@ -45,7 +45,7 @@ jar {
                 "Created-By": System.getProperty('java.version'),
                 "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 09 - Spring Boot REST",
                 "Implementation-Version": archiveVersion,
-                "Main-Class"         : "com.apress.cems.DiscoveryServer",
+                "Main-Class"         : "com.apress.cems.person.PersonsServer",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
     }
