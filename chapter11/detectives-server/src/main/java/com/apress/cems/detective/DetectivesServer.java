@@ -48,7 +48,7 @@ public class DetectivesServer {
     private static Logger logger = LoggerFactory.getLogger(DetectivesServer.class);
 
     public static void main(String... args) throws IOException {
-        // Tell server to look for detectives-server.properties or detectives-server.yml
+        // Look for configuration in detectives-server.properties or detectives-server.yml
         System.setProperty("spring.config.name", "detectives-server");
 
         var ctx = SpringApplication.run(DetectivesServer.class, args);

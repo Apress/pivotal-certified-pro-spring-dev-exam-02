@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: web-service
+  freemarker:
+    enabled: false     # Ignore Eureka dashboard FreeMarker templates
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+
+error:
+  path=/error
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:3000/eureka/
+
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    preferIpAddress: false
+
+info:
+  app:
+    name: web-client
+    description: Spring Cloud Application Accessing Data from Persons-Service and Detectives-Service
+    version: 1.0-SNAPSHOT
+
+# HTTP Server
+server:
+  port: 4000   # HTTP (Tomcat) port
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: INFO
+    org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer: INFO
+    org.springframework: DEBUG
+    com.apress.cems: DEBUG

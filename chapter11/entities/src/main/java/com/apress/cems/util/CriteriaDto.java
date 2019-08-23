@@ -1,11 +1,12 @@
 package com.apress.cems.util;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * Created by iuliana.cosmina on 3/30/15.
  */
-public class CriteriaDto {
+public class CriteriaDto implements Serializable {
 
     @NotEmpty
     private String fieldName;

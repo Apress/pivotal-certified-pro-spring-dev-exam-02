@@ -25,25 +25,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems;
+package com.apress.cems.web;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.apress.cems.ex.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@SpringBootApplication
-public class SpringBootWebApplication {
+@ControllerAdvice
+public class MissingRecordsHandler {
 
-    private static Logger logger = LoggerFactory.getLogger(SpringBootWebApplication.class);
-
-    public static void main(String... args) {
-        var ctx = SpringApplication.run(SpringBootWebApplication.class, args);
-        ctx.registerShutdownHook();
-        logger.info("Application Started ...");
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(value= HttpStatus.NOT_FOUND)
+    public ModelAndView notFound(HttpServletRequest req, NotFoundException nfe) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("problem", nfe.getMessage());
+        mav.setViewName("error");
+        return mav;
     }
 }

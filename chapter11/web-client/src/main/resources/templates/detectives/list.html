@@ -1,0 +1,47 @@
+<!--
+Created by IntelliJ IDEA.
+User: iulianacosmina
+Date: 2019-07-14
+Time: 11:43
+-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: cemsHead('CEMS Home Page')}"></head>
+
+<body>
+<header th:replace="~{fragments/layout :: cemsHeader}" ></header>
+
+<header th:replace="~{fragments/layout :: cemsMenu}" ></header>
+
+<section th:fragment="~{fragments/layout :: cemsContent}">
+    <div class="content">
+        <h2 th:text="#{detectives.list.title}">DETECTIVES LIST</h2>
+        <div class="detectives">
+            <table th:if="${not #lists.isEmpty(detectives)}" >
+                <thead>
+                    <tr>
+                        <td th:text="#{label.Detective.count}">COUNT</td>
+                        <td th:text="#{label.Detective.badgeNumber}">BADGE</td>
+                        <td th:text="#{label.Detective.name}">USERNAME</td>
+                        <td th:text="#{label.Detective.rank}">RANK</td>
+                        <td th:text="#{label.Detective.status}">STATUS</td>
+                    </tr>
+                </thead>
+                <th:block th:each="detective : ${detectives}">
+                    <tr>
+                        <td><a th:href="@{/detectives/} + ${detective.id}" th:text="${detective.id}">ID</a></td>
+                        <td th:text="${detective.badgeNumber}">...</td>
+                        <td th:text="${detective.person.firstName} + ' '+ ${detective.person.lastName}">...</td>
+                        <td th:text="${detective.rank}">...</td>
+                        <td th:text="${detective.status}">...</td>
+                    </tr>
+                </th:block>
+            </table>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: cemsFooter}" ></footer>
+</body>
+</html>

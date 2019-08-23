@@ -45,8 +45,10 @@ import java.util.Objects;
 public class Detective extends AbstractEntity {
 
     @NotNull
-    @OneToOne
     @JoinColumn(name = "PERSON_ID")
+    private Long personId;
+
+    @Transient
     private Person person;
 
     @NotEmpty
@@ -65,6 +67,14 @@ public class Detective extends AbstractEntity {
 
     public Detective() {
         super();
+    }
+
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
     }
 
     public Person getPerson() {

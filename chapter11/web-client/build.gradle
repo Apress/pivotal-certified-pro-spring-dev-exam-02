@@ -17,16 +17,15 @@ apply plugin: 'java-library'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-ext.moduleName = 'com.apress.cems.boot'
-
 dependencies {
-    implementation boot.starterJpa, boot.starterThymeleaf, boot.starterWeb, boot.actuator
-    runtimeOnly misc.h2
+    compile project(':chapter11:entities')
+    implementation boot.starterWeb, boot.starterThymeleaf, boot.actuator
+    implementation cloud.cloudStarter, cloud.eurekaClient, spring.jdbc, misc.jaxbApi
+}
 
-    testImplementation testing.restAssured, testing.restAssuredAll
-    testImplementation (boot.starterTest) {
-        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
-        exclude group: "junit", module: "junit"
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Hoxton.M2"
     }
 }
 
@@ -38,17 +37,15 @@ test {
     }
 }
 
-// decomment this after leaving a single main class to build jar
 jar {
-    archiveBaseName = "boot-web"
+    archiveBaseName = "web-client"
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 06 - Spring Boot Web",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 09 - Spring Boot REST",
                 "Implementation-Version": archiveVersion,
-                "Main-Class"         : "com.apress.cems.SpringBootWebApplication",
+                "Main-Class"         : "com.apress.cems.web.WebClient",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
     }
 }
-

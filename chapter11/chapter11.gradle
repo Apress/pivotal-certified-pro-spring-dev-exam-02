@@ -7,7 +7,7 @@ buildscript {
 
 subprojects {
     group 'com.apress.cems.micro'
-    if (!project.name.contains("server")) {
+    if (!project.name.contains("server") && !project.name.contains("client")) {
         apply plugin: 'java'
         apply plugin: 'idea'
 

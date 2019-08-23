@@ -15,8 +15,7 @@ Time: 11:43
         <header th:replace="~{fragments/layout :: cemsMenu}" ></header>
 
         <section th:fragment="~{fragments/layout :: cemsContent}">
-            <p th:text="#{home.caption}" ></p>
-            <p th:text="${message}" ></p>
+            <div th:text="${message}" ></div>
         </section>
 
         <footer th:replace="~{fragments/layout :: cemsFooter}" ></footer>

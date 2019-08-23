@@ -114,9 +114,8 @@ public class PersonsController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Person> processSubmit(@Validated @RequestBody CriteriaDto criteria) {
+    @GetMapping(value = "/search")
+    public List<Person> processSearch(@Validated @RequestBody CriteriaDto criteria) {
         return personService.getByCriteriaDto(criteria);
     }
 

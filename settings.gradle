@@ -80,6 +80,7 @@ include 'chapter11:entities'
 include 'chapter11:discovery-server'
 include 'chapter11:persons-server'
 include 'chapter11:detectives-server'
+include 'chapter11:web-client'
 
 include 'chapter12'
 
