@@ -33,14 +33,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -50,8 +50,9 @@ import java.net.URI;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@Controller
 @SpringBootApplication
-@EnableDiscoveryClient
+@EnableEurekaClient
 @ComponentScan(useDefaultFilters=false)
 public class WebClient extends WebConfig {
 
@@ -82,7 +83,7 @@ public class WebClient extends WebConfig {
     @Autowired
     LoadBalancerClient loadBalancer;
 
-    @RequestMapping(value = {"/","/home"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/","/home"})
     public String home(Model model) {
         StringBuilder sb = new StringBuilder();
         URI uri = null;
@@ -109,5 +110,4 @@ public class WebClient extends WebConfig {
         model.addAttribute("message", sb.toString());
         return "home";
     }
-
 }

@@ -32,6 +32,7 @@ import com.apress.cems.ex.InvalidCriteriaException;
 import com.apress.cems.person.Person;
 import com.apress.cems.util.CriteriaDto;
 import org.springframework.http.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -43,6 +44,7 @@ import static com.apress.cems.base.AbstractEntity.COMPARATOR_BY_ID;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@Service
 public class AllWebServices {
 
     private RestTemplate restTemplate;

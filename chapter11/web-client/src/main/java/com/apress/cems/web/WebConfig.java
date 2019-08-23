@@ -44,7 +44,7 @@ import java.util.Locale;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Controller
+@Configuration
 class WebConfig implements WebMvcConfigurer {
 
     @Override

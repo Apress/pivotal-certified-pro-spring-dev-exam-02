@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+//import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 import java.io.IOException;
@@ -43,6 +44,7 @@ import java.io.IOException;
 @EntityScan(basePackages = "com.apress.cems.person")
 @SpringBootApplication
 @EnableEurekaClient
+//@EnableDiscoveryClient
 public class PersonsServer {
 
     private static Logger logger = LoggerFactory.getLogger(PersonsServer.class);
