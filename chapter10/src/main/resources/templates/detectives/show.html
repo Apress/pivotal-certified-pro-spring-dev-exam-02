@@ -1,0 +1,55 @@
+<!--
+Created by IntelliJ IDEA.
+User: iulianacosmina
+Date: 2019-07-14
+Time: 11:43
+-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: cemsHead('CEMS Home Page')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: cemsHeader}" ></header>
+
+<header th:replace="~{fragments/layout :: cemsMenu}" ></header>
+
+<section th:fragment="~{fragments/layout :: cemsContent}">
+    <div class="content">
+        <div class="persons">
+            <table>
+                <tr>
+                    <th th:text="#{label.Detective.badgeNumber}">BN</th>
+                    <td th:text="${detective.badgeNumber}">BN</td>
+                </tr>
+                <tr>
+                    <th th:text="#{label.Person.firstName}">NN</th>
+                    <td th:text="${detective.person.firstName}">NN</td>
+                </tr>
+                <tr>
+                    <th th:text="#{label.Person.lastName}">NN</th>
+                    <td th:text="${detective.person.lastName}">NN</td>
+                </tr>
+                <tr>
+                    <th th:text="#{label.Detective.rank}">R</th>
+                    <td th:text="${detective.rank}">R</td>
+                </tr>
+                <tr>
+                    <th th:text="#{label.Detective.armed}">A</th>
+                    <td th:text="${detective.armed}">A</td>
+                </tr>
+                <tr>
+                    <th th:text="#{label.Detective.status}">STATUS</th>
+                    <td th:text="${detective.status}">STATUS</td>
+                </tr>
+                <tr>
+                    <th th:text="#{label.Person.since}">SINCE</th>
+                    <td th:text="${detective.person.hiringDate}">SINCE</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/layout :: cemsFooter}" ></footer>
+</body>
+</html>

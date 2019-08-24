@@ -68,7 +68,7 @@ class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public Validator validator() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final var validator = new LocalValidatorFactoryBean();
         validator.setValidationMessageSource(messageSource());
         return validator;
     }
@@ -101,7 +101,7 @@ class WebConfig implements WebMvcConfigurer {
 
     @Bean
     MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        var messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("/WEB-INF/messages/global");
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(1);
@@ -119,7 +119,7 @@ class WebConfig implements WebMvcConfigurer {
 
     @Bean
     WebContentInterceptor webChangeInterceptor() {
-        WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
+        var webContentInterceptor = new WebContentInterceptor();
         webContentInterceptor.setCacheSeconds(0);
         webContentInterceptor.setSupportedMethods("GET", "POST", "PUT", "DELETE");
         return webContentInterceptor;
@@ -127,7 +127,7 @@ class WebConfig implements WebMvcConfigurer {
 
     @Bean
     CookieLocaleResolver localeResolver() {
-        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
+        var cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
         cookieLocaleResolver.setCookieMaxAge(3600);
         cookieLocaleResolver.setCookieName("locale");
@@ -136,7 +136,7 @@ class WebConfig implements WebMvcConfigurer {
 
     @Bean
     CookieThemeResolver themeResolver() {
-        CookieThemeResolver cookieThemeResolver = new CookieThemeResolver();
+        var cookieThemeResolver = new CookieThemeResolver();
         cookieThemeResolver.setDefaultThemeName("green");
         cookieThemeResolver.setCookieMaxAge(3600);
         cookieThemeResolver.setCookieName("theme");

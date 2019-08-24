@@ -97,7 +97,7 @@ public class AllWebController {
                 return "redirect:/persons/" + persons.get(0).getId();
             } else {
                 model.addAttribute("persons", persons);
-                return "persons/";
+                return "persons/list";
             }
         } catch (InvalidCriteriaException ice) {
             result.addError(new FieldError("criteriaDto", ice.getFieldName(),

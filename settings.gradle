@@ -74,7 +74,8 @@ include 'chapter09:boot-app'
 include 'chapter09:secured-boot-app'
 include 'chapter09:prometheus-boot-app'
 
-include 'chapter10'
+//cannot be included kotlin works with JDK 8
+//include 'chapter10'
 
 include 'chapter11:entities'
 include 'chapter11:discovery-server'

@@ -55,7 +55,7 @@ public class WebConfig implements WebMvcConfigurer, WebApplicationInitializer {
 
     @Bean
     public ObjectMapper objectMapper() {
-        ObjectMapper objMapper = new ObjectMapper();
+        var objMapper = new ObjectMapper();
         objMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objMapper.findAndRegisterModules();
@@ -64,11 +64,11 @@ public class WebConfig implements WebMvcConfigurer, WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) {
-        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+        var rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(H2DbConfig.class, ServiceConfig.class, WebConfig.class);
         servletContext.addListener(new ContextLoaderListener(rootContext));
 
-        ServletRegistration.Dynamic dispatcher =
+        var dispatcher =
                 servletContext.addServlet("cems-dispatcher", new DispatcherServlet(rootContext));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");

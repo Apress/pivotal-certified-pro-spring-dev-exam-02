@@ -46,7 +46,7 @@ public class MissingRecordsHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(value= HttpStatus.NOT_FOUND)
     public ModelAndView notFound(HttpServletRequest req, NotFoundException nfe) {
-        ModelAndView mav = new ModelAndView();
+        var mav = new ModelAndView();
         mav.addObject("problem", nfe.getMessage());
         mav.setViewName("error");
         return mav;

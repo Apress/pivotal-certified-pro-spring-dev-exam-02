@@ -58,9 +58,9 @@ public class AllWebServices {
     }
 
     List<Person> getAllPersons(){
-        Person[] persons = restTemplate.getForObject(PERSONS_SERVICE_URL.concat("/persons"), Person[].class);
+        var persons = restTemplate.getForObject(PERSONS_SERVICE_URL.concat("/persons"), Person[].class);
         assert persons != null;
-        List<Person> personsList =  Arrays.asList(persons);
+        var personsList =  Arrays.asList(persons);
         personsList.sort(COMPARATOR_BY_ID);
         return personsList;
     }
@@ -70,9 +70,9 @@ public class AllWebServices {
     }
 
     List<Detective> getAllDetectives(){
-        Detective[] detectives = restTemplate.getForObject(DETECTIVES_SERVICE_URL.concat("/detectives"), Detective[].class);
+        var detectives = restTemplate.getForObject(DETECTIVES_SERVICE_URL.concat("/detectives"), Detective[].class);
         assert detectives != null;
-        List<Detective> detectiveList =  Arrays.asList(detectives);
+        var detectiveList =  Arrays.asList(detectives);
         detectiveList.forEach(d ->
             d.setPerson(restTemplate.getForObject(PERSONS_SERVICE_URL.concat("/persons/" + d.getPersonId()), Person.class))
         );
@@ -81,20 +81,20 @@ public class AllWebServices {
     }
 
     Detective getDetective(Long detectiveId) {
-        Detective detective = restTemplate.getForObject(DETECTIVES_SERVICE_URL.concat("/detectives/" + detectiveId), Detective.class);
+        var detective = restTemplate.getForObject(DETECTIVES_SERVICE_URL.concat("/detectives/" + detectiveId), Detective.class);
         detective.setPerson(getPerson(detective.getPersonId()));
         return detective;
     }
 
     List<Person> getByCriteriaDto(CriteriaDto criteria) throws InvalidCriteriaException {
-        HttpHeaders headers = new HttpHeaders();
+        var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<CriteriaDto> entity = new HttpEntity<>(criteria, headers);
         ResponseEntity<Person[]> responseEntity = restTemplate.exchange(PERSONS_SERVICE_URL.concat("/persons/search"), HttpMethod.GET, entity, Person[].class);
 
-        Person[] persons = responseEntity.getBody();
+        var persons = responseEntity.getBody();
         assert persons != null;
-        List<Person> personsList =  Arrays.asList(persons);
+        var personsList =  Arrays.asList(persons);
         personsList.sort(COMPARATOR_BY_ID);
         return personsList;
     }

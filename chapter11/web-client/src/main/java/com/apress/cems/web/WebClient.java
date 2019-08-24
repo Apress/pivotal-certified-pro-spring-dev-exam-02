@@ -85,29 +85,23 @@ public class WebClient extends WebConfig {
 
     @GetMapping(value = {"/","/home"})
     public String home(Model model) {
-        StringBuilder sb = new StringBuilder();
-        URI uri = null;
-        try {
-            ServiceInstance instance = loadBalancer.choose("persons-service");
-            uri = instance.getUri();
-            logger.debug("Resolved serviceId '{}' to URL '{}'.", "persons-service", uri);
-            sb.append("Found microservice: ").append(uri.toString()).append("; ");
-        } catch (RuntimeException e) {
-            logger.warn("Failed to resolve serviceId '{}'. Fallback to URL '{}'.", "persons-service", uri);
-            sb.append("Not Found microservice ").append("persons-service").append("; ");
-        }
-
-        try {
-            ServiceInstance instance = loadBalancer.choose("detectives-service");
-            uri = instance.getUri();
-            logger.debug("Resolved serviceId '{}' to URL '{}'.", "detectives-service", uri);
-            sb.append("Found microservice: ").append(uri.toString()).append("; ");
-        } catch (RuntimeException e) {
-            logger.warn("Failed to resolve serviceId '{}'. Fallback to URL '{}'.", "detectives-service", uri);
-            sb.append("Not Found microservice ").append("detectives-service").append("; ");
-        }
-
+        var sb = new StringBuilder();
+        getUri(sb, "persons-service");
+        getUri(sb, "detectives-service");
         model.addAttribute("message", sb.toString());
         return "home";
+    }
+
+    private void getUri(StringBuilder sb, String s) {
+        URI uri =  null;
+        try {
+            var instance = loadBalancer.choose(s);
+            uri = instance.getUri();
+            logger.debug("Resolved serviceId '{}' to URL '{}'.", s, uri);
+            sb.append("Found microservice: ").append(uri.toString()).append("; ");
+        } catch (RuntimeException e) {
+            logger.warn("Failed to resolve serviceId '{}'. Fallback to URL '{}'.", s, uri);
+            sb.append("Not Found microservice ").append(s).append("; ");
+        }
     }
 }

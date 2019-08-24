@@ -76,7 +76,7 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
 
     /*@Bean
     public SpringResourceTemplateResolver templateResolver(){
-        SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
+        var springTemplateResolver = new SpringResourceTemplateResolver();
         springTemplateResolver.setApplicationContext(this.applicationContext);
         springTemplateResolver.setPrefix("/WEB-INF/");
         springTemplateResolver.setSuffix(".html");
@@ -85,7 +85,7 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
 
     @Bean
     public ServletContextTemplateResolver templateResolver() {
-        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver(servletContext);
+        var resolver = new ServletContextTemplateResolver(servletContext);
         resolver.setPrefix("/WEB-INF/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
@@ -98,7 +98,7 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
     @Bean
     @Description("Thymeleaf Template Engine")
     public SpringTemplateEngine templateEngine() {
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        var templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
         templateEngine.setTemplateEngineMessageSource(messageSource());
         return templateEngine;
@@ -107,7 +107,7 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
     @Bean
     @Description("Thymeleaf View Resolver")
     public ThymeleafViewResolver viewResolver() {
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        var viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setCharacterEncoding("UTF-8");
         viewResolver.setOrder(1);
@@ -116,7 +116,7 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
 
     @Bean
     public Validator validator() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final var validator = new LocalValidatorFactoryBean();
         validator.setValidationMessageSource(messageSource());
         return validator;
     }
@@ -147,7 +147,7 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
 
     @Bean
     MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
+        var messageResource = new ReloadableResourceBundleMessageSource();
         messageResource.setBasename("classpath:i18n/global");
         messageResource.setDefaultEncoding("UTF-8");
         messageResource.setUseCodeAsDefaultMessage(true);
@@ -158,21 +158,21 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
 
     @Bean
     LocaleChangeInterceptor localeChangeInterceptor() {
-        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        var localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
     }
 
     @Bean
     ThemeChangeInterceptor themeChangeInterceptor() {
-        ThemeChangeInterceptor themeChangeInterceptor = new ThemeChangeInterceptor();
+        var themeChangeInterceptor = new ThemeChangeInterceptor();
         themeChangeInterceptor.setParamName("theme");
         return themeChangeInterceptor;
     }
 
     @Bean
     CookieLocaleResolver localeResolver() {
-        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
+        var cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
         cookieLocaleResolver.setCookieMaxAge(3600);
         cookieLocaleResolver.setCookieName("locale");
@@ -181,7 +181,7 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
 
     @Bean
     CookieThemeResolver themeResolver() {
-        CookieThemeResolver cookieThemeResolver = new CookieThemeResolver();
+        var cookieThemeResolver = new CookieThemeResolver();
         cookieThemeResolver.setDefaultThemeName("green");
         cookieThemeResolver.setCookieMaxAge(3600);
         cookieThemeResolver.setCookieName("theme");
@@ -190,7 +190,7 @@ class WebConfig implements WebMvcConfigurer, ApplicationContextAware, ServletCon
 
     @Bean
     WebContentInterceptor webChangeInterceptor() {
-        WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
+        var webContentInterceptor = new WebContentInterceptor();
         webContentInterceptor.setCacheSeconds(0);
         webContentInterceptor.setSupportedMethods("GET", "POST", "PUT", "DELETE");
         return webContentInterceptor;
