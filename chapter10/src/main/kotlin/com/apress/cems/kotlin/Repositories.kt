@@ -37,3 +37,5 @@ interface PersonRepo : JpaRepository<Person, Long> {
 }
 
 interface DetectiveRepo : JpaRepository<Detective, Long>
+
+interface CriminalCaseRepo : JpaRepository<CriminalCase, Long>

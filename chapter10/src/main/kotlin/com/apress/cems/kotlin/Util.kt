@@ -77,5 +77,20 @@ internal enum class FieldGroup {
     }
 }
 
+enum class CaseStatus {
+    SUBMITTED,
+    UNDER_INVESTIGATION,
+    IN_COURT,
+    CLOSED,
+    DISMISSED,
+    COLD
+}
 
-class InvalidCriteriaException(var fieldName: String = "", var messageKey: String = "") : RuntimeException()
+enum class CaseType {
+    UNCATEGORIZED,
+    INFRACTION,
+    MISDEMEANOR,
+    FELONY
+}
+
+class InvalidCriteriaException(var fieldName: String = "", var messageKey: String = "") : Exception()

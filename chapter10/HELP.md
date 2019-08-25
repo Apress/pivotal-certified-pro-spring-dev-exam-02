@@ -18,13 +18,13 @@ The following guides illustrate how to use some features concretely:
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
 * [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
 
+
 ### Additional Links
 These additional references should also help you:
 
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
 
 ### How to use
-
 Open this project separately into Intellij. It works with JDK 8. 
 A lot of Kotlin libraries that are needed for JPA have not been upgraded to JDK 11. 
 Also, it used Kotlin DSL for the Gradle files. Thus it cannot be integrated in the overall project structure.

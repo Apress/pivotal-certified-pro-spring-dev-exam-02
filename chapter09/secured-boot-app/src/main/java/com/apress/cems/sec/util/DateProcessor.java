@@ -34,7 +34,7 @@ import java.time.format.DateTimeFormatter;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class DateProcessor {
+public final class DateProcessor {
     public static final String DATE_FORMAT= "yyyy-MM-dd HH:mm";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
@@ -45,4 +45,6 @@ public class DateProcessor {
     public static String toString(final LocalDateTime date){
         return date.format(formatter);
     }
+
+    private DateProcessor(){}
 }

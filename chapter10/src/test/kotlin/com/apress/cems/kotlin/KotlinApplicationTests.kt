@@ -11,10 +11,10 @@ import org.springframework.http.HttpStatus
 class KotlinApplicationTests(@Autowired val restTemplate: TestRestTemplate) {
 
 	@Test
-	fun contextLoads() {}
+	fun `Context Loads`() {}
 
 	@Test
-	fun testHome(){
+	fun `Test Home Page`(){
 		val entity = restTemplate.getForEntity<String>("/", String::class.java)
 		assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)
 		assertThat(entity.body).contains("Spring MVC Kotlin Example!")

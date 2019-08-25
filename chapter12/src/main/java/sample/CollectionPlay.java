@@ -25,26 +25,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.practice.util;
+package sample;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * @author Iuliana Cosmina
- * @since 1.0
- */
-public final class DateProcessor {
-    public static final String DATE_FORMAT= "yyyy-MM-dd HH:mm";
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+public class CollectionPlay {
 
-    public static LocalDateTime toDate(final String date) {
-        return LocalDateTime.parse(date, formatter);
+    public static void main(String... args) {
+       var list = List.of("1", "2");
+       var list2 =  new ArrayList<>();
+       list2.add("1"); list2.add("2");
     }
 
-    public static String toString(final LocalDateTime date){
-        return date.format(formatter);
-    }
-
-    private DateProcessor(){}
 }
