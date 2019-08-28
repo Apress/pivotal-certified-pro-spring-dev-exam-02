@@ -25,17 +25,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package sample;
+package com.apress.cems.reactive;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.web.bind.annotation.RestController;
 
-public class CollectionPlay {
+/**
+ * @author Iuliana Cosmina
+ * @since 1.0
+ */
+@RestController
+@EntityScan(basePackages = {"com.apress.cems.person"})
+@SpringBootApplication
+public class ReactiveHybridApplication {
+
+    private static Logger logger = LoggerFactory.getLogger(ReactiveHybridApplication.class);
 
     public static void main(String... args) {
-       var list = List.of("1", "2");
-       var list2 =  new ArrayList<>();
-       list2.add("1"); list2.add("2");
+        ConfigurableApplicationContext ctx = SpringApplication.run(ReactiveHybridApplication.class, args);
+        ctx.registerShutdownHook();
+        logger.info("Application Started ...");
     }
-
 }

@@ -1,47 +1,38 @@
 buildscript {
     repositories {
         mavenCentral()
-    }
-
-}
-
-plugins {
-    id 'java-library'
-}
-group 'com.apress.cems'
-ext.moduleName = 'com.apress.cems.twelve'
-
-apply plugin: 'java'
-apply plugin: 'idea'
-
-jar {
-    manifest {
-        attributes(
-                "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 12",
-                "Implementation-Version": archiveVersion,
-                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
-        )
+        maven { url "https://plugins.gradle.org/m2/" }
     }
 }
 
-dependencies {
-    //TODO
-}
+subprojects {
+    group 'com.apress.cems.micro'
+    if (!project.name.contains("boot")) {
+        apply plugin: 'java'
+        apply plugin: 'idea'
 
-afterEvaluate {
-    repositories {
-        jcenter()
-    }
+        dependencies {
+            compile misc.lang3, misc.ojdbc, misc.slf4j
+            compile (misc.logback) {
+                exclude group: "javax.activation", module: "activation"
+            }
+        }
 
-    compileJava {
-        inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = [
-                    '-proc:none',
-                    '--module-path', classpath.asPath,
-            ]
-            classpath = files()
+        afterEvaluate {
+            repositories {
+                jcenter()
+            }
+
+            compileJava {
+                inputs.property("moduleName", moduleName)
+                doFirst {
+                    options.compilerArgs = [
+                            '-proc:none',
+                            '--module-path', classpath.asPath,
+                    ]
+                    classpath = files()
+                }
+            }
         }
     }
 }

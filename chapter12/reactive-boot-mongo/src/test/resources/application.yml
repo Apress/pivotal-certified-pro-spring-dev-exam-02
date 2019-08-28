@@ -1,0 +1,13 @@
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: INFO
+    org.springframework: INFO
+    com.apress.cems.mongo: DEBUG
+
+spring:
+  data:
+    mongodb:
+     host: 127.0.0.1
+     port: 12345

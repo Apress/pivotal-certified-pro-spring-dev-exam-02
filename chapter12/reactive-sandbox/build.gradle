@@ -1,0 +1,33 @@
+plugins {
+    id 'java-library'
+}
+apply plugin: 'war'
+
+ext.moduleName = 'com.apress.cems.sandbox'
+
+dependencies {
+    implementation misc.projectReactor
+
+    testImplementation testing.reactorTest
+    testImplementation (boot.starterTest) {
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+        exclude group: "junit", module: "junit"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+war {
+    archiveBaseName = 'reactive-sandbox'
+
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 12 - Reactive Sandbox",
+                "Implementation-Version": archiveVersion,
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}

@@ -1,0 +1,34 @@
+=== Install MongoDB
+
+*The first step* is to install it on your system. Instructions to install on any operating system can be found on their
+official site here: https://docs.mongodb.com/manual/administration/install-community/.
+
+*The next step* is to start MongoDB. On every operating system there is an executable that can do this, but
+you first need to create a directory where the database files will be saved. In the next case the directory is
+`/home/temp/reactive-db/`.
+
+The database service will be started on the 27017 port.
+```
+iuliana.cosmina@home - $ ./mongod --dbpath /home/temp/reactive-db/
+CONTROL (initandlisten) MongoDB starting : pid=89126 port=27017
+dbpath=/Users/iuliana.cosmina/temp/reactive-db/ 64-bit host=home
+CONTROL (initandlisten) db version v4.0.10
+NETWORK (initandlisten) waiting for connections on port 27017
+```
+
+*Open the mongo shell* and test what database is used by executing the `db` command. The returned result should
+be `test`.
+```
+iuliana.cosmina@home - $ mongo
+MongoDB shell version v4.0.10
+connecting to: mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("ca939241-351c-41d9-aab7-bea8a88317fe") }
+MongoDB server version: 4.0.10
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+2019-07-08T01:20:24.802+0100 I CONTROL (initandlisten) ** WARNING:
+soft rlimits too low. Number of files is 256, should be at least 1000
+> db
+test
+>
+```

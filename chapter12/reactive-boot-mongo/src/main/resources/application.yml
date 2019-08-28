@@ -1,0 +1,29 @@
+spring:
+  data:
+    mongodb:
+     host: 127.0.0.1
+     port: 27017
+server:
+  port: 8081
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+  address: 0.0.0.0
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'beans,health'
+
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: INFO
+    org.springframework: DEBUG
+    com.apress.cems.reactive: DEBUG

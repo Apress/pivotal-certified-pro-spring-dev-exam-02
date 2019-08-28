@@ -1,0 +1,53 @@
+buildscript {
+    def springRepo = 'http://repo.spring.io'
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "$springRepo/release" }
+        maven { url "$springRepo/snapshot" }
+        maven { url "$springRepo/milestone" }
+    }
+
+    dependencies {
+        classpath boot.springBootPlugin
+    }
+}
+
+apply plugin: 'java-library'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+    implementation project(':chapter11:entities')
+    implementation boot.starterJpa, boot.starterWebflux, boot.actuator
+    runtimeOnly misc.h2
+
+    testImplementation testing.reactorTest
+    testImplementation (boot.starterTest) {
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+        exclude group: "junit", module: "junit"
+    }
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+}
+
+// decomment this after leaving a single main class to build jar
+jar {
+    archiveBaseName = "reactive-boot-kinda-1"
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 12 - Spring Boot Webflux Application - not totally reactive - using router functions",
+                "Implementation-Version": archiveVersion,
+                "Main-Class"         : "com.apress.cems.reactive.ReactiveApplication",
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}
+

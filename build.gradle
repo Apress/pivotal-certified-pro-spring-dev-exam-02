@@ -70,17 +70,22 @@ ext {
     springDataCommonsVersion = '2.1.10.RELEASE'
     springCloudVersion = '2.1.2.RELEASE'
 
+    //reactive
+    reactorVersion = '3.2.11.RELEASE'
+    nettyVersion = '0.9.0.M3'
 
     //we group libraries by their purpose so we can import them easier in the modules
     boot = [
             springBootPlugin: "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion",
             starter         : "org.springframework.boot:spring-boot-starter:$springBootVersion",
             starterWeb      : "org.springframework.boot:spring-boot-starter-web:$springBootVersion",
+            starterWebflux      : "org.springframework.boot:spring-boot-starter-webflux:$springBootVersion",
             starterJetty    : "org.springframework.boot:spring-boot-starter-jetty:$springBootVersion",
             starterAop      : "org.springframework.boot:spring-boot-starter-aop:$springBootVersion",
             starterSecurity : "org.springframework.boot:spring-boot-starter-security:$springBootVersion",
             starterJpa      : "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion",
             starterMongo    : "org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion",
+            starterMongoReactive    : "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:$springBootVersion",
             starterTest     : "org.springframework.boot:spring-boot-starter-test:$springBootVersion",
             actuator        : "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion",
             devtools        : "org.springframework.boot:spring-boot-devtools:$springBootVersion",
@@ -126,6 +131,8 @@ ext {
             mongo         : "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$mongoVersion",
             hamcrest      : "org.hamcrest:hamcrest:$hamcrestVersion",
             springMockMvc : "io.rest-assured:spring-mock-mvc:$restAssuredVersion",
+            nettyReactor  : "io.projectreactor.netty:reactor-netty:$nettyVersion",
+            reactorTest   : "io.projectreactor:reactor-test:$reactorVersion",
             restAssured   : "io.rest-assured:rest-assured:$restAssuredVersion",
             restAssuredAll: "io.rest-assured:rest-assured-all:$restAssuredVersion" // needed because it is not a transitive dep
     ]
@@ -151,7 +158,8 @@ ext {
             jacksonJsr310    : "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion",
             poi              : "org.apache.poi:poi:$poiVersion",
             itext            : "com.itextpdf:itextpdf:$itextVersion",
-            jaxbApi          : "javax.xml.bind:jaxb-api:2.3.1"
+            jaxbApi          : "javax.xml.bind:jaxb-api:2.3.1",
+            projectReactor          : "io.projectreactor:reactor-core:$reactorVersion"
     ]
 
     tomcat = [

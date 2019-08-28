@@ -83,8 +83,10 @@ include 'chapter11:persons-server'
 include 'chapter11:detectives-server'
 include 'chapter11:web-client'
 
-include 'chapter12'
-
+include 'chapter12:reactive-sandbox'
+include 'chapter12:reactive-boot-kinda'
+include 'chapter12:reactive-boot-hybrid'
+include 'chapter12:reactive-boot-mongo'
 
 rootProject.children.each { project ->
     project.buildFileName = "${project.name}.gradle"
