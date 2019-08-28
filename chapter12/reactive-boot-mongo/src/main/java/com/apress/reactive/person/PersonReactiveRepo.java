@@ -27,6 +27,8 @@ SOFTWARE.
 */
 package com.apress.reactive.person;
 
+import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -36,15 +38,11 @@ import java.math.BigInteger;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public interface ReactivePersonService {
+public interface PersonReactiveRepo extends ReactiveMongoRepository<Person, String> {
 
-    Mono<Person> findById(String id);
+    @Query("{'lastName': { '$regex' : ?0 } }")
+    Flux<Person> findByLastName(String lastName);
 
-    Flux<Person> findAll();
-
-    Mono<Person> save(Person person);
-
-    Mono<Void> update(String id, Mono<Person> personMono);
-
-    Mono<Void> delete(String id);
+    @Query("{ 'username' :  ?0 }")
+    Mono<Person> findByUsername(String username);
 }

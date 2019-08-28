@@ -41,11 +41,11 @@ import java.util.Optional;
  * @since 1.0
  */
 @Service
-public class ReactivePersonRepoImpl implements ReactivePersonRepo {
+public class PersonReactiveRepoImpl implements PersonReactiveRepo {
 
     private PersonRepo personRepo;
 
-    public ReactivePersonRepoImpl(PersonRepo personRepo) {
+    public PersonReactiveRepoImpl(PersonRepo personRepo) {
         this.personRepo = personRepo;
     }
 

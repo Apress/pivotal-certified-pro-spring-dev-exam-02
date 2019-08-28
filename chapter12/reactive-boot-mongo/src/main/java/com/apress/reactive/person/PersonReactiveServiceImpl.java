@@ -38,13 +38,13 @@ import reactor.core.publisher.Mono;
  * @since 1.0
  */
 @Service
-public class ReactivePersonServiceImpl implements ReactivePersonService {
+public class PersonReactiveServiceImpl implements PersonReactiveService {
 
-    private static Logger logger = LoggerFactory.getLogger(ReactivePersonServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(PersonReactiveServiceImpl.class);
 
-    private final ReactivePersonRepository personRepository;
+    private final PersonReactiveRepo personRepository;
 
-    public ReactivePersonServiceImpl(ReactivePersonRepository personRepository) {
+    public PersonReactiveServiceImpl(PersonReactiveRepo personRepository) {
         this.personRepository = personRepository;
     }
 

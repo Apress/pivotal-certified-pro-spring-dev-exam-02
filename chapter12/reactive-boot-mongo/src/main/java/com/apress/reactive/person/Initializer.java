@@ -44,9 +44,9 @@ import java.util.UUID;
 public class Initializer {
     private static Logger logger = LoggerFactory.getLogger(Initializer.class);
 
-    private final ReactivePersonRepository personRepository;
+    private final PersonReactiveRepo personRepository;
 
-    public Initializer(ReactivePersonRepository personRepository) {
+    public Initializer(PersonReactiveRepo personRepository) {
         this.personRepository = personRepository;
     }
 

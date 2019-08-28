@@ -45,35 +45,35 @@ import static org.springframework.web.reactive.function.BodyInserters.fromObject
  */
 @Component
 public class PersonHandler {
-    ReactivePersonRepo reactivePersonRepo;
+    PersonReactiveRepo personReactiveRepo;
 
-    public PersonHandler(ReactivePersonRepo reactivePersonRepo) {
-        this.reactivePersonRepo = reactivePersonRepo;
+    public PersonHandler(PersonReactiveRepo personReactiveRepo) {
+        this.personReactiveRepo = personReactiveRepo;
     }
 
     public HandlerFunction<ServerResponse> list = serverRequest -> ServerResponse.ok()
-            .contentType(MediaType.APPLICATION_JSON).body(reactivePersonRepo.findAll(), Person.class);
+            .contentType(MediaType.APPLICATION_JSON).body(personReactiveRepo.findAll(), Person.class);
 
     public Mono<ServerResponse> show(ServerRequest request) {
-        Mono<Person> personMono = reactivePersonRepo.findById(Long.valueOf(request.pathVariable("id")));
+        Mono<Person> personMono = personReactiveRepo.findById(Long.valueOf(request.pathVariable("id")));
         return personMono
                 .flatMap(person -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(fromObject(person)))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
 /*    public HandlerFunction<ServerResponse> save = serverRequest -> ServerResponse.ok()
-            .build(reactivePersonRepo.save(serverRequest.bodyToMono(Person.class)));*/
+            .build(personReactiveRepo.save(serverRequest.bodyToMono(Person.class)));*/
 
     public Mono<ServerResponse> save(ServerRequest serverRequest) {
-        Mono<Person> personMono = reactivePersonRepo.save(serverRequest.bodyToMono(Person.class));
+        Mono<Person> personMono = personReactiveRepo.save(serverRequest.bodyToMono(Person.class));
         return personMono
                 .flatMap(person -> ServerResponse.created(URI.create("/persons/" + person.getId())).contentType(MediaType.APPLICATION_JSON).body(fromObject(person)))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
     public HandlerFunction<ServerResponse> update = serverRequest -> ServerResponse.noContent()
-            .build(reactivePersonRepo.update(Long.valueOf(serverRequest.pathVariable("id")), serverRequest.bodyToMono(Person.class)));
+            .build(personReactiveRepo.update(Long.valueOf(serverRequest.pathVariable("id")), serverRequest.bodyToMono(Person.class)));
 
     public HandlerFunction<ServerResponse> delete = serverRequest -> ServerResponse.noContent()
-            .build(reactivePersonRepo.delete(Long.valueOf(serverRequest.pathVariable("id"))));
+            .build(personReactiveRepo.delete(Long.valueOf(serverRequest.pathVariable("id"))));
 }

@@ -34,7 +34,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import java.math.BigInteger;
 import java.net.URI;
 
 import static org.springframework.web.reactive.function.BodyInserters.fromObject;
@@ -45,9 +44,9 @@ import static org.springframework.web.reactive.function.BodyInserters.fromObject
  */
 @Component
 public class PersonHandler {
-    private ReactivePersonService personService;
+    private PersonReactiveService personService;
 
-    public PersonHandler(ReactivePersonService personService) {
+    public PersonHandler(PersonReactiveService personService) {
         this.personService = personService;
     }
 
