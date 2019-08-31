@@ -6,6 +6,7 @@ buildscript {
         maven { url "$springRepo/release" }
         maven { url "$springRepo/snapshot" }
         maven { url "$springRepo/milestone" }
+        maven { url "$springRepo/libs-milestone" }
     }
 
     dependencies {
@@ -25,7 +26,8 @@ configurations {
 }
 
 dependencies {
-    implementation boot.starterMongoReactive, boot.starterWebflux, boot.actuator
+    annotationProcessor boot.annotationProcessor
+    implementation spring.r2dbcData, boot.starterWebflux, boot.actuator, misc.r2dbcH2
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     testImplementation testing.reactorTest
@@ -33,8 +35,12 @@ dependencies {
         exclude group: "org.junit.vintage", module: "junit-vintage-engine"
         exclude group: "junit", module: "junit"
     }
+}
 
-    testImplementation testing.mongo
+dependencyManagement {
+    imports {
+        mavenBom misc.r2dbcBom
+    }
 }
 
 test {
@@ -47,11 +53,11 @@ test {
 
 // decomment this after leaving a single main class to build jar
 jar {
-    archiveBaseName = "reactive-boot-mongo"
+    archiveBaseName = "reactive-boot-r2dbc"
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 12 - Spring Boot Webflux Application - fully reactive with MongoDB",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 12 - Spring Boot Webflux Application - not totally reactive - using router functions",
                 "Implementation-Version": archiveVersion,
                 "Main-Class"         : "com.apress.cems.reactive.ReactiveApplication",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')

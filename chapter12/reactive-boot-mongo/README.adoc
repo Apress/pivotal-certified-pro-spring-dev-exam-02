@@ -1,9 +1,11 @@
+You need MongoDB installed locally to run the MongoReactiveApplication.java class.
+
 === Install MongoDB
 
-*The first step* is to install it on your system. Instructions to install on any operating system can be found on their
+The first step is to install it on your system. Instructions to install on any operating system can be found on their
 official site here: https://docs.mongodb.com/manual/administration/install-community/.
 
-*The next step* is to start MongoDB. On every operating system there is an executable that can do this, but
+The next step is to start MongoDB. On every operating system there is an executable that can do this, but
 you first need to create a directory where the database files will be saved. In the next case the directory is
 `/home/temp/reactive-db/`.
 
@@ -16,7 +18,7 @@ CONTROL (initandlisten) db version v4.0.10
 NETWORK (initandlisten) waiting for connections on port 27017
 ```
 
-*Open the mongo shell* and test what database is used by executing the `db` command. The returned result should
+Open the mongo shell and test what database is used by executing the `db` command. The returned result should
 be `test`.
 ```
 iuliana.cosmina@home - $ mongo
