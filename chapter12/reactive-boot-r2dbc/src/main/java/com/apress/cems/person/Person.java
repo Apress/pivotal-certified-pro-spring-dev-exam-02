@@ -30,34 +30,36 @@ package com.apress.cems.person;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import org.springframework.data.annotation.Id;
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 public class Person {
 
+    @Id
     private Long id;
 
     private String username;
 
-    private String firstName;
+    private String firstname;
 
-    private String lastName;
+    private String lastname;
 
     private String password;
 
-    private LocalDateTime hiringDate;
+    private LocalDateTime hiringdate;
 
     private int version;
 
-    private LocalDateTime createdAt;
+    private LocalDateTime createdat;
 
-    private LocalDateTime modifiedAt;
+    private LocalDateTime modifiedat;
 
 
     public Person() {
-        createdAt = LocalDateTime.now();
-        modifiedAt = LocalDateTime.now();
+        createdat = LocalDateTime.now();
+        modifiedat = LocalDateTime.now();
     }
 
     public String getUsername() {
@@ -68,22 +70,6 @@ public class Person {
         this.username = username;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -92,12 +78,32 @@ public class Person {
         this.password = password;
     }
 
-    public LocalDateTime getHiringDate() {
-        return hiringDate;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setHiringDate(LocalDateTime hiringDate) {
-        this.hiringDate = hiringDate;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public LocalDateTime getHiringdate() {
+        return hiringdate;
+    }
+
+    public void setHiringdate(LocalDateTime hiringdate) {
+        this.hiringdate = hiringdate;
+    }
+
+    public LocalDateTime getCreatedat() {
+        return createdat;
     }
 
     @Override
@@ -106,20 +112,20 @@ public class Person {
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
         if (!Objects.equals(id, person.id)) return false;
-        return Objects.equals(firstName, person.firstName) &&
-                Objects.equals(lastName, person.lastName) &&
-                Objects.equals(hiringDate, person.hiringDate);
+        return Objects.equals(firstname, person.firstname) &&
+                Objects.equals(lastname, person.lastname) &&
+                Objects.equals(hiringdate, person.hiringdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), firstName, lastName, hiringDate);
+        return Objects.hash(super.hashCode(), firstname, lastname, hiringdate);
     }
 
     @Override
     public String toString() {
         return String.format("Person[username='%s', firstName='%s', lastName='%s', hiringDate='%s']\n",
-                username, firstName, lastName, hiringDate.toString());
+                username, firstname, lastname, hiringdate.toString());
 
     }
 
@@ -131,20 +137,17 @@ public class Person {
         this.id = id;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+
+    public void setCreatedat(LocalDateTime createdat) {
+        this.createdat = createdat;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public LocalDateTime getModifiedat() {
+        return modifiedat;
     }
 
-    public LocalDateTime getModifiedAt() {
-        return modifiedAt;
-    }
-
-    public void setModifiedAt(LocalDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
+    public void setModifiedat(LocalDateTime modifiedat) {
+        this.modifiedat = modifiedat;
     }
 
 }

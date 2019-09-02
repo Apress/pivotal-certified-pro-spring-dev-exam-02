@@ -25,26 +25,28 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.reactive.person;
+package com.apress.cems.person.services;
 
+import com.apress.cems.person.Person;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.math.BigInteger;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public interface PersonReactiveService {
-
-    Mono<Person> findById(String id);
-
+public interface PersonService {
     Flux<Person> findAll();
+
+    Mono<Person> findById(Long id);
 
     Mono<Person> save(Person person);
 
-    Mono<Void> update(String id, Mono<Person> personMono);
+    Mono<Void> update(Long id, Mono<Person> personMono);
 
-    Mono<Void> delete(String id);
+    Mono<Void> delete(Long id);
+
+    Mono<Person> findByUsername(String username);
+
+    Flux<Person> findByFirstName(String firstName);
 }

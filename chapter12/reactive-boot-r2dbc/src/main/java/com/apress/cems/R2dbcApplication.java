@@ -27,33 +27,61 @@ SOFTWARE.
 */
 package com.apress.cems;
 
+import com.apress.cems.person.PersonHandler;
 import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
 import org.springframework.data.r2dbc.connectionfactory.R2dbcTransactionManager;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import org.springframework.transaction.ReactiveTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.ServerResponse;
+
+import static org.springframework.web.reactive.function.BodyInserters.fromObject;
+import static org.springframework.web.reactive.function.server.RequestPredicates.*;
+import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
+import static org.springframework.web.reactive.function.server.RouterFunctions.route;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @SpringBootApplication
-@EnableR2dbcRepositories
-//@EnableTransactionManagement
-public class R2dbcApplication extends AbstractR2dbcConfiguration {
+public class R2dbcApplication {
 
-    @Override
-    @Bean
-    public ConnectionFactory connectionFactory() {
-        return ConnectionFactories.get("r2dbc:h2:mem:///test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
+    private static Logger logger = LoggerFactory.getLogger(R2dbcApplication.class);
+
+    private final PersonHandler personHandler;
+
+    public R2dbcApplication(PersonHandler personHandler) {
+        this.personHandler = personHandler;
     }
 
-  /*  @Bean
-    ReactiveTransactionManager transactionManager(ConnectionFactory connectionFactory) {
-        return new R2dbcTransactionManager(connectionFactory);
-    }*/
+    @Bean
+    RouterFunction<ServerResponse> routingFunction() {
+        return route(GET("/home"), serverRequest -> ok().body(fromObject("works!")))
+                .andRoute(GET("/persons"), personHandler.list)
+                .andRoute(GET("/persons/{id}"), personHandler::show)
+                .andRoute(PUT("/persons/{id}"), personHandler.update)
+                .andRoute(POST("/persons"), personHandler::save)
+                .andRoute(DELETE("/persons/{id}"), personHandler.delete)
+                .filter((request, next) -> {
+                    logger.info("Before handler invocation: " + request.path());
+                    return next.handle(request);
+                });
+    }
+
+    public static void main(String... args) {
+        ConfigurableApplicationContext ctx = SpringApplication.run( R2dbcApplication.class, args);
+        ctx.registerShutdownHook();
+        logger.info("Application Started ...");
+    }
 }

@@ -28,14 +28,10 @@ SOFTWARE.
 package com.apress.cems;
 
 import com.apress.cems.person.Person;
-import com.apress.cems.person.PersonRepo;
-import io.r2dbc.spi.ConnectionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.DatabaseClient;
-import org.springframework.stereotype.Service;
+import reactor.test.StepVerifier;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -44,17 +40,13 @@ import java.util.List;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Service
-public class Initializer {
+public abstract class TestBase {
 
-    private static Logger logger = LoggerFactory.getLogger(Initializer.class);
+    @Autowired
+    protected DatabaseClient databaseClient;
 
-    private DatabaseClient databaseClient;
-
-    private Initializer(ConnectionFactory connectionFactory) {
-        this.databaseClient = DatabaseClient.create(connectionFactory);
-
-        List<String> statements = Arrays.asList(
+    protected void init(){
+        List<String> statements = Arrays.asList(//
                 "drop table PERSON if exists;",
                 "create table PERSON\n" +
                         "(\n" +
@@ -72,22 +64,34 @@ public class Initializer {
 
         statements.forEach(it -> databaseClient.execute(it)
                 .fetch()
-                .rowsUpdated().doOnNext(count -> logger.info(" Executed {} statement", count)));
-    }
-
-    @PostConstruct
-    private void init(){
-        logger.info("----->>  Initializing database ....");
-        databaseClient.insert()
-                .into(Person.class)
-                .using(createPerson(1L, "sherlock.holmes", "Sherlock", "Holmes", "dudu"));
+                .rowsUpdated()
+                .as(StepVerifier::create)
+                .expectNextCount(1)
+                .verifyComplete());
 
         databaseClient.insert()
                 .into(Person.class)
-                .using(createPerson(2L, "jackson.brodie", "Jackson", "Brodie", "bagy")); logger.info("----->>  All done.");
+                .using(createPerson(1L, "sherlock.holmes", "Sherlock", "Holmes", "dudu"))
+                .then()
+                .as(StepVerifier::create)
+                .verifyComplete();
+
+        databaseClient.insert()
+                .into(Person.class)
+                .using(createPerson(2L, "jackson.brodie", "Jackson", "Brodie", "bagy"))
+                .then()
+                .as(StepVerifier::create)
+                .verifyComplete();
+
+        databaseClient.insert()
+                .into(Person.class)
+                .using(createPerson(3L, "gigi.pedala", "Gigi", "Pedala", "dooooh"))
+                .then()
+                .as(StepVerifier::create)
+                .verifyComplete();
     }
 
-    private Person createPerson(Long id, String s2, String sherlock, String holmes, String dudu) {
+    protected Person createPerson(Long id, String s2, String sherlock, String holmes, String dudu) {
         Person person = new Person();
         person.setId(id);
         person.setUsername(s2);
@@ -97,5 +101,4 @@ public class Initializer {
         person.setHiringdate(LocalDateTime.now());
         return person;
     }
-
 }

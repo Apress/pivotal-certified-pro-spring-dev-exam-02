@@ -29,6 +29,7 @@ package com.apress.cems;
 
 import com.apress.cems.person.Person;
 import com.apress.cems.person.PersonRepo;
+import com.apress.cems.person.services.PersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +37,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.r2dbc.core.DatabaseClient;
 import reactor.test.StepVerifier;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-class PersonRepoTests extends TestBase {
+class PersonServiceTests extends TestBase {
+    @Autowired
+    PersonService personService;
 
     @Autowired
-    PersonRepo personRepo;
+    DatabaseClient databaseClient;
 
     @BeforeEach
     void setUp() {
@@ -53,7 +60,7 @@ class PersonRepoTests extends TestBase {
 
     @Test
     void shouldReadAllPersons() {
-        personRepo.findAll()
+        personService.findAll()
                 .as(StepVerifier::create)
                 .expectNextCount(2)
                 .verifyComplete();
@@ -62,7 +69,7 @@ class PersonRepoTests extends TestBase {
     @Test
     void shouldReturnSherlockById() {
         Person sherlock = createPerson(1L, "sherlock.holmes", "Sherlock", "Holmes", "dudu");
-        personRepo.findById(1L).as(StepVerifier::create)
+        personService.findById(1L).as(StepVerifier::create)
                 .assertNext(sherlock::equals)
                 .verifyComplete();
     }
@@ -70,7 +77,7 @@ class PersonRepoTests extends TestBase {
     @Test
     void shouldReturnSherlockByFirstName() {
         Person sherlock = createPerson(1L, "sherlock.holmes", "Sherlock", "Holmes", "dudu");
-        personRepo.findByFirstName("Sherlock").as(StepVerifier::create)
+        personService.findByFirstName("Sherlock").as(StepVerifier::create)
                 .assertNext(sherlock::equals)
                 .verifyComplete();
     }
@@ -78,7 +85,7 @@ class PersonRepoTests extends TestBase {
     @Test
     void shouldReturnSherlockByUsername() {
         Person sherlock = createPerson(1L, "sherlock.holmes", "Sherlock", "Holmes", "dudu");
-        personRepo.findByUsername("sherlock.holmes").as(StepVerifier::create)
+        personService.findByUsername("sherlock.holmes").as(StepVerifier::create)
                 .assertNext(sherlock::equals)
                 .verifyComplete();
     }

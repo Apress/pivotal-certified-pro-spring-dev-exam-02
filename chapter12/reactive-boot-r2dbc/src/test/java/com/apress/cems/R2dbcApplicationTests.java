@@ -25,20 +25,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.reactive;
+package com.apress.cems;
 
-import com.apress.reactive.person.Person;
+import com.apress.cems.person.Person;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.data.r2dbc.core.DatabaseClient;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,8 +54,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class MongoReactiveApplicationTests {
-    private static Logger logger = LoggerFactory.getLogger(MongoReactiveApplicationTests.class);
+class R2dbcApplicationTests extends TestBase {
+
+    private static Logger logger = LoggerFactory.getLogger(R2dbcApplicationTests.class);
 
     @LocalServerPort
     private int port;
@@ -59,6 +65,9 @@ class MongoReactiveApplicationTests {
 
     private WebTestClient webTestClient = null;
 
+    @Autowired
+    DatabaseClient databaseClient;
+
     @BeforeEach
     void setUp(){
         baseUrl = baseUrl.concat(":").concat(port +"").concat("/persons");
@@ -66,6 +75,8 @@ class MongoReactiveApplicationTests {
                 .bindToServer()
                 .baseUrl(baseUrl)
                 .build();
+
+        init();
     }
 
     @Order(1)
@@ -76,19 +87,18 @@ class MongoReactiveApplicationTests {
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBodyList(Person.class).consumeWith(
-                        listEntityExchangeResult ->
-                        {
-                            assertEquals(3, listEntityExchangeResult.getResponseBody().size());
-                            listEntityExchangeResult.getResponseBody().forEach(p -> logger.info("All: {}",p));
-                        }
-
+                listEntityExchangeResult ->
+                {
+                    assertEquals(3, Objects.requireNonNull(listEntityExchangeResult.getResponseBody()).size());
+                    listEntityExchangeResult.getResponseBody().forEach(p -> logger.info("All: {}",p));
+                }
         );
     }
 
     @Order(2)
     @Test
     void shouldReturnNoPerson(){
-        webTestClient.get().uri("/99sdsd").accept(MediaType.TEXT_EVENT_STREAM)
+        webTestClient.get().uri("/99").accept(MediaType.TEXT_EVENT_STREAM)
                 .exchange()
                 .expectStatus().isNotFound();
     }
@@ -96,13 +106,7 @@ class MongoReactiveApplicationTests {
     @Order(3)
     @Test
     void shouldCreateAPerson(){
-        Person person = new Person();
-        person.setId(UUID.randomUUID().toString());
-        person.setUsername("catherine.cawood");
-        person.setFirstName("Catherine");
-        person.setLastName("Cawood");
-        person.setPassword("ccwoo");
-        person.setHiringDate(DateProcessor.toDate("1986-05-27 00:38"));
+        Person person = createPerson(4L, "catherine.cawood", "Catherine", "Cawood", "ccwoo");
 
         webTestClient.post().uri("/").body(Mono.just(person), Person.class).exchange().expectStatus().isCreated();
     }
@@ -110,7 +114,7 @@ class MongoReactiveApplicationTests {
     @Order(4)
     @Test
     void shouldReturnAPerson() {
-        webTestClient.get().uri("/gigipedala43").accept(MediaType.TEXT_EVENT_STREAM)
+        webTestClient.get().uri("/3").accept(MediaType.TEXT_EVENT_STREAM)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -120,8 +124,8 @@ class MongoReactiveApplicationTests {
             {
                 assertNotNull(person);
                 assertAll("person",
-                        () -> assertEquals("Gigi", person.getFirstName()),
-                        () -> assertEquals("Pedala", person.getLastName()));
+                        () -> assertEquals("Gigi", person.getFirstname()),
+                        () -> assertEquals("Pedala", person.getLastname()));
             });
 
         });
@@ -130,31 +134,21 @@ class MongoReactiveApplicationTests {
     @Order(5)
     @Test
     void shouldUpdateAPerson() {
-        webTestClient.get().uri("/gigipedala43").accept(MediaType.TEXT_EVENT_STREAM)
+        webTestClient.get().uri("/3").accept(MediaType.TEXT_EVENT_STREAM)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody(Person.class).consumeWith(responseEntity -> {
             Person person = responseEntity.getResponseBody();
-            person.setFirstName("Gigi Lopata");
-            webTestClient.put().uri("/1").body(Mono.just(person), Person.class).exchange().expectStatus().isNoContent();
+            person.setFirstname("Gigi Lopata");
+            webTestClient.put().uri("/3").body(Mono.just(person), Person.class).exchange().expectStatus().isNoContent();
         });
     }
 
     @Order(5)
     @Test
     void shouldDeleteAPerson() {
-        webTestClient.delete().uri("/gigipedala43").exchange().expectStatus().isNoContent();
+        webTestClient.delete().uri("/3").exchange().expectStatus().isNoContent();
     }
 
 }
-
-class DateProcessor {
-    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-
-    public static LocalDateTime toDate(final String date) {
-        return LocalDateTime.parse(date, formatter);
-    }
-}
-

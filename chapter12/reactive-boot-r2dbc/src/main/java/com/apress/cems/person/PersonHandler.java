@@ -25,9 +25,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.reactive.person;
+package com.apress.cems.person;
 
-import com.apress.reactive.person.services.PersonReactiveService;
+import com.apress.cems.person.services.PersonService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.HandlerFunction;
@@ -45,9 +45,9 @@ import static org.springframework.web.reactive.function.BodyInserters.fromObject
  */
 @Component
 public class PersonHandler {
-    private PersonReactiveService personService;
+    private PersonService personService;
 
-    public PersonHandler(PersonReactiveService personService) {
+    public PersonHandler(PersonService personService) {
         this.personService = personService;
     }
 
@@ -55,7 +55,7 @@ public class PersonHandler {
             .contentType(MediaType.APPLICATION_JSON).body(personService.findAll(), Person.class);
 
     public Mono<ServerResponse> show(ServerRequest serverRequest) {
-        Mono<Person> personMono = personService.findById(serverRequest.pathVariable("id"));
+        Mono<Person> personMono = personService.findById(Long.parseLong(serverRequest.pathVariable("id")));
         return personMono
                 .flatMap(person -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(fromObject(person)))
                 .switchIfEmpty(ServerResponse.notFound().build());
@@ -69,9 +69,9 @@ public class PersonHandler {
     }
 
     public HandlerFunction<ServerResponse> update = serverRequest -> ServerResponse.noContent()
-            .build(personService.update(serverRequest.pathVariable("id"),
+            .build(personService.update(Long.parseLong(serverRequest.pathVariable("id")),
                     serverRequest.bodyToMono(Person.class)));
 
     public HandlerFunction<ServerResponse> delete = serverRequest -> ServerResponse.noContent()
-            .build(personService.delete(serverRequest.pathVariable("id")));
+            .build(personService.delete(Long.parseLong(serverRequest.pathVariable("id"))));
 }

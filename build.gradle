@@ -24,6 +24,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 ext {
     springVersion = '5.2.0.M3'
     springBootVersion = '2.2.0.M5'
+    springBootR2dbcVersion = '0.1.0.BUILD-SNAPSHOT'
     springJpaVersion = '2.1.9.RELEASE'
     springMongoVersion = '2.1.9.RELEASE'
 
@@ -72,11 +73,12 @@ ext {
     cloudReleaseTrainVersion ='Hoxton.M2'
 
     //reactive
-    reactorVersion = '3.2.11.RELEASE'
+    reactorVersion = '3.3.0.M3'
     nettyVersion = '0.9.0.M3'
     r2dbcDataVersion = '1.0.0.M2'
     r2dbcH2Version = '1.0.0.M7'
     r2dbcReleaseTrainVersion = 'Arabba-M8'
+    bootR2dbcReleaseTrainVersion = 'Moore-BUILD-SNAPSHOT'
 
 
     //we group libraries by their purpose so we can import them easier in the modules
@@ -97,7 +99,9 @@ ext {
             starterThymeleaf: "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion",
             starterMustache : "org.springframework.boot:spring-boot-starter-mustache:$springBootVersion",
             prometheus      : "io.micrometer:micrometer-registry-prometheus:$prometheusVersion",
-            annotationProcessor: "org.springframework.boot:spring-boot-configuration-processor:$springBootVersion"
+            annotationProcessor: "org.springframework.boot:spring-boot-configuration-processor:$springBootVersion",
+            starterR2dbc : "org.springframework.boot.experimental:spring-boot-starter-data-r2dbc:$springBootR2dbcVersion",
+            starterR2dbcH2 : "org.springframework.boot.experimental:spring-boot-starter-r2dbc-h2:$springBootR2dbcVersion"
     ]
 
     spring = [
@@ -114,7 +118,8 @@ ext {
             securityWeb    : "org.springframework.security:spring-security-web:$springVersion",
             securityTaglibs: "org.springframework.security:spring-security-taglibs:$springVersion",
             securityConfig : "org.springframework.security:spring-security-config:$springVersion",
-            securityTest   : "org.springframework.security:spring-security-test:$springVersion"
+            securityTest   : "org.springframework.security:spring-security-test:$springVersion",
+            dataBom         : "org.springframework.data:spring-data-releasetrain:$bootR2dbcReleaseTrainVersion",
     ]
 
     cloud = [
@@ -147,8 +152,8 @@ ext {
 
     misc = [
             h2               : "com.h2database:h2:$h2Version",
-            r2dbcH2          : "io.r2dbc:r2dbc-h2:$r2dbcH2Version",
-            r2dbcBom         : "io.r2dbc:r2dbc-bom:$r2dbcReleaseTrainVersion",
+/*            r2dbcH2          : "io.r2dbc:r2dbc-h2:$r2dbcH2Version",
+            r2dbcBom         : "io.r2dbc:r2dbc-bom:$r2dbcReleaseTrainVersion",*/
             jsr250           : "javax.annotation:javax.annotation-api:1.3.2",
             inject           : "javax.inject:javax.inject:1",
             javaxValidation  : "javax.validation:validation-api:2.0.1.Final",

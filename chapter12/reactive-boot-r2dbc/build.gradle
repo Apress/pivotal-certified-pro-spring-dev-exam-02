@@ -18,17 +18,10 @@ apply plugin: 'java-library'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-configurations {
-    developmentOnly
-    runtimeClasspath {
-        extendsFrom developmentOnly
-    }
-}
 
 dependencies {
-    annotationProcessor boot.annotationProcessor
-    implementation spring.r2dbcData, boot.starterWebflux, boot.actuator, misc.r2dbcH2
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    //annotationProcessor boot.annotationProcessor
+    implementation boot.starterR2dbc, boot.starterR2dbcH2, boot.starterWebflux, boot.actuator/*, misc.r2dbcH2*/
 
     testImplementation testing.reactorTest
     testImplementation (boot.starterTest) {
@@ -39,7 +32,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom misc.r2dbcBom
+        mavenBom spring.dataBom
     }
 }
 
