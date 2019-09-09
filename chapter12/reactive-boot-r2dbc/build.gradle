@@ -20,8 +20,7 @@ apply plugin: 'io.spring.dependency-management'
 
 
 dependencies {
-    //annotationProcessor boot.annotationProcessor
-    implementation boot.starterR2dbc, boot.starterR2dbcH2, boot.starterWebflux, boot.actuator/*, misc.r2dbcH2*/
+    implementation boot.starterR2dbc, boot.starterR2dbcH2, boot.starterWebflux, boot.actuator
 
     testImplementation testing.reactorTest
     testImplementation (boot.starterTest) {

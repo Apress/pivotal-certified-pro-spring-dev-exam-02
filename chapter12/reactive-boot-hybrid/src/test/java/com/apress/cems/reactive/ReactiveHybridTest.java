@@ -28,13 +28,13 @@ SOFTWARE.
 package com.apress.cems.reactive;
 
 import com.apress.cems.person.Person;
-import com.apress.cems.util.DateProcessor;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PersonHandlerTest {
+class ReactiveHybridTest {
 
     @LocalServerPort
     private int port;
@@ -59,6 +59,7 @@ class PersonHandlerTest {
         webTestClient = WebTestClient
                 .bindToServer()
                 .baseUrl(baseUrl)
+                .responseTimeout(Duration.ofSeconds(3600))
                 .build();
     }
 
@@ -68,22 +69,14 @@ class PersonHandlerTest {
         webTestClient.get().uri("/").accept(MediaType.TEXT_EVENT_STREAM)
                 .exchange()
                 .expectStatus().isOk()
-                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectHeader().contentType("text/event-stream;charset=UTF-8")
                 .expectBodyList(Person.class).consumeWith(Assertions::assertNotNull);
     }
 
     @Order(2)
     @Test
-    void shouldReturnNoPerson(){
-        webTestClient.get().uri("/99").accept(MediaType.TEXT_EVENT_STREAM)
-                .exchange()
-                .expectStatus().isNotFound();
-    }
-
-    @Order(3)
-    @Test
     void shouldReturnAPerson() {
-        webTestClient.get().uri("/1").accept(MediaType.TEXT_EVENT_STREAM)
+        webTestClient.get().uri("/1")
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -98,39 +91,6 @@ class PersonHandlerTest {
             });
 
         });
-    }
-
-    @Order(4)
-    @Test
-    void shouldCreateAPerson(){
-        Person person = new Person();
-        person.setUsername("catherine.cawood");
-        person.setFirstName("Catherine");
-        person.setLastName("Cawood");
-        person.setPassword("ccwoo");
-        person.setHiringDate(DateProcessor.toDate("1986-05-27 00:38"));
-
-        webTestClient.post().uri("/").body(Mono.just(person), Person.class).exchange().expectStatus().isCreated();
-    }
-
-    @Order(5)
-    @Test
-    void shouldUpdateAPerson() {
-        webTestClient.get().uri("/1").accept(MediaType.TEXT_EVENT_STREAM)
-                .exchange()
-                .expectStatus().isOk()
-                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-                .expectBody(Person.class).consumeWith(responseEntity -> {
-            Person person = responseEntity.getResponseBody();
-            person.setFirstName("Sherlock Tiberius");
-            webTestClient.put().uri("/1").body(Mono.just(person), Person.class).exchange().expectStatus().isNoContent();
-        });
-    }
-
-    @Order(6)
-    @Test
-    void shouldDeleteAPerson() {
-        webTestClient.delete().uri("/1").exchange().expectStatus().isNoContent();
     }
 
 }

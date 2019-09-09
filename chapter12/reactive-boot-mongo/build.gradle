@@ -28,13 +28,11 @@ dependencies {
     implementation boot.starterMongoReactive, boot.starterWebflux, boot.actuator
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    testImplementation testing.reactorTest
+    testImplementation testing.reactorTest, testing.mongo
     testImplementation (boot.starterTest) {
         exclude group: "org.junit.vintage", module: "junit-vintage-engine"
         exclude group: "junit", module: "junit"
     }
-
-    testImplementation testing.mongo
 }
 
 test {

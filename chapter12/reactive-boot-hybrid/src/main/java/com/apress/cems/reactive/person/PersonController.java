@@ -30,6 +30,7 @@ package com.apress.cems.reactive.person;
 import com.apress.cems.person.Person;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -45,16 +46,16 @@ import java.time.Duration;
 @RequestMapping("/persons")
 public class PersonController {
 
-    final ReactivePersonRepo reactiveRepo;
+    final PersonReactiveService reactiveService;
 
-    public PersonController(ReactivePersonRepo reactiveRepo) {
-        this.reactiveRepo = reactiveRepo;
+    public PersonController(PersonReactiveService reactiveService) {
+        this.reactiveService = reactiveService;
     }
 
     // test with: curl -H "text/event-stream" http://localhost:8081/persons/
     @GetMapping(value = "/", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Person> persons() {
-        Flux<Person> persons = reactiveRepo.findAll();
+        Flux<Person> persons = reactiveService.findAll();
         Flux<Long> periodFlux = Flux.interval(Duration.ofSeconds(2));
         return Flux.zip(persons, periodFlux).map(Tuple2::getT1);
     }
@@ -62,25 +63,24 @@ public class PersonController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Mono<Person> show(@PathVariable Long id) {
-        Mono<Person> personMono = reactiveRepo.findById(id);
-        return reactiveRepo.findById(id);
+        return reactiveService.findById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public Mono<Person> save(Mono<Person> personMono){
-        return reactiveRepo.save(personMono);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Person> save(@RequestBody Person person){
+        return reactiveService.save(Mono.just(person));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public Mono<Void> update(@PathVariable Long id, Mono<Person> personMono) {
-        return reactiveRepo.update(id, personMono);
+        return reactiveService.update(id, personMono).then();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public Mono<Void> delete(@PathVariable Long id) {
-        return reactiveRepo.delete(id);
+        return reactiveService.delete(id);
     }
 }

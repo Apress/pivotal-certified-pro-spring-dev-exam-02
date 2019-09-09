@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public interface PersonReactiveRepo {
+public interface PersonReactiveService {
 
     Mono<Person> findById(Long id);
 

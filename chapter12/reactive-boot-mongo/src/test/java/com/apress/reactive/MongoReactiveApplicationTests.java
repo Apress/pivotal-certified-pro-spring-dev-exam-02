@@ -39,6 +39,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,7 +48,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MongoReactiveApplicationTests {
     private static Logger logger = LoggerFactory.getLogger(MongoReactiveApplicationTests.class);
@@ -68,7 +68,6 @@ class MongoReactiveApplicationTests {
                 .build();
     }
 
-    @Order(1)
     @Test
     void shouldReturnAListOfPersons(){
         webTestClient.get().uri("/").accept(MediaType.TEXT_EVENT_STREAM)
@@ -85,7 +84,6 @@ class MongoReactiveApplicationTests {
         );
     }
 
-    @Order(2)
     @Test
     void shouldReturnNoPerson(){
         webTestClient.get().uri("/99sdsd").accept(MediaType.TEXT_EVENT_STREAM)
@@ -93,7 +91,6 @@ class MongoReactiveApplicationTests {
                 .expectStatus().isNotFound();
     }
 
-    @Order(3)
     @Test
     void shouldCreateAPerson(){
         Person person = new Person();
@@ -107,7 +104,6 @@ class MongoReactiveApplicationTests {
         webTestClient.post().uri("/").body(Mono.just(person), Person.class).exchange().expectStatus().isCreated();
     }
 
-    @Order(4)
     @Test
     void shouldReturnAPerson() {
         webTestClient.get().uri("/gigipedala43").accept(MediaType.TEXT_EVENT_STREAM)
@@ -127,7 +123,6 @@ class MongoReactiveApplicationTests {
         });
     }
 
-    @Order(5)
     @Test
     void shouldUpdateAPerson() {
         webTestClient.get().uri("/gigipedala43").accept(MediaType.TEXT_EVENT_STREAM)
@@ -136,12 +131,11 @@ class MongoReactiveApplicationTests {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody(Person.class).consumeWith(responseEntity -> {
             Person person = responseEntity.getResponseBody();
-            person.setFirstName("Gigi Lopata");
+            Objects.requireNonNull(person).setFirstName("Gigi Lopata");
             webTestClient.put().uri("/1").body(Mono.just(person), Person.class).exchange().expectStatus().isNoContent();
         });
     }
 
-    @Order(5)
     @Test
     void shouldDeleteAPerson() {
         webTestClient.delete().uri("/gigipedala43").exchange().expectStatus().isNoContent();
@@ -153,7 +147,7 @@ class DateProcessor {
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
-    public static LocalDateTime toDate(final String date) {
+    static LocalDateTime toDate(final String date) {
         return LocalDateTime.parse(date, formatter);
     }
 }

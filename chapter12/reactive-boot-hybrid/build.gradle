@@ -19,13 +19,14 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencies {
     implementation project(':chapter11:entities')
-    implementation boot.starterJpa, boot.starterWeb, boot.actuator
-    implementation (boot.starterWebflux){
+    implementation boot.starterJpa, boot.starterWeb, boot.actuator, misc.projectReactor
+    /*implementation (boot.starterWebflux){
         exclude group: "org.springframework.boot", module: "spring-boot-starter-reactor-netty"
-    }
+    }*/
+
     runtimeOnly misc.h2
 
-    testImplementation testing.reactorTest
+    testImplementation testing.reactorTest, boot.starterWebflux
     testImplementation (boot.starterTest) {
         exclude group: "org.junit.vintage", module: "junit-vintage-engine"
         exclude group: "junit", module: "junit"

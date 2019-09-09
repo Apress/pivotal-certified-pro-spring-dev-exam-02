@@ -25,22 +25,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems;
+package com.apress.reactive;
 
-import com.apress.cems.person.Person;
-import com.apress.cems.person.PersonRepo;
-import com.apress.cems.person.services.PersonService;
-import org.junit.jupiter.api.BeforeEach;
+import com.apress.reactive.person.Person;
+import com.apress.reactive.person.services.PersonReactiveService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.r2dbc.core.DatabaseClient;
 import reactor.test.StepVerifier;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Iuliana Cosmina
@@ -48,47 +43,34 @@ import java.util.List;
  */
 @Disabled("for some reason these tests hand in the gradle build, run them only manually from IntelliJ IDEA")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-class PersonServiceTests extends TestBase {
-    @Autowired
-    PersonService personService;
+class MongoReactiveServiceTest {
 
     @Autowired
-    DatabaseClient databaseClient;
-
-    @BeforeEach
-    void setUp() {
-        init();
-    }
+    PersonReactiveService personService;
 
     @Test
     void shouldReadAllPersons() {
         personService.findAll()
                 .as(StepVerifier::create)
-                .expectNextCount(2)
+                .expectNextCount(3)
                 .verifyComplete();
     }
 
     @Test
     void shouldReturnSherlockById() {
-        Person sherlock = createPerson(1L, "sherlock.holmes", "Sherlock", "Holmes", "dudu");
-        personService.findById(1L).as(StepVerifier::create)
-                .assertNext(sherlock::equals)
+        Person gigi = createPerson( "gigi.pedala", "Gigi", "Pedala", "12345");
+        personService.findById("gigipedala43").as(StepVerifier::create)
+                .assertNext(gigi::equals)
                 .verifyComplete();
     }
 
-    @Test
-    void shouldReturnSherlockByFirstName() {
-        Person sherlock = createPerson(1L, "sherlock.holmes", "Sherlock", "Holmes", "dudu");
-        personService.findByFirstName("Sherlock").as(StepVerifier::create)
-                .assertNext(sherlock::equals)
-                .verifyComplete();
-    }
-
-    @Test
-    void shouldReturnSherlockByUsername() {
-        Person sherlock = createPerson(1L, "sherlock.holmes", "Sherlock", "Holmes", "dudu");
-        personService.findByUsername("sherlock.holmes").as(StepVerifier::create)
-                .assertNext(sherlock::equals)
-                .verifyComplete();
+    Person createPerson( String s2, String fn, String ln, String password) {
+        Person person = new Person();
+        person.setUsername(s2);
+        person.setFirstName(fn);
+        person.setLastName(ln);
+        person.setPassword(password);
+        person.setHiringDate(LocalDateTime.now());
+        return person;
     }
 }
