@@ -147,7 +147,7 @@ public class PersonsController {
      * @return
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@RequestBody Person updatedPerson, @PathVariable Long id) {
         Optional<Person> personOpt = personService.findById(id);
         if(personOpt.isPresent()) {

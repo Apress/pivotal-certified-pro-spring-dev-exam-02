@@ -1,0 +1,30 @@
+plugins {
+    id 'java-library'
+}
+apply plugin: 'war'
+
+ext.moduleName = 'com.apress.cems.classic.rest'
+
+dependencies {
+    compile project(':chapter05:data-jpa')
+    compile spring.webmvc, hibernate.validator, misc.h2, misc.hikari, misc.thymeleaf/*, misc.jacksonDatabind*/
+    compileOnly misc.servletApi
+    compile  spring.securityWeb, spring.securityConfig
+
+    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test, testing.mockito
+    testImplementation testing.api,testing.restAssured, testing.restAssuredAll
+    testRuntime testing.engine, testing.platformRunner
+}
+
+war {
+    archiveBaseName = 'rest-classic-secured'
+
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 08 - Spring Web REST classic with basic authentication",
+                "Implementation-Version": archiveVersion,
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}

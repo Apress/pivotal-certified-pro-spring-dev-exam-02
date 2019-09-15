@@ -63,7 +63,7 @@ public class Person  extends AbstractEntity {
     @Column(nullable = false)
     private String lastName;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @NotNull
     @Size(min = 4, max = 50)
     @Column(nullable = false)

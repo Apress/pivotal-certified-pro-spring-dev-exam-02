@@ -64,7 +64,7 @@ public class PersonsController {
      * Handles requests to list all persons.
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Person> list() {
         List<Person> persons =  personService.findAll();
         persons.sort(COMPARATOR_BY_ID);
@@ -125,7 +125,7 @@ public class PersonsController {
      * @return
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Person show(@PathVariable Long id) {
         var personOpt = personService.findById(id);
         if(personOpt.isPresent()) {

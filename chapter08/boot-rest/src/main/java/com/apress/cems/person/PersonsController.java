@@ -115,7 +115,7 @@ public class PersonsController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE,
+    @GetMapping(path = "/search", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Person> processSubmit(@Validated @RequestBody CriteriaDto criteria) {
         try {

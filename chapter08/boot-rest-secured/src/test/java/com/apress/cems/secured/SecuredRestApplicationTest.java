@@ -89,10 +89,22 @@ class SecuredRestApplicationTest {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        final HttpEntity<Person> postRequest = new HttpEntity<>(person, headers);
-        ResponseEntity<Person> responseEntity = testRestTemplate.exchange(baseUrl.concat("/1"), HttpMethod.PUT, postRequest, Person.class);
+        final HttpEntity<Person> putRequest = new HttpEntity<>(person, headers);
+        ResponseEntity<Void> responseEntity = testRestTemplate.exchange(baseUrl.concat("/1"), HttpMethod.PUT, putRequest, Void.class);
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void shouldNotUpdateAPerson403(){
+        Person person = buildPerson("sherlock.holmes", "Sherlock Cornelius", "Holmes", "complicated");
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        final HttpEntity<Person> putRequest = new HttpEntity<>(person, headers);
+        ResponseEntity<Void> responseEntity = testRestTemplate.withBasicAuth("john", "doe").exchange(baseUrl.concat("/1"), HttpMethod.PUT, putRequest, Void.class);
+
+        assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
     }
 
     @Test

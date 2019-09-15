@@ -76,7 +76,7 @@ public class BetterPersonsController {
      * Handles requests to create a person.
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void create(@Validated(Person.BasicValidation.class) @RequestBody Person person, BindingResult result, @Value("#{request.requestURL}")
             StringBuffer originalUrl, HttpServletResponse response) {
         if (result.hasErrors()) {

@@ -62,7 +62,7 @@ public class WebConfig implements WebMvcConfigurer, WebApplicationInitializer {
         return objMapper;
     }
 
-    @Override
+    /*@Override
     public void onStartup(ServletContext servletContext) {
         var rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(H2DbConfig.class, ServiceConfig.class, WebConfig.class);
@@ -70,6 +70,22 @@ public class WebConfig implements WebMvcConfigurer, WebApplicationInitializer {
 
         var dispatcher =
                 servletContext.addServlet("cems-dispatcher", new DispatcherServlet(rootContext));
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
+    }*/
+
+    @Override
+    public void onStartup(ServletContext servletContext) {
+        var rootContext = new AnnotationConfigWebApplicationContext();
+        rootContext.register(H2DbConfig.class, ServiceConfig.class);
+        servletContext.addListener(new ContextLoaderListener(rootContext));
+
+        var dispatcherContext =
+                new AnnotationConfigWebApplicationContext();
+        dispatcherContext.register(WebConfig.class);
+
+        var dispatcher =
+                servletContext.addServlet("cems-dispatcher", new DispatcherServlet(dispatcherContext));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
     }

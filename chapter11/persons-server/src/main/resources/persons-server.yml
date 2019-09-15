@@ -22,6 +22,7 @@ spring:
 # HTTP Server
 server:
   port: 4001   # HTTP (Tomcat) port
+  address: 0.0.0.0
 
 # Discovery Server Access
 eureka:

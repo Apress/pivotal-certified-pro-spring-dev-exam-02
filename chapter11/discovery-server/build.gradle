@@ -18,7 +18,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 dependencies {
-    implementation boot.starterWeb, boot.actuator, cloud.cloudStarter, cloud.eurekaServer, spring.jdbc, misc.jaxbApi
+    implementation boot.starterWeb, cloud.cloudStarter, cloud.eurekaServer, spring.jdbc, misc.jaxbApi, boot.actuator
 }
 
 dependencyManagement {

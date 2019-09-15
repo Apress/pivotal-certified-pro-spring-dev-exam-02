@@ -47,7 +47,7 @@ public class DiscoveryServer {
 
     public static void main(String... args) throws IOException {
         // Look for configuration in discovery.properties or discovery.yml
-        System.setProperty("spring.config.name", "discovery");
+        System.setProperty("spring.config.name", "discovery-server");
 
         var ctx = SpringApplication.run(DiscoveryServer.class, args);
         assert (ctx != null);

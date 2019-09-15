@@ -35,7 +35,6 @@ import com.apress.cems.util.CriteriaDto;
 import com.apress.cems.util.NumberGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -66,10 +65,9 @@ public class PersonsController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<Person> list(Model model) {
+    public List<Person> list() {
         List<Person> persons =  personService.findAll();
         persons.sort(COMPARATOR_BY_ID);
-        model.addAttribute("persons", persons);
         return persons;
     }
 
@@ -77,7 +75,7 @@ public class PersonsController {
      * Handles requests to create a person.
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Person create(@Validated(Person.BasicValidation.class) @RequestBody Person person, BindingResult result) {
         if (result.hasErrors()) {
             String errString = createErrorString(result);
@@ -101,7 +99,7 @@ public class PersonsController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE,
+    @GetMapping(path = "/search", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Person> processSubmit(@Validated @RequestBody CriteriaDto criteria) {
         return personService.getByCriteriaDto(criteria);
@@ -113,7 +111,7 @@ public class PersonsController {
      * @return
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Person show(@PathVariable Long id) {
         Optional<Person> personOpt = personService.findById(id);
         if(personOpt.isPresent()) {
@@ -130,15 +128,14 @@ public class PersonsController {
      * @return
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
-    public Person update(@RequestBody Person updatedPerson, @PathVariable Long id) {
+    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@RequestBody Person updatedPerson, @PathVariable Long id) {
         Optional<Person> personOpt = personService.findById(id);
         if(personOpt.isPresent()) {
             Person person = personOpt.get();
             person.setUsername(updatedPerson.getUsername());
             person.setFirstName(updatedPerson.getFirstName());
             person.setLastName(updatedPerson.getLastName());
-            return personService.save(person);
         } else {
             throw new NotFoundException(Person.class, id);
         }

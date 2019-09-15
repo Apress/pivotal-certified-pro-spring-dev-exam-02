@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: discovery-service
+# Configure this Discovery Server
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false # do not auto-register as client
+    fetchRegistry: false
+
+server:
+  port: 3000   # where this discovery server is accessible
+  waitTimeInMsWhenSyncEmpty: 0
+  address: 0.0.0.0
+
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: INFO
+    org.springframework: DEBUG
+    com.apress.cems: DEBUG

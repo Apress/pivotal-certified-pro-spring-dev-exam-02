@@ -32,12 +32,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,8 +51,7 @@ import java.net.URI;
 @Controller
 @SpringBootApplication
 @EnableEurekaClient
-@ComponentScan(useDefaultFilters=false)
-public class WebClient extends WebConfig {
+public class WebClient {
 
     private static Logger logger = LoggerFactory.getLogger(WebClient.class);
 
@@ -70,14 +67,6 @@ public class WebClient extends WebConfig {
 
     @Bean @LoadBalanced RestTemplate restTemplate() {
         return new RestTemplate();
-    }
-
-    @Bean AllWebServices allWebServices() {
-        return new AllWebServices(restTemplate());
-    }
-
-    @Bean AllWebController allController() {
-        return new AllWebController(allWebServices(), messageSource());
     }
 
     @Autowired

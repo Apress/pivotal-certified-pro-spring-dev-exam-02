@@ -86,7 +86,7 @@ class RestTemplateTest {
 
     @Test
     void shouldReturnAPerson(){
-        Person person = restTemplate.getForObject(baseUrl + "/1", Person.class);
+        Person person = restTemplate.getForObject(baseUrl.concat("/{id}"), Person.class, 1);
         assertAll(
                 () -> assertNotNull(person),
                 () -> assertEquals("sherlock.holmes", person.getUsername())

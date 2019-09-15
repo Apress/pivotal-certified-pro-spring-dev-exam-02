@@ -86,7 +86,7 @@ class PersonsControllerTest {
     @Order(2)
     @Test
     void shouldReturnAPerson(){
-        Person person = restTemplate.getForObject(baseUrl + "/1", Person.class);
+        Person person = restTemplate.getForObject(baseUrl.concat("/{id}"), Person.class, 1);
         assertAll(
                 () -> assertNotNull(person),
                 () -> assertEquals("sherlock.holmes", person.getUsername())
@@ -96,7 +96,7 @@ class PersonsControllerTest {
     @Order(3)
     @Test
     void shouldReturn404(){
-        ResponseEntity<String> err = restTemplate.getForEntity(baseUrl + "/99", String.class);
+        ResponseEntity<String> err = restTemplate.getForEntity(baseUrl.concat("/{id}"), String.class, 99);
         assertAll(
                 () -> assertNotNull(err),
                 () -> assertEquals(HttpStatus.NOT_FOUND, err.getStatusCode()),
@@ -134,7 +134,7 @@ class PersonsControllerTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         final HttpEntity<Person> postRequest = new HttpEntity<>(person, headers);
-        ResponseEntity<Person> responseEntity = restTemplate.exchange(baseUrl.concat("/1"), HttpMethod.PUT, postRequest, Person.class);
+        ResponseEntity<Person> responseEntity = restTemplate.exchange(baseUrl.concat("/{id}"), HttpMethod.PUT, postRequest, Person.class, 1);
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
     }
@@ -183,12 +183,23 @@ class PersonsControllerTest {
     void shouldDeleteAPerson(){
         restTemplate.delete(baseUrl.concat("/2"));
 
-        ResponseEntity<String> err = restTemplate.getForEntity(baseUrl + "/2", String.class);
+        ResponseEntity<String> err = restTemplate.getForEntity(baseUrl + "/{id}", String.class, 2);
         assertAll(
                 () -> assertNotNull(err),
                 () -> assertEquals(HttpStatus.NOT_FOUND, err.getStatusCode()),
                 () -> assertTrue(err.getBody().contains("Unable to find entry with id 2"))
         );
+    }
+
+    @Order(10)
+    @Test
+    void shouldDeleteAPersonWithExchange(){
+        final HttpHeaders headers = new HttpHeaders();
+
+        final HttpEntity<Person> deleteRequest = new HttpEntity<>(headers);
+        ResponseEntity<Void> responseEntity = restTemplate.exchange(baseUrl.concat("/{id}"), HttpMethod.DELETE, deleteRequest, Void.class, 3);
+
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
     }
 
     private Person buildPerson(final String username, final String firstName, final String lastName, final String password) {
