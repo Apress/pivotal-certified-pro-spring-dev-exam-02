@@ -28,7 +28,6 @@ class RepositoryTests @Autowired constructor(
     fun `Person findByCompleteName`() {
         val person = Person("test", "person", "test.person", "test", DateProcessor.toDate("1983-08-15 00:23"))
         entityManager.persist(person)
-        entityManager.flush()
 
         val found  = personRepo.findByCompleteName("test", "person");
         assertThat(found.get()).isEqualTo(person)

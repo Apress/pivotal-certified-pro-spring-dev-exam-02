@@ -19,7 +19,7 @@ subprojects {
     }
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_12
 
 ext {
     springVersion = '5.2.0.M3'

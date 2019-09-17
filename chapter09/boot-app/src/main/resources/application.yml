@@ -7,7 +7,8 @@ server:
   address: 0.0.0.0
 spring:
   profiles:
-    active: prometheus
+#    active: prometheus
+    active: all
   thymeleaf:
     cache: false
   datasource:

@@ -30,6 +30,7 @@ package com.apress.cems;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,7 +51,7 @@ class BeansController implements ApplicationContextAware {
         this.ctx = applicationContext;
     }
 
-    @GetMapping({"/", "/beans"})
+    @GetMapping(path = {"/", "/beans"}, produces = MediaType.APPLICATION_JSON_VALUE)
     Map<String,String> allBeans() {
         Map<String,String> map = new HashMap<>();
         Arrays.stream(ctx.getBeanDefinitionNames()).forEach(beanName -> {

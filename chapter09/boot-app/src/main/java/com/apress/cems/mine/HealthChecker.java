@@ -32,6 +32,7 @@ import com.apress.cems.person.PersonRepo;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.boot.actuate.health.Status;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Profile;
@@ -49,6 +50,8 @@ import java.util.Map;
 public class HealthChecker implements HealthIndicator, ApplicationContextAware {
     private ApplicationContext ctx;
 
+    private final static Status FATAL = new Status("FATAL", "All Systems Down!");
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.ctx = applicationContext;
@@ -56,20 +59,22 @@ public class HealthChecker implements HealthIndicator, ApplicationContextAware {
 
     @Override
     public Health health() {
-        Health.Builder builder = Health.up();
         // check initialization of Person table by counting the records
+
         Map<String,String> inits = new HashMap<>();
         if(personCheck(ctx.getBean(PersonRepo.class))) {
            inits.put("personInit","SUCCESSFUL");
         } else {
-            return builder.down().withDetail("personInit", "FAILED").build();
+            //return Health.down().withDetail("personInit", "FAILED").build();
+            return Health.status(FATAL).withDetail("personInit", "FAILED").build();
         }
         if(detectiveCheck(ctx.getBean(DetectiveRepo.class))) {
             inits.put("detectiveInit","SUCCESSFUL");
         } else {
-            return builder.down().withDetail("detectiveInit", "FAILED").build();
+            //return Health.down().withDetail("detectiveInit", "FAILED").build();
+            return Health.status(FATAL).withDetail("detectiveInit", "FAILED").build();
         }
-       return builder.up().withDetails(inits).build();
+       return Health.up().withDetails(inits).build();
     }
 
     private boolean personCheck(PersonRepo personRepo){

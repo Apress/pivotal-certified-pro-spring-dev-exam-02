@@ -2,3 +2,8 @@ management:
   endpoint:
     health:
       show-details: always
+  health:
+    status:
+      http-mapping:
+        FATAL: 501
+      order: FATAL, DOWN, OUT_OF_SERVICE, UNKNOWN, UP

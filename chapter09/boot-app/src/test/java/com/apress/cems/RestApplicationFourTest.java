@@ -38,9 +38,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Iuliana Cosmina
@@ -83,5 +86,23 @@ class RestApplicationFourTest {
         ResponseEntity<Map>  entity = restTemplate.exchange(mgtUrl.concat("/shutdown"), HttpMethod.POST, postRequest, Map.class);
 
         assertEquals(HttpStatus.OK, entity.getStatusCode());
+    }
+
+
+    @Test
+    void shouldReturn200WhenSendingRequestToLoggerEndpoint() {
+        @SuppressWarnings("rawtypes")
+
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        var levelCfg = Map.of("configuredLevel", "DEBUG");
+        HttpEntity<Map<String,String>> postRequest = new HttpEntity<>(levelCfg, headers);
+        ResponseEntity<Map>  entity = restTemplate.exchange(mgtUrl.concat("/loggers/com.apress.cems.Initializer"), HttpMethod.POST, postRequest, Map.class);
+
+        assertEquals(HttpStatus.NO_CONTENT, entity.getStatusCode());
+
+        ResponseEntity<Map>  response = restTemplate.exchange(mgtUrl.concat("/loggers/com.apress.cems.Initializer"), HttpMethod.GET, postRequest, Map.class);
+        assertEquals("DEBUG", Objects.requireNonNull(response.getBody()).get("configuredLevel"));
     }
 }

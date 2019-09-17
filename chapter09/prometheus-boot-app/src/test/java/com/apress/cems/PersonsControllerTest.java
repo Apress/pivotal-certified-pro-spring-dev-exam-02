@@ -67,7 +67,7 @@ class PersonsControllerTest {
         });
     }
 
-    @RepeatedTest(3000)
+    @RepeatedTest(6000)
     void shouldReturnAListOfPersons(){
         Person[] persons = restTemplate.getForObject(BASE_URL.concat("/persons"), Person[].class);
         assertAll(
@@ -76,13 +76,13 @@ class PersonsControllerTest {
         );
     }
 
-    @RepeatedTest(3000)
+    @RepeatedTest(6000)
     void shouldReturnAPerson(){
         Person person = restTemplate.getForObject(BASE_URL.concat("/persons/").concat(getRandomLong() +""), Person.class);
         assertNotNull(person);
     }
 
-    @RepeatedTest(3000)
+    @RepeatedTest(6000)
     void shouldCreateAPerson() {
         Person person = buildPerson();
 

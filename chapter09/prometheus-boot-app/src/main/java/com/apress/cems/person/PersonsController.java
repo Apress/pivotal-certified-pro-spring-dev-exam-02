@@ -27,7 +27,6 @@ SOFTWARE.
 */
 package com.apress.cems.person;
 
-import com.apress.cems.ex.InvalidCriteriaException;
 import com.apress.cems.ex.NotFoundException;
 import com.apress.cems.person.services.PersonService;
 import com.apress.cems.util.CriteriaDto;
@@ -35,7 +34,6 @@ import com.apress.cems.util.NumberGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
