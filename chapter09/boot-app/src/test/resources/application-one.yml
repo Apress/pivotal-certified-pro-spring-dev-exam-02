@@ -7,7 +7,7 @@ management:
       base-path: /monitoring
   server:
     port: 9091
-    address: 127.0.0.1
+    address: 0.0.0.0
 info:
   app:
     name: Spring Actuator Application

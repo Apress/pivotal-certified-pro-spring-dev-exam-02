@@ -56,7 +56,7 @@ import static org.hamcrest.Matchers.*;
 class RestAssuredTest {
 
     @LocalServerPort
-    private int port;
+    private Integer port;
 
     @BeforeEach
     void setupURL() {

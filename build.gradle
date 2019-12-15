@@ -13,8 +13,8 @@ subprojects {
         jcenter()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "http://repo.spring.io/snapshot/" }
-        maven { url "http://repo.spring.io/milestone" }
+        maven { url "https://repo.spring.io/snapshot/" }
+        maven { url "https://repo.spring.io/milestone" }
         maven { url "https://plugins.gradle.org/m2/" }
     }
 }
@@ -22,10 +22,11 @@ subprojects {
 java.sourceCompatibility = JavaVersion.VERSION_12
 
 ext {
-    springVersion = '5.2.0.M3'
-    springBootVersion = '2.2.0.M5'
+    springVersion = '5.2.0.RC2'
+    springSecurityVersion = '5.2.0.RC1'
+    springBootVersion = '2.2.0.M6'
     springBootR2dbcVersion = '0.1.0.BUILD-SNAPSHOT'
-    springJpaVersion = '2.1.9.RELEASE'
+    springJpaVersion = '2.2.0.RC3'
     springMongoVersion = '2.1.9.RELEASE'
 
     //testing
@@ -80,7 +81,6 @@ ext {
     r2dbcReleaseTrainVersion = 'Arabba-M8'
     bootR2dbcReleaseTrainVersion = 'Moore-BUILD-SNAPSHOT'
 
-
     //we group libraries by their purpose so we can import them easier in the modules
     boot = [
             springBootPlugin: "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion",
@@ -115,10 +115,10 @@ ext {
             data           : "org.springframework.data:spring-data-jpa:$springJpaVersion",
             mongo          : "org.springframework.data:spring-data-mongodb:$springMongoVersion",
             r2dbcData      : "org.springframework.data:spring-data-r2dbc:$r2dbcDataVersion",
-            securityWeb    : "org.springframework.security:spring-security-web:$springVersion",
-            securityTaglibs: "org.springframework.security:spring-security-taglibs:$springVersion",
-            securityConfig : "org.springframework.security:spring-security-config:$springVersion",
-            securityTest   : "org.springframework.security:spring-security-test:$springVersion",
+            securityWeb    : "org.springframework.security:spring-security-web:$springSecurityVersion",
+            securityTaglibs: "org.springframework.security:spring-security-taglibs:$springSecurityVersion",
+            securityConfig : "org.springframework.security:spring-security-config:$springSecurityVersion",
+            securityTest   : "org.springframework.security:spring-security-test:$springSecurityVersion",
             dataBom         : "org.springframework.data:spring-data-releasetrain:$bootR2dbcReleaseTrainVersion",
     ]
 
@@ -196,8 +196,8 @@ repositories {
     jcenter()
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven { url "http://repo.spring.io/snapshot/" }
-    maven { url "http://repo.spring.io/milestone" }
+    maven { url "https://repo.spring.io/snapshot/" }
+    maven { url "https://repo.spring.io/milestone" }
     maven { url "https://plugins.gradle.org/m2/" }
 }
 

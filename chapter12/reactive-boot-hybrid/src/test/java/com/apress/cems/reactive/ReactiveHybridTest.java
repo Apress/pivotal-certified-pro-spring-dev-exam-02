@@ -42,12 +42,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ReactiveHybridTest {
 
     @LocalServerPort
-    private int port;
+    private Integer port;
 
     private String baseUrl = "http://localhost";
 
@@ -55,7 +54,7 @@ class ReactiveHybridTest {
 
     @BeforeEach
     void setUp(){
-        baseUrl = baseUrl.concat(":").concat(port +"").concat("/persons");
+        baseUrl = baseUrl.concat(":").concat(port.toString()).concat("/persons");
         webTestClient = WebTestClient
                 .bindToServer()
                 .baseUrl(baseUrl)
@@ -63,7 +62,6 @@ class ReactiveHybridTest {
                 .build();
     }
 
-    @Order(1)
     @Test
     void shouldReturnAListOfPersons(){
         webTestClient.get().uri("/").accept(MediaType.TEXT_EVENT_STREAM)
@@ -73,7 +71,6 @@ class ReactiveHybridTest {
                 .expectBodyList(Person.class).consumeWith(Assertions::assertNotNull);
     }
 
-    @Order(2)
     @Test
     void shouldReturnAPerson() {
         webTestClient.get().uri("/1")

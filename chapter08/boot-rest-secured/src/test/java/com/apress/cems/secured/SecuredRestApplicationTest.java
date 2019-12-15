@@ -48,7 +48,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SecuredRestApplicationTest {
     @LocalServerPort
-    private int port;
+    private Integer port;
 
     private String baseUrl = "http://localhost";
 
@@ -65,7 +65,7 @@ class SecuredRestApplicationTest {
 
     @BeforeEach
     void setUp(){
-        baseUrl = baseUrl.concat(":").concat(port +"").concat("/persons");
+        baseUrl = baseUrl.concat(":").concat(port.toString()).concat("/persons");
     }
 
     @Test

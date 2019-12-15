@@ -47,7 +47,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PersonHandlerTest {
 
     @LocalServerPort
-    private int port;
+    private Integer port;
 
     private String baseUrl = "http://localhost";
 
@@ -55,7 +55,7 @@ class PersonHandlerTest {
 
     @BeforeEach
     void setUp(){
-        baseUrl = baseUrl.concat(":").concat(port +"").concat("/persons");
+        baseUrl = baseUrl.concat(":").concat(port.toString()).concat("/persons");
         webTestClient = WebTestClient
                 .bindToServer()
                 .baseUrl(baseUrl)

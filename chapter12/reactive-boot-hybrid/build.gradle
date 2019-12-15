@@ -1,5 +1,5 @@
 buildscript {
-    def springRepo = 'http://repo.spring.io'
+    def springRepo = 'https://repo.spring.io'
     repositories {
         mavenLocal()
         mavenCentral()
@@ -20,9 +20,6 @@ apply plugin: 'io.spring.dependency-management'
 dependencies {
     implementation project(':chapter11:entities')
     implementation boot.starterJpa, boot.starterWeb, boot.actuator, misc.projectReactor
-    /*implementation (boot.starterWebflux){
-        exclude group: "org.springframework.boot", module: "spring-boot-starter-reactor-netty"
-    }*/
 
     runtimeOnly misc.h2
 

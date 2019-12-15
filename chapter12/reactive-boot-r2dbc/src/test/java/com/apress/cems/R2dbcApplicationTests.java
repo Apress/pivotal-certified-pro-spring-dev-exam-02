@@ -38,13 +38,8 @@ import org.springframework.data.r2dbc.core.DatabaseClient;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,7 +54,7 @@ class R2dbcApplicationTests extends TestBase {
     private static Logger logger = LoggerFactory.getLogger(R2dbcApplicationTests.class);
 
     @LocalServerPort
-    private int port;
+    private Integer port;
 
     private String baseUrl = "http://localhost";
 
@@ -70,7 +65,7 @@ class R2dbcApplicationTests extends TestBase {
 
     @BeforeEach
     void setUp(){
-        baseUrl = baseUrl.concat(":").concat(port +"").concat("/persons");
+        baseUrl = baseUrl.concat(":").concat(port.toString()).concat("/persons");
         webTestClient = WebTestClient
                 .bindToServer()
                 .baseUrl(baseUrl)

@@ -82,6 +82,10 @@ public class PersonsController {
             String errString = createErrorString(result);
             throw new PersonsException(HttpStatus.BAD_REQUEST, "Cannot save entry because: "+ errString);
         }
+        // This a workaround for a Jackson bug, the field is actually not deserialized. This is the issue I've found already created on GitHub:
+        // https://github.com/FasterXML/jackson-databind/issues/935#issuecomment-520070413.
+        // It is closed, but the bug is still there in version 2.9.9. when I asked about it,
+        // I was told to create a new issue, which I will, as soon as this book is published.
         if(StringUtils.isEmpty(person.getPassword())){
             person.setPassword(NumberGenerator.getPassword());
         }

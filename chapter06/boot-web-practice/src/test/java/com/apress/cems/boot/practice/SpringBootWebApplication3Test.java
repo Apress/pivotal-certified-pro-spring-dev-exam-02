@@ -46,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SpringBootWebApplication3Test {
 
     @LocalServerPort
-    private int port;
+    private Integer port;
 
     @Test
     void testList() throws Exception {

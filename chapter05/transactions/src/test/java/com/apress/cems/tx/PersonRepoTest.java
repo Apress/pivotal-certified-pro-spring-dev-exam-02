@@ -77,6 +77,7 @@ class PersonRepoTest {
 
     // this will fail
     @Test
+    @Rollback
     void testCountPersons(){
         long result = repo.count();
         assertEquals(2, result);

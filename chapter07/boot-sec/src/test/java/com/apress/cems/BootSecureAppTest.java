@@ -50,7 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class BootSecureAppTest {
 
     @LocalServerPort
-    private int port;
+    private Integer port;
 
     @BeforeEach
      void setUp() {

@@ -64,6 +64,17 @@ class FluxPlayTest {
         Thread.sleep(1000L);
     }
 
+    // Showing you how SignalLogger identifies streams :D
+    @Test
+    void simple2() throws InterruptedException {
+        Flux f1 = Flux.just("0", "1", "2", "3", "4", "5", "6", "7").log();
+        Flux f2 = Flux.just("8", "9", "10", "11", "12", "13", "14", "15").log();
+        f1.subscribe();
+        f2.subscribe();
+
+        Thread.sleep(1000L);
+    }
+
     @Test
     void simpleSubscriber() throws InterruptedException {
         Flux.just("0", "1", "2", "3", "4", "5", "6", "7")

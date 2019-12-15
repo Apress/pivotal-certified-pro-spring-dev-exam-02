@@ -53,7 +53,7 @@ class MongoReactiveApplicationTests {
     private static Logger logger = LoggerFactory.getLogger(MongoReactiveApplicationTests.class);
 
     @LocalServerPort
-    private int port;
+    private Integer port;
 
     private String baseUrl = "http://localhost";
 
@@ -61,7 +61,7 @@ class MongoReactiveApplicationTests {
 
     @BeforeEach
     void setUp(){
-        baseUrl = baseUrl.concat(":").concat(port +"").concat("/persons");
+        baseUrl = baseUrl.concat(":").concat(port.toString()).concat("/persons");
         webTestClient = WebTestClient
                 .bindToServer()
                 .baseUrl(baseUrl)

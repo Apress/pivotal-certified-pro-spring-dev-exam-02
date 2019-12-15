@@ -53,7 +53,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RestTemplateTest {
 
     @LocalServerPort
-    private int port;
+    private Integer port;
 
     private String baseUrl = "http://localhost";
 
@@ -72,7 +72,7 @@ class RestTemplateTest {
 
     @BeforeEach
     void setUp(){
-        baseUrl = baseUrl.concat(":").concat(port +"").concat("/persons");
+        baseUrl = baseUrl.concat(":").concat(port.toString()).concat("/persons");
     }
 
     @Test

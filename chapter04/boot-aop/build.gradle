@@ -1,5 +1,5 @@
 buildscript {
-    def springRepo = 'http://repo.spring.io'
+    def springRepo = 'https://repo.spring.io'
     repositories {
         mavenLocal()
         mavenCentral()

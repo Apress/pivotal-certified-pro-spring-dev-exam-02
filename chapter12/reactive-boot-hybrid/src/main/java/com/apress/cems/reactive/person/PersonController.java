@@ -53,7 +53,7 @@ public class PersonController {
     }
 
     // test with: curl -H "text/event-stream" http://localhost:8081/persons/
-    @GetMapping(value = "/", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Person> persons() {
         Flux<Person> persons = reactiveService.findAll();
         Flux<Long> periodFlux = Flux.interval(Duration.ofSeconds(2));
@@ -61,19 +61,19 @@ public class PersonController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{id}")
+    @GetMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<Person> show(@PathVariable Long id) {
         return reactiveService.findById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<Person> save(@RequestBody Person person){
         return reactiveService.save(Mono.just(person));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
+    @PutMapping(path="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Mono<Void> update(@PathVariable Long id, Mono<Person> personMono) {
         return reactiveService.update(id, personMono).then();
     }

@@ -2,10 +2,14 @@
 
 This repository accompanies https://www.apress.com/us/book/9781484208120[Pivotal Certified Professional Spring Developer Exam, 2nd Edition] by Iuliana Cosmina (Apress, 2019).
 
-image::9781484208120.jpg[Cover image]
+image::cover.jpg[Cover image]
 
 == Building and Deploying
-This is a Gradle multi-module project. The *-practice projects, have tests and pieces left unimplemented so building the full project using:
+This is a Gradle multi-module project.
+
+It requires JDK 11, but works with 12 as well.
+
+The *-practice projects, have tests and pieces left unimplemented so building the full project using:
 ----
 gradle build
 ----
