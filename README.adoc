@@ -35,6 +35,17 @@ The ojdbc artifact is not available in Maven public repository.
 There are two possible solutions:
 
 * download it from the Official Oracle site and store it in the ~/.m2/repository/.. where Gradle is expecting to find it.
+
+[TIP] 
+To install the artifact in your local maven repository, use the following command:
+
+----
+        mvn install:install-file -Dfile=<path-to-file> -DgroupId=<group-id> \
+        -DartifactId=<artifact-id> -Dversion=<version> -Dpackaging=<packaging>
+----
+
+source: https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html
+
 * in build.gradle replace this line:
 ----
 ojdbc             : "com.oracle:ojdbc7:12.1.0.2",
