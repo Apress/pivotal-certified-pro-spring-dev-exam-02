@@ -76,7 +76,7 @@ ext {
     //reactive
     reactorVersion = '3.3.0.M3'
     nettyVersion = '0.9.0.M3'
-    r2dbcDataVersion = '1.0.0.M2'
+    r2dbcDataVersion = '1.0.0.RELEASE'
     r2dbcH2Version = '1.0.0.M7'
     r2dbcReleaseTrainVersion = 'Arabba-M8'
     bootR2dbcReleaseTrainVersion = 'Moore-BUILD-SNAPSHOT'
