@@ -40,7 +40,9 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.io.File;
 import java.sql.Driver;
 
 /**
@@ -100,23 +102,17 @@ public class TestDbConfig2 {
         return new JdbcTemplate(dataSource());
     }
 
-    @Bean(destroyMethod = "destroy")
-    public CleanUp cleanUp() {
-        return new CleanUp(jdbcTemplate());
-    }
-
-}
-
-class CleanUp {
-
-    private JdbcTemplate jdbcTemplate;
-
-    CleanUp(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    private void destroy() {
-        jdbcTemplate.execute("DROP ALL OBJECTS DELETE FILES;");
+    //needed because Hibernate does not drop the database as it should
+    @PostConstruct
+    void discardDatabase(){
+        final String currentDir = System.getProperty("user.dir");
+        int start = url.indexOf("./")+ 2;
+        int end = url.indexOf(";", start);
+        String dbName = url.substring(start, end);
+        File one  = new File(currentDir.concat(File.separator).concat(dbName).concat(".mv.db"));
+        one.deleteOnExit();
+        File two  = new File(currentDir.concat(File.separator).concat(dbName).concat(".trace.db"));
+        two.deleteOnExit();
     }
 
 }

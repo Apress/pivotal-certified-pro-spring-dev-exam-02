@@ -16,6 +16,7 @@ subprojects {
             testCompile misc.h2
             compile (misc.logback) {
                 exclude group: "javax.activation", module: "activation"
+                exclude group: "edu.washington.cs.types.checker", module: "checker-framework"
             }
         }
 

@@ -12,7 +12,6 @@ module com.apress.cems.hib.practice {
     requires org.apache.commons.lang3;
     requires java.sql;
     requires org.slf4j;
-    requires ojdbc7;
     requires java.naming;
     requires java.annotation;
 

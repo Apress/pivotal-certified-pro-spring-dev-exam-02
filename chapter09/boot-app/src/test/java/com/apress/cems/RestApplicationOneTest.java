@@ -95,7 +95,7 @@ class RestApplicationOneTest {
                 () -> assertEquals(HttpStatus.OK, entity.getStatusCode()),
                 () -> assertEquals(2, content.size()),
                 () -> assertEquals("UP", content.get("status")),
-                () -> assertTrue(content.containsKey("details"))
+                () -> assertTrue(content.containsKey("components"))
         );
     }
 }

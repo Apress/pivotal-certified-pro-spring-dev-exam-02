@@ -6,9 +6,12 @@ ext.moduleName = 'com.apress.cems.repos'
 
 dependencies {
     compile project(':chapter00:dao')
+
     compile misc.lang3, misc.ojdbc, misc.slf4j, spring.jdbc, spring.contextSupport
+
     compile (misc.logback) {
         exclude group: "javax.activation", module: "activation"
+        exclude group: "edu.washington.cs.types.checker", module: "checker-framework"
     }
 }
 

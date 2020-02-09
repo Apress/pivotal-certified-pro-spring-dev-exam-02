@@ -31,7 +31,6 @@ import com.apress.cems.aop.exception.MailSendingException;
 import com.apress.cems.aop.service.PersonService;
 import com.apress.cems.dao.Person;
 import com.apress.cems.repos.PersonRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

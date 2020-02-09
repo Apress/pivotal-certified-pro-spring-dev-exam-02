@@ -39,7 +39,9 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.io.File;
 
 /**
  * @author Iuliana Cosmina
@@ -78,6 +80,18 @@ public class TestDbConfig {
         populator.addScript(schemaScript);
         populator.addScript(dataScript);
         return populator;
+    }
+
+    //needed because the temporary database file needs to be deleted
+    @PostConstruct
+    void discardDatabase(){
+        final String currentDir = System.getProperty("user.dir");
+        int start = environment.getProperty("db.url").indexOf("./")+ 2;
+        String dbName =  environment.getProperty("db.url").substring(start);
+        File one  = new File(currentDir.concat(File.separator).concat(dbName).concat(".mv.db"));
+        one.deleteOnExit();
+        File two  = new File(currentDir.concat(File.separator).concat(dbName).concat(".trace.db"));
+        two.deleteOnExit();
     }
 
 }
