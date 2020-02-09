@@ -8,7 +8,6 @@ module com.apress.cems.dao {
     requires java.validation;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
-    requires jackson.annotations;
 
     exports com.apress.cems.dao;
     exports com.apress.cems.dto;

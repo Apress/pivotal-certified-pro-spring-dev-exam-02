@@ -25,9 +25,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.person;
+package com.apress.cems.r2dbc.person;
 
-import com.apress.cems.person.services.PersonService;
+import com.apress.cems.r2dbc.person.services.PersonService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.HandlerFunction;
@@ -43,6 +43,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromObject
  * @author Iuliana Cosmina
  * @since 1.0
  */
+
 @Component
 public class PersonHandler {
     private PersonService personService;
@@ -75,3 +76,4 @@ public class PersonHandler {
     public HandlerFunction<ServerResponse> delete = serverRequest -> ServerResponse.noContent()
             .build(personService.delete(Long.parseLong(serverRequest.pathVariable("id"))));
 }
+

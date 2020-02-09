@@ -25,8 +25,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems;
+package com.apress.cems.r2dbc;
 
+import io.r2dbc.h2.H2ConnectionConfiguration;
+import io.r2dbc.h2.H2ConnectionFactory;
 import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.context.annotation.Bean;
@@ -38,11 +40,11 @@ import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
  * @since 1.0
  */
 @Configuration
-public class ReactiveH2Config  extends AbstractR2dbcConfiguration {
+public class ReactiveH2Config extends AbstractR2dbcConfiguration {
 
-    @Override
     @Bean
+    @Override
     public ConnectionFactory connectionFactory() {
-        return ConnectionFactories.get("r2dbc:h2:mem:///test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
+        return new H2ConnectionFactory(H2ConnectionConfiguration.builder().inMemory("testdb").username("sa").password("").build());
     }
 }

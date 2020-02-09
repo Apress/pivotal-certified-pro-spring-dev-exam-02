@@ -22,7 +22,9 @@ ext.moduleName = 'com.apress.cems.boot'
 dependencies {
     api boot.starterWeb
     implementation boot.actuator
-    testImplementation boot.starterTest
+    testImplementation (boot.starterTest) {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 }
 
 // decomment this after leaving a single main class to build jar

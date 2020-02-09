@@ -36,8 +36,6 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static com.apress.cems.util.DateProcessor.toDate;
-
 /**
  * @author Iuliana Cosmina
  * @since 1.0

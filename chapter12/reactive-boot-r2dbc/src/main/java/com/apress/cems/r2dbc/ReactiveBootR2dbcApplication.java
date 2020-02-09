@@ -25,22 +25,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems;
+package com.apress.cems.r2dbc;
 
-import com.apress.cems.person.PersonHandler;
-import io.r2dbc.spi.ConnectionFactories;
-import io.r2dbc.spi.ConnectionFactory;
+import com.apress.cems.r2dbc.person.PersonHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
-import org.springframework.data.r2dbc.connectionfactory.R2dbcTransactionManager;
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
-import org.springframework.transaction.ReactiveTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
@@ -50,18 +43,14 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
-/**
- * @author Iuliana Cosmina
- * @since 1.0
- */
 @SpringBootApplication
-public class R2dbcApplication {
+public class ReactiveBootR2dbcApplication {
 
-    private static Logger logger = LoggerFactory.getLogger(R2dbcApplication.class);
+    private static Logger logger = LoggerFactory.getLogger(ReactiveBootR2dbcApplication.class);
 
     private final PersonHandler personHandler;
 
-    public R2dbcApplication(PersonHandler personHandler) {
+    public ReactiveBootR2dbcApplication(PersonHandler personHandler) {
         this.personHandler = personHandler;
     }
 
@@ -80,7 +69,7 @@ public class R2dbcApplication {
     }
 
     public static void main(String... args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run( R2dbcApplication.class, args);
+        ConfigurableApplicationContext ctx = SpringApplication.run( ReactiveBootR2dbcApplication.class, args);
         ctx.registerShutdownHook();
         logger.info("Application Started ...");
     }

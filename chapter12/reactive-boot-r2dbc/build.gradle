@@ -18,11 +18,13 @@ apply plugin: 'java-library'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-
 dependencies {
-    implementation boot.starterR2dbc, boot.starterR2dbcH2, boot.starterWebflux, boot.actuator
+    implementation boot.starterR2dbc, misc.r2dbcH2, boot.starterWebflux, boot.actuator
+    //compileOnly misc.lombok
+    //annotationProcessor misc.lombok
 
     testImplementation testing.reactorTest
+    testImplementation boot.r2dbcTest
     testImplementation (boot.starterTest) {
         exclude group: "org.junit.vintage", module: "junit-vintage-engine"
         exclude group: "junit", module: "junit"
@@ -31,7 +33,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom spring.dataBom
+        mavenBom boot.r2dbcBom
     }
 }
 
@@ -43,17 +45,15 @@ test {
     }
 }
 
-// decomment this after leaving a single main class to build jar
 jar {
     archiveBaseName = "reactive-boot-r2dbc"
     manifest {
         attributes(
                 "Created-By": System.getProperty('java.version'),
-                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 12 - Spring Boot Webflux Application - not totally reactive - using router functions",
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 12 - Spring Boot R2DBC app",
                 "Implementation-Version": archiveVersion,
-                "Main-Class"         : "com.apress.cems.reactive.ReactiveApplication",
+                "Main-Class"         : "com.apress.cems.reactive.R2dbcApplication",
                 "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
     }
 }
-

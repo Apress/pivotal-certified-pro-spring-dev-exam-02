@@ -8,7 +8,6 @@ module com.apress.cems.entities {
     requires java.validation;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
-    requires jackson.annotations;
 
     exports com.apress.cems.base;
     exports com.apress.cems.person;

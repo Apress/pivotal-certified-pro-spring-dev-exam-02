@@ -1,0 +1,45 @@
+buildscript {
+    def springRepo = 'https://repo.spring.io'
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "$springRepo/release" }
+        maven { url "$springRepo/snapshot" }
+        maven { url "$springRepo/milestone" }
+    }
+
+    dependencies {
+        classpath boot.springBootPlugin
+    }
+}
+
+apply plugin: 'java-library'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+ext.moduleName = 'com.apress.cems.boot'
+
+dependencies {
+    compile boot.starterMongo, misc.javaxValidation
+    implementation boot.actuator, misc.h2
+    testImplementation (boot.starterTest) {
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+        exclude group: "junit", module: "junit"
+    }
+    testImplementation testing.mongo
+}
+
+// decomment this after leaving a single main class to build jar
+jar {
+    archiveBaseName = "sample-boot-jpa"
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 05 - Spring Boot JPA",
+                "Implementation-Version": archiveVersion,
+                "Main-Class"         : "com.apress.cems.boot.Application",
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}
+

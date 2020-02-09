@@ -29,6 +29,8 @@ package com.apress.cems.dj.sandbox.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,8 +42,14 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
@@ -51,6 +59,8 @@ import java.util.Properties;
 @Configuration
 @PropertySource({"classpath:db/db.properties"})
 public class JpaConfig {
+
+    private Logger logger = LoggerFactory.getLogger(JpaConfig.class);
 
     // ---------- configure the db ------------
     @Value("${db.driverClassName}")
@@ -116,6 +126,19 @@ public class JpaConfig {
         factoryBean.setJpaProperties(hibernateProperties());
         factoryBean.afterPropertiesSet();
         return factoryBean.getNativeEntityManagerFactory();
+    }
+
+    //needed because Hibernate does not drop the database as it should
+    @PostConstruct
+    void discardDatabase(){
+        final String currentDir = System.getProperty("user.dir");
+        int start = url.indexOf("./")+ 2;
+        int end = url.indexOf(";", start);
+        String dbName = url.substring(start, end);
+        File one  = new File(currentDir.concat(File.separator).concat(dbName).concat(".mv.db"));
+        one.deleteOnExit();
+        File two  = new File(currentDir.concat(File.separator).concat(dbName).concat(".trace.db"));
+        two.deleteOnExit();
     }
 
 }

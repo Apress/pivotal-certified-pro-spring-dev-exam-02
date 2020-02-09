@@ -11,7 +11,6 @@ module com.apress.cems.config.practice {
     requires spring.beans;
     requires spring.core;
     requires spring.jdbc;
-    requires ojdbc7;
     requires java.naming;
     requires java.annotation;
 

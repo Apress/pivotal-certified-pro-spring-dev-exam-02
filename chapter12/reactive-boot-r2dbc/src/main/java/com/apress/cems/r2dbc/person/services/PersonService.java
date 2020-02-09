@@ -25,9 +25,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.person.services;
+package com.apress.cems.r2dbc.person.services;
 
-import com.apress.cems.person.Person;
+import com.apress.cems.r2dbc.person.Person;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -46,7 +46,7 @@ public interface PersonService {
 
     Mono<Void> delete(Long id);
 
-    Mono<Person> findByUsername(String username);
+    Mono<Person> findByLoginuser(String loginuser);
 
-    Flux<Person> findByFirstName(String firstName);
+    Flux<Person> findByFirstname(String firstName);
 }

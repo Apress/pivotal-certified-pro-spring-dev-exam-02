@@ -12,6 +12,7 @@ ext.moduleName = 'com.apress.cems.xml'
 
 dependencies {
     api project(':chapter02:pojos')
+    api misc.ojdbc
 }
 
 jar {

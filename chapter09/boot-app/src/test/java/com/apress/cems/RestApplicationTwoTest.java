@@ -85,8 +85,7 @@ class RestApplicationTwoTest {
                 mgtUrl.concat("/health"), Map.class);
 
         @SuppressWarnings("unchecked")
-        Map<String,String> content = (Map<String, String>) ((Map)((Map) Objects.requireNonNull(entity.getBody()).get("details")).get("healthChecker")).get("details");
-
+        Map<String,String> content = (Map<String, String>) ((Map) ((Map) entity.getBody().get("components")).get("healthChecker")).get("details");
         assertAll(
                 () -> assertEquals(HttpStatus.OK, entity.getStatusCode()),
                 () -> assertTrue(content.containsKey("personInit")),

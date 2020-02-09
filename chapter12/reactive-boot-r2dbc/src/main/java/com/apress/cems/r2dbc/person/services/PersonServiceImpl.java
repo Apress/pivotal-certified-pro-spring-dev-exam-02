@@ -25,10 +25,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.person.services;
+package com.apress.cems.r2dbc.person.services;
 
-import com.apress.cems.person.Person;
-import com.apress.cems.person.PersonRepo;
+import com.apress.cems.r2dbc.person.Person;
+import com.apress.cems.r2dbc.person.PersonRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -69,7 +69,7 @@ public class PersonServiceImpl implements PersonService {
         return personRepo.findById(id).doOnNext(original ->
                 personMono.doOnNext(
                         updatedPerson -> {
-                            original.setUsername(updatedPerson.getUsername());
+                            original.setLoginuser(updatedPerson.getLoginuser());
                             original.setFirstname(updatedPerson.getFirstname());
                             original.setLastname(updatedPerson.getLastname());
                             personRepo.save(original);
@@ -84,13 +84,13 @@ public class PersonServiceImpl implements PersonService {
 
     @Transactional(readOnly = true)
     @Override
-    public Mono<Person> findByUsername(String username) {
-        return personRepo.findByUsername(username);
+    public Mono<Person> findByLoginuser(String loginuser) {
+        return personRepo.findByLoginuser(loginuser);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Flux<Person> findByFirstName(String firstName) {
-        return personRepo.findByFirstName(firstName);
+    public Flux<Person> findByFirstname(String firstName) {
+        return personRepo.findByFirstname(firstName);
     }
 }

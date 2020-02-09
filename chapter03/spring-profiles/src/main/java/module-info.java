@@ -11,6 +11,6 @@ module com.apress.cems.spring.tests.jupiter {
     requires spring.core;
     requires java.annotation;
     requires spring.jdbc;
-    requires ojdbc7;
     requires java.naming;
+    requires ojdbc8;
 }

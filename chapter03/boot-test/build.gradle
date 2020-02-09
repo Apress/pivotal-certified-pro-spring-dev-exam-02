@@ -19,13 +19,13 @@ apply plugin: 'io.spring.dependency-management'
 
 ext.moduleName = 'com.apress.cems.boot.test'
 
-//override any Spring Boot configurations, so this version of JUnit can be used
-ext['junit-jupiter.version'] = "5.5.0"
+//override any Spring Boot configurations, so this version of JUnit Jupiter can be used
+ext['junit-jupiter.version'] = "5.6.0"
 
 dependencies {
     api boot.starterWeb, boot.starterJpa, misc.ojdbc
 
-    testImplementation testing.api, boot.starterTest, testing.platformRunner, misc.h2
+    testImplementation testing.api, boot.starterTest, misc.h2
     testRuntime testing.engine, testing.platformRunner
 }
 

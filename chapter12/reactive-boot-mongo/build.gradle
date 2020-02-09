@@ -26,7 +26,7 @@ configurations {
 
 dependencies {
     implementation boot.starterMongoReactive, boot.starterWebflux, boot.actuator
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly boot.devtools
 
     testImplementation testing.reactorTest, testing.mongo
     testImplementation (boot.starterTest) {

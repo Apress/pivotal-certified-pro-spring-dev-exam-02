@@ -14,7 +14,6 @@ module com.apress.cems.tx {
     requires spring.core;
     requires spring.jdbc;
     requires spring.tx;
-    requires ojdbc7;
     requires java.naming;
     requires java.annotation;
 }

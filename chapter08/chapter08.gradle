@@ -16,6 +16,7 @@ subprojects {
             compile misc.lang3, misc.slf4j, misc.jsr250
             compile (misc.logback) {
                 exclude group: "javax.activation", module: "activation"
+                exclude group: "edu.washington.cs.types.checker", module: "checker-framework"
             }
         }
 

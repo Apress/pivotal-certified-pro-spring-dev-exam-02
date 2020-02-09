@@ -25,22 +25,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.person;
+package com.apress.cems.r2dbc.person;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import org.springframework.data.annotation.Id;
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@Table
 public class Person {
 
     @Id
     private Long id;
 
-    private String username;
+    private String loginuser;
 
     private String firstname;
 
@@ -62,12 +65,12 @@ public class Person {
         modifiedat = LocalDateTime.now();
     }
 
-    public String getUsername() {
-        return username;
+    public String getLoginuser() {
+        return loginuser;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLoginuser(String loginuser) {
+        this.loginuser = loginuser;
     }
 
     public String getPassword() {
@@ -125,7 +128,7 @@ public class Person {
     @Override
     public String toString() {
         return String.format("Person[username='%s', firstName='%s', lastName='%s', hiringDate='%s']\n",
-                username, firstname, lastname, hiringdate.toString());
+                loginuser, firstname, lastname, hiringdate.toString());
 
     }
 
