@@ -52,7 +52,7 @@ ojdbc             : "com.oracle:ojdbc7:12.1.0.2",
 ----
 with  this line:
 ----
-ojdbc             : "com.github.noraui:ojdbc7:12.1.0.2.0"
+ojdbc             : "com.github.noraui:ojdbc7:12.1.0.2"
 ----
 
 I'm not sure how long the artifact will be available there (https://mvnrepository.com/artifact/com.github.noraui/ojdbc7/12.1.0.2),
