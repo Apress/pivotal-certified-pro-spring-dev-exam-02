@@ -27,14 +27,11 @@ SOFTWARE.
 */
 package com.apress.cems.config;
 
-import com.apress.cems.pojos.repos.DetectiveRepo;
-import com.apress.cems.pojos.repos.EvidenceRepo;
 import com.apress.cems.repos.JdbcDetectiveRepo;
 import com.apress.cems.repos.JdbcEvidenceRepo;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.sql.DataSource;

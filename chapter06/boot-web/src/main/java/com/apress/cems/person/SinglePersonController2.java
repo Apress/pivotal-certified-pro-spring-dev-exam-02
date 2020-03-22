@@ -27,7 +27,6 @@ SOFTWARE.
 */
 package com.apress.cems.person;
 
-
 import com.apress.cems.ex.NotFoundException;
 import com.apress.cems.person.services.PersonService;
 import org.slf4j.Logger;

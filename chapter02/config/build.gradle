@@ -8,8 +8,6 @@ dependencies {
     api project(':chapter02:pojos')
     api project(':chapter02:beans')
     api misc.h2, spring.jdbc, spring.webmvc, misc.jsr250, misc.inject, misc.ojdbc
-
-    testCompile testing.api, spring.test, testing.junit
 }
 
 jar {

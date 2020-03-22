@@ -12,14 +12,14 @@ subprojects {
 
         dependencies {
             compile project(':chapter00:dao')
-            compile misc.lang3, misc.ojdbc, misc.slf4j
+            compile misc.lang3, misc.slf4j
 
             compile (misc.logback) {
                 exclude group: "javax.activation", module: "activation"
                 exclude group: "edu.washington.cs.types.checker", module: "checker-framework"
             }
 
-            testCompile testing.api
+            testCompile spring.test, testing.api
             testRuntimeOnly testing.platformRunner, testing.engine
         }
 

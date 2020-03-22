@@ -7,8 +7,6 @@ ext.moduleName = 'com.apress.cems.config.practice'
 dependencies {
     compile project(':chapter02:pojos')
     compile misc.h2, spring.jdbc,  misc.jsr250, misc.inject
-
-    testCompile testing.api, spring.test, testing.junit
 }
 
 jar {

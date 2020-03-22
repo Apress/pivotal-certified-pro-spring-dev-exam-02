@@ -31,32 +31,7 @@ German unicode characters here: http://javawiki.sowas.com/doku.php?id=java:unico
 
 == Observation
 
-The ojdbc artifact is not available in Maven public repository.
-There are two possible solutions:
-
-* download it from the Official Oracle site and store it in the ~/.m2/repository/.. where Gradle is expecting to find it.
-
-[TIP] 
-To install the artifact in your local maven repository, use the following command:
-
-----
-        mvn install:install-file -Dfile=<path-to-file> -DgroupId=<group-id> \
-        -DartifactId=<artifact-id> -Dversion=<version> -Dpackaging=<packaging>
-----
-
-source: https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html
-
-* in build.gradle replace this line:
-----
-ojdbc             : "com.oracle:ojdbc7:12.1.0.2",
-----
-with  this line:
-----
-ojdbc             : "com.github.noraui:ojdbc7:12.1.0.2"
-----
-
-I'm not sure how long the artifact will be available there (https://mvnrepository.com/artifact/com.github.noraui/ojdbc7/12.1.0.2),
-because Oracle licensing might prevent people from sharing their artifacts on public servers, so for long term use, the first solution is recommended.
+The *ojdbc* artifact is now available in Maven public repository, so building this project should work out of the box.
 
 == Releases
 
