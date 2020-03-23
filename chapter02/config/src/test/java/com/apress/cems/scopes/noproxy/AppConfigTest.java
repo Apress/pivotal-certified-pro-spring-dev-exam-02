@@ -25,37 +25,38 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.scopes;
+package com.apress.cems.scopes.noproxy;
 
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Description;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.Random;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Description("Salary for an employee might change, so this is a suitable example for a prototype scoped bean")
-@Component
-@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class Salary {
-    private Logger logger = LoggerFactory.getLogger(Salary.class);
+public class AppConfigTest {
+    private Logger logger = LoggerFactory.getLogger(AppConfigTest.class);
 
-    private Integer amount;
+    @Test
+    void testBeanLifecycle() {
+        var ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+        ctx.registerShutdownHook();
 
-    public Salary() {
-        logger.info(" -> Creating new Salary bean");
-        Random rand = new Random();
-        this.amount = rand.nextInt(10_000) +  50_000;
-    }
+        var employee = ctx.getBean(Employee.class);
+        assertNotNull(employee);
 
-    public Integer getAmount() {
-        return amount;
+        var salary = employee.getSalary();
+        logger.info("Salary from from Employee: {}", salary.getAmount());
+        logger.info("Salary from from Employee: {}", employee.getSalary().getAmount());
+        logger.info("Salary bean from Employee actual type: {}", salary.getClass().toString());
+
+        logger.info("Salary from context: {}", ctx.getBean(Salary.class).getAmount());
+        logger.info("Salary from context: {}", ctx.getBean(Salary.class).getAmount());
+        logger.info("Salary from context : {}", ctx.getBean(Salary.class).getAmount());
+
     }
 }

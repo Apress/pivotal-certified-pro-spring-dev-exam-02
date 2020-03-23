@@ -12,7 +12,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.apress.cems" level="debug"/>
+    <logger name="com.apress.cems" level="info"/>
 
     <logger name="org.springframework" level="trace"/>
 

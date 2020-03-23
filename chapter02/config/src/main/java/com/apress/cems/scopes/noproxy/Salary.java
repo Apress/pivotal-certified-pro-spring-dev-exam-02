@@ -25,22 +25,33 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.scopes2;
+package com.apress.cems.scopes.noproxy;
 
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Description;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import java.util.Random;
 
 /**
+ * Description: When a proxy type is not specified, the scope is associated with the bean being created. This means every time the context
+ *  is being requested the <code>salary</code> bean, it will create a fresh new one.
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Configuration
-@ComponentScan(basePackages = {"com.apress.cems.scopes2"} )
-public class AppConfig {
+@Description("Salary for an employee might change, so this is a suitable example for a prototype scoped bean. This example shows how it shouldn't be used though.")
+@Component
+@Scope(value = "prototype")
+public class Salary {
 
-    @Bean
-    //@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.INTERFACES)
-    @SalaryScope
-    SalaryIdea salary(){
-        return new Salary();
+    private Integer amount;
+
+    public Salary() {
+        Random rand = new Random();
+        this.amount = rand.nextInt(10_000) +  50_000;
+    }
+
+    public Integer getAmount() {
+        return amount;
     }
 }

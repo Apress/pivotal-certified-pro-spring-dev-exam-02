@@ -25,22 +25,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.scopes2;
+package com.apress.cems.scopes.noproxy;
 
-import org.springframework.context.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Configuration
-@ComponentScan(basePackages = {"com.apress.cems.scopes2"} )
-public class AppConfig {
+@Component
+public class Employee {
+    private Salary salary;
 
-    @Bean
-    //@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.INTERFACES)
-    @SalaryScope
-    SalaryIdea salary(){
-        return new Salary();
+    public Employee(Salary salary) {
+        this.salary = salary;
+    }
+
+    @Autowired
+    public void setSalary(Salary salary) {
+        this.salary = salary;
+    }
+
+    public Salary getSalary() {
+        return salary;
     }
 }

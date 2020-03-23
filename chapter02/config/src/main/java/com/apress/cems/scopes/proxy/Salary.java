@@ -25,22 +25,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.scopes2;
+package com.apress.cems.scopes.proxy;
 
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Description;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+
+import java.util.Random;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Configuration
-@ComponentScan(basePackages = {"com.apress.cems.scopes2"} )
-public class AppConfig {
+@Description("Salary for an employee might change, so this is a suitable example for a prototype scoped bean")
+@Component
+@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class Salary {
 
-    @Bean
-    //@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.INTERFACES)
-    @SalaryScope
-    SalaryIdea salary(){
-        return new Salary();
+    private Integer amount;
+
+    public Salary() {
+        Random rand = new Random();
+        this.amount = rand.nextInt(10_000) +  50_000;
+    }
+
+    public Integer getAmount() {
+        return amount;
     }
 }

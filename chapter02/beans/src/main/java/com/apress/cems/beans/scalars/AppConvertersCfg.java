@@ -51,15 +51,10 @@ public class AppConvertersCfg {
     @Autowired StringToDate stringToDate;
 
     @Bean
-    ConversionService conversionService(ConversionServiceFactoryBean factory){
+    ConversionService conversionService() {
+        var factory = new ConversionServiceFactoryBean();
+        factory.setConverters(Set.of(stringToLocalDateConverter, stringToDate));
         return factory.getObject();
-    }
-
-    @Bean
-    ConversionServiceFactoryBean conversionServiceFactoryBean() {
-        var conversionServiceFactoryBean = new ConversionServiceFactoryBean();
-        conversionServiceFactoryBean.setConverters(Set.of(stringToLocalDateConverter, stringToDate));
-        return conversionServiceFactoryBean;
     }
 
     @Bean

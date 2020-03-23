@@ -25,22 +25,37 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.scopes2;
+package com.apress.cems.scopes.proxy;
 
-import org.springframework.context.annotation.*;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Configuration
-@ComponentScan(basePackages = {"com.apress.cems.scopes2"} )
-public class AppConfig {
+public class AppConfigTest {
+    private Logger logger = LoggerFactory.getLogger(AppConfigTest.class);
 
-    @Bean
-    //@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.INTERFACES)
-    @SalaryScope
-    SalaryIdea salary(){
-        return new Salary();
+    @Test
+    void testBeanLifecycle() {
+        var ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+        ctx.registerShutdownHook();
+
+        var employee = ctx.getBean(Employee.class);
+        assertNotNull(employee);
+
+        var salary = employee.getSalary();
+        assertNotNull(salary);
+        logger.info("Salary bean actual type: {}", salary.getClass().toString());
+
+        logger.info("Salary: {}", salary.getAmount());
+        logger.info("Salary: {}", salary.getAmount());
+        logger.info("Salary: {}", salary.getAmount());
+
     }
 }

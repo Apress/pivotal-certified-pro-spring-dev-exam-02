@@ -1,7 +1,7 @@
 /*
 Freeware License, some rights reserved
 
-Copyright (c) 2019 Iuliana Cosmina
+Copyright (c) 2020 Iuliana Cosmina
 
 Permission is hereby granted, free of charge, to anyone obtaining a copy 
 of this software and associated documentation files (the "Software"), 
@@ -25,22 +25,28 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.scopes2;
+package com.apress.cems.beans.required.two;
 
-import org.springframework.context.annotation.*;
+import com.apress.cems.beans.required.SteeringWheel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Configuration
-@ComponentScan(basePackages = {"com.apress.cems.scopes2"} )
-public class AppConfig {
+@Component
+public class AnotherCar {
+    private SteeringWheel steeringWheel;
 
-    @Bean
-    //@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.INTERFACES)
-    @SalaryScope
-    SalaryIdea salary(){
-        return new Salary();
+    public AnotherCar(@Autowired(required = false) SteeringWheel steeringWheel) {
+        this.steeringWheel = steeringWheel;
+    }
+
+    @Override
+    public String toString() {
+        return "AnotherCar{" +
+                "steeringWheel=" + steeringWheel +
+                '}';
     }
 }

@@ -1,7 +1,7 @@
 /*
 Freeware License, some rights reserved
 
-Copyright (c) 2019 Iuliana Cosmina
+Copyright (c) 2020 Iuliana Cosmina
 
 Permission is hereby granted, free of charge, to anyone obtaining a copy 
 of this software and associated documentation files (the "Software"), 
@@ -25,29 +25,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.scopes;
+package com.apress.cems.beans.required.three;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Component
-public class Employee {
-    private Salary salary;
-
-    public Employee(Salary salary) {
-        this.salary = salary;
-    }
-
-    @Autowired
-    public void setSalary(Salary salary) {
-        this.salary = salary;
-    }
-
-    public Salary getSalary() {
-        return salary;
-    }
+@Configuration
+@ComponentScan
+public class YetAnotherCarConfig {
 }

@@ -1,7 +1,7 @@
 /*
 Freeware License, some rights reserved
 
-Copyright (c) 2019 Iuliana Cosmina
+Copyright (c) 2020 Iuliana Cosmina
 
 Permission is hereby granted, free of charge, to anyone obtaining a copy 
 of this software and associated documentation files (the "Software"), 
@@ -25,37 +25,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.scopes;
+package com.apress.cems.beans.required.two;
 
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-public class AppConfigTest {
-    private Logger logger = LoggerFactory.getLogger(AppConfigTest.class);
-
-    @Test
-    void testBeanLifecycle() {
-        var ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-        ctx.registerShutdownHook();
-
-        var employee = ctx.getBean(Employee.class);
-        assertNotNull(employee);
-
-        var salary = employee.getSalary();
-        assertNotNull(salary);
-        logger.info("Salary bean actual type: {}", salary.getClass().toString());
-
-        logger.info("Salary: {}", salary.getAmount());
-        logger.info("Salary: {}", salary.getAmount());
-        logger.info("Salary: {}", salary.getAmount());
-
-    }
+@Configuration
+@ComponentScan
+public class AnotherCarConfig {
 }
