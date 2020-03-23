@@ -63,6 +63,7 @@ public class SimpleOperationsServiceTest extends SimpleServiceTestBase {
         person.setPassword("123");
         var detective = detectiveService.createDetective(person, Rank.INSPECTOR);
         assertNotNull(detective);
+        detective.setBadgeNumber(BADGE_NO);
         assertEquals(DETECTIVE_ID, detective.getId());
         detective.setBadgeNumber(BADGE_NO);
 
