@@ -25,43 +25,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.spring;
+package com.apress.cems.jupiter.cfg;
 
-import com.apress.cems.jupiter.cfg.TestDbConfig;
-import com.apress.cems.repos.PersonRepo;
-import org.junit.jupiter.api.Assertions;
-import org.springframework.test.context.ContextConfiguration;
-import repos.ReposConfig;
-
-import static org.junit.jupiter.api.Assertions.*;
+import com.apress.cems.jupiter.cfg.db.ProdDbConfig;
+import com.apress.cems.jupiter.cfg.repos.ReposConfig;
+import org.springframework.context.annotation.Import;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-// TODO 18. Complete the test class definition in order for all the test to pass.
-@ContextConfiguration(classes = {TestDbConfig.class, ReposConfig.class})
-public class PersonRepoTest {
-    public static final Long PERSON_ID = 1L;
-
-    PersonRepo personRepo;
-
-    public void setUp(){
-        assertNotNull(personRepo);
-    }
-
-
-    public void testFindByIdPositive(){
-        personRepo.findById(PERSON_ID).ifPresentOrElse(
-                p -> assertEquals("Sherlock", p.getFirstName()),
-                Assertions::fail
-        );
-
-    }
-
-    public void testFindAll(){
-        var personSet = personRepo.findAll();
-        assertNotNull(personSet);
-        assertEquals(2, personSet.size());
-    }
+@Import( {ProdDbConfig.class, ReposConfig.class})
+public class AppConfig {
 }

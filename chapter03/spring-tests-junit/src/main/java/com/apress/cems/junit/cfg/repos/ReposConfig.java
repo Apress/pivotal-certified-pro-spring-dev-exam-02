@@ -25,75 +25,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.beans.scalars;
+package com.apress.cems.junit.cfg.repos;
 
-import com.apress.cems.beans.ci.SimpleBean;
-import com.apress.cems.beans.ci.SimpleBeanImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ConversionServiceFactoryBean;
-import org.springframework.core.convert.ConversionService;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.*;
+import javax.sql.DataSource;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
 @Configuration
-@ComponentScan(basePackages = {"com.apress.cems.beans.scalars"} )
-public class AppConvertersCfg {
+@ComponentScan(basePackages = {"com.apress.cems.repos"})
+public class ReposConfig {
 
-    @Autowired StringToLocalDate stringToLocalDateConverter;
-
-    @Autowired StringToDate stringToDate;
-
-    @Bean
-    ConversionService conversionService(ConversionServiceFactoryBean factory){
-        return factory.getObject();
-    }
+    @Autowired
+    DataSource dataSource;
 
     @Bean
-    ConversionServiceFactoryBean conversionServiceFactoryBean() {
-        var conversionServiceFactoryBean = new ConversionServiceFactoryBean();
-        conversionServiceFactoryBean.setConverters(Set.of(stringToLocalDateConverter, stringToDate));
-        return conversionServiceFactoryBean;
+    public JdbcTemplate userJdbcTemplate() {
+        return new JdbcTemplate(dataSource);
     }
 
-    @Bean
-    List<SimpleBean> simpleBeanList(){
-        return new ArrayList<>();
-    }
-
-    @Bean
-    Set<SimpleBean> simpleBeanSet(){
-        return new HashSet<>();
-    }
-
-    @Bean
-    Map<String, SimpleBean> simpleBeanMap(){
-        return new HashMap<>();
-    }
-
-    @Bean
-    SimpleBean simpleBean(){
-        return new SimpleBeanImpl();
-    }
-
-    @Bean
-    List<SimpleBean> simpleBeanList2(){
-        return List.of(simpleBean());
-    }
-
-    @Bean
-    Set<SimpleBean>  simpleBeanSet2(){
-        return Set.of(simpleBean());
-    }
-
-    @Bean
-    Map<String, SimpleBean> simpleBeanMap2(){
-        return Map.of("simpleBean", simpleBean());
-    }
 }

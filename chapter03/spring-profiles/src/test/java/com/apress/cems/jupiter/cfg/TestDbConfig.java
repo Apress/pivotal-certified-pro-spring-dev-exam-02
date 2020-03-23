@@ -25,43 +25,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.spring;
+package com.apress.cems.jupiter.cfg;
 
-import com.apress.cems.jupiter.cfg.TestDbConfig;
-import com.apress.cems.repos.PersonRepo;
-import org.junit.jupiter.api.Assertions;
-import org.springframework.test.context.ContextConfiguration;
-import repos.ReposConfig;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import static org.junit.jupiter.api.Assertions.*;
+import javax.sql.DataSource;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-// TODO 18. Complete the test class definition in order for all the test to pass.
-@ContextConfiguration(classes = {TestDbConfig.class, ReposConfig.class})
-public class PersonRepoTest {
-    public static final Long PERSON_ID = 1L;
+@Profile("dev")
+public class TestDbConfig {
 
-    PersonRepo personRepo;
-
-    public void setUp(){
-        assertNotNull(personRepo);
+    @Bean
+    public DataSource dataSource() {
+        var builder = new EmbeddedDatabaseBuilder();
+        var db = builder
+                .setType(EmbeddedDatabaseType.H2)
+                .generateUniqueName(true)
+                .addScript("db/schema.sql")
+                .addScript("db/test-data.sql")
+                .build();
+        return db;
     }
 
-
-    public void testFindByIdPositive(){
-        personRepo.findById(PERSON_ID).ifPresentOrElse(
-                p -> assertEquals("Sherlock", p.getFirstName()),
-                Assertions::fail
-        );
-
-    }
-
-    public void testFindAll(){
-        var personSet = personRepo.findAll();
-        assertNotNull(personSet);
-        assertEquals(2, personSet.size());
-    }
 }

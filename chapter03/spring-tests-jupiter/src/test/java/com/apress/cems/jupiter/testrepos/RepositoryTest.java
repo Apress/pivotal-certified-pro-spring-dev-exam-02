@@ -25,18 +25,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.repos;
+package com.apress.cems.jupiter.testrepos;
 
-import com.apress.cems.jupiter.cfg.AllConfig;
 import com.apress.cems.jupiter.cfg.TestDbConfig;
+import com.apress.cems.jupiter.cfg.repos.ReposConfig;
+import com.apress.cems.repos.PersonRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -45,10 +43,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@ExtendWith(SpringExtension.class)
-//@ContextConfiguration(classes = {TestDbConfig.class, AppConfig.class})
-@ContextConfiguration(classes = {TestDbConfig.class, AllConfig.class})
-@ActiveProfiles("dev")
+/*@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {TestDbConfig.class, ReposConfig.class})*/
+@SpringJUnitConfig(classes = {TestDbConfig.class, ReposConfig.class})
 class RepositoryTest {
 
     static final Long PERSON_ID = 1L;

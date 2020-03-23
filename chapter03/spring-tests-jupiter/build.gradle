@@ -9,9 +9,8 @@ dependencies {
     compile project(':chapter00:repos')
     compile project(':chapter03:test-base')
 
-    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
-    testImplementation testing.api
-    testRuntime testing.engine, testing.platformRunner
+    testCompile spring.test, testing.api,testing.platformRunner, testing.mockito
+    testRuntimeOnly testing.platformRunner, testing.engine
 }
 
 jar {
