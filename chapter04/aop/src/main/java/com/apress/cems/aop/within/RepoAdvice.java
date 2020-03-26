@@ -1,7 +1,7 @@
 /*
 Freeware License, some rights reserved
 
-Copyright (c) 2019 Iuliana Cosmina
+Copyright (c) 2020 Iuliana Cosmina
 
 Permission is hereby granted, free of charge, to anyone obtaining a copy 
 of this software and associated documentation files (the "Software"), 
@@ -25,18 +25,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.aop.config;
+package com.apress.cems.aop.within;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Configuration
-@ComponentScan(basePackages = {"com.apress.cems.aop", "com.apress.cems.repos"})
-@EnableAspectJAutoProxy(proxyTargetClass = true)
-public class AopConfig {
+@Aspect
+@Component
+public class RepoAdvice {
+    private static final Logger logger = LoggerFactory.getLogger(RepoAdvice.class);
+
+    @Before("com.apress.cems.aop.within.PointcutContainer.onAnyRepoMethod()")
+    public void beforeAnyMethodInRepo(JoinPoint joinPoint) {
+        var methodName = joinPoint.getSignature().getName();
+        var className = joinPoint.getSignature().getDeclaringTypeName();
+        logger.info("[Before(within Repo)] ---> calling: {}.{}", className, methodName);
+    }
+
+    @Before("com.apress.cems.aop.within.PointcutContainer.onAnyServiceMethod()")
+    public void beforeAnyMethodInService(JoinPoint joinPoint) {
+        var methodName = joinPoint.getSignature().getName();
+        var className = joinPoint.getSignature().getDeclaringTypeName();
+        logger.info("[[Before(within Service)] ---> calling: {}.{}", className, methodName);
+    }
+
 }

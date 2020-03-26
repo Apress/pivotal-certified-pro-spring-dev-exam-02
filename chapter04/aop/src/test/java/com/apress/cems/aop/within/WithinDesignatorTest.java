@@ -1,7 +1,7 @@
 /*
 Freeware License, some rights reserved
 
-Copyright (c) 2019 Iuliana Cosmina
+Copyright (c) 2020 Iuliana Cosmina
 
 Permission is hereby granted, free of charge, to anyone obtaining a copy 
 of this software and associated documentation files (the "Software"), 
@@ -25,18 +25,47 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems.aop.config;
+package com.apress.cems.aop.within;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import com.apress.cems.aop.service.PersonService;
+import com.apress.cems.aop.test.TestDbConfig;
+import com.apress.cems.repos.PersonRepo;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Configuration
-@ComponentScan(basePackages = {"com.apress.cems.aop", "com.apress.cems.repos"})
-@EnableAspectJAutoProxy(proxyTargetClass = true)
-public class AopConfig {
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {TestDbConfig.class, WithinConfig.class})
+public class WithinDesignatorTest {
+
+    @Autowired
+    PersonRepo personRepo;
+
+    @Autowired
+    PersonService personService;
+
+    @Test
+    void testFindById() {
+        personRepo.findById(1L).ifPresentOrElse(
+                p -> assertEquals("sherlock.holmes", p.getUsername()),
+                () -> fail("Person not found!")
+        );
+    }
+
+    @Test
+    void testFindByCompleteName() {
+        personService.findByCompleteName("Sherlock", "Holmes").ifPresent(person ->
+                assertEquals("sherlock.holmes", person.getUsername())
+        );
+    }
+
 }

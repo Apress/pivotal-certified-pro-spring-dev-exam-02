@@ -88,6 +88,7 @@ ext {
 
     spring = [
             beans          : "org.springframework:spring-beans:$springVersion",
+            aop          : "org.springframework:spring-aop:$springVersion",
             contextSupport : "org.springframework:spring-context-support:$springVersion",
             orm            : "org.springframework:spring-orm:$springVersion",
             jdbc           : "org.springframework:spring-jdbc:$springVersion",
