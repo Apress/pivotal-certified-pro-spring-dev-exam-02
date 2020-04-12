@@ -1,0 +1,22 @@
+plugins {
+    id 'java-library'
+}
+
+ext.moduleName = 'com.apress.cems.aop.extras'
+
+dependencies {
+    testCompile testing.api, testing.platformRunner, testing.mockito, spring.test
+    testImplementation testing.api
+    testRuntime testing.engine, testing.platformRunner
+}
+
+jar {
+    manifest {
+        attributes(
+                "Created-By": System.getProperty('java.version'),
+                "Specification-Title": "Pivotal Certified Professional Spring Developer Exam - Chapter 04 - Spring AOP Extra Examples",
+                "Implementation-Version": archiveVersion,
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+}

@@ -30,6 +30,7 @@ include 'chapter04:aop-xml'
 include 'chapter04:aop-practice'
 include 'chapter04:aop-base'
 include 'chapter04:boot-aop'
+include 'chapter04:aop-extras'
 
 include 'chapter05:jdbc'
 include 'chapter05:jdbc-practice'
@@ -95,3 +96,4 @@ rootProject.children.each { project ->
     assert project.buildFile.exists()
     assert project.buildFile.isFile()
 }
+

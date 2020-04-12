@@ -1,0 +1,68 @@
+= The self invocation hoax
+
+It has been brought to my attention that using Class based proxies and `@EnableAspectJAutoProxy(exposeProxy = true)` internal calls withing a target bean can be intercepted too.
+Somebody actually sent me a code snippet and I was mind blown for a few seconds, then I realized something was amiss.
+
+In the code of this project you will find a class named `TargetBean` that has a methodd named `proxyMethod()`. Yes, those names were chosen to be as obvious as possible to their purpose.
+```java
+class TargetBean {
+    // ...
+
+    void proxyMethod(){
+        logger.debug(" -----> executing  proxyMethod");
+        ((TargetBean) (AopContext.currentProxy())).internalMethod();
+    }
+
+    void internalMethod() {
+        logger.debug(" -----> executing  internalMethod");
+    }
+}
+```
+
+This kind of code is supposed to show an intercepted call on target object itself (self-invocation). Only that piece of code does not show
+target self-invocation. This is a self-invocation. See the difference ?
+
+```java
+class TargetBean {
+    // ...
+
+    void selfInvocationMethod(){
+        logger.debug(" -----> executing  proxyMethod");
+        this.internalMethod();
+    }
+
+    void internalMethod() {
+        logger.debug(" -----> executing  internalMethod");
+    }
+}
+```
+
+And now that we've cleared that out, let see what happens under the hood. The `AopContext.currentProxy()` returns the current AOP proxy.
+And since the proxy type extends the target object type (or implements, if it is an interface based proxy), it can be converted to the target object type and methods can be called on it.
+But the call itself is being done from the target object. The following code sample should make it more obvious.
+```java
+class TargetBean {
+    // ...
+
+    void proxyMethod(){
+        logger.debug(" -----> executing  proxyMethod");
+        TargetBean proxy = (TargetBean) (AopContext.currentProxy());
+        proxy.internalMethod();
+    }
+
+    void internalMethod() {
+        logger.debug(" -----> executing  internalMethod");
+    }
+}
+```
+So in this case the target bean, becomes the caller bean and the proxy behaves exactly as it should. It receives the call, it decorates with advice and then makes the call on the target bean.
+If things are still unclear, maybe the image below can help.
+
+image::self-invocation-hoax.jpg["Self Invocation" under the bonnet actual behaviour]
+
+## Conclusion
+
+This situation does not depict self-invocation. The target doesn't call itself. The proxy doesn't call itself either.
+What this situation depicts is how we can call a proxy method, from the target wrapped by that proxy.
+So at best, this situation shows an exchange of roles between proxy and target, because instead of having the proxy invoke target methods, now the target invokes a method on the proxy.
+And all this can happen by enabling access to the proxy by annotating the configuration class with this `@EnableAspectJAutoProxy(exposeProxy = true)`.
