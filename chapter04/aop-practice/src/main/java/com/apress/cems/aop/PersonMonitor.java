@@ -81,8 +81,7 @@ public class PersonMonitor {
         }
     }
 
-    @Around("com.apress.cems.aop.PointcutContainer.repoFind() || com.apress.cems.aop.PointcutContainer.serviceFind()")
-    /* TODO 25. Declare this method as an AfterThrowing advice and use as pointcut expression a composed expression
+    /* TODO 25. Declare this method as an Around advice and use as pointcut expression a composed expression
      made from the "serviceFind" and "repoFind" from the "PointcutContainer" class */
     public Object aroundFind(ProceedingJoinPoint joinPoint) throws Throwable {
         var methodName = joinPoint.getSignature().getName();

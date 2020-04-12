@@ -39,6 +39,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class PointcutContainer {
 
+    // all methods in classes in package com.apress.cems.repos
+    // @Pointcut("within(com.apress.cems.repos..*)")
+
+    // all methods in classes implementing PersonRepo
     @Pointcut("within(com.apress.cems.repos.PersonRepo+)")
     public void onAnyRepoMethod() {
     }
