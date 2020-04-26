@@ -48,7 +48,7 @@ import static org.mockito.Mockito.when;
 * Description: second way of using Mockito mocks, using annotations and MockitoJUnitRunner runner
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SimpleStorageServiceTest3 {
+public class SimpleStorageServiceThirdTest {
     static final Long STORAGE_ID = 1L;
 
     @Mock //Creates mock instance of the field it annotates

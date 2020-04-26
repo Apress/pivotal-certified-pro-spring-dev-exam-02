@@ -20,6 +20,7 @@ Copyright for Apress book code belongs to the Apress and author(s). However, und
 If you notice any mistakes or confusing phrasing in the book contents, first consult the Errata in this repository and make sure the mistake was not already covered there.
 
 If the mistake you noticed is not in the Errata, write to the author directly mailto:iuliana.cosmina@gmail.com[iuliana.cosmina@gmail.com] and submit your observation. If a correction or clarification is necessary, the change will be added to the Errata together with mention of your contribution.
+Please provide chapter and page number where you found the error.
 If the book gets a new revision, your name will appear in the '*Acknowledgements*' page.
 
 Thank you for your contribution!
@@ -36,3 +37,4 @@ The list below contains the list of people that have found errors in the previou
 * Tibor Kalman
 * Marco Pelucchi
 * Edward Whiting
+* Peter Prazenica

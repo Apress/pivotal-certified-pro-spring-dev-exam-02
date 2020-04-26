@@ -48,7 +48,7 @@ import static org.mockito.Mockito.when;
  * @since 1.0
  * Description: second way of using Mockito mocks, using annotations
  */
-public class SimpleStorageServiceTest2 {
+public class SimpleStorageServiceSecondTest {
     static final Long STORAGE_ID = 1L;
 
     @Mock //Creates mock instance of the field it annotates
