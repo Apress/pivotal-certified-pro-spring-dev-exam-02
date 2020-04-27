@@ -52,3 +52,4 @@ Due to R2DBC being experimental the build published together with the book is cu
 This version contains an upgraded version of the project, with all Spring libraries upgraded to the most recent stable versions.
 The R2DBC project is now fully functional as well, the tests pass when run as part of the Gradle build.
 The project is build with JDK 13 sucessfully.
+Gradle version has been upgraded to use gradle 6.X
