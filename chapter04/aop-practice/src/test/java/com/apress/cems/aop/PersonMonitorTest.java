@@ -81,7 +81,7 @@ class PersonMonitorTest {
         assertNotNull(personService.findAll());
     }
 
-    // can be used to test before and after/ after-returning advice
+    // can be used to test after-returning advice
     @Test
     void testSave() {
         var person = new Person();
@@ -94,7 +94,7 @@ class PersonMonitorTest {
         assertNotNull(personService.save(person));
     }
 
-    // can be used to test after throwing advice
+    // can be used to test after-throwing advice (and before, around and after advice)
     @Test
     void testBadUpdate() {
         personRepo.findById(1L).ifPresentOrElse(
