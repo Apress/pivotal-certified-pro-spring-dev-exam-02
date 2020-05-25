@@ -117,7 +117,7 @@ public class HibernateRepo implements PersonRepo {
 
     @Override
     public long count() {
-        return 0; // 36. Add query to count all persons
+        return 0; // TODO 36. Add query to count all persons
     }
 
     @Override
