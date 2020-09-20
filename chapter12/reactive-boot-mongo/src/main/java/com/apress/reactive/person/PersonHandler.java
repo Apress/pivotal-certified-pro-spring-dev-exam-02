@@ -37,8 +37,6 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 
-import static org.springframework.web.reactive.function.BodyInserters.fromObject;
-
 /**
  * @author Iuliana Cosmina
  * @since 1.0
@@ -55,16 +53,17 @@ public class PersonHandler {
             .contentType(MediaType.APPLICATION_JSON).body(personService.findAll(), Person.class);
 
     public Mono<ServerResponse> show(ServerRequest serverRequest) {
-        Mono<Person> personMono = personService.findById(serverRequest.pathVariable("id"));
-        return personMono
-                .flatMap(person -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(fromObject(person)))
+        return personService.findById(serverRequest.pathVariable("id"))
+                .flatMap(person -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(person))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
     public Mono<ServerResponse> save(ServerRequest serverRequest) {
-        Mono<Person> personMono =  serverRequest.bodyToMono(Person.class).doOnNext(personService::save);
-        return personMono
-                .flatMap(person -> ServerResponse.created(URI.create("/persons/" + person.getId())).contentType(MediaType.APPLICATION_JSON).body(fromObject(person)))
+        return serverRequest.bodyToMono(Person.class)
+                .flatMap(person -> personService.save(person))
+                .flatMap(person -> ServerResponse.created(
+                        URI.create("/persons/" + person.getId())
+                ).contentType(MediaType.APPLICATION_JSON).bodyValue(person))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 

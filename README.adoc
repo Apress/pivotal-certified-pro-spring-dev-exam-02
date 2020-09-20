@@ -53,3 +53,5 @@ This version contains an upgraded version of the project, with all Spring librar
 The R2DBC project is now fully functional as well, the tests pass when run as part of the Gradle build.
 The project is build with JDK 13 sucessfully.
 Gradle version has been upgraded to use gradle 6.X
+
+If the returned result is a collection, the

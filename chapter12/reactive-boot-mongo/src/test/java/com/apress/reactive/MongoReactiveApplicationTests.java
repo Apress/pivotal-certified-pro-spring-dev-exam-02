@@ -48,6 +48,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Iuliana Cosmina
  * @since 1.0
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MongoReactiveApplicationTests {
     private static Logger logger = LoggerFactory.getLogger(MongoReactiveApplicationTests.class);
@@ -68,6 +69,7 @@ class MongoReactiveApplicationTests {
                 .build();
     }
 
+    @Order(1)
     @Test
     void shouldReturnAListOfPersons(){
         webTestClient.get().uri("/").accept(MediaType.TEXT_EVENT_STREAM)
@@ -84,6 +86,7 @@ class MongoReactiveApplicationTests {
         );
     }
 
+    @Order(2)
     @Test
     void shouldReturnNoPerson(){
         webTestClient.get().uri("/99sdsd").accept(MediaType.TEXT_EVENT_STREAM)
@@ -91,19 +94,29 @@ class MongoReactiveApplicationTests {
                 .expectStatus().isNotFound();
     }
 
+    @Order(3)
     @Test
     void shouldCreateAPerson(){
         Person person = new Person();
-        person.setId(UUID.randomUUID().toString());
         person.setUsername("catherine.cawood");
         person.setFirstName("Catherine");
         person.setLastName("Cawood");
         person.setPassword("ccwoo");
         person.setHiringDate(DateProcessor.toDate("1986-05-27 00:38"));
 
-        webTestClient.post().uri("/").body(Mono.just(person), Person.class).exchange().expectStatus().isCreated();
+        webTestClient.post().uri("/").body(Mono.just(person), Person.class).exchange().expectStatus().isCreated()
+                .expectBody(Person.class).consumeWith(responseEntity -> {
+            Person p = responseEntity.getResponseBody();
+            assertNotNull(p);
+            assertAll("person",
+                    () -> assertNotNull(p.getId()),
+                    () -> assertEquals("Catherine", p.getFirstName()),
+                    () -> assertEquals("Cawood", p.getLastName()));
+                }
+        );
     }
 
+    @Order(4)
     @Test
     void shouldReturnAPerson() {
         webTestClient.get().uri("/gigipedala43").accept(MediaType.TEXT_EVENT_STREAM)
@@ -123,6 +136,7 @@ class MongoReactiveApplicationTests {
         });
     }
 
+    @Order(5)
     @Test
     void shouldUpdateAPerson() {
         webTestClient.get().uri("/gigipedala43").accept(MediaType.TEXT_EVENT_STREAM)
@@ -136,6 +150,7 @@ class MongoReactiveApplicationTests {
         });
     }
 
+    @Order(6)
     @Test
     void shouldDeleteAPerson() {
         webTestClient.delete().uri("/gigipedala43").exchange().expectStatus().isNoContent();

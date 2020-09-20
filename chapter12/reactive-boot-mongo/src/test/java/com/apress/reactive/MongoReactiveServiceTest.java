@@ -41,7 +41,7 @@ import java.time.LocalDateTime;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Disabled("for some reason these tests hand in the gradle build, run them only manually from IntelliJ IDEA")
+@Disabled("for some reason these tests fail in the gradle build, run them only manually from IntelliJ IDEA")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class MongoReactiveServiceTest {
 
@@ -60,6 +60,7 @@ class MongoReactiveServiceTest {
     void shouldReturnSherlockById() {
         Person gigi = createPerson( "gigi.pedala", "Gigi", "Pedala", "12345");
         personService.findById("gigipedala43").as(StepVerifier::create)
+                .expectSubscription()
                 .assertNext(gigi::equals)
                 .verifyComplete();
     }

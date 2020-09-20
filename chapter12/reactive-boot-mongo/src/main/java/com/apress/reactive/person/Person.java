@@ -122,8 +122,8 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "\n id=" + id +
                 "\n, username='" + username + '\'' +
+                "\n id=" + id +
                 "\n, firstName='" + firstName + '\'' +
                 "\n, lastName='" + lastName + '\'' +
                 "\n}";

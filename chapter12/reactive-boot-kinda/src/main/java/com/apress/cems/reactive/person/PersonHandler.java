@@ -55,9 +55,8 @@ public class PersonHandler {
             .contentType(MediaType.APPLICATION_JSON).body(personReactiveService.findAll(), Person.class);
 
     public Mono<ServerResponse> show(ServerRequest request) {
-        Mono<Person> personMono = personReactiveService.findById(Long.valueOf(request.pathVariable("id")));
-        return personMono
-                .flatMap(person -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(fromObject(person)))
+        return personReactiveService.findById(Long.valueOf(request.pathVariable("id")))
+                .flatMap(person -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(person))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
@@ -67,7 +66,7 @@ public class PersonHandler {
     public Mono<ServerResponse> save(ServerRequest serverRequest) {
         Mono<Person> personMono = personReactiveService.save(serverRequest.bodyToMono(Person.class));
         return personMono
-                .flatMap(person -> ServerResponse.created(URI.create("/persons/" + person.getId())).contentType(MediaType.APPLICATION_JSON).body(fromObject(person)))
+                .flatMap(person -> ServerResponse.created(URI.create("/persons/" + person.getId())).contentType(MediaType.APPLICATION_JSON).bodyValue(person))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 

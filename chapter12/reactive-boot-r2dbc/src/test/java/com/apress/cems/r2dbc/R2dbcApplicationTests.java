@@ -62,9 +62,18 @@ public class R2dbcApplicationTests extends TestBase {
     @Order(3)
     @Test
     void shouldCreateAPerson(){
-        Person person = createPerson(4L, "catherine.cawood", "Catherine", "Cawood", "ccwoo");
+        Person person = createPerson(null, "catherine.cawood", "Catherine", "Cawood", "ccwoo");
 
-        webTestClient.post().uri("/").body(Mono.just(person), Person.class).exchange().expectStatus().isCreated();
+        webTestClient.post().uri("/").body(Mono.just(person), Person.class).exchange().expectStatus().isCreated()
+                .expectBody(Person.class).consumeWith(responseEntity -> {
+                    Person p = responseEntity.getResponseBody();
+                    assertNotNull(p);
+                    assertAll("person",
+                            () -> assertNotNull(p.getId()),
+                            () -> assertEquals("Catherine", p.getFirstname()),
+                            () -> assertEquals("Cawood", p.getLastname()));
+                }
+        );
     }
 
     @Order(4)
