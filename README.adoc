@@ -44,7 +44,7 @@ Release v2.0 corresponds to the code in the published book, without corrections 
 
 == Contributions
 
-See the file Contributing.md for more information on how you can contribute to this repository.
+See the file Contributing.adoc for more information on how you can contribute to this repository.
 
 == Upgrades
 
@@ -54,4 +54,3 @@ The R2DBC project is now fully functional as well, the tests pass when run as pa
 The project is build with JDK 13 sucessfully.
 Gradle version has been upgraded to use gradle 6.X
 
-If the returned result is a collection, the
