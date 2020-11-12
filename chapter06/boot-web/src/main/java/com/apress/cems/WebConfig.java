@@ -73,8 +73,9 @@ class WebConfig implements WebMvcConfigurer {
         messageResource.setBasename("classpath:i18n/global");
         messageResource.setDefaultEncoding("UTF-8");
         messageResource.setUseCodeAsDefaultMessage(true);
+        messageResource.setFallbackToSystemLocale(false);
         // # -1 : never reload, 0 always reload
-        //messageResource.setCacheSeconds(0);
+        messageResource.setCacheSeconds(0);
         return messageResource;
     }
 

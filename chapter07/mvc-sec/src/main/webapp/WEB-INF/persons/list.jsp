@@ -69,7 +69,7 @@
                 <c:if test="${menuTab != 'users'}">
                     <a href="<c:url value="/persons/list"/>"><spring:message code="menu.persons"/></a>
                 </c:if>
-                <sec:authorize access="/person/newPerson">
+                <sec:authorize access="hasRole('ADMIN')">
                     <ul>
                         <li>
                             <c:if test="${navigationTab eq 'newPerson'}">
