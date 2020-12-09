@@ -44,7 +44,6 @@ import java.time.LocalDateTime;
  * @since 1.0
  */
 @Service
-@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 public class Initializer {
 
     private Logger logger = LoggerFactory.getLogger(Initializer.class);

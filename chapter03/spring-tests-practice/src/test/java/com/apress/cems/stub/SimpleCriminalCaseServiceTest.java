@@ -92,7 +92,7 @@ public class SimpleCriminalCaseServiceTest {
     @Test
      void findByLeadPositive() {
         var result =  service.findByLeadInvestigator(detective);
-        assertEquals(result.size(), 2);
+        assertEquals(2, result.size();
     }
 
     //negative test, we know that cases for this detective do not exist
