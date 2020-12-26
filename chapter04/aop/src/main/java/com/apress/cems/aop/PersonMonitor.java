@@ -122,7 +122,7 @@ public class PersonMonitor {
             return obj != null ? obj : Optional.empty();
         } finally {
             long t2 = System.currentTimeMillis();
-            logger.info("[aroundFind]: ---> Execution of {} took {} ", methodName, (t2 - t1) / 1000 + " ms.");
+            logger.info("[aroundFind]: ---> Execution of {} took {} ", methodName, (t2 - t1) / 1000 + " seconds.");
         }
     }
 
