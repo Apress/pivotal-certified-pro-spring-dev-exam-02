@@ -5,6 +5,18 @@ This repository accompanies https://www.apress.com/us/book/9781484251355[Pivotal
 image::9781484251355.jpg[Cover image]
 
 == Building and Deploying
+
+=== Versions
+
+Most recent versions this build was successfull on:
+
+- *Gradle: 6.9*
+- *Oracle JDK: 13*
+- *IntelliJ IDEA 2021.1.2* Preview (Ultimate Edition)
+    Build #IU-211.7442.9, built on May 19, 2021
+
+=== Instructions
+
 This project has been configured to use gradle wrapper considering any future updates.
 All the gradle commands mentioned, can be executed using gradle wrapper.
 
@@ -50,7 +62,9 @@ See the file Contributing.adoc for more information on how you can contribute to
 
 Due to R2DBC being experimental the build published together with the book is currently deprecated.
 This version contains an upgraded version of the project, with all Spring libraries upgraded to the most recent stable versions.
+
 The R2DBC project is now fully functional as well, the tests pass when run as part of the Gradle build.
-The project is build with JDK 13 sucessfully.
-Gradle version has been upgraded to use gradle 6.X
+
+*The project is build with JDK 13 sucessfully.
+Gradle version has been upgraded to use gradle 6.X*
 
