@@ -40,3 +40,4 @@ The list below contains the list of people that have found errors in the previou
 * Peter Prazenica
 * https://github.com/ovidiupopa91[Ovidiu Popa]
 * Tibor Kalman
+* Oleksandr Sankin
