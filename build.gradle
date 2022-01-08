@@ -54,7 +54,7 @@ ext {
     prometheusVersion = '1.2.0'
 
     //testing
-    h2Version = '1.4.200'
+    h2Version = '2.0.206'
     junitVersion ='4.13'
     junit5Version = '5.6.0'
     junit5PlatformVersion = '1.6.0'
