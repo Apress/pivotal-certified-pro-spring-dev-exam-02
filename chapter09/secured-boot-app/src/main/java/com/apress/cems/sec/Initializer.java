@@ -25,7 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.apress.cems;
+package com.apress.cems.sec;
 
 import com.apress.cems.sec.detective.Detective;
 import com.apress.cems.sec.detective.services.DetectiveService;
